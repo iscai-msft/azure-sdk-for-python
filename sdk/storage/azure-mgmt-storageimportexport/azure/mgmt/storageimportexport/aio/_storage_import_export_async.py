@@ -6,36 +6,32 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import TYPE_CHECKING
+from typing import Any, Optional
 
-from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core import AsyncARMPipelineClient
 from msrest import Deserializer, Serializer
 
-if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
-    from typing import Any, Optional
-
-from ._configuration import StorageImportExportConfiguration
-from .operations import LocationsOperations
-from .operations import JobsOperations
-from .operations import BitLockerKeysOperations
-from .operations import Operations
-from . import models
+from ._configuration_async import StorageImportExportConfiguration
+from .operations_async import LocationsOperations
+from .operations_async import JobsOperations
+from .operations_async import BitLockerKeysOperations
+from .operations_async import Operations
+from .. import models
 
 
 class StorageImportExport(object):
     """The Storage Import/Export Resource Provider API.
 
     :ivar locations: LocationsOperations operations
-    :vartype locations: azure.mgmt.storageimportexport.operations.LocationsOperations
+    :vartype locations: azure.mgmt.storageimportexport.aio.operations_async.LocationsOperations
     :ivar jobs: JobsOperations operations
-    :vartype jobs: azure.mgmt.storageimportexport.operations.JobsOperations
+    :vartype jobs: azure.mgmt.storageimportexport.aio.operations_async.JobsOperations
     :ivar bit_locker_keys: BitLockerKeysOperations operations
-    :vartype bit_locker_keys: azure.mgmt.storageimportexport.operations.BitLockerKeysOperations
+    :vartype bit_locker_keys: azure.mgmt.storageimportexport.aio.operations_async.BitLockerKeysOperations
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.storageimportexport.operations.Operations
+    :vartype operations: azure.mgmt.storageimportexport.aio.operations_async.Operations
     :param credential: Credential needed for the client to connect to Azure.
-    :type credential: ~azure.core.credentials.TokenCredential
+    :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The subscription ID for the Azure user.
     :type subscription_id: str
     :param accept_language: Specifies the preferred language for the response.
@@ -46,17 +42,16 @@ class StorageImportExport(object):
 
     def __init__(
         self,
-        credential,  # type: "TokenCredential"
-        subscription_id,  # type: str
-        accept_language=None,  # type: Optional[str]
-        base_url=None,  # type: Optional[str]
-        **kwargs  # type: Any
-    ):
-        # type: (...) -> None
+        credential: "AsyncTokenCredential",
+        subscription_id: str,
+        accept_language: Optional[str] = None,
+        base_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         if not base_url:
             base_url = 'https://management.azure.com'
         self._config = StorageImportExportConfiguration(credential, subscription_id, accept_language, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -71,15 +66,12 @@ class StorageImportExport(object):
         self.operations = Operations(
             self._client, self._config, self._serialize, self._deserialize)
 
-    def close(self):
-        # type: () -> None
-        self._client.close()
+    async def close(self) -> None:
+        await self._client.close()
 
-    def __enter__(self):
-        # type: () -> StorageImportExport
-        self._client.__enter__()
+    async def __aenter__(self) -> "StorageImportExport":
+        await self._client.__aenter__()
         return self
 
-    def __exit__(self, *exc_details):
-        # type: (Any) -> None
-        self._client.__exit__(*exc_details)
+    async def __aexit__(self, *exc_details) -> None:
+        await self._client.__aexit__(*exc_details)

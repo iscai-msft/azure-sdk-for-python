@@ -6,16 +6,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from enum import Enum
+from ._locations_operations_async import LocationsOperations
+from ._jobs_operations_async import JobsOperations
+from ._bit_locker_keys_operations_async import BitLockerKeysOperations
+from ._operations_async import Operations
 
-class DriveState(str, Enum):
-    """The drive's current state.
-    """
-
-    specified = "Specified"
-    received = "Received"
-    never_received = "NeverReceived"
-    transferring = "Transferring"
-    completed = "Completed"
-    completed_more_info = "CompletedMoreInfo"
-    shipped_back = "ShippedBack"
+__all__ = [
+    'LocationsOperations',
+    'JobsOperations',
+    'BitLockerKeysOperations',
+    'Operations',
+]
