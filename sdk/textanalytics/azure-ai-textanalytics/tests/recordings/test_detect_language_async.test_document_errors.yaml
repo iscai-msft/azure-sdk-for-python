@@ -25,10 +25,10 @@ interactions:
         size to: 5120 text elements. For additional details on the data limitations
         see https://aka.ms/text-analytics-data-limits"}}}],"modelVersion":"2019-10-01"}'
     headers:
-      apim-request-id: 80488ba5-65d7-4d01-9735-1519d0177edc
+      apim-request-id: b74aa903-da57-4098-bfa6-ca6c81baecda
       content-type: application/json; charset=utf-8
       csp-billing-usage: CognitiveServices.TextAnalytics.BatchScoring=0
-      date: Thu, 23 Apr 2020 18:33:57 GMT
+      date: Mon, 27 Apr 2020 16:57:00 GMT
       strict-transport-security: max-age=31536000; includeSubDomains; preload
       transfer-encoding: chunked
       x-content-type-options: nosniff
