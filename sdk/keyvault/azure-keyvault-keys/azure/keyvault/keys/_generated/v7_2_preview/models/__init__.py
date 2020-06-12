@@ -17,12 +17,16 @@ try:
     from ._models_py3 import KeyAttributes
     from ._models_py3 import KeyBundle
     from ._models_py3 import KeyCreateParameters
+    from ._models_py3 import KeyExportParameters
     from ._models_py3 import KeyImportParameters
     from ._models_py3 import KeyItem
     from ._models_py3 import KeyListResult
     from ._models_py3 import KeyOperationResult
     from ._models_py3 import KeyOperationsParameters
     from ._models_py3 import KeyProperties
+    from ._models_py3 import KeyReleaseAuthority
+    from ._models_py3 import KeyReleaseCondition
+    from ._models_py3 import KeyReleasePolicy
     from ._models_py3 import KeyRestoreParameters
     from ._models_py3 import KeySignParameters
     from ._models_py3 import KeyUpdateParameters
@@ -40,12 +44,16 @@ except (SyntaxError, ImportError):
     from ._models import KeyAttributes  # type: ignore
     from ._models import KeyBundle  # type: ignore
     from ._models import KeyCreateParameters  # type: ignore
+    from ._models import KeyExportParameters  # type: ignore
     from ._models import KeyImportParameters  # type: ignore
     from ._models import KeyItem  # type: ignore
     from ._models import KeyListResult  # type: ignore
     from ._models import KeyOperationResult  # type: ignore
     from ._models import KeyOperationsParameters  # type: ignore
     from ._models import KeyProperties  # type: ignore
+    from ._models import KeyReleaseAuthority  # type: ignore
+    from ._models import KeyReleaseCondition  # type: ignore
+    from ._models import KeyReleasePolicy  # type: ignore
     from ._models import KeyRestoreParameters  # type: ignore
     from ._models import KeySignParameters  # type: ignore
     from ._models import KeyUpdateParameters  # type: ignore
@@ -73,12 +81,16 @@ __all__ = [
     'KeyAttributes',
     'KeyBundle',
     'KeyCreateParameters',
+    'KeyExportParameters',
     'KeyImportParameters',
     'KeyItem',
     'KeyListResult',
     'KeyOperationResult',
     'KeyOperationsParameters',
     'KeyProperties',
+    'KeyReleaseAuthority',
+    'KeyReleaseCondition',
+    'KeyReleasePolicy',
     'KeyRestoreParameters',
     'KeySignParameters',
     'KeyUpdateParameters',
