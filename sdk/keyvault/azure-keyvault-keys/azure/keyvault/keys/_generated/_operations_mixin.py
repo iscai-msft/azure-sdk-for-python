@@ -21,6 +21,28 @@ if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from typing import Any, Callable, Dict, Generic, Iterable, List, Optional, TypeVar, Union
 
+def inspect_args_for_api_version(func):
+    # this maps (api_version, function_name) to a list of parameters that is not allowed
+    # for that function calls with that api_version
+    mapping = {
+        ("2016-10-01", 'create_key'): ["public_exponent", "release_policy"],
+        ("7.0", 'create_key'): ["public_exponent", "release_policy"],
+        ("7.1-preview", 'create_key'): ["public_exponent", "release_policy"],
+    }
+    def wrapper(self, *args, **kwargs):
+        func_name = func.__name__
+        api_version = self._get_api_version(func_name)
+        unallowed_parameters = [kwarg for kwarg in kwargs.keys() if kwarg in mapping.get((api_version, func_name), [])]
+        if unallowed_parameters:
+            raise TypeError(
+                "Passed in parameters '{}' are not valid for function '{}' with api version '{}'".format(
+                    ", ".join(unallowed_parameters),
+                    func_name,
+                    api_version
+                )
+            )
+        return func(self, *args, **kwargs)
+    return wrapper
 
 class KeyVaultClientOperationsMixin(object):
 
@@ -213,6 +235,7 @@ class KeyVaultClientOperationsMixin(object):
         mixin_instance._deserialize = Deserializer(self._models_dict(api_version))
         return mixin_instance.create_certificate(vault_base_url, certificate_name, certificate_policy, certificate_attributes, tags, **kwargs)
 
+    @inspect_args_for_api_version
     def create_key(
         self,
         vault_base_url,  # type: str
@@ -275,8 +298,10 @@ class KeyVaultClientOperationsMixin(object):
         mixin_instance._config = self._config
         mixin_instance._serialize = Serializer(self._models_dict(api_version))
         mixin_instance._deserialize = Deserializer(self._models_dict(api_version))
-        return mixin_instance.create_key(vault_base_url, key_name, kty, key_size, public_exponent, key_ops, key_attributes, tags, curve, release_policy, **kwargs)
-
+        if api_version == '2016-10-01' or api_version == '7.0' or api_version== '7.1-preview':
+            return mixin_instance.create_key(vault_base_url, key_name, kty, key_size, key_ops, key_attributes, tags, curve, **kwargs)
+        if api_version == '7.1-preview':
+            return mixin_instance.create_key(vault_base_url, key_name, kty, key_size, public_exponent, key_ops, key_attributes, tags, curve, release_policy, **kwargs)
     def decrypt(
         self,
         vault_base_url,  # type: str
