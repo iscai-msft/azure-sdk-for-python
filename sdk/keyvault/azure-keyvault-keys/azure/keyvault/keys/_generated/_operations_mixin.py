@@ -300,7 +300,7 @@ class KeyVaultClientOperationsMixin(object):
         mixin_instance._deserialize = Deserializer(self._models_dict(api_version))
         if api_version == '2016-10-01' or api_version == '7.0' or api_version== '7.1-preview':
             return mixin_instance.create_key(vault_base_url, key_name, kty, key_size, key_ops, key_attributes, tags, curve, **kwargs)
-        if api_version == '7.1-preview':
+        if api_version == '7.2-preview':
             return mixin_instance.create_key(vault_base_url, key_name, kty, key_size, public_exponent, key_ops, key_attributes, tags, curve, release_policy, **kwargs)
     def decrypt(
         self,
