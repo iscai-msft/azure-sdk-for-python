@@ -7,18 +7,19 @@
 # --------------------------------------------------------------------------
 
 """
-FILE: sample_aspect_based_sentiment_analysis.py
+FILE: sample_analyze_sentiment_with_topics.py
 
 DESCRIPTION:
-    This sample demonstrates how to conduct aspect based sentiment analysis using the text
-    analytics library. This feature is only available for clients with api version v3.1-preview.1.
+    This sample demonstrates how to analyze sentiment at a more granular level, looking
+    at the sentiment and opinions of topics.
+    This feature is only available for clients with api version v3.1-preview.1.
 
     In this sample, we will be a customer who is trying to figure out whether they should stay
-    at a specific hotel. We will be looking at which aspects of the hotel are good, and which are
+    at a specific hotel. We will be looking at which parts of the hotel are good, and which are
     not.
 
 USAGE:
-    python sample_aspect_based_sentiment_analysis.py
+    python sample_analyze_sentiment_with_topics.py
 
     Set the environment variables with your own values before running the sample:
     1) AZURE_TEXT_ANALYTICS_ENDPOINT - the endpoint to your Cognitive Services resource.
@@ -56,50 +57,50 @@ class AspectBasedSentimentAnalysisSample(object):
             "I had a great unobstructed view of the Microsoft campus"
         ]
 
-        result = text_analytics_client.analyze_sentiment(documents, show_aspects=True)
+        result = text_analytics_client.analyze_sentiment(documents, show_topics=True)
         doc_result = [doc for doc in result if not doc.is_error]
 
         print("\n\nLet's see how many positive and negative reviews of this hotel I have right now")
         positive_reviews = [doc for doc in doc_result if doc.sentiment == "positive"]
         negative_reviews = [doc for doc in doc_result if doc.sentiment == "negative"]
         print("...We have {} positive reviews and {} negative reviews. ".format(len(positive_reviews), len(negative_reviews)))
-        print("\nLooks more positive than negative, but still pretty mixed, so I'm going to drill deeper into aspects of each review")
+        print("\nLooks more positive than negative, but still pretty mixed, so I'm going to drill deeper into the individual topics of each review")
 
-        print("\nIn order to do that, I'm going to sort them based on whether people have positive, mixed, or negative feelings about these aspects")
-        positive_aspects = []
-        mixed_aspects = []
-        negative_aspects = []
+        print("\nIn order to do that, I'm going to sort them based on whether people have positive, mixed, or negative feelings about these topics")
+        positive_topics = []
+        mixed_topics = []
+        negative_topics = []
 
         for document in doc_result:
             for sentence in document.sentences:
-                for aspect in sentence.aspects:
-                    if aspect.sentiment == "positive":
-                        positive_aspects.append(aspect)
-                    elif aspect.sentiment == "mixed":
-                        mixed_aspects.append(aspect)
+                for topic in sentence.topics:
+                    if topic.sentiment == "positive":
+                        positive_topics.append(topic)
+                    elif topic.sentiment == "mixed":
+                        mixed_topics.append(topic)
                     else:
-                        negative_aspects.append(aspect)
+                        negative_topics.append(topic)
 
-        print("\n\nLet's look at the {} positive aspects of this hotel".format(len(positive_aspects)))
-        for aspect in positive_aspects:
-            print("...Reviewers have the following opinions for the overall positive '{}' feature of the hotel".format(aspect.text))
-            for opinion in aspect.opinions:
+        print("\n\nLet's look at the {} positive topics of this hotel".format(len(positive_topics)))
+        for topic in positive_topics:
+            print("...Reviewers have the following opinions for the overall positive '{}' feature of the hotel".format(topic.text))
+            for opinion in topic.opinions:
                 print("......'{}' opinion '{}'".format(opinion.sentiment, opinion.text))
 
-        print("\n\nNow let's look at the {} aspects with mixed sentiment".format(len(mixed_aspects)))
-        for aspect in mixed_aspects:
-            print("...Reviewers have the following opinions for the overall mixed '{}' quality of the hotel".format(aspect.text))
-            for opinion in aspect.opinions:
+        print("\n\nNow let's look at the {} topics with mixed sentiment".format(len(mixed_topics)))
+        for topic in mixed_topics:
+            print("...Reviewers have the following opinions for the overall mixed '{}' quality of the hotel".format(topic.text))
+            for opinion in topic.opinions:
                 print("......'{}' opinion '{}'".format(opinion.sentiment, opinion.text))
 
-        print("\n\nFinally, let's see the {} negative aspects of this hotel".format(len(negative_aspects)))
-        for aspect in negative_aspects:
-            print("...Reviewers have the following opinions for the overall negative '{}' aspect of the hotel".format(aspect.text))
-            for opinion in aspect.opinions:
+        print("\n\nFinally, let's see the {} negative topics of this hotel".format(len(negative_topics)))
+        for topic in negative_topics:
+            print("...Reviewers have the following opinions for the overall negative '{}' topic of the hotel".format(topic.text))
+            for opinion in topic.opinions:
                 print("......'{}' opinion '{}'".format(opinion.sentiment, opinion.text))
 
         print(
-            "\n\nLooking at the breakdown, even though there were more positive aspects of this hotel, "
+            "\n\nLooking at the breakdown, even though there were more positively reviewed topics of this hotel, "
             "I care the most about the food and the toilets in a hotel, so I will be staying elsewhere"
         )
 
