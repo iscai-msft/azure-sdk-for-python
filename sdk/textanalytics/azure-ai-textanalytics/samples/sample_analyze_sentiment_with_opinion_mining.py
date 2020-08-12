@@ -33,6 +33,8 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
     def sample_analyze_sentiment_with_opinion_mining(self):
         from azure.core.credentials import AzureKeyCredential
         from azure.ai.textanalytics import TextAnalyticsClient
+        from wordcloud import WordCloud
+        import matplotlib.pyplot as plt
 
         endpoint = os.environ["AZURE_TEXT_ANALYTICS_ENDPOINT"]
         key = os.environ["AZURE_TEXT_ANALYTICS_KEY"]
@@ -66,6 +68,7 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
         print("\nLooks more positive than negative, but still pretty mixed, so I'm going to drill deeper into the opinions of individual aspects of this hotel")
 
         print("\nIn order to do that, I'm going to sort them based on whether these opinions are positive, mixed, or negative")
+        total_mined_opinions = []
         positive_mined_opinions = []
         mixed_mined_opinions = []
         negative_mined_opinions = []
@@ -74,6 +77,7 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
             for sentence in document.sentences:
                 for mined_opinion in sentence.mined_opinions:
                     aspect = mined_opinion.aspect
+                    total_mined_opinions.append(mined_opinion)
                     if aspect.sentiment == "positive":
                         positive_mined_opinions.append(mined_opinion)
                     elif aspect.sentiment == "mixed":
@@ -81,23 +85,24 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
                     else:
                         negative_mined_opinions.append(mined_opinion)
 
-        print("\n\nLet's look at the {} positive opinions users have expressed for aspects of this hotel".format(len(positive_mined_opinions)))
-        for mined_opinion in positive_mined_opinions:
-            print("...Reviewers have the following opinions for the overall positive '{}' aspect of the hotel".format(mined_opinion.aspect.text))
-            for opinion in mined_opinion.opinions:
-                print("......'{}' opinion '{}'".format(opinion.sentiment, opinion.text))
+        def color_func(word, font_size, position, orientation, random_state=None, **kwargs):
+            if word in [mo.aspect.text for mo in positive_mined_opinions]:
+                return 'rgb(0, 255, 0)'
+            elif word in [mo.aspect.text for mo in mixed_mined_opinions]:
+                return 'rgb(60, 60, 60)'
+            return 'rgb(255, 0, 0)'
 
-        print("\n\nNow let's look at the {} mixed opinions users have expressed for aspects of this hotel".format(len(mixed_mined_opinions)))
-        for mined_opinion in mixed_mined_opinions:
-            print("...Reviewers have the following opinions for the overall mixed '{}' aspect of the hotel".format(mined_opinion.aspect.text))
-            for opinion in mined_opinion.opinions:
-                print("......'{}' opinion '{}'".format(opinion.sentiment, opinion.text))
 
-        print("\n\nFinally, let's see the {} negative opinions users have expressed for aspects of this hotel".format(len(negative_mined_opinions)))
-        for mined_opinion in negative_mined_opinions:
-            print("...Reviewers have the following opinions for the overall negative '{}' aspect of the hotel".format(mined_opinion.aspect.text))
-            for opinion in mined_opinion.opinions:
-                print("......'{}' opinion '{}'".format(opinion.sentiment, opinion.text))
+        print("\n\nNow let's make a word cloud with the positive aspects in green and negative in red to better visualize")
+        aspect_text = " ".join([mo.aspect.text for mo in total_mined_opinions])
+        wordcloud = WordCloud(
+            width=800, height=800, background_color='white', min_font_size=10
+        ).generate(aspect_text)
+        plt.figure()
+        plt.title("Different hotel aspects")
+        plt.imshow(wordcloud.recolor(color_func=color_func), interpolation="bilinear")
+        plt.axis("off")
+        plt.show()
 
         print(
             "\n\nLooking at the breakdown, even though there were more positive opinions of this hotel, "
