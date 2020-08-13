@@ -44,7 +44,7 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
             credential=AzureKeyCredential(key)
         )
 
-        print("In this sample we will be combing through the reviews of a potential hotel to stay at: Hotel Foo.")
+        print("In this sample we will be combing through the reviews of a potential hotel to stay at: Hotel Foo, and making a word cloud out of the mined opinions.")
 
         print(
             "I first found a handful of reviews for Hotel Foo. Let's see if I want to stay here."
@@ -61,13 +61,7 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
         result = text_analytics_client.analyze_sentiment(documents, show_opinion_mining=True)
         doc_result = [doc for doc in result if not doc.is_error]
 
-        print("\n\nLet's see how many positive and negative reviews of this hotel I have right now")
-        positive_reviews = [doc for doc in doc_result if doc.sentiment == "positive"]
-        negative_reviews = [doc for doc in doc_result if doc.sentiment == "negative"]
-        print("...We have {} positive reviews and {} negative reviews. ".format(len(positive_reviews), len(negative_reviews)))
-        print("\nLooks more positive than negative, but still pretty mixed, so I'm going to drill deeper into the opinions of individual aspects of this hotel")
-
-        print("\nIn order to do that, I'm going to sort them based on whether these opinions are positive, mixed, or negative")
+        print("\nI'm going to sort them based on whether these opinions are positive, mixed, or negative")
         total_mined_opinions = []
         positive_mined_opinions = []
         mixed_mined_opinions = []
@@ -86,9 +80,13 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
                         negative_mined_opinions.append(mined_opinion)
 
         def color_func(word, font_size, position, orientation, random_state=None, **kwargs):
-            if word in [mo.aspect.text for mo in positive_mined_opinions]:
+            num_positive_mentions = len([mo.aspect.text for mo in positive_mined_opinions if mo.aspect.text == word])
+            num_mixed_mentions = len([mo.aspect.text for mo in mixed_mined_opinions if mo.aspect.text == word])
+            num_negative_mentions = len([mo.aspect.text for mo in negative_mined_opinions if mo.aspect.text == word])
+            m = max([num_positive_mentions, num_mixed_mentions, num_negative_mentions])
+            if m == num_positive_mentions:
                 return 'rgb(0, 255, 0)'
-            elif word in [mo.aspect.text for mo in mixed_mined_opinions]:
+            elif m == num_mixed_mentions:
                 return 'rgb(60, 60, 60)'
             return 'rgb(255, 0, 0)'
 
@@ -99,7 +97,6 @@ class AnalyzeSentimentWithOpinionMiningSample(object):
             width=800, height=800, background_color='white', min_font_size=10
         ).generate(aspect_text)
         plt.figure()
-        plt.title("Different hotel aspects")
         plt.imshow(wordcloud.recolor(color_func=color_func), interpolation="bilinear")
         plt.axis("off")
         plt.show()
