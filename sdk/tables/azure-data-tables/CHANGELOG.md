@@ -1,16 +1,29 @@
 # Release History
 
-## 12.4.5 (Unreleased)
+## 12.6.0b1 (Unreleased)
 
 ### Features Added
+* Added to support custom encoder in entity CRUD operations.
+* Added to support custom Entity type.
+* Added to support Entity property in Tuple and Enum types.
 
-### Breaking Changes
+### Bugs Fixed
+* Fixed a bug in encoder when Entity property has "@odata.type" provided.
+* Fixed a bug in encoder that int32 and int64 are mapped to int32 when no "@odata.type" provided.
+
+### Other Changes
+* Removed value range validation for Entity property in int32 and int64.
+
+## 12.5.0 (2024-01-10)
 
 ### Bugs Fixed
 * Fixed issue in serializing EntityProperty tuples where a value of None could be serialized as the string "None".
 
 ### Other Changes
 * Refactored batching code to use latest Core models and improve typing.
+* Added a public type `EntityMetadata`, it is used in `TableEntity`'s metadata.
+* Added support for Python 3.12.
+* Python 3.7 is no longer supported. Please use Python version 3.8 or later.
 
 ## 12.4.4 (2023-09-14)
 

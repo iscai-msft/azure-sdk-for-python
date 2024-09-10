@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +50,7 @@ def build_list_sql_databases_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -80,7 +85,7 @@ def build_get_sql_database_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -116,7 +121,7 @@ def build_create_update_sql_database_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -154,7 +159,7 @@ def build_delete_sql_database_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -179,13 +184,13 @@ def build_delete_sql_database_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
 
 
-def build_get_sql_database_throughput_request(
+def build_get_sql_database_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, database_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -215,13 +220,13 @@ def build_get_sql_database_throughput_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_sql_database_throughput_request(
+def build_update_sql_database_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, database_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -254,13 +259,13 @@ def build_update_sql_database_throughput_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_sql_database_to_autoscale_request(
+def build_migrate_sql_database_to_autoscale_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, database_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -290,13 +295,13 @@ def build_migrate_sql_database_to_autoscale_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_sql_database_to_manual_throughput_request(
+def build_migrate_sql_database_to_manual_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, database_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -332,7 +337,7 @@ def build_list_sql_containers_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -373,7 +378,7 @@ def build_get_sql_container_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -404,7 +409,7 @@ def build_get_sql_container_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_sql_container_request(
+def build_create_update_sql_container_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -415,7 +420,7 @@ def build_create_update_sql_container_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -459,7 +464,7 @@ def build_delete_sql_container_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -485,7 +490,7 @@ def build_delete_sql_container_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
 
 
-def build_get_sql_container_throughput_request(
+def build_get_sql_container_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -496,7 +501,7 @@ def build_get_sql_container_throughput_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -527,7 +532,7 @@ def build_get_sql_container_throughput_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_sql_container_throughput_request(
+def build_update_sql_container_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -538,7 +543,7 @@ def build_update_sql_container_throughput_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -572,7 +577,7 @@ def build_update_sql_container_throughput_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_sql_container_to_autoscale_request(
+def build_migrate_sql_container_to_autoscale_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -583,7 +588,7 @@ def build_migrate_sql_container_to_autoscale_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -614,7 +619,7 @@ def build_migrate_sql_container_to_autoscale_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_sql_container_to_manual_throughput_request(
+def build_migrate_sql_container_to_manual_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -625,7 +630,7 @@ def build_migrate_sql_container_to_manual_throughput_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -656,13 +661,13 @@ def build_migrate_sql_container_to_manual_throughput_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_client_encryption_keys_request(
+def build_list_client_encryption_keys_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, database_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -703,7 +708,7 @@ def build_get_client_encryption_key_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -734,7 +739,7 @@ def build_get_client_encryption_key_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_client_encryption_key_request(
+def build_create_update_client_encryption_key_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -745,7 +750,7 @@ def build_create_update_client_encryption_key_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -790,7 +795,7 @@ def build_list_sql_stored_procedures_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -833,7 +838,7 @@ def build_get_sql_stored_procedure_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -865,7 +870,7 @@ def build_get_sql_stored_procedure_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_sql_stored_procedure_request(
+def build_create_update_sql_stored_procedure_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -877,7 +882,7 @@ def build_create_update_sql_stored_procedure_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -912,7 +917,7 @@ def build_create_update_sql_stored_procedure_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_delete_sql_stored_procedure_request(
+def build_delete_sql_stored_procedure_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -923,7 +928,7 @@ def build_delete_sql_stored_procedure_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -950,7 +955,7 @@ def build_delete_sql_stored_procedure_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
 
 
-def build_list_sql_user_defined_functions_request(
+def build_list_sql_user_defined_functions_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -961,7 +966,7 @@ def build_list_sql_user_defined_functions_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -992,7 +997,7 @@ def build_list_sql_user_defined_functions_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_sql_user_defined_function_request(
+def build_get_sql_user_defined_function_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -1004,7 +1009,7 @@ def build_get_sql_user_defined_function_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1036,7 +1041,7 @@ def build_get_sql_user_defined_function_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_sql_user_defined_function_request(
+def build_create_update_sql_user_defined_function_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -1048,7 +1053,7 @@ def build_create_update_sql_user_defined_function_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -1083,7 +1088,7 @@ def build_create_update_sql_user_defined_function_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_delete_sql_user_defined_function_request(
+def build_delete_sql_user_defined_function_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -1094,7 +1099,7 @@ def build_delete_sql_user_defined_function_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -1132,7 +1137,7 @@ def build_list_sql_triggers_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1175,7 +1180,7 @@ def build_get_sql_trigger_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1219,7 +1224,7 @@ def build_create_update_sql_trigger_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -1265,7 +1270,7 @@ def build_delete_sql_trigger_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -1298,7 +1303,7 @@ def build_get_sql_role_definition_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1328,13 +1333,13 @@ def build_get_sql_role_definition_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_sql_role_definition_request(
+def build_create_update_sql_role_definition_request(  # pylint: disable=name-too-long
     role_definition_id: str, resource_group_name: str, account_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -1373,7 +1378,7 @@ def build_delete_sql_role_definition_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1409,7 +1414,7 @@ def build_list_sql_role_definitions_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1444,7 +1449,7 @@ def build_get_sql_role_assignment_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1474,13 +1479,13 @@ def build_get_sql_role_assignment_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_sql_role_assignment_request(
+def build_create_update_sql_role_assignment_request(  # pylint: disable=name-too-long
     role_assignment_id: str, resource_group_name: str, account_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -1519,7 +1524,7 @@ def build_delete_sql_role_assignment_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1555,7 +1560,7 @@ def build_list_sql_role_assignments_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1584,7 +1589,7 @@ def build_list_sql_role_assignments_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_retrieve_continuous_backup_information_request(
+def build_retrieve_continuous_backup_information_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     database_name: str,
@@ -1595,7 +1600,7 @@ def build_retrieve_continuous_backup_information_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -1659,7 +1664,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SqlDatabaseGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.SqlDatabaseGetResults]
@@ -1671,7 +1675,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlDatabaseListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1682,17 +1686,16 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_sql_databases_request(
+                _request = build_list_sql_databases_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_sql_databases.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1704,13 +1707,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SqlDatabaseListResult", pipeline_response)
@@ -1720,11 +1723,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1735,10 +1738,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_sql_databases.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases"
-    }
 
     @distributed_trace
     def get_sql_database(
@@ -1754,12 +1753,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SqlDatabaseGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.SqlDatabaseGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1773,22 +1771,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlDatabaseGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_database_request(
+        _request = build_get_sql_database_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_database.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1800,23 +1797,19 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("SqlDatabaseGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_sql_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_update_sql_database_initial(
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        create_update_sql_database_parameters: Union[_models.SqlDatabaseCreateUpdateParameters, IO],
+        create_update_sql_database_parameters: Union[_models.SqlDatabaseCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.SqlDatabaseGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1839,7 +1832,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(create_update_sql_database_parameters, "SqlDatabaseCreateUpdateParameters")
 
-        request = build_create_update_sql_database_request(
+        _request = build_create_update_sql_database_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -1848,16 +1841,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_sql_database_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1878,13 +1870,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_sql_database_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_sql_database(
@@ -1913,14 +1901,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlDatabaseGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlDatabaseGetResults]
@@ -1933,7 +1913,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        create_update_sql_database_parameters: IO,
+        create_update_sql_database_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1949,18 +1929,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param create_update_sql_database_parameters: The parameters to provide for the current SQL
          database. Required.
-        :type create_update_sql_database_parameters: IO
+        :type create_update_sql_database_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlDatabaseGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlDatabaseGetResults]
@@ -1973,7 +1945,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        create_update_sql_database_parameters: Union[_models.SqlDatabaseCreateUpdateParameters, IO],
+        create_update_sql_database_parameters: Union[_models.SqlDatabaseCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.SqlDatabaseGetResults]:
         """Create or update an Azure Cosmos DB SQL database.
@@ -1986,20 +1958,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
         :param create_update_sql_database_parameters: The parameters to provide for the current SQL
-         database. Is either a SqlDatabaseCreateUpdateParameters type or a IO type. Required.
+         database. Is either a SqlDatabaseCreateUpdateParameters type or a IO[bytes] type. Required.
         :type create_update_sql_database_parameters:
-         ~azure.mgmt.cosmosdb.models.SqlDatabaseCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.SqlDatabaseCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either SqlDatabaseGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlDatabaseGetResults]
@@ -2032,7 +1993,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("SqlDatabaseGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2042,22 +2003,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.SqlDatabaseGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_sql_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}"
-    }
+        return LROPoller[_models.SqlDatabaseGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_sql_database_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2071,22 +2030,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_sql_database_request(
+        _request = build_delete_sql_database_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_sql_database_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2103,11 +2061,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_sql_database_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_sql_database(
@@ -2122,14 +2076,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2157,7 +2103,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -2166,17 +2112,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_sql_database.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get_sql_database_throughput(
@@ -2192,12 +2134,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ThroughputSettingsGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2211,22 +2152,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ThroughputSettingsGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_database_throughput_request(
+        _request = build_get_sql_database_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_database_throughput.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2238,23 +2178,19 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_sql_database_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     def _update_sql_database_throughput_initial(
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2277,7 +2213,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(update_throughput_parameters, "ThroughputSettingsUpdateParameters")
 
-        request = build_update_sql_database_throughput_request(
+        _request = build_update_sql_database_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -2286,16 +2222,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_sql_database_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2316,13 +2251,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_sql_database_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_sql_database_throughput(
@@ -2351,14 +2282,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2371,7 +2294,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        update_throughput_parameters: IO,
+        update_throughput_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2387,18 +2310,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param update_throughput_parameters: The parameters to provide for the RUs per second of the
          current SQL database. Required.
-        :type update_throughput_parameters: IO
+        :type update_throughput_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2411,7 +2326,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         database_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Update RUs per second of an Azure Cosmos DB SQL database.
@@ -2424,21 +2339,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
         :param update_throughput_parameters: The parameters to provide for the RUs per second of the
-         current SQL database. Is either a ThroughputSettingsUpdateParameters type or a IO type.
+         current SQL database. Is either a ThroughputSettingsUpdateParameters type or a IO[bytes] type.
          Required.
         :type update_throughput_parameters:
-         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2471,7 +2375,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2481,22 +2385,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_update_sql_database_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default"
-    }
-
-    def _migrate_sql_database_to_autoscale_initial(
+    def _migrate_sql_database_to_autoscale_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2510,22 +2412,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_sql_database_to_autoscale_request(
+        _request = build_migrate_sql_database_to_autoscale_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_sql_database_to_autoscale_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2546,13 +2447,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_sql_database_to_autoscale_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_migrate_sql_database_to_autoscale(
@@ -2567,14 +2464,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2604,7 +2493,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2614,22 +2503,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_migrate_sql_database_to_autoscale.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale"
-    }
-
-    def _migrate_sql_database_to_manual_throughput_initial(
+    def _migrate_sql_database_to_manual_throughput_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2643,22 +2530,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_sql_database_to_manual_throughput_request(
+        _request = build_migrate_sql_database_to_manual_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_sql_database_to_manual_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2679,16 +2565,12 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_sql_database_to_manual_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_migrate_sql_database_to_manual_throughput(
+    def begin_migrate_sql_database_to_manual_throughput(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB SQL database from autoscale to manual throughput.
@@ -2700,14 +2582,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2737,7 +2611,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2747,17 +2621,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_migrate_sql_database_to_manual_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_sql_containers(
@@ -2772,7 +2644,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SqlContainerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.SqlContainerGetResults]
@@ -2784,7 +2655,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlContainerListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2795,18 +2666,17 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_sql_containers_request(
+                _request = build_list_sql_containers_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     database_name=database_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_sql_containers.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2818,13 +2688,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SqlContainerListResult", pipeline_response)
@@ -2834,11 +2704,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2849,10 +2719,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_sql_containers.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers"
-    }
 
     @distributed_trace
     def get_sql_container(
@@ -2869,12 +2735,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SqlContainerGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.SqlContainerGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2888,23 +2753,22 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlContainerGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_container_request(
+        _request = build_get_sql_container_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             container_name=container_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_container.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2916,13 +2780,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("SqlContainerGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_sql_container.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_update_sql_container_initial(
         self,
@@ -2930,10 +2790,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         container_name: str,
-        create_update_sql_container_parameters: Union[_models.SqlContainerCreateUpdateParameters, IO],
+        create_update_sql_container_parameters: Union[_models.SqlContainerCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.SqlContainerGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2956,7 +2816,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(create_update_sql_container_parameters, "SqlContainerCreateUpdateParameters")
 
-        request = build_create_update_sql_container_request(
+        _request = build_create_update_sql_container_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -2966,16 +2826,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_sql_container_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2996,13 +2855,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_sql_container_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_sql_container(
@@ -3034,14 +2889,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlContainerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlContainerGetResults]
@@ -3055,7 +2902,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         container_name: str,
-        create_update_sql_container_parameters: IO,
+        create_update_sql_container_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3073,18 +2920,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param create_update_sql_container_parameters: The parameters to provide for the current SQL
          container. Required.
-        :type create_update_sql_container_parameters: IO
+        :type create_update_sql_container_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlContainerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlContainerGetResults]
@@ -3098,7 +2937,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         container_name: str,
-        create_update_sql_container_parameters: Union[_models.SqlContainerCreateUpdateParameters, IO],
+        create_update_sql_container_parameters: Union[_models.SqlContainerCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.SqlContainerGetResults]:
         """Create or update an Azure Cosmos DB SQL container.
@@ -3113,20 +2952,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
         :param create_update_sql_container_parameters: The parameters to provide for the current SQL
-         container. Is either a SqlContainerCreateUpdateParameters type or a IO type. Required.
+         container. Is either a SqlContainerCreateUpdateParameters type or a IO[bytes] type. Required.
         :type create_update_sql_container_parameters:
-         ~azure.mgmt.cosmosdb.models.SqlContainerCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.SqlContainerCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either SqlContainerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlContainerGetResults]
@@ -3160,7 +2988,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("SqlContainerGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3170,22 +2998,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.SqlContainerGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_sql_container.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}"
-    }
+        return LROPoller[_models.SqlContainerGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_sql_container_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, account_name: str, database_name: str, container_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3199,23 +3025,22 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_sql_container_request(
+        _request = build_delete_sql_container_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             container_name=container_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_sql_container_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3232,11 +3057,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_sql_container_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_sql_container(
@@ -3253,14 +3074,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3289,7 +3102,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -3298,17 +3111,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_sql_container.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get_sql_container_throughput(
@@ -3326,12 +3135,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ThroughputSettingsGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3345,23 +3153,22 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ThroughputSettingsGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_container_throughput_request(
+        _request = build_get_sql_container_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             container_name=container_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_container_throughput.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3373,13 +3180,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_sql_container_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     def _update_sql_container_throughput_initial(
         self,
@@ -3387,10 +3190,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         container_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3413,7 +3216,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(update_throughput_parameters, "ThroughputSettingsUpdateParameters")
 
-        request = build_update_sql_container_throughput_request(
+        _request = build_update_sql_container_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -3423,16 +3226,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_sql_container_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3453,13 +3255,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_sql_container_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_sql_container_throughput(
@@ -3491,14 +3289,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -3512,7 +3302,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         container_name: str,
-        update_throughput_parameters: IO,
+        update_throughput_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3530,18 +3320,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param update_throughput_parameters: The parameters to provide for the RUs per second of the
          current SQL container. Required.
-        :type update_throughput_parameters: IO
+        :type update_throughput_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -3555,7 +3337,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         database_name: str,
         container_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Update RUs per second of an Azure Cosmos DB SQL container.
@@ -3570,21 +3352,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
         :param update_throughput_parameters: The parameters to provide for the RUs per second of the
-         current SQL container. Is either a ThroughputSettingsUpdateParameters type or a IO type.
+         current SQL container. Is either a ThroughputSettingsUpdateParameters type or a IO[bytes] type.
          Required.
         :type update_throughput_parameters:
-         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -3618,7 +3389,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3628,22 +3399,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_update_sql_container_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default"
-    }
-
-    def _migrate_sql_container_to_autoscale_initial(
+    def _migrate_sql_container_to_autoscale_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, container_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3657,23 +3426,22 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_sql_container_to_autoscale_request(
+        _request = build_migrate_sql_container_to_autoscale_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             container_name=container_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_sql_container_to_autoscale_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3694,13 +3462,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_sql_container_to_autoscale_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_migrate_sql_container_to_autoscale(
@@ -3717,14 +3481,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -3755,7 +3511,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3765,22 +3521,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_migrate_sql_container_to_autoscale.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToAutoscale"
-    }
-
-    def _migrate_sql_container_to_manual_throughput_initial(
+    def _migrate_sql_container_to_manual_throughput_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, container_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3794,23 +3548,22 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_sql_container_to_manual_throughput_request(
+        _request = build_migrate_sql_container_to_manual_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             container_name=container_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_sql_container_to_manual_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3831,16 +3584,12 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_sql_container_to_manual_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_migrate_sql_container_to_manual_throughput(
+    def begin_migrate_sql_container_to_manual_throughput(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, database_name: str, container_name: str, **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput.
@@ -3854,14 +3603,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -3892,7 +3633,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -3902,17 +3643,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_migrate_sql_container_to_manual_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_client_encryption_keys(
@@ -3927,7 +3666,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param database_name: Cosmos DB database name. Required.
         :type database_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ClientEncryptionKeyGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.ClientEncryptionKeyGetResults]
@@ -3939,7 +3677,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ClientEncryptionKeysListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3950,18 +3688,17 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_client_encryption_keys_request(
+                _request = build_list_client_encryption_keys_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     database_name=database_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_client_encryption_keys.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3973,13 +3710,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ClientEncryptionKeysListResult", pipeline_response)
@@ -3989,11 +3726,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4004,10 +3741,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_client_encryption_keys.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys"
-    }
 
     @distributed_trace
     def get_client_encryption_key(
@@ -4029,12 +3762,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param client_encryption_key_name: Cosmos DB ClientEncryptionKey name. Required.
         :type client_encryption_key_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ClientEncryptionKeyGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ClientEncryptionKeyGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4048,23 +3780,22 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ClientEncryptionKeyGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_client_encryption_key_request(
+        _request = build_get_client_encryption_key_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
             client_encryption_key_name=client_encryption_key_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_client_encryption_key.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4076,24 +3807,22 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ClientEncryptionKeyGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_client_encryption_key.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}"
-    }
-
-    def _create_update_client_encryption_key_initial(
+    def _create_update_client_encryption_key_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         client_encryption_key_name: str,
-        create_update_client_encryption_key_parameters: Union[_models.ClientEncryptionKeyCreateUpdateParameters, IO],
+        create_update_client_encryption_key_parameters: Union[
+            _models.ClientEncryptionKeyCreateUpdateParameters, IO[bytes]
+        ],
         **kwargs: Any
     ) -> Optional[_models.ClientEncryptionKeyGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4118,7 +3847,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_client_encryption_key_parameters, "ClientEncryptionKeyCreateUpdateParameters"
             )
 
-        request = build_create_update_client_encryption_key_request(
+        _request = build_create_update_client_encryption_key_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -4128,16 +3857,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_client_encryption_key_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4158,16 +3886,12 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_client_encryption_key_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
-    def begin_create_update_client_encryption_key(
+    def begin_create_update_client_encryption_key(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -4197,14 +3921,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ClientEncryptionKeyGetResults or the
          result of cls(response)
         :rtype:
@@ -4213,13 +3929,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    def begin_create_update_client_encryption_key(
+    def begin_create_update_client_encryption_key(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         client_encryption_key_name: str,
-        create_update_client_encryption_key_parameters: IO,
+        create_update_client_encryption_key_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4238,18 +3954,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type client_encryption_key_name: str
         :param create_update_client_encryption_key_parameters: The parameters to provide for the client
          encryption key. Required.
-        :type create_update_client_encryption_key_parameters: IO
+        :type create_update_client_encryption_key_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ClientEncryptionKeyGetResults or the
          result of cls(response)
         :rtype:
@@ -4258,13 +3966,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace
-    def begin_create_update_client_encryption_key(
+    def begin_create_update_client_encryption_key(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         client_encryption_key_name: str,
-        create_update_client_encryption_key_parameters: Union[_models.ClientEncryptionKeyCreateUpdateParameters, IO],
+        create_update_client_encryption_key_parameters: Union[
+            _models.ClientEncryptionKeyCreateUpdateParameters, IO[bytes]
+        ],
         **kwargs: Any
     ) -> LROPoller[_models.ClientEncryptionKeyGetResults]:
         """Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the
@@ -4280,21 +3990,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param client_encryption_key_name: Cosmos DB ClientEncryptionKey name. Required.
         :type client_encryption_key_name: str
         :param create_update_client_encryption_key_parameters: The parameters to provide for the client
-         encryption key. Is either a ClientEncryptionKeyCreateUpdateParameters type or a IO type.
+         encryption key. Is either a ClientEncryptionKeyCreateUpdateParameters type or a IO[bytes] type.
          Required.
         :type create_update_client_encryption_key_parameters:
-         ~azure.mgmt.cosmosdb.models.ClientEncryptionKeyCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.ClientEncryptionKeyCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either ClientEncryptionKeyGetResults or the
          result of cls(response)
         :rtype:
@@ -4329,7 +4028,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ClientEncryptionKeyGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -4339,17 +4038,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ClientEncryptionKeyGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_client_encryption_key.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}"
-    }
+        return LROPoller[_models.ClientEncryptionKeyGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_sql_stored_procedures(
@@ -4366,7 +4063,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SqlStoredProcedureGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.SqlStoredProcedureGetResults]
@@ -4378,7 +4074,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlStoredProcedureListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4389,19 +4085,18 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_sql_stored_procedures_request(
+                _request = build_list_sql_stored_procedures_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     database_name=database_name,
                     container_name=container_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_sql_stored_procedures.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -4413,13 +4108,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SqlStoredProcedureListResult", pipeline_response)
@@ -4429,11 +4124,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -4444,10 +4139,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_sql_stored_procedures.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures"
-    }
 
     @distributed_trace
     def get_sql_stored_procedure(
@@ -4472,12 +4163,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param stored_procedure_name: Cosmos DB storedProcedure name. Required.
         :type stored_procedure_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SqlStoredProcedureGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.SqlStoredProcedureGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4491,7 +4181,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlStoredProcedureGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_stored_procedure_request(
+        _request = build_get_sql_stored_procedure_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -4499,16 +4189,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             stored_procedure_name=stored_procedure_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_stored_procedure.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4520,25 +4209,23 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("SqlStoredProcedureGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_sql_stored_procedure.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}"
-    }
-
-    def _create_update_sql_stored_procedure_initial(
+    def _create_update_sql_stored_procedure_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         container_name: str,
         stored_procedure_name: str,
-        create_update_sql_stored_procedure_parameters: Union[_models.SqlStoredProcedureCreateUpdateParameters, IO],
+        create_update_sql_stored_procedure_parameters: Union[
+            _models.SqlStoredProcedureCreateUpdateParameters, IO[bytes]
+        ],
         **kwargs: Any
     ) -> Optional[_models.SqlStoredProcedureGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4563,7 +4250,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_sql_stored_procedure_parameters, "SqlStoredProcedureCreateUpdateParameters"
             )
 
-        request = build_create_update_sql_stored_procedure_request(
+        _request = build_create_update_sql_stored_procedure_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -4574,16 +4261,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_sql_stored_procedure_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4604,13 +4290,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_sql_stored_procedure_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_sql_stored_procedure(
@@ -4645,14 +4327,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlStoredProcedureGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlStoredProcedureGetResults]
@@ -4667,7 +4341,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         database_name: str,
         container_name: str,
         stored_procedure_name: str,
-        create_update_sql_stored_procedure_parameters: IO,
+        create_update_sql_stored_procedure_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4687,18 +4361,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type stored_procedure_name: str
         :param create_update_sql_stored_procedure_parameters: The parameters to provide for the current
          SQL storedProcedure. Required.
-        :type create_update_sql_stored_procedure_parameters: IO
+        :type create_update_sql_stored_procedure_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlStoredProcedureGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlStoredProcedureGetResults]
@@ -4713,7 +4379,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         database_name: str,
         container_name: str,
         stored_procedure_name: str,
-        create_update_sql_stored_procedure_parameters: Union[_models.SqlStoredProcedureCreateUpdateParameters, IO],
+        create_update_sql_stored_procedure_parameters: Union[
+            _models.SqlStoredProcedureCreateUpdateParameters, IO[bytes]
+        ],
         **kwargs: Any
     ) -> LROPoller[_models.SqlStoredProcedureGetResults]:
         """Create or update an Azure Cosmos DB SQL storedProcedure.
@@ -4730,21 +4398,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param stored_procedure_name: Cosmos DB storedProcedure name. Required.
         :type stored_procedure_name: str
         :param create_update_sql_stored_procedure_parameters: The parameters to provide for the current
-         SQL storedProcedure. Is either a SqlStoredProcedureCreateUpdateParameters type or a IO type.
-         Required.
+         SQL storedProcedure. Is either a SqlStoredProcedureCreateUpdateParameters type or a IO[bytes]
+         type. Required.
         :type create_update_sql_stored_procedure_parameters:
-         ~azure.mgmt.cosmosdb.models.SqlStoredProcedureCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.SqlStoredProcedureCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either SqlStoredProcedureGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlStoredProcedureGetResults]
@@ -4779,7 +4436,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("SqlStoredProcedureGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -4789,17 +4446,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.SqlStoredProcedureGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_sql_stored_procedure.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}"
-    }
+        return LROPoller[_models.SqlStoredProcedureGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_sql_stored_procedure_initial(  # pylint: disable=inconsistent-return-statements
         self,
@@ -4810,7 +4465,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         stored_procedure_name: str,
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4824,7 +4479,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_sql_stored_procedure_request(
+        _request = build_delete_sql_stored_procedure_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -4832,16 +4487,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             stored_procedure_name=stored_procedure_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_sql_stored_procedure_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4858,11 +4512,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_sql_stored_procedure_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_sql_stored_procedure(
@@ -4887,14 +4537,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param stored_procedure_name: Cosmos DB storedProcedure name. Required.
         :type stored_procedure_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4924,7 +4566,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -4933,17 +4575,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_sql_stored_procedure.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_sql_user_defined_functions(
@@ -4960,7 +4598,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SqlUserDefinedFunctionGetResults or the result of
          cls(response)
         :rtype:
@@ -4973,7 +4610,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlUserDefinedFunctionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4984,19 +4621,18 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_sql_user_defined_functions_request(
+                _request = build_list_sql_user_defined_functions_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     database_name=database_name,
                     container_name=container_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_sql_user_defined_functions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -5008,13 +4644,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SqlUserDefinedFunctionListResult", pipeline_response)
@@ -5024,11 +4660,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -5039,10 +4675,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_sql_user_defined_functions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions"
-    }
 
     @distributed_trace
     def get_sql_user_defined_function(
@@ -5067,12 +4699,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param user_defined_function_name: Cosmos DB userDefinedFunction name. Required.
         :type user_defined_function_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SqlUserDefinedFunctionGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.SqlUserDefinedFunctionGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5086,7 +4717,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlUserDefinedFunctionGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_user_defined_function_request(
+        _request = build_get_sql_user_defined_function_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -5094,16 +4725,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             user_defined_function_name=user_defined_function_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_user_defined_function.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5115,15 +4745,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("SqlUserDefinedFunctionGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_sql_user_defined_function.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}"
-    }
-
-    def _create_update_sql_user_defined_function_initial(
+    def _create_update_sql_user_defined_function_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -5131,11 +4757,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         container_name: str,
         user_defined_function_name: str,
         create_update_sql_user_defined_function_parameters: Union[
-            _models.SqlUserDefinedFunctionCreateUpdateParameters, IO
+            _models.SqlUserDefinedFunctionCreateUpdateParameters, IO[bytes]
         ],
         **kwargs: Any
     ) -> Optional[_models.SqlUserDefinedFunctionGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5160,7 +4786,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_sql_user_defined_function_parameters, "SqlUserDefinedFunctionCreateUpdateParameters"
             )
 
-        request = build_create_update_sql_user_defined_function_request(
+        _request = build_create_update_sql_user_defined_function_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -5171,16 +4797,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_sql_user_defined_function_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5201,16 +4826,12 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_sql_user_defined_function_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
-    def begin_create_update_sql_user_defined_function(
+    def begin_create_update_sql_user_defined_function(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -5242,14 +4863,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlUserDefinedFunctionGetResults or the
          result of cls(response)
         :rtype:
@@ -5258,14 +4871,14 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    def begin_create_update_sql_user_defined_function(
+    def begin_create_update_sql_user_defined_function(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         container_name: str,
         user_defined_function_name: str,
-        create_update_sql_user_defined_function_parameters: IO,
+        create_update_sql_user_defined_function_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -5285,18 +4898,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type user_defined_function_name: str
         :param create_update_sql_user_defined_function_parameters: The parameters to provide for the
          current SQL userDefinedFunction. Required.
-        :type create_update_sql_user_defined_function_parameters: IO
+        :type create_update_sql_user_defined_function_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlUserDefinedFunctionGetResults or the
          result of cls(response)
         :rtype:
@@ -5305,7 +4910,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace
-    def begin_create_update_sql_user_defined_function(
+    def begin_create_update_sql_user_defined_function(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -5313,7 +4918,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         container_name: str,
         user_defined_function_name: str,
         create_update_sql_user_defined_function_parameters: Union[
-            _models.SqlUserDefinedFunctionCreateUpdateParameters, IO
+            _models.SqlUserDefinedFunctionCreateUpdateParameters, IO[bytes]
         ],
         **kwargs: Any
     ) -> LROPoller[_models.SqlUserDefinedFunctionGetResults]:
@@ -5332,20 +4937,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type user_defined_function_name: str
         :param create_update_sql_user_defined_function_parameters: The parameters to provide for the
          current SQL userDefinedFunction. Is either a SqlUserDefinedFunctionCreateUpdateParameters type
-         or a IO type. Required.
+         or a IO[bytes] type. Required.
         :type create_update_sql_user_defined_function_parameters:
-         ~azure.mgmt.cosmosdb.models.SqlUserDefinedFunctionCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.SqlUserDefinedFunctionCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either SqlUserDefinedFunctionGetResults or the
          result of cls(response)
         :rtype:
@@ -5381,7 +4975,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("SqlUserDefinedFunctionGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -5391,19 +4985,17 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.SqlUserDefinedFunctionGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.SqlUserDefinedFunctionGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_create_update_sql_user_defined_function.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}"
-    }
-
-    def _delete_sql_user_defined_function_initial(  # pylint: disable=inconsistent-return-statements
+    def _delete_sql_user_defined_function_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -5412,7 +5004,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         user_defined_function_name: str,
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5426,7 +5018,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_sql_user_defined_function_request(
+        _request = build_delete_sql_user_defined_function_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -5434,16 +5026,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             user_defined_function_name=user_defined_function_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_sql_user_defined_function_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5460,11 +5051,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_sql_user_defined_function_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_sql_user_defined_function(
@@ -5489,14 +5076,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param user_defined_function_name: Cosmos DB userDefinedFunction name. Required.
         :type user_defined_function_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -5526,7 +5105,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -5535,17 +5114,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_sql_user_defined_function.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_sql_triggers(
@@ -5562,7 +5137,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type database_name: str
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SqlTriggerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.SqlTriggerGetResults]
@@ -5574,7 +5148,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlTriggerListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5585,19 +5159,18 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_sql_triggers_request(
+                _request = build_list_sql_triggers_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     database_name=database_name,
                     container_name=container_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_sql_triggers.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -5609,13 +5182,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SqlTriggerListResult", pipeline_response)
@@ -5625,11 +5198,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -5640,10 +5213,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_sql_triggers.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers"
-    }
 
     @distributed_trace
     def get_sql_trigger(
@@ -5668,12 +5237,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param trigger_name: Cosmos DB trigger name. Required.
         :type trigger_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SqlTriggerGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.SqlTriggerGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5687,7 +5255,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlTriggerGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_trigger_request(
+        _request = build_get_sql_trigger_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -5695,16 +5263,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             trigger_name=trigger_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_trigger.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5716,13 +5283,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("SqlTriggerGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_sql_trigger.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_update_sql_trigger_initial(
         self,
@@ -5731,10 +5294,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         database_name: str,
         container_name: str,
         trigger_name: str,
-        create_update_sql_trigger_parameters: Union[_models.SqlTriggerCreateUpdateParameters, IO],
+        create_update_sql_trigger_parameters: Union[_models.SqlTriggerCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.SqlTriggerGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5757,7 +5320,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(create_update_sql_trigger_parameters, "SqlTriggerCreateUpdateParameters")
 
-        request = build_create_update_sql_trigger_request(
+        _request = build_create_update_sql_trigger_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -5768,16 +5331,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_sql_trigger_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5798,13 +5360,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_sql_trigger_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_sql_trigger(
@@ -5839,14 +5397,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlTriggerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlTriggerGetResults]
@@ -5861,7 +5411,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         database_name: str,
         container_name: str,
         trigger_name: str,
-        create_update_sql_trigger_parameters: IO,
+        create_update_sql_trigger_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -5881,18 +5431,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type trigger_name: str
         :param create_update_sql_trigger_parameters: The parameters to provide for the current SQL
          trigger. Required.
-        :type create_update_sql_trigger_parameters: IO
+        :type create_update_sql_trigger_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlTriggerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlTriggerGetResults]
@@ -5907,7 +5449,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         database_name: str,
         container_name: str,
         trigger_name: str,
-        create_update_sql_trigger_parameters: Union[_models.SqlTriggerCreateUpdateParameters, IO],
+        create_update_sql_trigger_parameters: Union[_models.SqlTriggerCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.SqlTriggerGetResults]:
         """Create or update an Azure Cosmos DB SQL trigger.
@@ -5924,20 +5466,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param trigger_name: Cosmos DB trigger name. Required.
         :type trigger_name: str
         :param create_update_sql_trigger_parameters: The parameters to provide for the current SQL
-         trigger. Is either a SqlTriggerCreateUpdateParameters type or a IO type. Required.
+         trigger. Is either a SqlTriggerCreateUpdateParameters type or a IO[bytes] type. Required.
         :type create_update_sql_trigger_parameters:
-         ~azure.mgmt.cosmosdb.models.SqlTriggerCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.SqlTriggerCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either SqlTriggerGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlTriggerGetResults]
@@ -5972,7 +5503,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("SqlTriggerGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -5982,17 +5513,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.SqlTriggerGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_sql_trigger.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}"
-    }
+        return LROPoller[_models.SqlTriggerGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_sql_trigger_initial(  # pylint: disable=inconsistent-return-statements
         self,
@@ -6003,7 +5532,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         trigger_name: str,
         **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6017,7 +5546,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_sql_trigger_request(
+        _request = build_delete_sql_trigger_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -6025,16 +5554,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             trigger_name=trigger_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_sql_trigger_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6051,11 +5579,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_sql_trigger_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_sql_trigger(
@@ -6080,14 +5604,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type container_name: str
         :param trigger_name: Cosmos DB trigger name. Required.
         :type trigger_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6117,7 +5633,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -6126,17 +5642,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_sql_trigger.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get_sql_role_definition(
@@ -6151,12 +5663,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SqlRoleDefinitionGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.SqlRoleDefinitionGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6170,22 +5681,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlRoleDefinitionGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_role_definition_request(
+        _request = build_get_sql_role_definition_request(
             role_definition_id=role_definition_id,
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_role_definition.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6197,23 +5707,19 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("SqlRoleDefinitionGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_sql_role_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}"
-    }
-
-    def _create_update_sql_role_definition_initial(
+    def _create_update_sql_role_definition_initial(  # pylint: disable=name-too-long
         self,
         role_definition_id: str,
         resource_group_name: str,
         account_name: str,
-        create_update_sql_role_definition_parameters: Union[_models.SqlRoleDefinitionCreateUpdateParameters, IO],
+        create_update_sql_role_definition_parameters: Union[_models.SqlRoleDefinitionCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.SqlRoleDefinitionGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6238,7 +5744,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_sql_role_definition_parameters, "SqlRoleDefinitionCreateUpdateParameters"
             )
 
-        request = build_create_update_sql_role_definition_request(
+        _request = build_create_update_sql_role_definition_request(
             role_definition_id=role_definition_id,
             resource_group_name=resource_group_name,
             account_name=account_name,
@@ -6247,16 +5753,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_sql_role_definition_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6270,13 +5775,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("SqlRoleDefinitionGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_update_sql_role_definition_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_sql_role_definition(
@@ -6305,14 +5806,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlRoleDefinitionGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlRoleDefinitionGetResults]
@@ -6325,7 +5818,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         role_definition_id: str,
         resource_group_name: str,
         account_name: str,
-        create_update_sql_role_definition_parameters: IO,
+        create_update_sql_role_definition_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -6341,18 +5834,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param create_update_sql_role_definition_parameters: The properties required to create or
          update a Role Definition. Required.
-        :type create_update_sql_role_definition_parameters: IO
+        :type create_update_sql_role_definition_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlRoleDefinitionGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlRoleDefinitionGetResults]
@@ -6365,7 +5850,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         role_definition_id: str,
         resource_group_name: str,
         account_name: str,
-        create_update_sql_role_definition_parameters: Union[_models.SqlRoleDefinitionCreateUpdateParameters, IO],
+        create_update_sql_role_definition_parameters: Union[_models.SqlRoleDefinitionCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.SqlRoleDefinitionGetResults]:
         """Creates or updates an Azure Cosmos DB SQL Role Definition.
@@ -6378,21 +5863,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
         :param create_update_sql_role_definition_parameters: The properties required to create or
-         update a Role Definition. Is either a SqlRoleDefinitionCreateUpdateParameters type or a IO
-         type. Required.
+         update a Role Definition. Is either a SqlRoleDefinitionCreateUpdateParameters type or a
+         IO[bytes] type. Required.
         :type create_update_sql_role_definition_parameters:
-         ~azure.mgmt.cosmosdb.models.SqlRoleDefinitionCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.SqlRoleDefinitionCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either SqlRoleDefinitionGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlRoleDefinitionGetResults]
@@ -6425,7 +5899,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("SqlRoleDefinitionGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -6435,22 +5909,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.SqlRoleDefinitionGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_sql_role_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}"
-    }
+        return LROPoller[_models.SqlRoleDefinitionGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_sql_role_definition_initial(  # pylint: disable=inconsistent-return-statements
         self, role_definition_id: str, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6464,22 +5936,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_sql_role_definition_request(
+        _request = build_delete_sql_role_definition_request(
             role_definition_id=role_definition_id,
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_sql_role_definition_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6489,11 +5960,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_sql_role_definition_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete_sql_role_definition(
@@ -6508,14 +5975,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6543,7 +6002,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -6552,17 +6011,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_sql_role_definition.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_sql_role_definitions(
@@ -6575,7 +6030,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SqlRoleDefinitionGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.SqlRoleDefinitionGetResults]
@@ -6587,7 +6041,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlRoleDefinitionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6598,17 +6052,16 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_sql_role_definitions_request(
+                _request = build_list_sql_role_definitions_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_sql_role_definitions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -6620,13 +6073,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SqlRoleDefinitionListResult", pipeline_response)
@@ -6636,11 +6089,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -6651,10 +6104,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_sql_role_definitions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions"
-    }
 
     @distributed_trace
     def get_sql_role_assignment(
@@ -6669,12 +6118,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SqlRoleAssignmentGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.SqlRoleAssignmentGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6688,22 +6136,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlRoleAssignmentGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_sql_role_assignment_request(
+        _request = build_get_sql_role_assignment_request(
             role_assignment_id=role_assignment_id,
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_sql_role_assignment.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6715,23 +6162,19 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("SqlRoleAssignmentGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_sql_role_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}"
-    }
-
-    def _create_update_sql_role_assignment_initial(
+    def _create_update_sql_role_assignment_initial(  # pylint: disable=name-too-long
         self,
         role_assignment_id: str,
         resource_group_name: str,
         account_name: str,
-        create_update_sql_role_assignment_parameters: Union[_models.SqlRoleAssignmentCreateUpdateParameters, IO],
+        create_update_sql_role_assignment_parameters: Union[_models.SqlRoleAssignmentCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.SqlRoleAssignmentGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6756,7 +6199,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_sql_role_assignment_parameters, "SqlRoleAssignmentCreateUpdateParameters"
             )
 
-        request = build_create_update_sql_role_assignment_request(
+        _request = build_create_update_sql_role_assignment_request(
             role_assignment_id=role_assignment_id,
             resource_group_name=resource_group_name,
             account_name=account_name,
@@ -6765,16 +6208,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_sql_role_assignment_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6788,13 +6230,9 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("SqlRoleAssignmentGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _create_update_sql_role_assignment_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_sql_role_assignment(
@@ -6823,14 +6261,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlRoleAssignmentGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlRoleAssignmentGetResults]
@@ -6843,7 +6273,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         role_assignment_id: str,
         resource_group_name: str,
         account_name: str,
-        create_update_sql_role_assignment_parameters: IO,
+        create_update_sql_role_assignment_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -6859,18 +6289,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param create_update_sql_role_assignment_parameters: The properties required to create or
          update a Role Assignment. Required.
-        :type create_update_sql_role_assignment_parameters: IO
+        :type create_update_sql_role_assignment_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either SqlRoleAssignmentGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlRoleAssignmentGetResults]
@@ -6883,7 +6305,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         role_assignment_id: str,
         resource_group_name: str,
         account_name: str,
-        create_update_sql_role_assignment_parameters: Union[_models.SqlRoleAssignmentCreateUpdateParameters, IO],
+        create_update_sql_role_assignment_parameters: Union[_models.SqlRoleAssignmentCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.SqlRoleAssignmentGetResults]:
         """Creates or updates an Azure Cosmos DB SQL Role Assignment.
@@ -6896,21 +6318,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
         :param create_update_sql_role_assignment_parameters: The properties required to create or
-         update a Role Assignment. Is either a SqlRoleAssignmentCreateUpdateParameters type or a IO
-         type. Required.
+         update a Role Assignment. Is either a SqlRoleAssignmentCreateUpdateParameters type or a
+         IO[bytes] type. Required.
         :type create_update_sql_role_assignment_parameters:
-         ~azure.mgmt.cosmosdb.models.SqlRoleAssignmentCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.SqlRoleAssignmentCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either SqlRoleAssignmentGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.SqlRoleAssignmentGetResults]
@@ -6943,7 +6354,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("SqlRoleAssignmentGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -6953,22 +6364,20 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.SqlRoleAssignmentGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_sql_role_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}"
-    }
+        return LROPoller[_models.SqlRoleAssignmentGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_sql_role_assignment_initial(  # pylint: disable=inconsistent-return-statements
         self, role_assignment_id: str, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6982,22 +6391,21 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_sql_role_assignment_request(
+        _request = build_delete_sql_role_assignment_request(
             role_assignment_id=role_assignment_id,
             resource_group_name=resource_group_name,
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_sql_role_assignment_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7007,11 +6415,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_sql_role_assignment_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def begin_delete_sql_role_assignment(
@@ -7026,14 +6430,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7061,7 +6457,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -7070,17 +6466,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_sql_role_assignment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_sql_role_assignments(
@@ -7093,7 +6485,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SqlRoleAssignmentGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.SqlRoleAssignmentGetResults]
@@ -7105,7 +6496,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SqlRoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7116,17 +6507,16 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_sql_role_assignments_request(
+                _request = build_list_sql_role_assignments_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_sql_role_assignments.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -7138,13 +6528,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SqlRoleAssignmentListResult", pipeline_response)
@@ -7154,11 +6544,11 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -7170,20 +6560,16 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
 
         return ItemPaged(get_next, extract_data)
 
-    list_sql_role_assignments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments"
-    }
-
-    def _retrieve_continuous_backup_information_initial(
+    def _retrieve_continuous_backup_information_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         container_name: str,
-        location: Union[_models.ContinuousBackupRestoreLocation, IO],
+        location: Union[_models.ContinuousBackupRestoreLocation, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.BackupInformation]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7206,7 +6592,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(location, "ContinuousBackupRestoreLocation")
 
-        request = build_retrieve_continuous_backup_information_request(
+        _request = build_retrieve_continuous_backup_information_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             database_name=database_name,
@@ -7216,16 +6602,15 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._retrieve_continuous_backup_information_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7239,16 +6624,12 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
             deserialized = self._deserialize("BackupInformation", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _retrieve_continuous_backup_information_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation"
-    }
+        return deserialized  # type: ignore
 
     @overload
-    def begin_retrieve_continuous_backup_information(
+    def begin_retrieve_continuous_backup_information(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -7275,14 +6656,6 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either BackupInformation or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.BackupInformation]
@@ -7290,13 +6663,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    def begin_retrieve_continuous_backup_information(
+    def begin_retrieve_continuous_backup_information(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         container_name: str,
-        location: IO,
+        location: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -7313,18 +6686,10 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
         :param location: The name of the continuous backup restore location. Required.
-        :type location: IO
+        :type location: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either BackupInformation or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.BackupInformation]
@@ -7332,13 +6697,13 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace
-    def begin_retrieve_continuous_backup_information(
+    def begin_retrieve_continuous_backup_information(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         database_name: str,
         container_name: str,
-        location: Union[_models.ContinuousBackupRestoreLocation, IO],
+        location: Union[_models.ContinuousBackupRestoreLocation, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.BackupInformation]:
         """Retrieves continuous backup information for a container resource.
@@ -7353,19 +6718,8 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         :param container_name: Cosmos DB container name. Required.
         :type container_name: str
         :param location: The name of the continuous backup restore location. Is either a
-         ContinuousBackupRestoreLocation type or a IO type. Required.
-        :type location: ~azure.mgmt.cosmosdb.models.ContinuousBackupRestoreLocation or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ContinuousBackupRestoreLocation type or a IO[bytes] type. Required.
+        :type location: ~azure.mgmt.cosmosdb.models.ContinuousBackupRestoreLocation or IO[bytes]
         :return: An instance of LROPoller that returns either BackupInformation or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.BackupInformation]
@@ -7399,7 +6753,7 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("BackupInformation", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -7411,14 +6765,12 @@ class SqlResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.BackupInformation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_retrieve_continuous_backup_information.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation"
-    }
+        return LROPoller[_models.BackupInformation](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

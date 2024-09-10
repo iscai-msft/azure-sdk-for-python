@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.web import WebSiteManagementClient
 
 """
@@ -29,15 +32,14 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.static_sites.begin_validate_custom_domain_can_be_added_to_static_site(
+    client.static_sites.begin_validate_custom_domain_can_be_added_to_static_site(
         resource_group_name="rg",
         name="testStaticSite0",
         domain_name="custom.domain.net",
         static_site_custom_domain_request_properties_envelope={"properties": {}},
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ValidateStaticSiteCustomDomain.json
+# x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ValidateStaticSiteCustomDomain.json
 if __name__ == "__main__":
     main()

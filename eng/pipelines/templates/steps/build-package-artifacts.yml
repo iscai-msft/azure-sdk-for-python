@@ -14,39 +14,55 @@ parameters:
   - name: DevFeedName
     type: string
     default: 'public/azure-sdk-for-python'
-# The variable TargetingString is set by template `eng/pipelines/templates/steps/targeting-string-resolve.yml`. This template is invoked from yml files:
-#     eng/pipelines/templates/jobs/ci.tests.yml
-#     eng/pipelines/templates/jobs/ci.yml
-#     eng/pipelines/templates/jobs/live.test.yml
+  - name: ArtifactSuffix
+    type: string
+    default: 'linux'
 
-# Please use `$(TargetingString)` to refer to the python packages glob string. This was previously `${{ parameters.BuildTargetingString }}`.
+# The variable TargetingString is set by template `eng/pipelines/templates/steps/targeting-string-resolve.yml`. This template is invoked wherever
+# package targeting needs to be resolved prior to doing any actual work, whether it be build, static analysis, or test.
+
+# Please use `$(TargetingString)` to refer to the python packages glob string. This was previously `${{ parameters.BuildTargetingString }}`. This variable
+# will be updated by PR diff detection as well.
+
+# In addition, the variable ENABLE_EXTENSION_BUILD is honored to enable builds on windows and mac if necessary.
 steps:
-  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(PythonVersion)'
+    condition: and(succeeded(), or(eq(variables['ENABLE_EXTENSION_BUILD'], 'true'), eq('${{ parameters.ArtifactSuffix }}', 'linux')))
+    inputs:
+      versionSpec: $(PythonVersion)
+
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml@self
     parameters:
       PackageName: "azure-template"
       ServiceDirectory: "template"
       TestPipeline: ${{ parameters.TestPipeline }}
 
-  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml@self
 
   - script: |
       echo "##vso[build.addbuildtag]Scheduled"
     displayName: 'Tag scheduled builds'
     condition: and(eq(variables['Build.SourceBranchName'], variables['DefaultBranch']), eq(variables['Build.Reason'],'Schedule'))
 
-  - task: UsePythonVersion@0
-    displayName: 'Use Python $(PythonVersion)'
-    inputs:
-      versionSpec: $(PythonVersion)
+  - template: /eng/pipelines/templates/steps/use-venv.yml
+    parameters:
+      VirtualEnvironmentName: "venv"
+      Activate: false
+      Condition: and(succeeded(), or(eq(variables['ENABLE_EXTENSION_BUILD'], 'true'), eq('${{ parameters.ArtifactSuffix }}', 'linux')))
 
-  - script: |
-      python -m pip install setuptools==58.3.0
-      python -m pip install -r eng/ci_tools.txt
+  - pwsh: |
+      $(VENV_ACTIVATION_SCRIPT)
+      which python
+      python -m pip install --force -r eng/ci_tools.txt
+      python -m pip freeze --all
     displayName: 'Prep Environment'
+    condition: and(succeeded(), or(eq(variables['ENABLE_EXTENSION_BUILD'], 'true'), eq('${{ parameters.ArtifactSuffix }}', 'linux')))
 
-  - template: set-dev-build.yml
+  - template: set-dev-build.yml@self
     parameters:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      Condition: and(succeeded(), or(eq(variables['ENABLE_EXTENSION_BUILD'], 'true'), eq('${{ parameters.ArtifactSuffix }}', 'linux')))
 
   - task: Powershell@2
     inputs:
@@ -58,44 +74,51 @@ steps:
       pwsh: true
       workingDirectory: $(Pipeline.Workspace)
     displayName: Update package properties with dev version
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
-
-  - pwsh: |
-      sdk_build -d "$(Build.ArtifactStagingDirectory)" "$(TargetingString)" --service=${{parameters.ServiceDirectory}} --inactive
-    displayName: 'Generate Packages'
-    condition: succeededOrFailed()
+    condition: and(succeeded(), eq(variables['SetDevVersion'],'true'), or(eq(variables['ENABLE_EXTENSION_BUILD'], 'true'), eq('${{ parameters.ArtifactSuffix }}', 'linux')))
 
   - script: |
-      pip install twine==4.0.2
+      sudo apt-get update
+      sudo apt-get install -y qemu-user-static
+      sudo update-binfmts --enable qemu-aarch64
+    displayName: 'Install QEMU Dependencies'
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
+  - pwsh: |
+      $(VENV_ACTIVATION_SCRIPT)
+      which python
+      sdk_build -d "$(Build.ArtifactStagingDirectory)" "$(TargetingString)" --service=${{parameters.ServiceDirectory}} --inactive
+    displayName: 'Generate Packages'
+    condition: and(succeeded(), or(eq(variables['ENABLE_EXTENSION_BUILD'], 'true'), eq('${{ parameters.ArtifactSuffix }}', 'linux')))
+    timeoutInMinutes: 80
+    env:
+      CIBW_BUILD_VERBOSITY: 3
+
+  - script: |
+      python -m pip install -r eng/release_requirements.txt
       twine check $(Build.ArtifactStagingDirectory)/**/*.whl
       twine check $(Build.ArtifactStagingDirectory)/**/*.tar.gz
     displayName: 'Verify Readme'
-
-  - ${{if eq(variables['System.TeamProject'], 'internal') }}:
-    - template: auth-dev-feed.yml
-      parameters:
-        DevFeedName: ${{ parameters.DevFeedName }}
+    condition: and(succeededOrFailed(), eq(variables['Agent.OS'], 'Linux'))
 
   - ${{ parameters.BeforePublishSteps }}
 
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'packages'
+  # we need to publish an empty artifact. when publishing an empty artifact, let's ensure that there isn't anything to
+  # cause CG or SBOM generation to have to do actual work.
+  - pwsh: |
+      Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse `
+        | Where-Object { !($_.Name.EndsWith("CredScanSuppression.json")) -and ($_.PSIsContainer -ne $true) } `
+        | Remove-Item -Force -Recurse
+    displayName: Clean up repo
+    condition: and(succeeded(), ne(variables['ENABLE_EXTENSION_BUILD'], 'true'), ne('${{ parameters.ArtifactSuffix }}', 'linux'))
 
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.SourcesDirectory)/.logs'
-      ArtifactName: 'build_logs'
-
-  - ${{if eq(variables['System.TeamProject'], 'internal') }}:
-    - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-      displayName: 'Generate BOM'
-      condition: succeededOrFailed()
-      inputs:
-        BuildDropPath: $(Build.ArtifactStagingDirectory)
-
-    - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+  - ${{ if eq(parameters.ArtifactSuffix, '') }}:
+    - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
       parameters:
-        ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
-        ArtifactName: 'packages_manifest'
+        ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'packages'
+
+  - ${{ if ne(parameters.ArtifactSuffix, '') }}:
+    - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+      parameters:
+        ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'packages_${{ parameters.ArtifactSuffix }}'

@@ -505,10 +505,10 @@ class RestorePointEncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Disk Restore Point is encrypted at rest with Platform managed key."""
     ENCRYPTION_AT_REST_WITH_CUSTOMER_KEY = "EncryptionAtRestWithCustomerKey"
     """Disk Restore Point is encrypted at rest with Customer managed key that can be changed and
-    #: revoked by a customer."""
+    revoked by a customer."""
     ENCRYPTION_AT_REST_WITH_PLATFORM_AND_CUSTOMER_KEYS = "EncryptionAtRestWithPlatformAndCustomerKeys"
     """Disk Restore Point is encrypted at rest with 2 layers of encryption. One of the keys is
-    #: Customer managed and the other key is Platform managed."""
+    Customer managed and the other key is Platform managed."""
 
 
 class RestorePointExpandOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -657,9 +657,9 @@ class VirtualMachineSizeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the size of the virtual machine. The enum data type is currently deprecated and will
     be removed by December 23rd 2023. The recommended way to get the list of available sizes is
     using these APIs: `List all available virtual machine sizes in an availability set
-    <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\ , `List
+    <https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes>`_\\ , `List
     all available virtual machine sizes in a region
-    <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\ , `List all available
+    <https://docs.microsoft.com/rest/api/compute/resourceskus/list>`_\\ , `List all available
     virtual machine sizes for resizing
     <https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes>`_. For more
     information about virtual machine sizes, see `Sizes for virtual machines

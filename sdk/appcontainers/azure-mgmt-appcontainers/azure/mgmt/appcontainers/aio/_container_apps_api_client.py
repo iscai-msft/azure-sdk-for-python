@@ -8,9 +8,12 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
 
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
@@ -35,11 +38,13 @@ from .operations import (
     JobsOperations,
     ManagedCertificatesOperations,
     ManagedEnvironmentDiagnosticsOperations,
+    ManagedEnvironmentUsagesOperations,
     ManagedEnvironmentsDiagnosticsOperations,
     ManagedEnvironmentsOperations,
     ManagedEnvironmentsStoragesOperations,
     NamespacesOperations,
     Operations,
+    UsagesOperations,
 )
 
 if TYPE_CHECKING:
@@ -91,10 +96,10 @@ class ContainerAppsAPIClient(
     :ivar managed_environments_diagnostics: ManagedEnvironmentsDiagnosticsOperations operations
     :vartype managed_environments_diagnostics:
      azure.mgmt.appcontainers.aio.operations.ManagedEnvironmentsDiagnosticsOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.appcontainers.aio.operations.Operations
     :ivar jobs: JobsOperations operations
     :vartype jobs: azure.mgmt.appcontainers.aio.operations.JobsOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.appcontainers.aio.operations.Operations
     :ivar jobs_executions: JobsExecutionsOperations operations
     :vartype jobs_executions: azure.mgmt.appcontainers.aio.operations.JobsExecutionsOperations
     :ivar managed_environments: ManagedEnvironmentsOperations operations
@@ -115,13 +120,18 @@ class ContainerAppsAPIClient(
     :ivar container_apps_source_controls: ContainerAppsSourceControlsOperations operations
     :vartype container_apps_source_controls:
      azure.mgmt.appcontainers.aio.operations.ContainerAppsSourceControlsOperations
+    :ivar usages: UsagesOperations operations
+    :vartype usages: azure.mgmt.appcontainers.aio.operations.UsagesOperations
+    :ivar managed_environment_usages: ManagedEnvironmentUsagesOperations operations
+    :vartype managed_environment_usages:
+     azure.mgmt.appcontainers.aio.operations.ManagedEnvironmentUsagesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-05-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-03-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -138,7 +148,25 @@ class ContainerAppsAPIClient(
         self._config = ContainerAppsAPIClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -179,8 +207,8 @@ class ContainerAppsAPIClient(
         self.managed_environments_diagnostics = ManagedEnvironmentsDiagnosticsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.jobs_executions = JobsExecutionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.managed_environments = ManagedEnvironmentsOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -197,8 +225,14 @@ class ContainerAppsAPIClient(
         self.container_apps_source_controls = ContainerAppsSourceControlsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.managed_environment_usages = ManagedEnvironmentUsagesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -218,12 +252,12 @@ class ContainerAppsAPIClient(
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "ContainerAppsAPIClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 

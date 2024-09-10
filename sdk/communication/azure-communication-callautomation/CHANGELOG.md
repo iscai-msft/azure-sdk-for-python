@@ -1,6 +1,34 @@
 # Release History
 
-## 1.1.0b1 (Unreleased)
+## 1.3.0b1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0 (2024-04-15)
+
+### Features Added
+
+- Support for Bring Your Own Storage recording option
+- Support for PauseOnStart recording option 
+- Support for Recording state change with new recording kind's
+
+### Other Changes
+- Support for MicrosoftTeamsAppIdentifier CommunicationIdentifier
+
+## 1.1.0 (2023-11-23)
+### Features Added
+- Mid Call actions support overriding callback url.
+- Cancel adding Participant invitation.
+- Support transfer a participant in a group call to another participant.
+- Add Custom Context payload to Transfer and AddParticipant API.
+
+## 1.1.0b1 (2023-08-17)
 ### Features Added
 - Play and recognize supports TTS and SSML source prompts.
 - Recognize supports choices and freeform speech.

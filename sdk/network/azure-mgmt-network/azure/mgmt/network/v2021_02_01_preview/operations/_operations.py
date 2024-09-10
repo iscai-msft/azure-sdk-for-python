@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -76,7 +76,7 @@ def build_network_managers_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_managers_create_or_update_request(
+def build_network_managers_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -141,7 +141,7 @@ def build_network_managers_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_managers_patch_tags_request(
+def build_network_managers_patch_tags_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -175,7 +175,7 @@ def build_network_managers_patch_tags_request(
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_managers_list_by_subscription_request(
+def build_network_managers_list_by_subscription_request(  # pylint: disable=name-too-long
     subscription_id: str, *, top: Optional[int] = None, skip_token: Optional[str] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -244,7 +244,7 @@ def build_network_managers_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_manager_commits_post_request(
+def build_network_manager_commits_post_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -278,7 +278,7 @@ def build_network_manager_commits_post_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_manager_deployment_status_list_request(
+def build_network_manager_deployment_status_list_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -312,7 +312,7 @@ def build_network_manager_deployment_status_list_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_effective_virtual_networks_list_by_network_manager_request(
+def build_effective_virtual_networks_list_by_network_manager_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     subscription_id: str,
@@ -356,7 +356,7 @@ def build_effective_virtual_networks_list_by_network_manager_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_effective_virtual_networks_list_by_network_group_request(
+def build_effective_virtual_networks_list_by_network_group_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, network_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -391,7 +391,7 @@ def build_effective_virtual_networks_list_by_network_group_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_active_connectivity_configurations_list_request(
+def build_active_connectivity_configurations_list_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -425,7 +425,7 @@ def build_active_connectivity_configurations_list_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_active_security_admin_rules_list_request(
+def build_active_security_admin_rules_list_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -459,7 +459,7 @@ def build_active_security_admin_rules_list_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_active_security_user_rules_list_request(
+def build_active_security_user_rules_list_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -493,7 +493,7 @@ def build_active_security_user_rules_list_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_connectivity_configurations_get_request(
+def build_connectivity_configurations_get_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -525,7 +525,7 @@ def build_connectivity_configurations_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_connectivity_configurations_create_or_update_request(
+def build_connectivity_configurations_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -560,7 +560,7 @@ def build_connectivity_configurations_create_or_update_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_connectivity_configurations_delete_request(
+def build_connectivity_configurations_delete_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -592,7 +592,7 @@ def build_connectivity_configurations_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_connectivity_configurations_list_request(
+def build_connectivity_configurations_list_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     subscription_id: str,
@@ -633,7 +633,7 @@ def build_connectivity_configurations_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_effective_connectivity_configurations_list_request(
+def build_effective_connectivity_configurations_list_request(  # pylint: disable=name-too-long
     resource_group_name: str, virtual_network_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -667,7 +667,7 @@ def build_effective_connectivity_configurations_list_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_manager_effective_security_admin_rules_list_request(
+def build_network_manager_effective_security_admin_rules_list_request(  # pylint: disable=name-too-long
     resource_group_name: str, virtual_network_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -733,7 +733,7 @@ def build_network_groups_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_groups_create_or_update_request(
+def build_network_groups_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     network_group_name: str,
@@ -849,7 +849,7 @@ def build_network_groups_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_user_configurations_list_request(
+def build_security_user_configurations_list_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     subscription_id: str,
@@ -890,7 +890,7 @@ def build_security_user_configurations_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_user_configurations_get_request(
+def build_security_user_configurations_get_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -922,7 +922,7 @@ def build_security_user_configurations_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_user_configurations_create_or_update_request(
+def build_security_user_configurations_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -957,7 +957,7 @@ def build_security_user_configurations_create_or_update_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_user_configurations_delete_request(
+def build_security_user_configurations_delete_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1070,7 +1070,7 @@ def build_user_rule_collections_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_user_rule_collections_create_or_update_request(
+def build_user_rule_collections_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     configuration_name: str,
@@ -1111,7 +1111,7 @@ def build_user_rule_collections_create_or_update_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_user_rule_collections_delete_request(
+def build_user_rule_collections_delete_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     configuration_name: str,
@@ -1234,7 +1234,7 @@ def build_user_rules_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_user_rules_create_or_update_request(
+def build_user_rules_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     configuration_name: str,
@@ -1317,7 +1317,7 @@ def build_user_rules_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_admin_configurations_list_request(
+def build_security_admin_configurations_list_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     subscription_id: str,
@@ -1358,7 +1358,7 @@ def build_security_admin_configurations_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_admin_configurations_get_request(
+def build_security_admin_configurations_get_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1390,7 +1390,7 @@ def build_security_admin_configurations_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_admin_configurations_create_or_update_request(
+def build_security_admin_configurations_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1425,7 +1425,7 @@ def build_security_admin_configurations_create_or_update_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_security_admin_configurations_delete_request(
+def build_security_admin_configurations_delete_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_manager_name: str, configuration_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1457,7 +1457,7 @@ def build_security_admin_configurations_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_admin_rule_collections_list_request(
+def build_admin_rule_collections_list_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     configuration_name: str,
@@ -1538,7 +1538,7 @@ def build_admin_rule_collections_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_admin_rule_collections_create_or_update_request(
+def build_admin_rule_collections_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     configuration_name: str,
@@ -1579,7 +1579,7 @@ def build_admin_rule_collections_create_or_update_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_admin_rule_collections_delete_request(
+def build_admin_rule_collections_delete_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     configuration_name: str,
@@ -1702,7 +1702,7 @@ def build_admin_rules_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_admin_rules_create_or_update_request(
+def build_admin_rules_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_manager_name: str,
     configuration_name: str,
@@ -1785,7 +1785,7 @@ def build_admin_rules_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_security_perimeters_get_request(
+def build_network_security_perimeters_get_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_security_perimeter_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1818,7 +1818,7 @@ def build_network_security_perimeters_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_security_perimeters_create_or_update_request(
+def build_network_security_perimeters_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_security_perimeter_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1854,7 +1854,7 @@ def build_network_security_perimeters_create_or_update_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_security_perimeters_delete_request(
+def build_network_security_perimeters_delete_request(  # pylint: disable=name-too-long
     resource_group_name: str, network_security_perimeter_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1887,7 +1887,43 @@ def build_network_security_perimeters_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_security_perimeters_list_by_subscription_request(
+def build_network_security_perimeters_patch_request(  # pylint: disable=name-too-long
+    resource_group_name: str, network_security_perimeter_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-02-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "networkSecurityPerimeterName": _SERIALIZER.url(
+            "network_security_perimeter_name", network_security_perimeter_name, "str"
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_network_security_perimeters_list_by_subscription_request(  # pylint: disable=name-too-long
     subscription_id: str, *, top: Optional[int] = None, skip_token: Optional[str] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1919,7 +1955,7 @@ def build_network_security_perimeters_list_by_subscription_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_network_security_perimeters_list_request(
+def build_network_security_perimeters_list_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     subscription_id: str,
     *,
@@ -1996,7 +2032,7 @@ def build_nsp_profiles_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_nsp_profiles_create_or_update_request(
+def build_nsp_profiles_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_security_perimeter_name: str,
     profile_name: str,
@@ -2158,7 +2194,7 @@ def build_nsp_access_rules_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_nsp_access_rules_create_or_update_request(
+def build_nsp_access_rules_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_security_perimeter_name: str,
     profile_name: str,
@@ -2324,7 +2360,7 @@ def build_nsp_associations_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_nsp_associations_create_or_update_request(
+def build_nsp_associations_create_or_update_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_security_perimeter_name: str,
     association_name: str,
@@ -2446,7 +2482,7 @@ def build_nsp_associations_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_nsp_association_reconcile_post_request(
+def build_nsp_association_reconcile_post_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_security_perimeter_name: str,
     association_name: str,
@@ -2489,7 +2525,7 @@ def build_nsp_association_reconcile_post_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, json=json, **kwargs)
 
 
-def build_perimeter_associable_resource_types_list_request(
+def build_perimeter_associable_resource_types_list_request(  # pylint: disable=name-too-long
     location: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2519,7 +2555,7 @@ def build_perimeter_associable_resource_types_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_nsp_access_rules_reconcile_post_request(
+def build_nsp_access_rules_reconcile_post_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     network_security_perimeter_name: str,
     profile_name: str,
@@ -2859,12 +2895,11 @@ class NetworkManagersOperations:
         :type resource_group_name: str
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManager or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2880,21 +2915,20 @@ class NetworkManagersOperations:
         )
         cls: ClsType[_models.NetworkManager] = kwargs.pop("cls", None)
 
-        request = build_network_managers_get_request(
+        _request = build_network_managers_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2906,13 +2940,9 @@ class NetworkManagersOperations:
         deserialized = self._deserialize("NetworkManager", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -2935,7 +2965,6 @@ class NetworkManagersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManager or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2946,7 +2975,7 @@ class NetworkManagersOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2958,11 +2987,10 @@ class NetworkManagersOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Parameters supplied to specify which network manager is. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManager or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2973,7 +3001,7 @@ class NetworkManagersOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.NetworkManager, IO],
+        parameters: Union[_models.NetworkManager, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkManager:
         """Creates or updates a Network Manager.
@@ -2983,17 +3011,13 @@ class NetworkManagersOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Parameters supplied to specify which network manager is. Is either a
-         NetworkManager type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         NetworkManager type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager or IO[bytes]
         :return: NetworkManager or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3018,7 +3042,7 @@ class NetworkManagersOperations:
         else:
             _json = self._serialize.body(parameters, "NetworkManager")
 
-        request = build_network_managers_create_or_update_request(
+        _request = build_network_managers_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -3026,16 +3050,15 @@ class NetworkManagersOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3055,10 +3078,6 @@ class NetworkManagersOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_manager_name: str, **kwargs: Any
@@ -3069,12 +3088,11 @@ class NetworkManagersOperations:
         :type resource_group_name: str
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3090,21 +3108,20 @@ class NetworkManagersOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_network_managers_delete_request(
+        _request = build_network_managers_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3114,11 +3131,7 @@ class NetworkManagersOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def patch_tags(
@@ -3141,7 +3154,6 @@ class NetworkManagersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManager or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3152,7 +3164,7 @@ class NetworkManagersOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3164,11 +3176,10 @@ class NetworkManagersOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Parameters supplied to update network manager tags. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManager or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3179,7 +3190,7 @@ class NetworkManagersOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.TagsObject, IO],
+        parameters: Union[_models.TagsObject, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkManager:
         """Patch a NetworkManager Tags.
@@ -3189,17 +3200,13 @@ class NetworkManagersOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Parameters supplied to update network manager tags. Is either a TagsObject
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.TagsObject or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.TagsObject or IO[bytes]
         :return: NetworkManager or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3224,7 +3231,7 @@ class NetworkManagersOperations:
         else:
             _json = self._serialize.body(parameters, "TagsObject")
 
-        request = build_network_managers_patch_tags_request(
+        _request = build_network_managers_patch_tags_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -3232,16 +3239,15 @@ class NetworkManagersOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.patch_tags.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3253,13 +3259,9 @@ class NetworkManagersOperations:
         deserialized = self._deserialize("NetworkManager", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    patch_tags.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_subscription(
@@ -3275,7 +3277,6 @@ class NetworkManagersOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NetworkManager or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager]
@@ -3289,7 +3290,7 @@ class NetworkManagersOperations:
         )
         cls: ClsType[_models.NetworkManagerListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3300,17 +3301,16 @@ class NetworkManagersOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_network_managers_list_by_subscription_request(
+                _request = build_network_managers_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3321,14 +3321,14 @@ class NetworkManagersOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NetworkManagerListResult", pipeline_response)
@@ -3338,11 +3338,11 @@ class NetworkManagersOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3353,10 +3353,6 @@ class NetworkManagersOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers"
-    }
 
     @distributed_trace
     def list(
@@ -3374,7 +3370,6 @@ class NetworkManagersOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NetworkManager or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NetworkManager]
@@ -3388,7 +3383,7 @@ class NetworkManagersOperations:
         )
         cls: ClsType[_models.NetworkManagerListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3399,18 +3394,17 @@ class NetworkManagersOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_network_managers_list_request(
+                _request = build_network_managers_list_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -3421,14 +3415,14 @@ class NetworkManagersOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NetworkManagerListResult", pipeline_response)
@@ -3438,11 +3432,11 @@ class NetworkManagersOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -3453,10 +3447,6 @@ class NetworkManagersOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers"
-    }
 
 
 class NetworkManagerCommitsOperations:
@@ -3500,7 +3490,6 @@ class NetworkManagerCommitsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerCommit or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerCommit
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3511,7 +3500,7 @@ class NetworkManagerCommitsOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3523,11 +3512,10 @@ class NetworkManagerCommitsOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Parameters supplied to specify which Managed Network commit is. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerCommit or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerCommit
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3538,7 +3526,7 @@ class NetworkManagerCommitsOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.NetworkManagerCommit, IO],
+        parameters: Union[_models.NetworkManagerCommit, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkManagerCommit:
         """Post a Network Manager Commit.
@@ -3548,17 +3536,14 @@ class NetworkManagerCommitsOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Parameters supplied to specify which Managed Network commit is. Is either a
-         NetworkManagerCommit type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerCommit or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         NetworkManagerCommit type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerCommit or
+         IO[bytes]
         :return: NetworkManagerCommit or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerCommit
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3583,7 +3568,7 @@ class NetworkManagerCommitsOperations:
         else:
             _json = self._serialize.body(parameters, "NetworkManagerCommit")
 
-        request = build_network_manager_commits_post_request(
+        _request = build_network_manager_commits_post_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -3591,16 +3576,15 @@ class NetworkManagerCommitsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.post.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3612,13 +3596,9 @@ class NetworkManagerCommitsOperations:
         deserialized = self._deserialize("NetworkManagerCommit", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    post.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit"
-    }
+        return deserialized  # type: ignore
 
 
 class NetworkManagerDeploymentStatusOperations:
@@ -3664,7 +3644,6 @@ class NetworkManagerDeploymentStatusOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerDeploymentStatusListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerDeploymentStatusListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3675,7 +3654,7 @@ class NetworkManagerDeploymentStatusOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3688,11 +3667,10 @@ class NetworkManagerDeploymentStatusOperations:
         :type network_manager_name: str
         :param parameters: Parameters supplied to specify which Managed Network deployment status is.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerDeploymentStatusListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerDeploymentStatusListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3703,7 +3681,7 @@ class NetworkManagerDeploymentStatusOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.NetworkManagerDeploymentStatusParameter, IO],
+        parameters: Union[_models.NetworkManagerDeploymentStatusParameter, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkManagerDeploymentStatusListResult:
         """Post to List of Network Manager Deployment Status.
@@ -3713,18 +3691,15 @@ class NetworkManagerDeploymentStatusOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Parameters supplied to specify which Managed Network deployment status is.
-         Is either a NetworkManagerDeploymentStatusParameter type or a IO type. Required.
+         Is either a NetworkManagerDeploymentStatusParameter type or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerDeploymentStatusParameter or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerDeploymentStatusParameter or
+         IO[bytes]
         :return: NetworkManagerDeploymentStatusListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerDeploymentStatusListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3749,7 +3724,7 @@ class NetworkManagerDeploymentStatusOperations:
         else:
             _json = self._serialize.body(parameters, "NetworkManagerDeploymentStatusParameter")
 
-        request = build_network_manager_deployment_status_list_request(
+        _request = build_network_manager_deployment_status_list_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -3757,16 +3732,15 @@ class NetworkManagerDeploymentStatusOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3778,13 +3752,9 @@ class NetworkManagerDeploymentStatusOperations:
         deserialized = self._deserialize("NetworkManagerDeploymentStatusListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus"
-    }
+        return deserialized  # type: ignore
 
 
 class EffectiveVirtualNetworksOperations:
@@ -3839,7 +3809,6 @@ class EffectiveVirtualNetworksOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: EffectiveVirtualNetworksListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3850,7 +3819,7 @@ class EffectiveVirtualNetworksOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         top: Optional[int] = None,
         skip_token: Optional[str] = None,
@@ -3864,7 +3833,7 @@ class EffectiveVirtualNetworksOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Effective Virtual Networks Parameter. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword top: An optional query parameter which specifies the maximum number of records to be
          returned by the server. Default value is None.
         :paramtype top: int
@@ -3876,7 +3845,6 @@ class EffectiveVirtualNetworksOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: EffectiveVirtualNetworksListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3887,7 +3855,7 @@ class EffectiveVirtualNetworksOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.EffectiveVirtualNetworksParameter, IO],
+        parameters: Union[_models.EffectiveVirtualNetworksParameter, IO[bytes]],
         *,
         top: Optional[int] = None,
         skip_token: Optional[str] = None,
@@ -3900,9 +3868,9 @@ class EffectiveVirtualNetworksOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Effective Virtual Networks Parameter. Is either a
-         EffectiveVirtualNetworksParameter type or a IO type. Required.
+         EffectiveVirtualNetworksParameter type or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksParameter or IO
+         ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksParameter or IO[bytes]
         :keyword top: An optional query parameter which specifies the maximum number of records to be
          returned by the server. Default value is None.
         :paramtype top: int
@@ -3911,15 +3879,11 @@ class EffectiveVirtualNetworksOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: EffectiveVirtualNetworksListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3944,7 +3908,7 @@ class EffectiveVirtualNetworksOperations:
         else:
             _json = self._serialize.body(parameters, "EffectiveVirtualNetworksParameter")
 
-        request = build_effective_virtual_networks_list_by_network_manager_request(
+        _request = build_effective_virtual_networks_list_by_network_manager_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -3954,16 +3918,15 @@ class EffectiveVirtualNetworksOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_by_network_manager.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -3975,13 +3938,9 @@ class EffectiveVirtualNetworksOperations:
         deserialized = self._deserialize("EffectiveVirtualNetworksListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_by_network_manager.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listEffectiveVirtualNetworks"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def list_by_network_group(
@@ -4007,7 +3966,6 @@ class EffectiveVirtualNetworksOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: EffectiveVirtualNetworksListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4019,7 +3977,7 @@ class EffectiveVirtualNetworksOperations:
         resource_group_name: str,
         network_manager_name: str,
         network_group_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4033,11 +3991,10 @@ class EffectiveVirtualNetworksOperations:
         :param network_group_name: The name of the network group to get. Required.
         :type network_group_name: str
         :param parameters: Parameters supplied to list correct page. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: EffectiveVirtualNetworksListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4049,7 +4006,7 @@ class EffectiveVirtualNetworksOperations:
         resource_group_name: str,
         network_manager_name: str,
         network_group_name: str,
-        parameters: Union[_models.QueryRequestOptions, IO],
+        parameters: Union[_models.QueryRequestOptions, IO[bytes]],
         **kwargs: Any
     ) -> _models.EffectiveVirtualNetworksListResult:
         """Lists all effective virtual networks by specified network group.
@@ -4061,17 +4018,14 @@ class EffectiveVirtualNetworksOperations:
         :param network_group_name: The name of the network group to get. Required.
         :type network_group_name: str
         :param parameters: Parameters supplied to list correct page. Is either a QueryRequestOptions
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.QueryRequestOptions or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.QueryRequestOptions or
+         IO[bytes]
         :return: EffectiveVirtualNetworksListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.EffectiveVirtualNetworksListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4096,7 +4050,7 @@ class EffectiveVirtualNetworksOperations:
         else:
             _json = self._serialize.body(parameters, "QueryRequestOptions")
 
-        request = build_effective_virtual_networks_list_by_network_group_request(
+        _request = build_effective_virtual_networks_list_by_network_group_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             network_group_name=network_group_name,
@@ -4105,16 +4059,15 @@ class EffectiveVirtualNetworksOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_by_network_group.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4126,16 +4079,12 @@ class EffectiveVirtualNetworksOperations:
         deserialized = self._deserialize("EffectiveVirtualNetworksListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_by_network_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/listEffectiveVirtualNetworks"
-    }
+        return deserialized  # type: ignore
 
 
-class ActiveConnectivityConfigurationsOperations:
+class ActiveConnectivityConfigurationsOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -4176,7 +4125,6 @@ class ActiveConnectivityConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ActiveConnectivityConfigurationsListResult or the result of cls(response)
         :rtype:
          ~azure.mgmt.network.v2021_02_01_preview.models.ActiveConnectivityConfigurationsListResult
@@ -4188,7 +4136,7 @@ class ActiveConnectivityConfigurationsOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4200,11 +4148,10 @@ class ActiveConnectivityConfigurationsOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Active Configuration Parameter. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ActiveConnectivityConfigurationsListResult or the result of cls(response)
         :rtype:
          ~azure.mgmt.network.v2021_02_01_preview.models.ActiveConnectivityConfigurationsListResult
@@ -4216,7 +4163,7 @@ class ActiveConnectivityConfigurationsOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.ActiveConfigurationParameter, IO],
+        parameters: Union[_models.ActiveConfigurationParameter, IO[bytes]],
         **kwargs: Any
     ) -> _models.ActiveConnectivityConfigurationsListResult:
         """Lists active connectivity configurations in a network manager.
@@ -4226,19 +4173,15 @@ class ActiveConnectivityConfigurationsOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Active Configuration Parameter. Is either a ActiveConfigurationParameter
-         type or a IO type. Required.
+         type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveConfigurationParameter
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or IO[bytes]
         :return: ActiveConnectivityConfigurationsListResult or the result of cls(response)
         :rtype:
          ~azure.mgmt.network.v2021_02_01_preview.models.ActiveConnectivityConfigurationsListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4263,7 +4206,7 @@ class ActiveConnectivityConfigurationsOperations:
         else:
             _json = self._serialize.body(parameters, "ActiveConfigurationParameter")
 
-        request = build_active_connectivity_configurations_list_request(
+        _request = build_active_connectivity_configurations_list_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -4271,16 +4214,15 @@ class ActiveConnectivityConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4292,13 +4234,9 @@ class ActiveConnectivityConfigurationsOperations:
         deserialized = self._deserialize("ActiveConnectivityConfigurationsListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations"
-    }
+        return deserialized  # type: ignore
 
 
 class ActiveSecurityAdminRulesOperations:
@@ -4342,7 +4280,6 @@ class ActiveSecurityAdminRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ActiveSecurityAdminRulesListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveSecurityAdminRulesListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4353,7 +4290,7 @@ class ActiveSecurityAdminRulesOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4365,11 +4302,10 @@ class ActiveSecurityAdminRulesOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Active Configuration Parameter. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ActiveSecurityAdminRulesListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveSecurityAdminRulesListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4380,7 +4316,7 @@ class ActiveSecurityAdminRulesOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.ActiveConfigurationParameter, IO],
+        parameters: Union[_models.ActiveConfigurationParameter, IO[bytes]],
         **kwargs: Any
     ) -> _models.ActiveSecurityAdminRulesListResult:
         """Lists active security admin rules in a network manager.
@@ -4390,18 +4326,14 @@ class ActiveSecurityAdminRulesOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Active Configuration Parameter. Is either a ActiveConfigurationParameter
-         type or a IO type. Required.
+         type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveConfigurationParameter
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or IO[bytes]
         :return: ActiveSecurityAdminRulesListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveSecurityAdminRulesListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4426,7 +4358,7 @@ class ActiveSecurityAdminRulesOperations:
         else:
             _json = self._serialize.body(parameters, "ActiveConfigurationParameter")
 
-        request = build_active_security_admin_rules_list_request(
+        _request = build_active_security_admin_rules_list_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -4434,16 +4366,15 @@ class ActiveSecurityAdminRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4455,13 +4386,9 @@ class ActiveSecurityAdminRulesOperations:
         deserialized = self._deserialize("ActiveSecurityAdminRulesListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules"
-    }
+        return deserialized  # type: ignore
 
 
 class ActiveSecurityUserRulesOperations:
@@ -4505,7 +4432,6 @@ class ActiveSecurityUserRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ActiveSecurityUserRulesListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveSecurityUserRulesListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4516,7 +4442,7 @@ class ActiveSecurityUserRulesOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4528,11 +4454,10 @@ class ActiveSecurityUserRulesOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Active Configuration Parameter. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ActiveSecurityUserRulesListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveSecurityUserRulesListResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4543,7 +4468,7 @@ class ActiveSecurityUserRulesOperations:
         self,
         resource_group_name: str,
         network_manager_name: str,
-        parameters: Union[_models.ActiveConfigurationParameter, IO],
+        parameters: Union[_models.ActiveConfigurationParameter, IO[bytes]],
         **kwargs: Any
     ) -> _models.ActiveSecurityUserRulesListResult:
         """Lists Active Security User Rules in a network manager.
@@ -4553,18 +4478,14 @@ class ActiveSecurityUserRulesOperations:
         :param network_manager_name: The name of the network manager. Required.
         :type network_manager_name: str
         :param parameters: Active Configuration Parameter. Is either a ActiveConfigurationParameter
-         type or a IO type. Required.
+         type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveConfigurationParameter
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or IO[bytes]
         :return: ActiveSecurityUserRulesListResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ActiveSecurityUserRulesListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4589,7 +4510,7 @@ class ActiveSecurityUserRulesOperations:
         else:
             _json = self._serialize.body(parameters, "ActiveConfigurationParameter")
 
-        request = build_active_security_user_rules_list_request(
+        _request = build_active_security_user_rules_list_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             subscription_id=self._config.subscription_id,
@@ -4597,16 +4518,15 @@ class ActiveSecurityUserRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4618,13 +4538,9 @@ class ActiveSecurityUserRulesOperations:
         deserialized = self._deserialize("ActiveSecurityUserRulesListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityUserRules"
-    }
+        return deserialized  # type: ignore
 
 
 class ConnectivityConfigurationsOperations:
@@ -4661,12 +4577,11 @@ class ConnectivityConfigurationsOperations:
         :param configuration_name: The name of the network manager connectivity configuration.
          Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ConnectivityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ConnectivityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4682,22 +4597,21 @@ class ConnectivityConfigurationsOperations:
         )
         cls: ClsType[_models.ConnectivityConfiguration] = kwargs.pop("cls", None)
 
-        request = build_connectivity_configurations_get_request(
+        _request = build_connectivity_configurations_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4709,13 +4623,9 @@ class ConnectivityConfigurationsOperations:
         deserialized = self._deserialize("ConnectivityConfiguration", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -4744,7 +4654,6 @@ class ConnectivityConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ConnectivityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ConnectivityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4756,7 +4665,7 @@ class ConnectivityConfigurationsOperations:
         resource_group_name: str,
         network_manager_name: str,
         configuration_name: str,
-        connectivity_configuration: IO,
+        connectivity_configuration: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -4772,11 +4681,10 @@ class ConnectivityConfigurationsOperations:
         :type configuration_name: str
         :param connectivity_configuration: Parameters supplied to create/update a network manager
          connectivity configuration. Required.
-        :type connectivity_configuration: IO
+        :type connectivity_configuration: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ConnectivityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ConnectivityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4788,7 +4696,7 @@ class ConnectivityConfigurationsOperations:
         resource_group_name: str,
         network_manager_name: str,
         configuration_name: str,
-        connectivity_configuration: Union[_models.ConnectivityConfiguration, IO],
+        connectivity_configuration: Union[_models.ConnectivityConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> _models.ConnectivityConfiguration:
         """Creates/Updates a new network manager connectivity configuration.
@@ -4801,18 +4709,15 @@ class ConnectivityConfigurationsOperations:
          Required.
         :type configuration_name: str
         :param connectivity_configuration: Parameters supplied to create/update a network manager
-         connectivity configuration. Is either a ConnectivityConfiguration type or a IO type. Required.
+         connectivity configuration. Is either a ConnectivityConfiguration type or a IO[bytes] type.
+         Required.
         :type connectivity_configuration:
-         ~azure.mgmt.network.v2021_02_01_preview.models.ConnectivityConfiguration or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.network.v2021_02_01_preview.models.ConnectivityConfiguration or IO[bytes]
         :return: ConnectivityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.ConnectivityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4837,7 +4742,7 @@ class ConnectivityConfigurationsOperations:
         else:
             _json = self._serialize.body(connectivity_configuration, "ConnectivityConfiguration")
 
-        request = build_connectivity_configurations_create_or_update_request(
+        _request = build_connectivity_configurations_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -4846,16 +4751,15 @@ class ConnectivityConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4875,10 +4779,6 @@ class ConnectivityConfigurationsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_manager_name: str, configuration_name: str, **kwargs: Any
@@ -4893,12 +4793,11 @@ class ConnectivityConfigurationsOperations:
         :param configuration_name: The name of the network manager connectivity configuration.
          Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4914,22 +4813,21 @@ class ConnectivityConfigurationsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_connectivity_configurations_delete_request(
+        _request = build_connectivity_configurations_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -4939,11 +4837,7 @@ class ConnectivityConfigurationsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list(
@@ -4969,7 +4863,6 @@ class ConnectivityConfigurationsOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ConnectivityConfiguration or the result of
          cls(response)
         :rtype:
@@ -4984,7 +4877,7 @@ class ConnectivityConfigurationsOperations:
         )
         cls: ClsType[_models.ConnectivityConfigurationListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4995,19 +4888,18 @@ class ConnectivityConfigurationsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_connectivity_configurations_list_request(
+                _request = build_connectivity_configurations_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -5018,14 +4910,14 @@ class ConnectivityConfigurationsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ConnectivityConfigurationListResult", pipeline_response)
@@ -5035,11 +4927,11 @@ class ConnectivityConfigurationsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -5051,12 +4943,8 @@ class ConnectivityConfigurationsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations"
-    }
 
-
-class EffectiveConnectivityConfigurationsOperations:
+class EffectiveConnectivityConfigurationsOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -5097,7 +4985,6 @@ class EffectiveConnectivityConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerEffectiveConnectivityConfigurationListResult or the result of
          cls(response)
         :rtype:
@@ -5110,7 +4997,7 @@ class EffectiveConnectivityConfigurationsOperations:
         self,
         resource_group_name: str,
         virtual_network_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -5122,11 +5009,10 @@ class EffectiveConnectivityConfigurationsOperations:
         :param virtual_network_name: The name of the virtual network. Required.
         :type virtual_network_name: str
         :param parameters: Parameters supplied to list correct page. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerEffectiveConnectivityConfigurationListResult or the result of
          cls(response)
         :rtype:
@@ -5139,7 +5025,7 @@ class EffectiveConnectivityConfigurationsOperations:
         self,
         resource_group_name: str,
         virtual_network_name: str,
-        parameters: Union[_models.QueryRequestOptions, IO],
+        parameters: Union[_models.QueryRequestOptions, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkManagerEffectiveConnectivityConfigurationListResult:
         """List all effective connectivity configurations applied on a virtual network.
@@ -5149,19 +5035,16 @@ class EffectiveConnectivityConfigurationsOperations:
         :param virtual_network_name: The name of the virtual network. Required.
         :type virtual_network_name: str
         :param parameters: Parameters supplied to list correct page. Is either a QueryRequestOptions
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.QueryRequestOptions or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.QueryRequestOptions or
+         IO[bytes]
         :return: NetworkManagerEffectiveConnectivityConfigurationListResult or the result of
          cls(response)
         :rtype:
          ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerEffectiveConnectivityConfigurationListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5186,7 +5069,7 @@ class EffectiveConnectivityConfigurationsOperations:
         else:
             _json = self._serialize.body(parameters, "QueryRequestOptions")
 
-        request = build_effective_connectivity_configurations_list_request(
+        _request = build_effective_connectivity_configurations_list_request(
             resource_group_name=resource_group_name,
             virtual_network_name=virtual_network_name,
             subscription_id=self._config.subscription_id,
@@ -5194,16 +5077,15 @@ class EffectiveConnectivityConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5217,16 +5099,12 @@ class EffectiveConnectivityConfigurationsOperations:
         )
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveConnectivityConfigurations"
-    }
+        return deserialized  # type: ignore
 
 
-class NetworkManagerEffectiveSecurityAdminRulesOperations:
+class NetworkManagerEffectiveSecurityAdminRulesOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -5267,7 +5145,6 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerEffectiveSecurityAdminRulesListResult or the result of cls(response)
         :rtype:
          ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerEffectiveSecurityAdminRulesListResult
@@ -5279,7 +5156,7 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
         self,
         resource_group_name: str,
         virtual_network_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -5291,11 +5168,10 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
         :param virtual_network_name: The name of the virtual network. Required.
         :type virtual_network_name: str
         :param parameters: Parameters supplied to list correct page. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkManagerEffectiveSecurityAdminRulesListResult or the result of cls(response)
         :rtype:
          ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerEffectiveSecurityAdminRulesListResult
@@ -5307,7 +5183,7 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
         self,
         resource_group_name: str,
         virtual_network_name: str,
-        parameters: Union[_models.QueryRequestOptions, IO],
+        parameters: Union[_models.QueryRequestOptions, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkManagerEffectiveSecurityAdminRulesListResult:
         """List all effective security admin rules applied on a virtual network.
@@ -5317,18 +5193,15 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
         :param virtual_network_name: The name of the virtual network. Required.
         :type virtual_network_name: str
         :param parameters: Parameters supplied to list correct page. Is either a QueryRequestOptions
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.QueryRequestOptions or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.QueryRequestOptions or
+         IO[bytes]
         :return: NetworkManagerEffectiveSecurityAdminRulesListResult or the result of cls(response)
         :rtype:
          ~azure.mgmt.network.v2021_02_01_preview.models.NetworkManagerEffectiveSecurityAdminRulesListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5353,7 +5226,7 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
         else:
             _json = self._serialize.body(parameters, "QueryRequestOptions")
 
-        request = build_network_manager_effective_security_admin_rules_list_request(
+        _request = build_network_manager_effective_security_admin_rules_list_request(
             resource_group_name=resource_group_name,
             virtual_network_name=virtual_network_name,
             subscription_id=self._config.subscription_id,
@@ -5361,16 +5234,15 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5382,13 +5254,9 @@ class NetworkManagerEffectiveSecurityAdminRulesOperations:
         deserialized = self._deserialize("NetworkManagerEffectiveSecurityAdminRulesListResult", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveSecurityAdminRules"
-    }
+        return deserialized  # type: ignore
 
 
 class NetworkGroupsOperations:
@@ -5423,12 +5291,11 @@ class NetworkGroupsOperations:
         :type network_manager_name: str
         :param network_group_name: The name of the network group to get. Required.
         :type network_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkGroup or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5444,22 +5311,21 @@ class NetworkGroupsOperations:
         )
         cls: ClsType[_models.NetworkGroup] = kwargs.pop("cls", None)
 
-        request = build_network_groups_get_request(
+        _request = build_network_groups_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             network_group_name=network_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5471,13 +5337,9 @@ class NetworkGroupsOperations:
         deserialized = self._deserialize("NetworkGroup", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -5509,7 +5371,6 @@ class NetworkGroupsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkGroup or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkGroup
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -5521,7 +5382,7 @@ class NetworkGroupsOperations:
         resource_group_name: str,
         network_manager_name: str,
         network_group_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         if_match: Optional[str] = None,
         content_type: str = "application/json",
@@ -5537,7 +5398,7 @@ class NetworkGroupsOperations:
         :type network_group_name: str
         :param parameters: Parameters supplied to the specify which network group need to create.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword if_match: The ETag of the transformation. Omit this value to always overwrite the
          current resource. Specify the last-seen ETag value to prevent accidentally overwriting
          concurrent changes. Default value is None.
@@ -5545,7 +5406,6 @@ class NetworkGroupsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkGroup or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkGroup
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -5557,7 +5417,7 @@ class NetworkGroupsOperations:
         resource_group_name: str,
         network_manager_name: str,
         network_group_name: str,
-        parameters: Union[_models.NetworkGroup, IO],
+        parameters: Union[_models.NetworkGroup, IO[bytes]],
         *,
         if_match: Optional[str] = None,
         **kwargs: Any
@@ -5571,21 +5431,17 @@ class NetworkGroupsOperations:
         :param network_group_name: The name of the network group to get. Required.
         :type network_group_name: str
         :param parameters: Parameters supplied to the specify which network group need to create. Is
-         either a NetworkGroup type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkGroup or IO
+         either a NetworkGroup type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkGroup or IO[bytes]
         :keyword if_match: The ETag of the transformation. Omit this value to always overwrite the
          current resource. Specify the last-seen ETag value to prevent accidentally overwriting
          concurrent changes. Default value is None.
         :paramtype if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkGroup or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5610,7 +5466,7 @@ class NetworkGroupsOperations:
         else:
             _json = self._serialize.body(parameters, "NetworkGroup")
 
-        request = build_network_groups_create_or_update_request(
+        _request = build_network_groups_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             network_group_name=network_group_name,
@@ -5620,16 +5476,15 @@ class NetworkGroupsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5654,10 +5509,6 @@ class NetworkGroupsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_manager_name: str, network_group_name: str, **kwargs: Any
@@ -5670,12 +5521,11 @@ class NetworkGroupsOperations:
         :type network_manager_name: str
         :param network_group_name: The name of the network group to get. Required.
         :type network_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5691,22 +5541,21 @@ class NetworkGroupsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_network_groups_delete_request(
+        _request = build_network_groups_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             network_group_name=network_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -5716,11 +5565,7 @@ class NetworkGroupsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list(
@@ -5746,7 +5591,6 @@ class NetworkGroupsOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NetworkGroup or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NetworkGroup]
@@ -5760,7 +5604,7 @@ class NetworkGroupsOperations:
         )
         cls: ClsType[_models.NetworkGroupListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5771,19 +5615,18 @@ class NetworkGroupsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_network_groups_list_request(
+                _request = build_network_groups_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -5794,14 +5637,14 @@ class NetworkGroupsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NetworkGroupListResult", pipeline_response)
@@ -5811,11 +5654,11 @@ class NetworkGroupsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -5826,10 +5669,6 @@ class NetworkGroupsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups"
-    }
 
 
 class SecurityUserConfigurationsOperations:
@@ -5877,7 +5716,6 @@ class SecurityUserConfigurationsOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SecurityConfiguration or the result of
          cls(response)
         :rtype:
@@ -5892,7 +5730,7 @@ class SecurityUserConfigurationsOperations:
         )
         cls: ClsType[_models.SecurityConfigurationListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5903,19 +5741,18 @@ class SecurityUserConfigurationsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_security_user_configurations_list_request(
+                _request = build_security_user_configurations_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -5926,14 +5763,14 @@ class SecurityUserConfigurationsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SecurityConfigurationListResult", pipeline_response)
@@ -5943,11 +5780,11 @@ class SecurityUserConfigurationsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -5958,10 +5795,6 @@ class SecurityUserConfigurationsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations"
-    }
 
     @distributed_trace
     def get(
@@ -5975,12 +5808,11 @@ class SecurityUserConfigurationsOperations:
         :type network_manager_name: str
         :param configuration_name: The name of the network manager security Configuration. Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5996,22 +5828,21 @@ class SecurityUserConfigurationsOperations:
         )
         cls: ClsType[_models.SecurityConfiguration] = kwargs.pop("cls", None)
 
-        request = build_security_user_configurations_get_request(
+        _request = build_security_user_configurations_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6023,13 +5854,9 @@ class SecurityUserConfigurationsOperations:
         deserialized = self._deserialize("SecurityConfiguration", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -6057,7 +5884,6 @@ class SecurityUserConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6069,7 +5895,7 @@ class SecurityUserConfigurationsOperations:
         resource_group_name: str,
         network_manager_name: str,
         configuration_name: str,
-        security_user_configuration: IO,
+        security_user_configuration: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -6084,11 +5910,10 @@ class SecurityUserConfigurationsOperations:
         :type configuration_name: str
         :param security_user_configuration: The security user configuration to create or update.
          Required.
-        :type security_user_configuration: IO
+        :type security_user_configuration: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6100,7 +5925,7 @@ class SecurityUserConfigurationsOperations:
         resource_group_name: str,
         network_manager_name: str,
         configuration_name: str,
-        security_user_configuration: Union[_models.SecurityConfiguration, IO],
+        security_user_configuration: Union[_models.SecurityConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> _models.SecurityConfiguration:
         """Creates or updates a network manager security user configuration.
@@ -6112,18 +5937,14 @@ class SecurityUserConfigurationsOperations:
         :param configuration_name: The name of the network manager security Configuration. Required.
         :type configuration_name: str
         :param security_user_configuration: The security user configuration to create or update. Is
-         either a SecurityConfiguration type or a IO type. Required.
+         either a SecurityConfiguration type or a IO[bytes] type. Required.
         :type security_user_configuration:
-         ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration or IO[bytes]
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6148,7 +5969,7 @@ class SecurityUserConfigurationsOperations:
         else:
             _json = self._serialize.body(security_user_configuration, "SecurityConfiguration")
 
-        request = build_security_user_configurations_create_or_update_request(
+        _request = build_security_user_configurations_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -6157,16 +5978,15 @@ class SecurityUserConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6186,10 +6006,6 @@ class SecurityUserConfigurationsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_manager_name: str, configuration_name: str, **kwargs: Any
@@ -6202,12 +6018,11 @@ class SecurityUserConfigurationsOperations:
         :type network_manager_name: str
         :param configuration_name: The name of the network manager security Configuration. Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6223,22 +6038,21 @@ class SecurityUserConfigurationsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_security_user_configurations_delete_request(
+        _request = build_security_user_configurations_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6248,11 +6062,7 @@ class SecurityUserConfigurationsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
 
 class UserRuleCollectionsOperations:
@@ -6302,7 +6112,6 @@ class UserRuleCollectionsOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RuleCollection or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection]
@@ -6316,7 +6125,7 @@ class UserRuleCollectionsOperations:
         )
         cls: ClsType[_models.RuleCollectionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6327,7 +6136,7 @@ class UserRuleCollectionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_user_rule_collections_list_request(
+                _request = build_user_rule_collections_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     configuration_name=configuration_name,
@@ -6335,12 +6144,11 @@ class UserRuleCollectionsOperations:
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -6351,14 +6159,14 @@ class UserRuleCollectionsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("RuleCollectionListResult", pipeline_response)
@@ -6368,11 +6176,11 @@ class UserRuleCollectionsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -6383,10 +6191,6 @@ class UserRuleCollectionsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections"
-    }
 
     @distributed_trace
     def get(
@@ -6408,12 +6212,11 @@ class UserRuleCollectionsOperations:
         :param rule_collection_name: The name of the network manager security Configuration rule
          collection. Required.
         :type rule_collection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6429,23 +6232,22 @@ class UserRuleCollectionsOperations:
         )
         cls: ClsType[_models.RuleCollection] = kwargs.pop("cls", None)
 
-        request = build_user_rule_collections_get_request(
+        _request = build_user_rule_collections_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             rule_collection_name=rule_collection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6457,13 +6259,9 @@ class UserRuleCollectionsOperations:
         deserialized = self._deserialize("RuleCollection", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -6493,7 +6291,6 @@ class UserRuleCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6506,7 +6303,7 @@ class UserRuleCollectionsOperations:
         network_manager_name: str,
         configuration_name: str,
         rule_collection_name: str,
-        user_rule_collection: IO,
+        user_rule_collection: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -6523,11 +6320,10 @@ class UserRuleCollectionsOperations:
          collection. Required.
         :type rule_collection_name: str
         :param user_rule_collection: The User Rule Collection to create or update. Required.
-        :type user_rule_collection: IO
+        :type user_rule_collection: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6540,7 +6336,7 @@ class UserRuleCollectionsOperations:
         network_manager_name: str,
         configuration_name: str,
         rule_collection_name: str,
-        user_rule_collection: Union[_models.RuleCollection, IO],
+        user_rule_collection: Union[_models.RuleCollection, IO[bytes]],
         **kwargs: Any
     ) -> _models.RuleCollection:
         """Creates or updates a user rule collection.
@@ -6555,17 +6351,14 @@ class UserRuleCollectionsOperations:
          collection. Required.
         :type rule_collection_name: str
         :param user_rule_collection: The User Rule Collection to create or update. Is either a
-         RuleCollection type or a IO type. Required.
-        :type user_rule_collection: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         RuleCollection type or a IO[bytes] type. Required.
+        :type user_rule_collection: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection or
+         IO[bytes]
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6590,7 +6383,7 @@ class UserRuleCollectionsOperations:
         else:
             _json = self._serialize.body(user_rule_collection, "RuleCollection")
 
-        request = build_user_rule_collections_create_or_update_request(
+        _request = build_user_rule_collections_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -6600,16 +6393,15 @@ class UserRuleCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6628,10 +6420,6 @@ class UserRuleCollectionsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}"
-    }
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -6653,12 +6441,11 @@ class UserRuleCollectionsOperations:
         :param rule_collection_name: The name of the network manager security Configuration rule
          collection. Required.
         :type rule_collection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6674,23 +6461,22 @@ class UserRuleCollectionsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_user_rule_collections_delete_request(
+        _request = build_user_rule_collections_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             rule_collection_name=rule_collection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6700,11 +6486,7 @@ class UserRuleCollectionsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
 
 class UserRulesOperations:
@@ -6758,7 +6540,6 @@ class UserRulesOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BaseUserRule or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.BaseUserRule]
@@ -6772,7 +6553,7 @@ class UserRulesOperations:
         )
         cls: ClsType[_models.UserRuleListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6783,7 +6564,7 @@ class UserRulesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_user_rules_list_request(
+                _request = build_user_rules_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     configuration_name=configuration_name,
@@ -6792,12 +6573,11 @@ class UserRulesOperations:
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -6808,14 +6588,14 @@ class UserRulesOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("UserRuleListResult", pipeline_response)
@@ -6825,11 +6605,11 @@ class UserRulesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -6840,10 +6620,6 @@ class UserRulesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules"
-    }
 
     @distributed_trace
     def get(
@@ -6868,12 +6644,11 @@ class UserRulesOperations:
         :type rule_collection_name: str
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BaseUserRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseUserRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -6889,7 +6664,7 @@ class UserRulesOperations:
         )
         cls: ClsType[_models.BaseUserRule] = kwargs.pop("cls", None)
 
-        request = build_user_rules_get_request(
+        _request = build_user_rules_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -6897,16 +6672,15 @@ class UserRulesOperations:
             rule_name=rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -6918,13 +6692,9 @@ class UserRulesOperations:
         deserialized = self._deserialize("BaseUserRule", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -6957,7 +6727,6 @@ class UserRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BaseUserRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseUserRule
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -6971,7 +6740,7 @@ class UserRulesOperations:
         configuration_name: str,
         rule_collection_name: str,
         rule_name: str,
-        user_rule: IO,
+        user_rule: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -6990,11 +6759,10 @@ class UserRulesOperations:
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
         :param user_rule: The user rule to create or update. Required.
-        :type user_rule: IO
+        :type user_rule: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BaseUserRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseUserRule
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7008,7 +6776,7 @@ class UserRulesOperations:
         configuration_name: str,
         rule_collection_name: str,
         rule_name: str,
-        user_rule: Union[_models.BaseUserRule, IO],
+        user_rule: Union[_models.BaseUserRule, IO[bytes]],
         **kwargs: Any
     ) -> _models.BaseUserRule:
         """Creates or updates a user rule.
@@ -7024,18 +6792,14 @@ class UserRulesOperations:
         :type rule_collection_name: str
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
-        :param user_rule: The user rule to create or update. Is either a BaseUserRule type or a IO
-         type. Required.
-        :type user_rule: ~azure.mgmt.network.v2021_02_01_preview.models.BaseUserRule or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param user_rule: The user rule to create or update. Is either a BaseUserRule type or a
+         IO[bytes] type. Required.
+        :type user_rule: ~azure.mgmt.network.v2021_02_01_preview.models.BaseUserRule or IO[bytes]
         :return: BaseUserRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseUserRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7060,7 +6824,7 @@ class UserRulesOperations:
         else:
             _json = self._serialize.body(user_rule, "BaseUserRule")
 
-        request = build_user_rules_create_or_update_request(
+        _request = build_user_rules_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -7071,16 +6835,15 @@ class UserRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7099,10 +6862,6 @@ class UserRulesOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}"
-    }
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -7127,12 +6886,11 @@ class UserRulesOperations:
         :type rule_collection_name: str
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7148,7 +6906,7 @@ class UserRulesOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_user_rules_delete_request(
+        _request = build_user_rules_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -7156,16 +6914,15 @@ class UserRulesOperations:
             rule_name=rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7175,11 +6932,7 @@ class UserRulesOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
 
 class SecurityAdminConfigurationsOperations:
@@ -7227,7 +6980,6 @@ class SecurityAdminConfigurationsOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SecurityConfiguration or the result of
          cls(response)
         :rtype:
@@ -7242,7 +6994,7 @@ class SecurityAdminConfigurationsOperations:
         )
         cls: ClsType[_models.SecurityConfigurationListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7253,19 +7005,18 @@ class SecurityAdminConfigurationsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_security_admin_configurations_list_request(
+                _request = build_security_admin_configurations_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -7276,14 +7027,14 @@ class SecurityAdminConfigurationsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("SecurityConfigurationListResult", pipeline_response)
@@ -7293,11 +7044,11 @@ class SecurityAdminConfigurationsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -7308,10 +7059,6 @@ class SecurityAdminConfigurationsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations"
-    }
 
     @distributed_trace
     def get(
@@ -7325,12 +7072,11 @@ class SecurityAdminConfigurationsOperations:
         :type network_manager_name: str
         :param configuration_name: The name of the network manager security Configuration. Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7346,22 +7092,21 @@ class SecurityAdminConfigurationsOperations:
         )
         cls: ClsType[_models.SecurityConfiguration] = kwargs.pop("cls", None)
 
-        request = build_security_admin_configurations_get_request(
+        _request = build_security_admin_configurations_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7373,13 +7118,9 @@ class SecurityAdminConfigurationsOperations:
         deserialized = self._deserialize("SecurityConfiguration", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -7407,7 +7148,6 @@ class SecurityAdminConfigurationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7419,7 +7159,7 @@ class SecurityAdminConfigurationsOperations:
         resource_group_name: str,
         network_manager_name: str,
         configuration_name: str,
-        security_admin_configuration: IO,
+        security_admin_configuration: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -7434,11 +7174,10 @@ class SecurityAdminConfigurationsOperations:
         :type configuration_name: str
         :param security_admin_configuration: The security admin configuration to create or update.
          Required.
-        :type security_admin_configuration: IO
+        :type security_admin_configuration: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7450,7 +7189,7 @@ class SecurityAdminConfigurationsOperations:
         resource_group_name: str,
         network_manager_name: str,
         configuration_name: str,
-        security_admin_configuration: Union[_models.SecurityConfiguration, IO],
+        security_admin_configuration: Union[_models.SecurityConfiguration, IO[bytes]],
         **kwargs: Any
     ) -> _models.SecurityConfiguration:
         """Creates or updates a network manager security admin configuration.
@@ -7462,18 +7201,14 @@ class SecurityAdminConfigurationsOperations:
         :param configuration_name: The name of the network manager security Configuration. Required.
         :type configuration_name: str
         :param security_admin_configuration: The security admin configuration to create or update. Is
-         either a SecurityConfiguration type or a IO type. Required.
+         either a SecurityConfiguration type or a IO[bytes] type. Required.
         :type security_admin_configuration:
-         ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration or IO[bytes]
         :return: SecurityConfiguration or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.SecurityConfiguration
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7498,7 +7233,7 @@ class SecurityAdminConfigurationsOperations:
         else:
             _json = self._serialize.body(security_admin_configuration, "SecurityConfiguration")
 
-        request = build_security_admin_configurations_create_or_update_request(
+        _request = build_security_admin_configurations_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -7507,16 +7242,15 @@ class SecurityAdminConfigurationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7536,10 +7270,6 @@ class SecurityAdminConfigurationsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_manager_name: str, configuration_name: str, **kwargs: Any
@@ -7552,12 +7282,11 @@ class SecurityAdminConfigurationsOperations:
         :type network_manager_name: str
         :param configuration_name: The name of the network manager security Configuration. Required.
         :type configuration_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7573,22 +7302,21 @@ class SecurityAdminConfigurationsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_security_admin_configurations_delete_request(
+        _request = build_security_admin_configurations_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7598,11 +7326,7 @@ class SecurityAdminConfigurationsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
 
 class AdminRuleCollectionsOperations:
@@ -7652,7 +7376,6 @@ class AdminRuleCollectionsOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RuleCollection or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection]
@@ -7666,7 +7389,7 @@ class AdminRuleCollectionsOperations:
         )
         cls: ClsType[_models.RuleCollectionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7677,7 +7400,7 @@ class AdminRuleCollectionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_admin_rule_collections_list_request(
+                _request = build_admin_rule_collections_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     configuration_name=configuration_name,
@@ -7685,12 +7408,11 @@ class AdminRuleCollectionsOperations:
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -7701,14 +7423,14 @@ class AdminRuleCollectionsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("RuleCollectionListResult", pipeline_response)
@@ -7718,11 +7440,11 @@ class AdminRuleCollectionsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -7733,10 +7455,6 @@ class AdminRuleCollectionsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections"
-    }
 
     @distributed_trace
     def get(
@@ -7758,12 +7476,11 @@ class AdminRuleCollectionsOperations:
         :param rule_collection_name: The name of the network manager security Configuration rule
          collection. Required.
         :type rule_collection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7779,23 +7496,22 @@ class AdminRuleCollectionsOperations:
         )
         cls: ClsType[_models.RuleCollection] = kwargs.pop("cls", None)
 
-        request = build_admin_rule_collections_get_request(
+        _request = build_admin_rule_collections_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             rule_collection_name=rule_collection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7807,13 +7523,9 @@ class AdminRuleCollectionsOperations:
         deserialized = self._deserialize("RuleCollection", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -7843,7 +7555,6 @@ class AdminRuleCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7856,7 +7567,7 @@ class AdminRuleCollectionsOperations:
         network_manager_name: str,
         configuration_name: str,
         rule_collection_name: str,
-        rule_collection: IO,
+        rule_collection: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -7873,11 +7584,10 @@ class AdminRuleCollectionsOperations:
          collection. Required.
         :type rule_collection_name: str
         :param rule_collection: The Rule Collection to create or update. Required.
-        :type rule_collection: IO
+        :type rule_collection: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7890,7 +7600,7 @@ class AdminRuleCollectionsOperations:
         network_manager_name: str,
         configuration_name: str,
         rule_collection_name: str,
-        rule_collection: Union[_models.RuleCollection, IO],
+        rule_collection: Union[_models.RuleCollection, IO[bytes]],
         **kwargs: Any
     ) -> _models.RuleCollection:
         """Creates or updates an admin rule collection.
@@ -7905,17 +7615,14 @@ class AdminRuleCollectionsOperations:
          collection. Required.
         :type rule_collection_name: str
         :param rule_collection: The Rule Collection to create or update. Is either a RuleCollection
-         type or a IO type. Required.
-        :type rule_collection: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type rule_collection: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection or
+         IO[bytes]
         :return: RuleCollection or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.RuleCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -7940,7 +7647,7 @@ class AdminRuleCollectionsOperations:
         else:
             _json = self._serialize.body(rule_collection, "RuleCollection")
 
-        request = build_admin_rule_collections_create_or_update_request(
+        _request = build_admin_rule_collections_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -7950,16 +7657,15 @@ class AdminRuleCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -7978,10 +7684,6 @@ class AdminRuleCollectionsOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}"
-    }
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -8003,12 +7705,11 @@ class AdminRuleCollectionsOperations:
         :param rule_collection_name: The name of the network manager security Configuration rule
          collection. Required.
         :type rule_collection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8024,23 +7725,22 @@ class AdminRuleCollectionsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_admin_rule_collections_delete_request(
+        _request = build_admin_rule_collections_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
             rule_collection_name=rule_collection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -8050,11 +7750,7 @@ class AdminRuleCollectionsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
 
 class AdminRulesOperations:
@@ -8108,7 +7804,6 @@ class AdminRulesOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either BaseAdminRule or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.BaseAdminRule]
@@ -8122,7 +7817,7 @@ class AdminRulesOperations:
         )
         cls: ClsType[_models.AdminRuleListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8133,7 +7828,7 @@ class AdminRulesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_admin_rules_list_request(
+                _request = build_admin_rules_list_request(
                     resource_group_name=resource_group_name,
                     network_manager_name=network_manager_name,
                     configuration_name=configuration_name,
@@ -8142,12 +7837,11 @@ class AdminRulesOperations:
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -8158,14 +7852,14 @@ class AdminRulesOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("AdminRuleListResult", pipeline_response)
@@ -8175,11 +7869,11 @@ class AdminRulesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -8190,10 +7884,6 @@ class AdminRulesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules"
-    }
 
     @distributed_trace
     def get(
@@ -8218,12 +7908,11 @@ class AdminRulesOperations:
         :type rule_collection_name: str
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BaseAdminRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseAdminRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8239,7 +7928,7 @@ class AdminRulesOperations:
         )
         cls: ClsType[_models.BaseAdminRule] = kwargs.pop("cls", None)
 
-        request = build_admin_rules_get_request(
+        _request = build_admin_rules_get_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -8247,16 +7936,15 @@ class AdminRulesOperations:
             rule_name=rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -8268,13 +7956,9 @@ class AdminRulesOperations:
         deserialized = self._deserialize("BaseAdminRule", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -8307,7 +7991,6 @@ class AdminRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BaseAdminRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseAdminRule
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -8321,7 +8004,7 @@ class AdminRulesOperations:
         configuration_name: str,
         rule_collection_name: str,
         rule_name: str,
-        admin_rule: IO,
+        admin_rule: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -8340,11 +8023,10 @@ class AdminRulesOperations:
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
         :param admin_rule: The admin rule to create or update. Required.
-        :type admin_rule: IO
+        :type admin_rule: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: BaseAdminRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseAdminRule
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -8358,7 +8040,7 @@ class AdminRulesOperations:
         configuration_name: str,
         rule_collection_name: str,
         rule_name: str,
-        admin_rule: Union[_models.BaseAdminRule, IO],
+        admin_rule: Union[_models.BaseAdminRule, IO[bytes]],
         **kwargs: Any
     ) -> _models.BaseAdminRule:
         """Creates or updates an admin rule.
@@ -8374,18 +8056,14 @@ class AdminRulesOperations:
         :type rule_collection_name: str
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
-        :param admin_rule: The admin rule to create or update. Is either a BaseAdminRule type or a IO
-         type. Required.
-        :type admin_rule: ~azure.mgmt.network.v2021_02_01_preview.models.BaseAdminRule or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param admin_rule: The admin rule to create or update. Is either a BaseAdminRule type or a
+         IO[bytes] type. Required.
+        :type admin_rule: ~azure.mgmt.network.v2021_02_01_preview.models.BaseAdminRule or IO[bytes]
         :return: BaseAdminRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.BaseAdminRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8410,7 +8088,7 @@ class AdminRulesOperations:
         else:
             _json = self._serialize.body(admin_rule, "BaseAdminRule")
 
-        request = build_admin_rules_create_or_update_request(
+        _request = build_admin_rules_create_or_update_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -8421,16 +8099,15 @@ class AdminRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -8449,10 +8126,6 @@ class AdminRulesOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}"
-    }
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -8477,12 +8150,11 @@ class AdminRulesOperations:
         :type rule_collection_name: str
         :param rule_name: The name of the rule. Required.
         :type rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8498,7 +8170,7 @@ class AdminRulesOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_admin_rules_delete_request(
+        _request = build_admin_rules_delete_request(
             resource_group_name=resource_group_name,
             network_manager_name=network_manager_name,
             configuration_name=configuration_name,
@@ -8506,16 +8178,15 @@ class AdminRulesOperations:
             rule_name=rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -8525,11 +8196,7 @@ class AdminRulesOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
 
 class NetworkSecurityPerimetersOperations:
@@ -8562,12 +8229,11 @@ class NetworkSecurityPerimetersOperations:
         :type resource_group_name: str
         :param network_security_perimeter_name: The name of the network security perimeter. Required.
         :type network_security_perimeter_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkSecurityPerimeter or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8583,21 +8249,20 @@ class NetworkSecurityPerimetersOperations:
         )
         cls: ClsType[_models.NetworkSecurityPerimeter] = kwargs.pop("cls", None)
 
-        request = build_network_security_perimeters_get_request(
+        _request = build_network_security_perimeters_get_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -8609,13 +8274,9 @@ class NetworkSecurityPerimetersOperations:
         deserialized = self._deserialize("NetworkSecurityPerimeter", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -8639,7 +8300,6 @@ class NetworkSecurityPerimetersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkSecurityPerimeter or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -8650,7 +8310,7 @@ class NetworkSecurityPerimetersOperations:
         self,
         resource_group_name: str,
         network_security_perimeter_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -8663,11 +8323,10 @@ class NetworkSecurityPerimetersOperations:
         :type network_security_perimeter_name: str
         :param parameters: Parameter supplied to create or update the network security perimeter.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NetworkSecurityPerimeter or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -8678,7 +8337,7 @@ class NetworkSecurityPerimetersOperations:
         self,
         resource_group_name: str,
         network_security_perimeter_name: str,
-        parameters: Union[_models.NetworkSecurityPerimeter, IO],
+        parameters: Union[_models.NetworkSecurityPerimeter, IO[bytes]],
         **kwargs: Any
     ) -> _models.NetworkSecurityPerimeter:
         """Creates or updates a Network Security Perimeter.
@@ -8688,17 +8347,14 @@ class NetworkSecurityPerimetersOperations:
         :param network_security_perimeter_name: The name of the network security perimeter. Required.
         :type network_security_perimeter_name: str
         :param parameters: Parameter supplied to create or update the network security perimeter. Is
-         either a NetworkSecurityPerimeter type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         either a NetworkSecurityPerimeter type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter or
+         IO[bytes]
         :return: NetworkSecurityPerimeter or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8723,7 +8379,7 @@ class NetworkSecurityPerimetersOperations:
         else:
             _json = self._serialize.body(parameters, "NetworkSecurityPerimeter")
 
-        request = build_network_security_perimeters_create_or_update_request(
+        _request = build_network_security_perimeters_create_or_update_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             subscription_id=self._config.subscription_id,
@@ -8731,16 +8387,15 @@ class NetworkSecurityPerimetersOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -8760,10 +8415,6 @@ class NetworkSecurityPerimetersOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_security_perimeter_name: str, **kwargs: Any
@@ -8774,12 +8425,11 @@ class NetworkSecurityPerimetersOperations:
         :type resource_group_name: str
         :param network_security_perimeter_name: The name of the network security perimeter. Required.
         :type network_security_perimeter_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8795,21 +8445,20 @@ class NetworkSecurityPerimetersOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_network_security_perimeters_delete_request(
+        _request = build_network_security_perimeters_delete_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -8819,11 +8468,137 @@ class NetworkSecurityPerimetersOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, {})  # type: ignore
 
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}"
-    }
+    @overload
+    def patch(
+        self,
+        resource_group_name: str,
+        network_security_perimeter_name: str,
+        parameters: _models.UpdateTagsRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.NetworkSecurityPerimeter:
+        """Patch Tags for a Network Security Perimeter.
+
+        :param resource_group_name: The name of the resource group. Required.
+        :type resource_group_name: str
+        :param network_security_perimeter_name: The name of the network security perimeter. Required.
+        :type network_security_perimeter_name: str
+        :param parameters: Parameter supplied to the network security perimeter. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.UpdateTagsRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: NetworkSecurityPerimeter or the result of cls(response)
+        :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def patch(
+        self,
+        resource_group_name: str,
+        network_security_perimeter_name: str,
+        parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.NetworkSecurityPerimeter:
+        """Patch Tags for a Network Security Perimeter.
+
+        :param resource_group_name: The name of the resource group. Required.
+        :type resource_group_name: str
+        :param network_security_perimeter_name: The name of the network security perimeter. Required.
+        :type network_security_perimeter_name: str
+        :param parameters: Parameter supplied to the network security perimeter. Required.
+        :type parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: NetworkSecurityPerimeter or the result of cls(response)
+        :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def patch(
+        self,
+        resource_group_name: str,
+        network_security_perimeter_name: str,
+        parameters: Union[_models.UpdateTagsRequest, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.NetworkSecurityPerimeter:
+        """Patch Tags for a Network Security Perimeter.
+
+        :param resource_group_name: The name of the resource group. Required.
+        :type resource_group_name: str
+        :param network_security_perimeter_name: The name of the network security perimeter. Required.
+        :type network_security_perimeter_name: str
+        :param parameters: Parameter supplied to the network security perimeter. Is either a
+         UpdateTagsRequest type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.UpdateTagsRequest or IO[bytes]
+        :return: NetworkSecurityPerimeter or the result of cls(response)
+        :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NetworkSecurityPerimeter
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2021-02-01-preview")
+        )
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.NetworkSecurityPerimeter] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _json = self._serialize.body(parameters, "UpdateTagsRequest")
+
+        _request = build_network_security_perimeters_patch_request(
+            resource_group_name=resource_group_name,
+            network_security_perimeter_name=network_security_perimeter_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("NetworkSecurityPerimeter", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_by_subscription(
@@ -8839,7 +8614,6 @@ class NetworkSecurityPerimetersOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NetworkSecurityPerimeter or the result of
          cls(response)
         :rtype:
@@ -8854,7 +8628,7 @@ class NetworkSecurityPerimetersOperations:
         )
         cls: ClsType[_models.NetworkSecurityPerimeterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8865,17 +8639,16 @@ class NetworkSecurityPerimetersOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_network_security_perimeters_list_by_subscription_request(
+                _request = build_network_security_perimeters_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -8886,14 +8659,14 @@ class NetworkSecurityPerimetersOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NetworkSecurityPerimeterListResult", pipeline_response)
@@ -8903,11 +8676,11 @@ class NetworkSecurityPerimetersOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -8918,10 +8691,6 @@ class NetworkSecurityPerimetersOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityPerimeters"
-    }
 
     @distributed_trace
     def list(
@@ -8939,7 +8708,6 @@ class NetworkSecurityPerimetersOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NetworkSecurityPerimeter or the result of
          cls(response)
         :rtype:
@@ -8954,7 +8722,7 @@ class NetworkSecurityPerimetersOperations:
         )
         cls: ClsType[_models.NetworkSecurityPerimeterListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -8965,18 +8733,17 @@ class NetworkSecurityPerimetersOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_network_security_perimeters_list_request(
+                _request = build_network_security_perimeters_list_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -8987,14 +8754,14 @@ class NetworkSecurityPerimetersOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NetworkSecurityPerimeterListResult", pipeline_response)
@@ -9004,11 +8771,11 @@ class NetworkSecurityPerimetersOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -9019,10 +8786,6 @@ class NetworkSecurityPerimetersOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters"
-    }
 
 
 class NspProfilesOperations:
@@ -9057,12 +8820,11 @@ class NspProfilesOperations:
         :type network_security_perimeter_name: str
         :param profile_name: The name of the NSP profile. Required.
         :type profile_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspProfile or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9078,22 +8840,21 @@ class NspProfilesOperations:
         )
         cls: ClsType[_models.NspProfile] = kwargs.pop("cls", None)
 
-        request = build_nsp_profiles_get_request(
+        _request = build_nsp_profiles_get_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             profile_name=profile_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -9105,13 +8866,9 @@ class NspProfilesOperations:
         deserialized = self._deserialize("NspProfile", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -9138,7 +8895,6 @@ class NspProfilesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspProfile or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspProfile
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -9150,7 +8906,7 @@ class NspProfilesOperations:
         resource_group_name: str,
         network_security_perimeter_name: str,
         profile_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -9165,11 +8921,10 @@ class NspProfilesOperations:
         :type profile_name: str
         :param parameters: Parameters that hold the NspProfile resource to be created/updated.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspProfile or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspProfile
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -9181,7 +8936,7 @@ class NspProfilesOperations:
         resource_group_name: str,
         network_security_perimeter_name: str,
         profile_name: str,
-        parameters: Union[_models.NspProfile, IO],
+        parameters: Union[_models.NspProfile, IO[bytes]],
         **kwargs: Any
     ) -> _models.NspProfile:
         """Creates or updates a network profile.
@@ -9193,17 +8948,13 @@ class NspProfilesOperations:
         :param profile_name: The name of the NSP profile. Required.
         :type profile_name: str
         :param parameters: Parameters that hold the NspProfile resource to be created/updated. Is
-         either a NspProfile type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspProfile or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         either a NspProfile type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspProfile or IO[bytes]
         :return: NspProfile or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9228,7 +8979,7 @@ class NspProfilesOperations:
         else:
             _json = self._serialize.body(parameters, "NspProfile")
 
-        request = build_nsp_profiles_create_or_update_request(
+        _request = build_nsp_profiles_create_or_update_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             profile_name=profile_name,
@@ -9237,16 +8988,15 @@ class NspProfilesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -9266,10 +9016,6 @@ class NspProfilesOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}"
-    }
-
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_security_perimeter_name: str, profile_name: str, **kwargs: Any
@@ -9282,12 +9028,11 @@ class NspProfilesOperations:
         :type network_security_perimeter_name: str
         :param profile_name: The name of the NSP profile. Required.
         :type profile_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9303,22 +9048,21 @@ class NspProfilesOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_nsp_profiles_delete_request(
+        _request = build_nsp_profiles_delete_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             profile_name=profile_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -9328,11 +9072,7 @@ class NspProfilesOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list(
@@ -9358,7 +9098,6 @@ class NspProfilesOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NspProfile or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NspProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -9371,7 +9110,7 @@ class NspProfilesOperations:
         )
         cls: ClsType[_models.NspProfileListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9382,19 +9121,18 @@ class NspProfilesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_nsp_profiles_list_request(
+                _request = build_nsp_profiles_list_request(
                     resource_group_name=resource_group_name,
                     network_security_perimeter_name=network_security_perimeter_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -9405,14 +9143,14 @@ class NspProfilesOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NspProfileListResult", pipeline_response)
@@ -9422,11 +9160,11 @@ class NspProfilesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -9437,10 +9175,6 @@ class NspProfilesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles"
-    }
 
 
 class NspAccessRulesOperations:
@@ -9482,12 +9216,11 @@ class NspAccessRulesOperations:
         :type profile_name: str
         :param access_rule_name: The name of the NSP access rule. Required.
         :type access_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspAccessRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAccessRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9503,23 +9236,22 @@ class NspAccessRulesOperations:
         )
         cls: ClsType[_models.NspAccessRule] = kwargs.pop("cls", None)
 
-        request = build_nsp_access_rules_get_request(
+        _request = build_nsp_access_rules_get_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             profile_name=profile_name,
             access_rule_name=access_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -9531,13 +9263,9 @@ class NspAccessRulesOperations:
         deserialized = self._deserialize("NspAccessRule", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -9567,7 +9295,6 @@ class NspAccessRulesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspAccessRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAccessRule
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -9580,7 +9307,7 @@ class NspAccessRulesOperations:
         network_security_perimeter_name: str,
         profile_name: str,
         access_rule_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -9597,11 +9324,10 @@ class NspAccessRulesOperations:
         :type access_rule_name: str
         :param parameters: Parameters that hold the NspAccessRule resource to be created/updated.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspAccessRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAccessRule
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -9614,7 +9340,7 @@ class NspAccessRulesOperations:
         network_security_perimeter_name: str,
         profile_name: str,
         access_rule_name: str,
-        parameters: Union[_models.NspAccessRule, IO],
+        parameters: Union[_models.NspAccessRule, IO[bytes]],
         **kwargs: Any
     ) -> _models.NspAccessRule:
         """Creates or updates a network access rule.
@@ -9628,17 +9354,13 @@ class NspAccessRulesOperations:
         :param access_rule_name: The name of the NSP access rule. Required.
         :type access_rule_name: str
         :param parameters: Parameters that hold the NspAccessRule resource to be created/updated. Is
-         either a NspAccessRule type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspAccessRule or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         either a NspAccessRule type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspAccessRule or IO[bytes]
         :return: NspAccessRule or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAccessRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9663,7 +9385,7 @@ class NspAccessRulesOperations:
         else:
             _json = self._serialize.body(parameters, "NspAccessRule")
 
-        request = build_nsp_access_rules_create_or_update_request(
+        _request = build_nsp_access_rules_create_or_update_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             profile_name=profile_name,
@@ -9673,16 +9395,15 @@ class NspAccessRulesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -9701,10 +9422,6 @@ class NspAccessRulesOperations:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}"
-    }
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -9725,12 +9442,11 @@ class NspAccessRulesOperations:
         :type profile_name: str
         :param access_rule_name: The name of the NSP access rule. Required.
         :type access_rule_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9746,23 +9462,22 @@ class NspAccessRulesOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_nsp_access_rules_delete_request(
+        _request = build_nsp_access_rules_delete_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             profile_name=profile_name,
             access_rule_name=access_rule_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -9772,11 +9487,7 @@ class NspAccessRulesOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list(
@@ -9805,7 +9516,6 @@ class NspAccessRulesOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NspAccessRule or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NspAccessRule]
@@ -9819,7 +9529,7 @@ class NspAccessRulesOperations:
         )
         cls: ClsType[_models.NspAccessRuleListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9830,7 +9540,7 @@ class NspAccessRulesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_nsp_access_rules_list_request(
+                _request = build_nsp_access_rules_list_request(
                     resource_group_name=resource_group_name,
                     network_security_perimeter_name=network_security_perimeter_name,
                     profile_name=profile_name,
@@ -9838,12 +9548,11 @@ class NspAccessRulesOperations:
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -9854,14 +9563,14 @@ class NspAccessRulesOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NspAccessRuleListResult", pipeline_response)
@@ -9871,11 +9580,11 @@ class NspAccessRulesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -9886,10 +9595,6 @@ class NspAccessRulesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules"
-    }
 
 
 class NspAssociationsOperations:
@@ -9924,12 +9629,11 @@ class NspAssociationsOperations:
         :type network_security_perimeter_name: str
         :param association_name: The name of the NSP association. Required.
         :type association_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspAssociation or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAssociation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -9945,22 +9649,21 @@ class NspAssociationsOperations:
         )
         cls: ClsType[_models.NspAssociation] = kwargs.pop("cls", None)
 
-        request = build_nsp_associations_get_request(
+        _request = build_nsp_associations_get_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             association_name=association_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -9972,13 +9675,9 @@ class NspAssociationsOperations:
         deserialized = self._deserialize("NspAssociation", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -10005,7 +9704,6 @@ class NspAssociationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspAssociation or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAssociation
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -10017,7 +9715,7 @@ class NspAssociationsOperations:
         resource_group_name: str,
         network_security_perimeter_name: str,
         association_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -10032,11 +9730,10 @@ class NspAssociationsOperations:
         :type association_name: str
         :param parameters: Parameters that hold the NspAssociation resource to be created/updated.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspAssociation or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAssociation
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -10048,7 +9745,7 @@ class NspAssociationsOperations:
         resource_group_name: str,
         network_security_perimeter_name: str,
         association_name: str,
-        parameters: Union[_models.NspAssociation, IO],
+        parameters: Union[_models.NspAssociation, IO[bytes]],
         **kwargs: Any
     ) -> _models.NspAssociation:
         """Creates or updates a NSP resource association.
@@ -10060,17 +9757,13 @@ class NspAssociationsOperations:
         :param association_name: The name of the NSP association. Required.
         :type association_name: str
         :param parameters: Parameters that hold the NspAssociation resource to be created/updated. Is
-         either a NspAssociation type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspAssociation or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         either a NspAssociation type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspAssociation or IO[bytes]
         :return: NspAssociation or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspAssociation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10095,7 +9788,7 @@ class NspAssociationsOperations:
         else:
             _json = self._serialize.body(parameters, "NspAssociation")
 
-        request = build_nsp_associations_create_or_update_request(
+        _request = build_nsp_associations_create_or_update_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             association_name=association_name,
@@ -10104,16 +9797,15 @@ class NspAssociationsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -10133,14 +9825,10 @@ class NspAssociationsOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}"
-    }
-
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_security_perimeter_name: str, association_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10156,22 +9844,21 @@ class NspAssociationsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_nsp_associations_delete_request(
+        _request = build_nsp_associations_delete_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             association_name=association_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -10185,11 +9872,7 @@ class NspAssociationsOperations:
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -10203,14 +9886,6 @@ class NspAssociationsOperations:
         :type network_security_perimeter_name: str
         :param association_name: The name of the NSP association. Required.
         :type association_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -10240,7 +9915,7 @@ class NspAssociationsOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -10249,17 +9924,13 @@ class NspAssociationsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list(
@@ -10285,7 +9956,6 @@ class NspAssociationsOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NspAssociation or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NspAssociation]
@@ -10299,7 +9969,7 @@ class NspAssociationsOperations:
         )
         cls: ClsType[_models.NspAssociationsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10310,19 +9980,18 @@ class NspAssociationsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_nsp_associations_list_request(
+                _request = build_nsp_associations_list_request(
                     resource_group_name=resource_group_name,
                     network_security_perimeter_name=network_security_perimeter_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -10333,14 +10002,14 @@ class NspAssociationsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NspAssociationsListResult", pipeline_response)
@@ -10350,11 +10019,11 @@ class NspAssociationsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -10365,10 +10034,6 @@ class NspAssociationsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations"
-    }
 
 
 class NspAssociationReconcileOperations:
@@ -10410,12 +10075,11 @@ class NspAssociationReconcileOperations:
         :type association_name: str
         :param parameters: Parameters for NSP association reconcile. Required.
         :type parameters: JSON
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JSON or the result of cls(response)
         :rtype: JSON
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10434,7 +10098,7 @@ class NspAssociationReconcileOperations:
 
         _json = self._serialize.body(parameters, "object")
 
-        request = build_nsp_association_reconcile_post_request(
+        _request = build_nsp_association_reconcile_post_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             association_name=association_name,
@@ -10442,16 +10106,15 @@ class NspAssociationReconcileOperations:
             api_version=api_version,
             content_type=content_type,
             json=_json,
-            template_url=self.post.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -10463,16 +10126,12 @@ class NspAssociationReconcileOperations:
         deserialized = self._deserialize("object", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    post.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}/reconcile"
-    }
+        return deserialized  # type: ignore
 
 
-class PerimeterAssociableResourceTypesOperations:
+class PerimeterAssociableResourceTypesOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -10499,7 +10158,6 @@ class PerimeterAssociableResourceTypesOperations:
 
         :param location: The location of network security perimeter. Required.
         :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PerimeterAssociableResource or the result of
          cls(response)
         :rtype:
@@ -10514,7 +10172,7 @@ class PerimeterAssociableResourceTypesOperations:
         )
         cls: ClsType[_models.PerimeterAssociableResourcesListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10525,16 +10183,15 @@ class PerimeterAssociableResourceTypesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_perimeter_associable_resource_types_list_request(
+                _request = build_perimeter_associable_resource_types_list_request(
                     location=location,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -10545,14 +10202,14 @@ class PerimeterAssociableResourceTypesOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("PerimeterAssociableResourcesListResult", pipeline_response)
@@ -10562,11 +10219,11 @@ class PerimeterAssociableResourceTypesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -10577,10 +10234,6 @@ class PerimeterAssociableResourceTypesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/perimeterAssociableResourceTypes"
-    }
 
 
 class NspAccessRulesReconcileOperations:
@@ -10625,12 +10278,11 @@ class NspAccessRulesReconcileOperations:
         :type access_rule_name: str
         :param parameters: Parameters for NSP access rule reconcile. Required.
         :type parameters: JSON
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: JSON or the result of cls(response)
         :rtype: JSON
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10649,7 +10301,7 @@ class NspAccessRulesReconcileOperations:
 
         _json = self._serialize.body(parameters, "object")
 
-        request = build_nsp_access_rules_reconcile_post_request(
+        _request = build_nsp_access_rules_reconcile_post_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             profile_name=profile_name,
@@ -10658,16 +10310,15 @@ class NspAccessRulesReconcileOperations:
             api_version=api_version,
             content_type=content_type,
             json=_json,
-            template_url=self.post.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -10679,13 +10330,9 @@ class NspAccessRulesReconcileOperations:
         deserialized = self._deserialize("object", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    post.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}/reconcile"
-    }
+        return deserialized  # type: ignore
 
 
 class NspLinksOperations:
@@ -10720,12 +10367,11 @@ class NspLinksOperations:
         :type network_security_perimeter_name: str
         :param link_name: The name of the NSP link. Required.
         :type link_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspLink or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspLink
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10741,22 +10387,21 @@ class NspLinksOperations:
         )
         cls: ClsType[_models.NspLink] = kwargs.pop("cls", None)
 
-        request = build_nsp_links_get_request(
+        _request = build_nsp_links_get_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             link_name=link_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -10768,13 +10413,9 @@ class NspLinksOperations:
         deserialized = self._deserialize("NspLink", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links/{linkName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -10800,7 +10441,6 @@ class NspLinksOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspLink or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspLink
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -10812,7 +10452,7 @@ class NspLinksOperations:
         resource_group_name: str,
         network_security_perimeter_name: str,
         link_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -10826,11 +10466,10 @@ class NspLinksOperations:
         :param link_name: The name of the NSP link. Required.
         :type link_name: str
         :param parameters: Parameters that hold the NspLink resource to be created/updated. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspLink or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspLink
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -10842,7 +10481,7 @@ class NspLinksOperations:
         resource_group_name: str,
         network_security_perimeter_name: str,
         link_name: str,
-        parameters: Union[_models.NspLink, IO],
+        parameters: Union[_models.NspLink, IO[bytes]],
         **kwargs: Any
     ) -> _models.NspLink:
         """Creates or updates NSP link resource.
@@ -10854,17 +10493,13 @@ class NspLinksOperations:
         :param link_name: The name of the NSP link. Required.
         :type link_name: str
         :param parameters: Parameters that hold the NspLink resource to be created/updated. Is either a
-         NspLink type or a IO type. Required.
-        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspLink or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         NspLink type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.network.v2021_02_01_preview.models.NspLink or IO[bytes]
         :return: NspLink or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspLink
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10889,7 +10524,7 @@ class NspLinksOperations:
         else:
             _json = self._serialize.body(parameters, "NspLink")
 
-        request = build_nsp_links_create_or_update_request(
+        _request = build_nsp_links_create_or_update_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             link_name=link_name,
@@ -10898,16 +10533,15 @@ class NspLinksOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -10927,14 +10561,10 @@ class NspLinksOperations:
 
         return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links/{linkName}"
-    }
-
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_security_perimeter_name: str, link_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -10950,22 +10580,21 @@ class NspLinksOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_nsp_links_delete_request(
+        _request = build_nsp_links_delete_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             link_name=link_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -10979,11 +10608,7 @@ class NspLinksOperations:
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links/{linkName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -10997,14 +10622,6 @@ class NspLinksOperations:
         :type network_security_perimeter_name: str
         :param link_name: The name of the NSP link. Required.
         :type link_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -11034,7 +10651,7 @@ class NspLinksOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -11045,17 +10662,13 @@ class NspLinksOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links/{linkName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list(
@@ -11081,7 +10694,6 @@ class NspLinksOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NspLink or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NspLink]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -11094,7 +10706,7 @@ class NspLinksOperations:
         )
         cls: ClsType[_models.NspLinkListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -11105,19 +10717,18 @@ class NspLinksOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_nsp_links_list_request(
+                _request = build_nsp_links_list_request(
                     resource_group_name=resource_group_name,
                     network_security_perimeter_name=network_security_perimeter_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -11128,14 +10739,14 @@ class NspLinksOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NspLinkListResult", pipeline_response)
@@ -11145,11 +10756,11 @@ class NspLinksOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -11160,10 +10771,6 @@ class NspLinksOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links"
-    }
 
 
 class NspLinkReferencesOperations:
@@ -11198,12 +10805,11 @@ class NspLinkReferencesOperations:
         :type network_security_perimeter_name: str
         :param link_reference_name: The name of the NSP linkReference. Required.
         :type link_reference_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NspLinkReference or the result of cls(response)
         :rtype: ~azure.mgmt.network.v2021_02_01_preview.models.NspLinkReference
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -11219,22 +10825,21 @@ class NspLinkReferencesOperations:
         )
         cls: ClsType[_models.NspLinkReference] = kwargs.pop("cls", None)
 
-        request = build_nsp_link_references_get_request(
+        _request = build_nsp_link_references_get_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             link_reference_name=link_reference_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -11246,18 +10851,14 @@ class NspLinkReferencesOperations:
         deserialized = self._deserialize("NspLinkReference", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences/{linkReferenceName}"
-    }
+        return deserialized  # type: ignore
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, network_security_perimeter_name: str, link_reference_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -11273,22 +10874,21 @@ class NspLinkReferencesOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_nsp_link_references_delete_request(
+        _request = build_nsp_link_references_delete_request(
             resource_group_name=resource_group_name,
             network_security_perimeter_name=network_security_perimeter_name,
             link_reference_name=link_reference_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -11302,11 +10902,7 @@ class NspLinkReferencesOperations:
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences/{linkReferenceName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -11320,14 +10916,6 @@ class NspLinkReferencesOperations:
         :type network_security_perimeter_name: str
         :param link_reference_name: The name of the NSP linkReference. Required.
         :type link_reference_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -11357,7 +10945,7 @@ class NspLinkReferencesOperations:
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -11368,17 +10956,13 @@ class NspLinkReferencesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences/{linkReferenceName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list(
@@ -11404,7 +10988,6 @@ class NspLinkReferencesOperations:
          include a skipToken parameter that specifies a starting point to use for subsequent calls.
          Default value is None.
         :paramtype skip_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NspLinkReference or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.network.v2021_02_01_preview.models.NspLinkReference]
@@ -11418,7 +11001,7 @@ class NspLinkReferencesOperations:
         )
         cls: ClsType[_models.NspLinkReferenceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -11429,19 +11012,18 @@ class NspLinkReferencesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_nsp_link_references_list_request(
+                _request = build_nsp_link_references_list_request(
                     resource_group_name=resource_group_name,
                     network_security_perimeter_name=network_security_perimeter_name,
                     subscription_id=self._config.subscription_id,
                     top=top,
                     skip_token=skip_token,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -11452,14 +11034,14 @@ class NspLinkReferencesOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NspLinkReferenceListResult", pipeline_response)
@@ -11469,11 +11051,11 @@ class NspLinkReferencesOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -11484,7 +11066,3 @@ class NspLinkReferencesOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences"
-    }

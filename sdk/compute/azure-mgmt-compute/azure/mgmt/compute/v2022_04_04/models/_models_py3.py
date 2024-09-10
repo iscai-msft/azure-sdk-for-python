@@ -115,7 +115,7 @@ class CloudService(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource Id.
     :vartype id: str
@@ -379,7 +379,7 @@ class CloudServiceInstanceView(_serialization.Model):
 class CloudServiceListResult(_serialization.Model):
     """The list operation result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of resources. Required.
     :vartype value: list[~azure.mgmt.compute.v2022_04_04.models.CloudService]
@@ -419,8 +419,8 @@ class CloudServiceNetworkProfile(_serialization.Model):
     :vartype load_balancer_configurations:
      list[~azure.mgmt.compute.v2022_04_04.models.LoadBalancerConfiguration]
     :ivar slot_type: Slot type for the cloud service.
-     Possible values are :code:`<br />`:code:`<br />`\ **Production**\ :code:`<br />`:code:`<br
-     />`\ **Staging**\ :code:`<br />`:code:`<br />`
+     Possible values are :code:`<br />`:code:`<br />`\\ **Production**\\ :code:`<br />`:code:`<br
+     />`\\ **Staging**\\ :code:`<br />`:code:`<br />`
      If not specified, the default value is Production. Known values are: "Production" and
      "Staging".
     :vartype slot_type: str or ~azure.mgmt.compute.v2022_04_04.models.CloudServiceSlotType
@@ -452,8 +452,8 @@ class CloudServiceNetworkProfile(_serialization.Model):
         :paramtype load_balancer_configurations:
          list[~azure.mgmt.compute.v2022_04_04.models.LoadBalancerConfiguration]
         :keyword slot_type: Slot type for the cloud service.
-         Possible values are :code:`<br />`:code:`<br />`\ **Production**\ :code:`<br />`:code:`<br
-         />`\ **Staging**\ :code:`<br />`:code:`<br />`
+         Possible values are :code:`<br />`:code:`<br />`\\ **Production**\\ :code:`<br />`:code:`<br
+         />`\\ **Staging**\\ :code:`<br />`:code:`<br />`
          If not specified, the default value is Production. Known values are: "Production" and
          "Staging".
         :paramtype slot_type: str or ~azure.mgmt.compute.v2022_04_04.models.CloudServiceSlotType
@@ -523,8 +523,8 @@ class CloudServiceProperties(_serialization.Model):  # pylint: disable=too-many-
     :ivar upgrade_mode: Update mode for the cloud service. Role instances are allocated to update
      domains when the service is deployed. Updates can be initiated manually in each update domain
      or initiated automatically in all update domains.
-     Possible Values are :code:`<br />`:code:`<br />`\ **Auto**\ :code:`<br />`:code:`<br />`\
-     **Manual** :code:`<br />`:code:`<br />`\ **Simultaneous**\ :code:`<br />`:code:`<br />`
+     Possible Values are :code:`<br />`:code:`<br />`\\ **Auto**\\ :code:`<br />`:code:`<br />`\\
+     **Manual** :code:`<br />`:code:`<br />`\\ **Simultaneous**\\ :code:`<br />`:code:`<br />`
      If not specified, the default value is Auto. If set to Manual, PUT UpdateDomain must be called
      to apply the update. If set to Auto, the update is automatically applied to each update domain
      in sequence. Known values are: "Auto", "Manual", and "Simultaneous".
@@ -605,8 +605,8 @@ class CloudServiceProperties(_serialization.Model):  # pylint: disable=too-many-
         :keyword upgrade_mode: Update mode for the cloud service. Role instances are allocated to
          update domains when the service is deployed. Updates can be initiated manually in each update
          domain or initiated automatically in all update domains.
-         Possible Values are :code:`<br />`:code:`<br />`\ **Auto**\ :code:`<br />`:code:`<br />`\
-         **Manual** :code:`<br />`:code:`<br />`\ **Simultaneous**\ :code:`<br />`:code:`<br />`
+         Possible Values are :code:`<br />`:code:`<br />`\\ **Auto**\\ :code:`<br />`:code:`<br />`\\
+         **Manual** :code:`<br />`:code:`<br />`\\ **Simultaneous**\\ :code:`<br />`:code:`<br />`
          If not specified, the default value is Auto. If set to Manual, PUT UpdateDomain must be called
          to apply the update. If set to Auto, the update is automatically applied to each update domain
          in sequence. Known values are: "Auto", "Manual", and "Simultaneous".
@@ -696,7 +696,7 @@ class CloudServiceRole(_serialization.Model):
 class CloudServiceRoleListResult(_serialization.Model):
     """The list operation result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of resources. Required.
     :vartype value: list[~azure.mgmt.compute.v2022_04_04.models.CloudServiceRole]
@@ -1099,7 +1099,7 @@ class InstanceViewStatusesSummary(_serialization.Model):
 class LoadBalancerConfiguration(_serialization.Model):
     """Describes the load balancer configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource Id.
     :vartype id: str
@@ -1146,7 +1146,7 @@ class LoadBalancerConfiguration(_serialization.Model):
 class LoadBalancerConfigurationProperties(_serialization.Model):
     """Describes the properties of the load balancer configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar frontend_ip_configurations: Specifies the frontend IP to be used for the load balancer.
      Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly
@@ -1184,7 +1184,7 @@ class LoadBalancerFrontendIPConfiguration(_serialization.Model):
     """Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is
     supported. Each load balancer configuration must have exactly one frontend IP configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the resource that is unique within the set of frontend IP
      configurations used by the load balancer. This name can be used to access the resource.
@@ -1222,7 +1222,7 @@ class LoadBalancerFrontendIPConfiguration(_serialization.Model):
         self.properties = properties
 
 
-class LoadBalancerFrontendIPConfigurationProperties(_serialization.Model):
+class LoadBalancerFrontendIPConfigurationProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Describes a cloud service IP Configuration.
 
     :ivar public_ip_address: The reference to the public ip address resource.
@@ -1309,7 +1309,7 @@ class OSFamily(_serialization.Model):
 class OSFamilyListResult(_serialization.Model):
     """The list operation result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of resources. Required.
     :vartype value: list[~azure.mgmt.compute.v2022_04_04.models.OSFamily]
@@ -1421,7 +1421,7 @@ class OSVersion(_serialization.Model):
 class OSVersionListResult(_serialization.Model):
     """The list operation result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of resources. Required.
     :vartype value: list[~azure.mgmt.compute.v2022_04_04.models.OSVersion]
@@ -1543,7 +1543,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource Id.
     :vartype id: str
@@ -1743,7 +1743,7 @@ class RoleInstance(_serialization.Model):
 class RoleInstanceListResult(_serialization.Model):
     """The list operation result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of resources. Required.
     :vartype value: list[~azure.mgmt.compute.v2022_04_04.models.RoleInstance]
@@ -1833,7 +1833,7 @@ class RoleInstanceProperties(_serialization.Model):
 class RoleInstances(_serialization.Model):
     """Specifies a list of role instances from the cloud service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar role_instances: List of cloud service role instance names. Value of '*' will signify all
      role instances of the cloud service. Required.
@@ -2030,7 +2030,7 @@ class UpdateDomain(_serialization.Model):
 class UpdateDomainListResult(_serialization.Model):
     """The list operation result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of resources. Required.
     :vartype value: list[~azure.mgmt.compute.v2022_04_04.models.UpdateDomain]

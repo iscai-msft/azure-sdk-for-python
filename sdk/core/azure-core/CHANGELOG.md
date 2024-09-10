@@ -1,14 +1,69 @@
 # Release History
 
-## 1.29.6 (Unreleased)
+## 1.31.0 (Unreleased)
 
 ### Features Added
+
+- Added azure.core.AzureClouds enum to represent the different Azure clouds.
+- Added two new credential protocol classes, `SupportsTokenInfo` and `AsyncSupportsTokenInfo`, to offer more extensibility in supporting various token acquisition scenarios. #36565
+  - Each new protocol class defines a `get_token_info` method that returns an `AccessTokenInfo` object.
+- Added a new `TokenRequestOptions` class, which is a `TypedDict` with optional parameters, that can be used to define options for token requests through the `get_token_info` method. #36565
+- Added a new `AccessTokenInfo` class, which is returned by `get_token_info` implementations. This class contains the token, its expiration time, and optional additional information like when a token should be refreshed. #36565
+- `BearerTokenCredentialPolicy` and `AsyncBearerTokenCredentialPolicy` now first check if a credential has the `get_token_info` method defined. If so, the `get_token_info` method is used to acquire a token. Otherwise, the `get_token` method is used. #36565
+  - These policies now also check the `refresh_on` attribute when determining if a new token request should be made.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- The Azure Core OpenTelemetry tracing plugin will now be the preferred tracing plugin over the OpenCensus plugin. If both plugins are installed and `opentelemetry` is imported, then OpenTelemetry will be used to trace Azure SDK operations.  #35050
+
+## 1.30.2 (2024-06-06)
+
+### Features Added
+
+- Tracing: `DistributedTracingPolicy` will now set an attribute, `http.request.resend_count`, on HTTP spans for resent requests to indicate the resend attempt number.  #35069
+
+### Bugs Fixed
+
+- Raise correct exception if transport is used while already closed  #35559
+
+### Other Changes
+
+- HTTP tracing spans will now include an `error.type` attribute if an error status code is returned.  #34619
+- Minimum required Python version is now 3.8
+
+## 1.30.1 (2024-02-29)
+
+### Other Changes
+
+- Accept float for `retry_after` header.  #34203
+
+## 1.30.0 (2024-02-01)
+
+### Features Added
+
+- Support tuple input for file values  to `azure.core.rest.HttpRequest`  #33948
+- Support tuple input to `files` with duplicate field names  `azure.core.rest.HttpRequest`  #34021
+
+## 1.29.7 (2024-01-18)
+
+### Other Changes
+
+- Removed dependency on `anyio`.  #33282
+
+## 1.29.6 (2023-12-14)
+
+### Bugs Fixed
+
+- Adjusted `AsyncBearerTokenCredentialPolicy` to work properly with `trio` concurrency mechanisms.   ([#33307](https://github.com/Azure/azure-sdk-for-python/pull/33307))
+
+### Other Changes
+
+- Added dependency on `anyio` >=3.0,<5.0
+- Bumped minimum dependency on `requests` to 2.21.0.
 
 ## 1.29.5 (2023-10-19)
 

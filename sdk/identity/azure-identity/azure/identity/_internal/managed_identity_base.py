@@ -3,12 +3,14 @@
 # Licensed under the MIT License.
 # ------------------------------------
 import abc
-from typing import cast, Any, Optional
+from typing import cast, Any, Optional, TypeVar
 
 from azure.core.credentials import AccessToken
 from .. import CredentialUnavailableError
 from .._internal.managed_identity_client import ManagedIdentityClient
 from .._internal.get_token_mixin import GetTokenMixin
+
+T = TypeVar("T", bound="ManagedIdentityBase")
 
 
 class ManagedIdentityBase(GetTokenMixin):
@@ -23,11 +25,10 @@ class ManagedIdentityBase(GetTokenMixin):
         pass
 
     @abc.abstractmethod
-    def get_unavailable_message(self):
-        # type: () -> str
+    def get_unavailable_message(self, desc: str = "") -> str:
         pass
 
-    def __enter__(self):
+    def __enter__(self: T) -> T:
         if self._client:
             self._client.__enter__()
         return self

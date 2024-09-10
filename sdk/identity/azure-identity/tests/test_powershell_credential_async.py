@@ -100,10 +100,12 @@ async def test_get_token(stderr):
     command = args[-1]
     assert command.startswith("pwsh -NoProfile -NonInteractive -EncodedCommand ")
 
-    encoded_script = command.split()[-1]
+    match = re.search(r"-EncodedCommand\s+(\S+)", command)
+    assert match, "couldn't find encoded script in command line"
+    encoded_script = match.groups()[0]
     decoded_script = base64.b64decode(encoded_script).decode("utf-16-le")
-    assert "TenantId" not in decoded_script
-    assert "Get-AzAccessToken -ResourceUrl '{}'".format(scope) in decoded_script
+    assert "tenantId = ''" in decoded_script
+    assert f"'ResourceUrl' = '{scope}'" in decoded_script
 
     assert mock_exec().result().communicate.call_count == 1
 
@@ -238,7 +240,7 @@ async def test_windows_event_loop():
     credential = AzurePowerShellCredential()
 
     with patch(AzurePowerShellCredential.__module__ + "._SyncCredential") as fallback:
-        fallback.return_value = Mock(get_token=sync_get_token)
+        fallback.return_value = Mock(spec_set=["get_token"], get_token=sync_get_token)
         with patch(AzurePowerShellCredential.__module__ + ".asyncio.get_event_loop"):
             # asyncio.get_event_loop now returns Mock, i.e. never ProactorEventLoop
             await credential.get_token("scope")
@@ -247,7 +249,14 @@ async def test_windows_event_loop():
 
 
 @pytest.mark.skipif(not sys.platform.startswith("win"), reason="tests Windows-specific behavior")
-async def test_windows_powershell_fallback():
+@pytest.mark.parametrize(
+    "error_message",
+    (
+        "'pwsh' is not recognized as an internal or external command,\r\noperable program or batch file.",
+        "some other message",
+    ),
+)
+async def test_windows_powershell_fallback(error_message):
     """On Windows, the credential should fall back to powershell.exe when pwsh.exe isn't on the path"""
 
     calls = 0
@@ -259,8 +268,8 @@ async def test_windows_powershell_fallback():
         if args[-1].startswith("pwsh"):
             assert calls == 1, 'credential should invoke "pwsh" only once'
             stdout = ""
-            stderr = "'pwsh' is not recognized as an internal or external command,\r\noperable program or batch file."
-            return_code = 1
+            stderr = error_message
+            return_code = 9009
         else:
             assert args[-1].startswith("powershell"), 'credential should fall back to "powershell"'
             stdout = NO_AZ_ACCOUNT_MODULE
@@ -280,19 +289,22 @@ async def test_windows_powershell_fallback():
 
 async def test_multitenant_authentication():
     first_token = "***"
-    second_tenant = "second-tenant"
+    second_tenant = "12345"
     second_token = first_token * 2
 
     async def fake_exec(*args, **_):
         command = args[2]
         assert command.startswith("pwsh -NoProfile -NonInteractive -EncodedCommand ")
-        encoded_script = command.split()[-1]
+        match = re.search(r"-EncodedCommand\s+(\S+)", command)
+        assert match, "couldn't find encoded script in command line"
+        encoded_script = match.groups()[0]
         decoded_script = base64.b64decode(encoded_script).decode("utf-16-le")
-        match = re.search(r"Get-AzAccessToken -ResourceUrl '(\S+)'(?: -TenantId (\S+))?", decoded_script)
-        tenant = match[2]
+        match = re.search(r"\$tenantId\s*=\s*'([^']*)'", decoded_script)
+        assert match
+        tenant = match.group(1)
 
-        assert tenant is None or tenant == second_tenant, 'unexpected tenant "{}"'.format(tenant)
-        token = first_token if tenant is None else second_token
+        assert not tenant or tenant == second_tenant, 'unexpected tenant "{}"'.format(tenant)
+        token = first_token if not tenant else second_token
         stdout = "azsdk%{}%{}".format(token, int(time.time()) + 3600)
 
         communicate = Mock(return_value=get_completed_future((stdout.encode(), b"")))
@@ -317,12 +329,15 @@ async def test_multitenant_authentication_not_allowed():
     async def fake_exec(*args, **_):
         command = args[2]
         assert command.startswith("pwsh -NoProfile -NonInteractive -EncodedCommand ")
-        encoded_script = command.split()[-1]
+        match = re.search(r"-EncodedCommand\s+(\S+)", command)
+        assert match, "couldn't find encoded script in command line"
+        encoded_script = match.groups()[0]
         decoded_script = base64.b64decode(encoded_script).decode("utf-16-le")
-        match = re.search(r"Get-AzAccessToken -ResourceUrl '(\S+)'(?: -TenantId (\S+))?", decoded_script)
-        tenant = match[2]
+        match = re.search(r"\$tenantId\s*=\s*'([^']*)'", decoded_script)
+        assert match
+        tenant = match.group(1)
 
-        assert tenant is None, "credential shouldn't accept an explicit tenant ID"
+        assert not tenant, "credential shouldn't accept an explicit tenant ID"
         stdout = "azsdk%{}%{}".format(expected_token, int(time.time()) + 3600)
         communicate = Mock(return_value=get_completed_future((stdout.encode(), b"")))
         return Mock(communicate=communicate, returncode=0)
@@ -333,5 +348,5 @@ async def test_multitenant_authentication_not_allowed():
         assert token.token == expected_token
 
         with patch.dict("os.environ", {EnvironmentVariables.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH: "true"}):
-            token = await credential.get_token("scope", tenant_id="some-tenant")
+            token = await credential.get_token("scope", tenant_id="12345")
             assert token.token == expected_token

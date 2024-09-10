@@ -35,8 +35,9 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: core
-    BuildTargetingString: '*'
+    BuildTargetingString: "*"
     ValidateFormatting: true
+    TestProxy: false
     Artifacts:
     - name: azure-core
       safeName: azurecore

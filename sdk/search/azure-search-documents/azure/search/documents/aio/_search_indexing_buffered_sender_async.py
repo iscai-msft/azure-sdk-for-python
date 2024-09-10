@@ -45,8 +45,8 @@ class SearchIndexingBufferedSender(SearchIndexingBufferedSenderBase, HeadersMixi
         is a IndexAction removed from the queue (succeeds or fails).
     :keyword str api_version: The Search API version to use for requests.
     :keyword str audience: sets the Audience to use for authentication with Azure Active Directory (AAD). The
-     audience is not considered when using a shared key. If audience is not provided, the public cloud audience
-     will be assumed.
+        audience is not considered when using a shared key. If audience is not provided, the public cloud audience
+        will be assumed.
     """
 
     _client: SearchIndexClient
@@ -109,7 +109,7 @@ class SearchIndexingBufferedSender(SearchIndexingBufferedSenderBase, HeadersMixi
 
     @distributed_trace_async
     async def close(self, **kwargs: Any) -> None:  # pylint: disable=unused-argument
-        """Close the :class:`~azure.search.documents.aio.SearchClient` session.
+        """Close the session.
         :return: None
         :rtype: None
         """
@@ -166,7 +166,11 @@ class SearchIndexingBufferedSender(SearchIndexingBufferedSenderBase, HeadersMixi
             for result in results:
                 try:
                     assert self._index_key is not None  # Hint for mypy
-                    action = next(x for x in actions if x.additional_properties.get(self._index_key) == result.key)
+                    action = next(
+                        x
+                        for x in actions
+                        if x.additional_properties and x.additional_properties.get(self._index_key) == result.key
+                    )
                     if result.succeeded:
                         await self._callback_succeed(action)
                     elif is_retryable_status_code(result.status_code):
@@ -262,7 +266,8 @@ class SearchIndexingBufferedSender(SearchIndexingBufferedSenderBase, HeadersMixi
         :type batch: IndexDocumentsBatch
         :return: Indexing result for each action in the batch.
         :rtype:  list[IndexingResult]
-        :raises :class:`~azure.search.documents.RequestEntityTooLargeError`
+
+        :raises ~azure.search.documents.RequestEntityTooLargeError
         """
         return await self._index_documents_actions(actions=batch.actions, **kwargs)
 
@@ -319,7 +324,7 @@ class SearchIndexingBufferedSender(SearchIndexingBufferedSenderBase, HeadersMixi
         if not self._index_key:
             await self._callback_fail(action)
             return
-        key = action.additional_properties.get(self._index_key)
+        key = cast(str, action.additional_properties.get(self._index_key) if action.additional_properties else "")
         counter = self._retry_counter.get(key)
         if not counter:
             # first time that fails

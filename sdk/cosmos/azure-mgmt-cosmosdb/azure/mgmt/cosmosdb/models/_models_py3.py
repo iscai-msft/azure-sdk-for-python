@@ -70,7 +70,7 @@ class ApiProperties(_serialization.Model):
     """ApiProperties.
 
     :ivar server_version: Describes the ServerVersion of an a MongoDB account. Known values are:
-     "3.2", "3.6", "4.0", and "4.2".
+     "3.2", "3.6", "4.0", "4.2", "5.0", and "6.0".
     :vartype server_version: str or ~azure.mgmt.cosmosdb.models.ServerVersion
     """
 
@@ -81,7 +81,7 @@ class ApiProperties(_serialization.Model):
     def __init__(self, *, server_version: Optional[Union[str, "_models.ServerVersion"]] = None, **kwargs: Any) -> None:
         """
         :keyword server_version: Describes the ServerVersion of an a MongoDB account. Known values are:
-         "3.2", "3.6", "4.0", and "4.2".
+         "3.2", "3.6", "4.0", "4.2", "5.0", and "6.0".
         :paramtype server_version: str or ~azure.mgmt.cosmosdb.models.ServerVersion
         """
         super().__init__(**kwargs)
@@ -285,7 +285,7 @@ class AutoscaleSettingsResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar max_throughput: Represents maximum throughput container can scale up to. Required.
     :vartype max_throughput: int
@@ -379,7 +379,7 @@ class BackupPolicy(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ContinuousModeBackupPolicy, PeriodicModeBackupPolicy
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Describes the mode of backups. Required. Known values are: "Periodic" and
      "Continuous".
@@ -714,7 +714,7 @@ class CassandraClusterPublicStatus(_serialization.Model):
         self.data_centers = data_centers
 
 
-class CassandraClusterPublicStatusDataCentersItem(_serialization.Model):
+class CassandraClusterPublicStatusDataCentersItem(_serialization.Model):  # pylint: disable=name-too-long
     """CassandraClusterPublicStatusDataCentersItem.
 
     :ivar name: The name of this Datacenter.
@@ -804,7 +804,7 @@ class CassandraKeyspaceCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -919,27 +919,6 @@ class CassandraKeyspaceGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class ExtendedResourceProperties(_serialization.Model):
     """The system generated resource properties associated with SQL databases, SQL containers, Gremlin
@@ -979,7 +958,7 @@ class ExtendedResourceProperties(_serialization.Model):
 class CassandraKeyspaceResource(_serialization.Model):
     """Cosmos DB Cassandra keyspace resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB Cassandra keyspace. Required.
     :vartype id: str
@@ -1007,7 +986,7 @@ class CassandraKeyspaceGetPropertiesResource(CassandraKeyspaceResource, Extended
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -1204,7 +1183,7 @@ class CassandraTableCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -1285,32 +1264,11 @@ class CassandraTableGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class CassandraTableResource(_serialization.Model):
     """Cosmos DB Cassandra table resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB Cassandra table. Required.
     :vartype id: str
@@ -1364,7 +1322,7 @@ class CassandraTableGetPropertiesResource(CassandraTableResource, ExtendedResour
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -1548,7 +1506,7 @@ class Certificate(_serialization.Model):
 class ClientEncryptionIncludedPath(_serialization.Model):
     """.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar path: Path that needs to be encrypted. Required.
     :vartype path: str
@@ -1606,10 +1564,10 @@ class ClientEncryptionIncludedPath(_serialization.Model):
         self.encryption_algorithm = encryption_algorithm
 
 
-class ClientEncryptionKeyCreateUpdateParameters(_serialization.Model):
+class ClientEncryptionKeyCreateUpdateParameters(_serialization.Model):  # pylint: disable=name-too-long
     """Parameters to create and update ClientEncryptionKey.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource: The standard JSON format of a ClientEncryptionKey. Required.
     :vartype resource: ~azure.mgmt.cosmosdb.models.ClientEncryptionKeyResource
@@ -1828,7 +1786,7 @@ class ClientEncryptionKeysListResult(_serialization.Model):
 class ClientEncryptionPolicy(_serialization.Model):
     """Cosmos DB client encryption policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar included_paths: Paths of the item that need encryption along with path-specific settings.
      Required.
@@ -2101,11 +2059,18 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
     :vartype cassandra_audit_logging_enabled: bool
     :ivar provision_error: Error related to resource provisioning.
     :vartype provision_error: ~azure.mgmt.cosmosdb.models.CassandraError
+    :ivar azure_connection_method: How to connect to the azure services needed for running the
+     cluster. Known values are: "None" and "VPN".
+    :vartype azure_connection_method: str or ~azure.mgmt.cosmosdb.models.AzureConnectionType
+    :ivar private_link_resource_id: If the Connection Method is VPN, this is the Id of the private
+     link resource that the datacenters need to connect to.
+    :vartype private_link_resource_id: str
     """
 
     _validation = {
         "gossip_certificates": {"readonly": True},
         "seed_nodes": {"readonly": True},
+        "private_link_resource_id": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2127,6 +2092,8 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         "deallocated": {"key": "deallocated", "type": "bool"},
         "cassandra_audit_logging_enabled": {"key": "cassandraAuditLoggingEnabled", "type": "bool"},
         "provision_error": {"key": "provisionError", "type": "CassandraError"},
+        "azure_connection_method": {"key": "azureConnectionMethod", "type": "str"},
+        "private_link_resource_id": {"key": "privateLinkResourceId", "type": "str"},
     }
 
     def __init__(
@@ -2148,6 +2115,7 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         deallocated: Optional[bool] = None,
         cassandra_audit_logging_enabled: Optional[bool] = None,
         provision_error: Optional["_models.CassandraError"] = None,
+        azure_connection_method: Optional[Union[str, "_models.AzureConnectionType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2209,6 +2177,9 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         :paramtype cassandra_audit_logging_enabled: bool
         :keyword provision_error: Error related to resource provisioning.
         :paramtype provision_error: ~azure.mgmt.cosmosdb.models.CassandraError
+        :keyword azure_connection_method: How to connect to the azure services needed for running the
+         cluster. Known values are: "None" and "VPN".
+        :paramtype azure_connection_method: str or ~azure.mgmt.cosmosdb.models.AzureConnectionType
         """
         super().__init__(**kwargs)
         self.provisioning_state = provisioning_state
@@ -2229,6 +2200,8 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         self.deallocated = deallocated
         self.cassandra_audit_logging_enabled = cassandra_audit_logging_enabled
         self.provision_error = provision_error
+        self.azure_connection_method = azure_connection_method
+        self.private_link_resource_id = None
 
 
 class Column(_serialization.Model):
@@ -2280,7 +2253,7 @@ class CommandOutput(_serialization.Model):
 class CommandPostBody(_serialization.Model):
     """Specification of which command to run where.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar command: The command which should be run. Required.
     :vartype command: str
@@ -2373,6 +2346,34 @@ class CompositePath(_serialization.Model):
         super().__init__(**kwargs)
         self.path = path
         self.order = order
+
+
+class ComputedProperty(_serialization.Model):
+    """The definition of a computed property.
+
+    :ivar name: The name of a computed property, for example - "cp_lowerName".
+    :vartype name: str
+    :ivar query: The query that evaluates the value for computed property, for example - "SELECT
+     VALUE LOWER(c.name) FROM c".
+    :vartype query: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "query": {"key": "query", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, query: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: The name of a computed property, for example - "cp_lowerName".
+        :paramtype name: str
+        :keyword query: The query that evaluates the value for computed property, for example - "SELECT
+         VALUE LOWER(c.name) FROM c".
+        :paramtype query: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.query = query
 
 
 class ConflictResolutionPolicy(_serialization.Model):
@@ -2480,7 +2481,7 @@ class ConnectionError(_serialization.Model):
 class ConsistencyPolicy(_serialization.Model):
     """The consistency policy for the Cosmos DB database account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar default_consistency_level: The default consistency level and configuration settings of
      the Cosmos DB account. Required. Known values are: "Eventual", "Session", "BoundedStaleness",
@@ -2635,7 +2636,7 @@ class ContinuousBackupRestoreLocation(_serialization.Model):
 class ContinuousModeBackupPolicy(BackupPolicy):
     """The object representing continuous mode backup policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Describes the mode of backups. Required. Known values are: "Periodic" and
      "Continuous".
@@ -2701,7 +2702,7 @@ class ContinuousModeProperties(_serialization.Model):
 class CorsPolicy(_serialization.Model):
     """The CORS policy for the Cosmos DB database account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar allowed_origins: The origin domains that are permitted to make a request against the
      service via CORS. Required.
@@ -2849,7 +2850,7 @@ class DatabaseAccountCreateUpdateParameters(ARMResourceProperties):  # pylint: d
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -2958,48 +2959,8 @@ class DatabaseAccountCreateUpdateParameters(ARMResourceProperties):  # pylint: d
      feature on the account.
     :vartype enable_burst_capacity: bool
     :ivar customer_managed_key_status: Indicates the status of the Customer Managed Key feature on
-     the account. In case there are errors, the property provides troubleshooting guidance. Known
-     values are: "Access to your account is currently revoked because the Azure Cosmos DB service is
-     unable to obtain the AAD authentication token for the account's default identity; for more
-     details about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error
-     (4000).", "Access to your account is currently revoked because the Azure Cosmos DB account's
-     key vault key URI does not follow the expected format; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property
-     (4006).", "Access to your account is currently revoked because the current default identity no
-     longer has permission to the associated Key Vault key; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key
-     (4002).", "Access to your account is currently revoked because the Azure Key Vault DNS name
-     specified by the account's keyvaultkeyuri property could not be resolved; for more details
-     about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns
-     (4009).", "Access to your account is currently revoked because the correspondent key is not
-     found on the specified Key Vault; for more details about this error and how to restore access
-     to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-     (4003).", "Access to your account is currently revoked because the Azure Cosmos DB service is
-     unable to wrap or unwrap the key; for more details about this error and how to restore access
-     to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error
-     (4005).", "Access to your account is currently revoked because the Azure Cosmos DB account has
-     an undefined default identity; for more details about this error and how to restore access to
-     your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity
-     (4015).", "Access to your account is currently revoked because the access rules are blocking
-     outbound requests to the Azure Key Vault service; for more details about this error and how to
-     restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).", "Access
-     to your account is currently revoked because the correspondent Azure Key Vault was not found;
-     for more details about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-     (4017).", "Access to your account is currently revoked; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide", and "Access to
-     the configured customer managed key confirmed.".
-    :vartype customer_managed_key_status: str or
-     ~azure.mgmt.cosmosdb.models.CustomerManagedKeyStatus
+     the account. In case there are errors, the property provides troubleshooting guidance.
+    :vartype customer_managed_key_status: str
     """
 
     _validation = {
@@ -3097,7 +3058,7 @@ class DatabaseAccountCreateUpdateParameters(ARMResourceProperties):  # pylint: d
         enable_partition_merge: Optional[bool] = None,
         minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
         enable_burst_capacity: Optional[bool] = None,
-        customer_managed_key_status: Optional[Union[str, "_models.CustomerManagedKeyStatus"]] = None,
+        customer_managed_key_status: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3196,48 +3157,8 @@ class DatabaseAccountCreateUpdateParameters(ARMResourceProperties):  # pylint: d
          feature on the account.
         :paramtype enable_burst_capacity: bool
         :keyword customer_managed_key_status: Indicates the status of the Customer Managed Key feature
-         on the account. In case there are errors, the property provides troubleshooting guidance. Known
-         values are: "Access to your account is currently revoked because the Azure Cosmos DB service is
-         unable to obtain the AAD authentication token for the account's default identity; for more
-         details about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error
-         (4000).", "Access to your account is currently revoked because the Azure Cosmos DB account's
-         key vault key URI does not follow the expected format; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property
-         (4006).", "Access to your account is currently revoked because the current default identity no
-         longer has permission to the associated Key Vault key; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key
-         (4002).", "Access to your account is currently revoked because the Azure Key Vault DNS name
-         specified by the account's keyvaultkeyuri property could not be resolved; for more details
-         about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns
-         (4009).", "Access to your account is currently revoked because the correspondent key is not
-         found on the specified Key Vault; for more details about this error and how to restore access
-         to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-         (4003).", "Access to your account is currently revoked because the Azure Cosmos DB service is
-         unable to wrap or unwrap the key; for more details about this error and how to restore access
-         to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error
-         (4005).", "Access to your account is currently revoked because the Azure Cosmos DB account has
-         an undefined default identity; for more details about this error and how to restore access to
-         your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity
-         (4015).", "Access to your account is currently revoked because the access rules are blocking
-         outbound requests to the Azure Key Vault service; for more details about this error and how to
-         restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).", "Access
-         to your account is currently revoked because the correspondent Azure Key Vault was not found;
-         for more details about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-         (4017).", "Access to your account is currently revoked; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide", and "Access to
-         the configured customer managed key confirmed.".
-        :paramtype customer_managed_key_status: str or
-         ~azure.mgmt.cosmosdb.models.CustomerManagedKeyStatus
+         on the account. In case there are errors, the property provides troubleshooting guidance.
+        :paramtype customer_managed_key_status: str
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.kind = kind
@@ -3411,48 +3332,8 @@ class DatabaseAccountGetResults(ARMResourceProperties):  # pylint: disable=too-m
      feature on the account.
     :vartype enable_burst_capacity: bool
     :ivar customer_managed_key_status: Indicates the status of the Customer Managed Key feature on
-     the account. In case there are errors, the property provides troubleshooting guidance. Known
-     values are: "Access to your account is currently revoked because the Azure Cosmos DB service is
-     unable to obtain the AAD authentication token for the account's default identity; for more
-     details about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error
-     (4000).", "Access to your account is currently revoked because the Azure Cosmos DB account's
-     key vault key URI does not follow the expected format; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property
-     (4006).", "Access to your account is currently revoked because the current default identity no
-     longer has permission to the associated Key Vault key; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key
-     (4002).", "Access to your account is currently revoked because the Azure Key Vault DNS name
-     specified by the account's keyvaultkeyuri property could not be resolved; for more details
-     about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns
-     (4009).", "Access to your account is currently revoked because the correspondent key is not
-     found on the specified Key Vault; for more details about this error and how to restore access
-     to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-     (4003).", "Access to your account is currently revoked because the Azure Cosmos DB service is
-     unable to wrap or unwrap the key; for more details about this error and how to restore access
-     to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error
-     (4005).", "Access to your account is currently revoked because the Azure Cosmos DB account has
-     an undefined default identity; for more details about this error and how to restore access to
-     your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity
-     (4015).", "Access to your account is currently revoked because the access rules are blocking
-     outbound requests to the Azure Key Vault service; for more details about this error and how to
-     restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).", "Access
-     to your account is currently revoked because the correspondent Azure Key Vault was not found;
-     for more details about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-     (4017).", "Access to your account is currently revoked; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide", and "Access to
-     the configured customer managed key confirmed.".
-    :vartype customer_managed_key_status: str or
-     ~azure.mgmt.cosmosdb.models.CustomerManagedKeyStatus
+     the account. In case there are errors, the property provides troubleshooting guidance.
+    :vartype customer_managed_key_status: str
     """
 
     _validation = {
@@ -3566,7 +3447,7 @@ class DatabaseAccountGetResults(ARMResourceProperties):  # pylint: disable=too-m
         enable_partition_merge: Optional[bool] = None,
         minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
         enable_burst_capacity: Optional[bool] = None,
-        customer_managed_key_status: Optional[Union[str, "_models.CustomerManagedKeyStatus"]] = None,
+        customer_managed_key_status: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3662,48 +3543,8 @@ class DatabaseAccountGetResults(ARMResourceProperties):  # pylint: disable=too-m
          feature on the account.
         :paramtype enable_burst_capacity: bool
         :keyword customer_managed_key_status: Indicates the status of the Customer Managed Key feature
-         on the account. In case there are errors, the property provides troubleshooting guidance. Known
-         values are: "Access to your account is currently revoked because the Azure Cosmos DB service is
-         unable to obtain the AAD authentication token for the account's default identity; for more
-         details about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error
-         (4000).", "Access to your account is currently revoked because the Azure Cosmos DB account's
-         key vault key URI does not follow the expected format; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property
-         (4006).", "Access to your account is currently revoked because the current default identity no
-         longer has permission to the associated Key Vault key; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key
-         (4002).", "Access to your account is currently revoked because the Azure Key Vault DNS name
-         specified by the account's keyvaultkeyuri property could not be resolved; for more details
-         about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns
-         (4009).", "Access to your account is currently revoked because the correspondent key is not
-         found on the specified Key Vault; for more details about this error and how to restore access
-         to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-         (4003).", "Access to your account is currently revoked because the Azure Cosmos DB service is
-         unable to wrap or unwrap the key; for more details about this error and how to restore access
-         to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error
-         (4005).", "Access to your account is currently revoked because the Azure Cosmos DB account has
-         an undefined default identity; for more details about this error and how to restore access to
-         your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity
-         (4015).", "Access to your account is currently revoked because the access rules are blocking
-         outbound requests to the Azure Key Vault service; for more details about this error and how to
-         restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).", "Access
-         to your account is currently revoked because the correspondent Azure Key Vault was not found;
-         for more details about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-         (4017).", "Access to your account is currently revoked; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide", and "Access to
-         the configured customer managed key confirmed.".
-        :paramtype customer_managed_key_status: str or
-         ~azure.mgmt.cosmosdb.models.CustomerManagedKeyStatus
+         on the account. In case there are errors, the property provides troubleshooting guidance.
+        :paramtype customer_managed_key_status: str
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.kind = kind
@@ -3792,7 +3633,7 @@ class DatabaseAccountKeysMetadata(_serialization.Model):
         self.secondary_readonly_master_key = None
 
 
-class DatabaseAccountListConnectionStringsResult(_serialization.Model):
+class DatabaseAccountListConnectionStringsResult(_serialization.Model):  # pylint: disable=name-too-long
     """The connection strings for the given database account.
 
     :ivar connection_strings: An array that contains the connection strings for the Cosmos DB
@@ -3884,7 +3725,7 @@ class DatabaseAccountListKeysResult(DatabaseAccountListReadOnlyKeysResult):
 class DatabaseAccountRegenerateKeyParameters(_serialization.Model):
     """Parameters to regenerate the keys within the database account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_kind: The access key to regenerate. Required. Known values are: "primary",
      "secondary", "primaryReadonly", and "secondaryReadonly".
@@ -4026,48 +3867,8 @@ class DatabaseAccountUpdateParameters(_serialization.Model):  # pylint: disable=
      feature on the account.
     :vartype enable_burst_capacity: bool
     :ivar customer_managed_key_status: Indicates the status of the Customer Managed Key feature on
-     the account. In case there are errors, the property provides troubleshooting guidance. Known
-     values are: "Access to your account is currently revoked because the Azure Cosmos DB service is
-     unable to obtain the AAD authentication token for the account's default identity; for more
-     details about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error
-     (4000).", "Access to your account is currently revoked because the Azure Cosmos DB account's
-     key vault key URI does not follow the expected format; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property
-     (4006).", "Access to your account is currently revoked because the current default identity no
-     longer has permission to the associated Key Vault key; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key
-     (4002).", "Access to your account is currently revoked because the Azure Key Vault DNS name
-     specified by the account's keyvaultkeyuri property could not be resolved; for more details
-     about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns
-     (4009).", "Access to your account is currently revoked because the correspondent key is not
-     found on the specified Key Vault; for more details about this error and how to restore access
-     to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-     (4003).", "Access to your account is currently revoked because the Azure Cosmos DB service is
-     unable to wrap or unwrap the key; for more details about this error and how to restore access
-     to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error
-     (4005).", "Access to your account is currently revoked because the Azure Cosmos DB account has
-     an undefined default identity; for more details about this error and how to restore access to
-     your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity
-     (4015).", "Access to your account is currently revoked because the access rules are blocking
-     outbound requests to the Azure Key Vault service; for more details about this error and how to
-     restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).", "Access
-     to your account is currently revoked because the correspondent Azure Key Vault was not found;
-     for more details about this error and how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-     (4017).", "Access to your account is currently revoked; for more details about this error and
-     how to restore access to your account please visit
-     https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide", and "Access to
-     the configured customer managed key confirmed.".
-    :vartype customer_managed_key_status: str or
-     ~azure.mgmt.cosmosdb.models.CustomerManagedKeyStatus
+     the account. In case there are errors, the property provides troubleshooting guidance.
+    :vartype customer_managed_key_status: str
     """
 
     _validation = {
@@ -4148,7 +3949,7 @@ class DatabaseAccountUpdateParameters(_serialization.Model):  # pylint: disable=
         enable_partition_merge: Optional[bool] = None,
         minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
         enable_burst_capacity: Optional[bool] = None,
-        customer_managed_key_status: Optional[Union[str, "_models.CustomerManagedKeyStatus"]] = None,
+        customer_managed_key_status: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4239,48 +4040,8 @@ class DatabaseAccountUpdateParameters(_serialization.Model):  # pylint: disable=
          feature on the account.
         :paramtype enable_burst_capacity: bool
         :keyword customer_managed_key_status: Indicates the status of the Customer Managed Key feature
-         on the account. In case there are errors, the property provides troubleshooting guidance. Known
-         values are: "Access to your account is currently revoked because the Azure Cosmos DB service is
-         unable to obtain the AAD authentication token for the account's default identity; for more
-         details about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error
-         (4000).", "Access to your account is currently revoked because the Azure Cosmos DB account's
-         key vault key URI does not follow the expected format; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property
-         (4006).", "Access to your account is currently revoked because the current default identity no
-         longer has permission to the associated Key Vault key; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key
-         (4002).", "Access to your account is currently revoked because the Azure Key Vault DNS name
-         specified by the account's keyvaultkeyuri property could not be resolved; for more details
-         about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns
-         (4009).", "Access to your account is currently revoked because the correspondent key is not
-         found on the specified Key Vault; for more details about this error and how to restore access
-         to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-         (4003).", "Access to your account is currently revoked because the Azure Cosmos DB service is
-         unable to wrap or unwrap the key; for more details about this error and how to restore access
-         to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error
-         (4005).", "Access to your account is currently revoked because the Azure Cosmos DB account has
-         an undefined default identity; for more details about this error and how to restore access to
-         your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity
-         (4015).", "Access to your account is currently revoked because the access rules are blocking
-         outbound requests to the Azure Key Vault service; for more details about this error and how to
-         restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).", "Access
-         to your account is currently revoked because the correspondent Azure Key Vault was not found;
-         for more details about this error and how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found
-         (4017).", "Access to your account is currently revoked; for more details about this error and
-         how to restore access to your account please visit
-         https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide", and "Access to
-         the configured customer managed key confirmed.".
-        :paramtype customer_managed_key_status: str or
-         ~azure.mgmt.cosmosdb.models.CustomerManagedKeyStatus
+         on the account. In case there are errors, the property provides troubleshooting guidance.
+        :paramtype customer_managed_key_status: str
         """
         super().__init__(**kwargs)
         self.tags = tags
@@ -4437,6 +4198,8 @@ class DataCenterResourceProperties(_serialization.Model):  # pylint: disable=too
     :vartype deallocated: bool
     :ivar provision_error: Error related to resource provisioning.
     :vartype provision_error: ~azure.mgmt.cosmosdb.models.CassandraError
+    :ivar private_endpoint_ip_address: Ip of the VPN Endpoint for this data center.
+    :vartype private_endpoint_ip_address: str
     """
 
     _validation = {
@@ -4462,6 +4225,7 @@ class DataCenterResourceProperties(_serialization.Model):  # pylint: disable=too
         },
         "deallocated": {"key": "deallocated", "type": "bool"},
         "provision_error": {"key": "provisionError", "type": "CassandraError"},
+        "private_endpoint_ip_address": {"key": "privateEndpointIpAddress", "type": "str"},
     }
 
     def __init__(
@@ -4481,6 +4245,7 @@ class DataCenterResourceProperties(_serialization.Model):  # pylint: disable=too
         authentication_method_ldap_properties: Optional["_models.AuthenticationMethodLdapProperties"] = None,
         deallocated: Optional[bool] = None,
         provision_error: Optional["_models.CassandraError"] = None,
+        private_endpoint_ip_address: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4530,6 +4295,8 @@ class DataCenterResourceProperties(_serialization.Model):  # pylint: disable=too
         :paramtype deallocated: bool
         :keyword provision_error: Error related to resource provisioning.
         :paramtype provision_error: ~azure.mgmt.cosmosdb.models.CassandraError
+        :keyword private_endpoint_ip_address: Ip of the VPN Endpoint for this data center.
+        :paramtype private_endpoint_ip_address: str
         """
         super().__init__(**kwargs)
         self.provisioning_state = provisioning_state
@@ -4547,6 +4314,7 @@ class DataCenterResourceProperties(_serialization.Model):  # pylint: disable=too
         self.authentication_method_ldap_properties = authentication_method_ldap_properties
         self.deallocated = deallocated
         self.provision_error = provision_error
+        self.private_endpoint_ip_address = private_endpoint_ip_address
 
 
 class RegionalServiceResource(_serialization.Model):
@@ -4597,22 +4365,6 @@ class DataTransferRegionalServiceResource(RegionalServiceResource):
     :vartype status: str or ~azure.mgmt.cosmosdb.models.ServiceStatus
     """
 
-    _validation = {
-        "name": {"readonly": True},
-        "location": {"readonly": True},
-        "status": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class DataTransferServiceResource(_serialization.Model):
     """Describes the service response property.
@@ -4636,6 +4388,113 @@ class DataTransferServiceResource(_serialization.Model):
         self.properties = properties
 
 
+class ServiceResourceCreateUpdateProperties(_serialization.Model):
+    """Properties in ServiceResourceCreateUpdateParameters.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    DataTransferServiceResourceCreateUpdateProperties,
+    GraphAPIComputeServiceResourceCreateUpdateProperties,
+    MaterializedViewsBuilderServiceResourceCreateUpdateProperties,
+    SqlDedicatedGatewayServiceResourceCreateUpdateProperties
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+     "Cosmos.D8s", and "Cosmos.D16s".
+    :vartype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+    :ivar instance_count: Instance count for the service.
+    :vartype instance_count: int
+    :ivar service_type: ServiceType for the service. Required. Known values are:
+     "SqlDedicatedGateway", "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
+    :vartype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+    """
+
+    _validation = {
+        "instance_count": {"minimum": 0},
+        "service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_size": {"key": "instanceSize", "type": "str"},
+        "instance_count": {"key": "instanceCount", "type": "int"},
+        "service_type": {"key": "serviceType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "service_type": {
+            "DataTransfer": "DataTransferServiceResourceCreateUpdateProperties",
+            "GraphAPICompute": "GraphAPIComputeServiceResourceCreateUpdateProperties",
+            "MaterializedViewsBuilder": "MaterializedViewsBuilderServiceResourceCreateUpdateProperties",
+            "SqlDedicatedGateway": "SqlDedicatedGatewayServiceResourceCreateUpdateProperties",
+        }
+    }
+
+    def __init__(
+        self,
+        *,
+        instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
+        instance_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+         "Cosmos.D8s", and "Cosmos.D16s".
+        :paramtype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+        :keyword instance_count: Instance count for the service.
+        :paramtype instance_count: int
+        """
+        super().__init__(**kwargs)
+        self.instance_size = instance_size
+        self.instance_count = instance_count
+        self.service_type: Optional[str] = None
+
+
+class DataTransferServiceResourceCreateUpdateProperties(
+    ServiceResourceCreateUpdateProperties
+):  # pylint: disable=name-too-long
+    """Properties for Create or Update request for DataTransferServiceResource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+     "Cosmos.D8s", and "Cosmos.D16s".
+    :vartype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+    :ivar instance_count: Instance count for the service.
+    :vartype instance_count: int
+    :ivar service_type: ServiceType for the service. Required. Known values are:
+     "SqlDedicatedGateway", "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
+    :vartype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+    """
+
+    _validation = {
+        "instance_count": {"minimum": 0},
+        "service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_size": {"key": "instanceSize", "type": "str"},
+        "instance_count": {"key": "instanceCount", "type": "int"},
+        "service_type": {"key": "serviceType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
+        instance_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+         "Cosmos.D8s", and "Cosmos.D16s".
+        :paramtype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+        :keyword instance_count: Instance count for the service.
+        :paramtype instance_count: int
+        """
+        super().__init__(instance_size=instance_size, instance_count=instance_count, **kwargs)
+        self.service_type: str = "DataTransfer"
+
+
 class ServiceResourceProperties(_serialization.Model):
     """Services response resource.
 
@@ -4645,7 +4504,7 @@ class ServiceResourceProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -4722,7 +4581,7 @@ class DataTransferServiceResourceProperties(ServiceResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -4841,7 +4700,7 @@ class ExcludedPath(_serialization.Model):
 class FailoverPolicies(_serialization.Model):
     """The list of new failover policies for the failover priority change.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar failover_policies: List of failover policies. Required.
     :vartype failover_policies: list[~azure.mgmt.cosmosdb.models.FailoverPolicy]
@@ -4968,12 +4827,58 @@ class GraphAPIComputeServiceResource(_serialization.Model):
         self.properties = properties
 
 
+class GraphAPIComputeServiceResourceCreateUpdateProperties(
+    ServiceResourceCreateUpdateProperties
+):  # pylint: disable=name-too-long
+    """Properties for Create or Update request for GraphAPIComputeServiceResource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+     "Cosmos.D8s", and "Cosmos.D16s".
+    :vartype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+    :ivar instance_count: Instance count for the service.
+    :vartype instance_count: int
+    :ivar service_type: ServiceType for the service. Required. Known values are:
+     "SqlDedicatedGateway", "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
+    :vartype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+    """
+
+    _validation = {
+        "instance_count": {"minimum": 0},
+        "service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_size": {"key": "instanceSize", "type": "str"},
+        "instance_count": {"key": "instanceCount", "type": "int"},
+        "service_type": {"key": "serviceType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
+        instance_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+         "Cosmos.D8s", and "Cosmos.D16s".
+        :paramtype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+        :keyword instance_count: Instance count for the service.
+        :paramtype instance_count: int
+        """
+        super().__init__(instance_size=instance_size, instance_count=instance_count, **kwargs)
+        self.service_type: str = "GraphAPICompute"
+
+
 class GraphAPIComputeServiceResourceProperties(ServiceResourceProperties):
     """Properties for GraphAPIComputeServiceResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -5053,7 +4958,7 @@ class GremlinDatabaseCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -5134,35 +5039,19 @@ class GremlinDatabaseGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class GremlinDatabaseResource(_serialization.Model):
     """Cosmos DB Gremlin database resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB Gremlin database. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -5171,15 +5060,31 @@ class GremlinDatabaseResource(_serialization.Model):
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB Gremlin database. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(**kwargs)
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class GremlinDatabaseGetPropertiesResource(GremlinDatabaseResource, ExtendedResourceProperties):
@@ -5187,7 +5092,7 @@ class GremlinDatabaseGetPropertiesResource(GremlinDatabaseResource, ExtendedReso
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -5198,6 +5103,11 @@ class GremlinDatabaseGetPropertiesResource(GremlinDatabaseResource, ExtendedReso
     :vartype etag: str
     :ivar id: Name of the Cosmos DB Gremlin database. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -5212,18 +5122,34 @@ class GremlinDatabaseGetPropertiesResource(GremlinDatabaseResource, ExtendedReso
         "ts": {"key": "_ts", "type": "float"},
         "etag": {"key": "_etag", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB Gremlin database. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
-        super().__init__(id=id, **kwargs)
+        super().__init__(id=id, restore_parameters=restore_parameters, create_mode=create_mode, **kwargs)
         self.rid = None
         self.ts = None
         self.etag = None
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class GremlinDatabaseGetResults(ARMResourceProperties):
@@ -5353,7 +5279,7 @@ class GremlinGraphCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -5434,32 +5360,11 @@ class GremlinGraphGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class GremlinGraphResource(_serialization.Model):
     """Cosmos DB Gremlin graph resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB Gremlin graph. Required.
     :vartype id: str
@@ -5478,6 +5383,11 @@ class GremlinGraphResource(_serialization.Model):
     :vartype conflict_resolution_policy: ~azure.mgmt.cosmosdb.models.ConflictResolutionPolicy
     :ivar analytical_storage_ttl: Analytical TTL.
     :vartype analytical_storage_ttl: int
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -5492,6 +5402,8 @@ class GremlinGraphResource(_serialization.Model):
         "unique_key_policy": {"key": "uniqueKeyPolicy", "type": "UniqueKeyPolicy"},
         "conflict_resolution_policy": {"key": "conflictResolutionPolicy", "type": "ConflictResolutionPolicy"},
         "analytical_storage_ttl": {"key": "analyticalStorageTtl", "type": "int"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
     def __init__(
@@ -5504,6 +5416,8 @@ class GremlinGraphResource(_serialization.Model):
         unique_key_policy: Optional["_models.UniqueKeyPolicy"] = None,
         conflict_resolution_policy: Optional["_models.ConflictResolutionPolicy"] = None,
         analytical_storage_ttl: Optional[int] = None,
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
         **kwargs: Any
     ) -> None:
         """
@@ -5524,6 +5438,11 @@ class GremlinGraphResource(_serialization.Model):
         :paramtype conflict_resolution_policy: ~azure.mgmt.cosmosdb.models.ConflictResolutionPolicy
         :keyword analytical_storage_ttl: Analytical TTL.
         :paramtype analytical_storage_ttl: int
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(**kwargs)
         self.id = id
@@ -5533,14 +5452,18 @@ class GremlinGraphResource(_serialization.Model):
         self.unique_key_policy = unique_key_policy
         self.conflict_resolution_policy = conflict_resolution_policy
         self.analytical_storage_ttl = analytical_storage_ttl
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
-class GremlinGraphGetPropertiesResource(GremlinGraphResource, ExtendedResourceProperties):
+class GremlinGraphGetPropertiesResource(
+    GremlinGraphResource, ExtendedResourceProperties
+):  # pylint: disable=too-many-instance-attributes
     """GremlinGraphGetPropertiesResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -5566,6 +5489,11 @@ class GremlinGraphGetPropertiesResource(GremlinGraphResource, ExtendedResourcePr
     :vartype conflict_resolution_policy: ~azure.mgmt.cosmosdb.models.ConflictResolutionPolicy
     :ivar analytical_storage_ttl: Analytical TTL.
     :vartype analytical_storage_ttl: int
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -5586,6 +5514,8 @@ class GremlinGraphGetPropertiesResource(GremlinGraphResource, ExtendedResourcePr
         "unique_key_policy": {"key": "uniqueKeyPolicy", "type": "UniqueKeyPolicy"},
         "conflict_resolution_policy": {"key": "conflictResolutionPolicy", "type": "ConflictResolutionPolicy"},
         "analytical_storage_ttl": {"key": "analyticalStorageTtl", "type": "int"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
     def __init__(
@@ -5598,6 +5528,8 @@ class GremlinGraphGetPropertiesResource(GremlinGraphResource, ExtendedResourcePr
         unique_key_policy: Optional["_models.UniqueKeyPolicy"] = None,
         conflict_resolution_policy: Optional["_models.ConflictResolutionPolicy"] = None,
         analytical_storage_ttl: Optional[int] = None,
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
         **kwargs: Any
     ) -> None:
         """
@@ -5618,6 +5550,11 @@ class GremlinGraphGetPropertiesResource(GremlinGraphResource, ExtendedResourcePr
         :paramtype conflict_resolution_policy: ~azure.mgmt.cosmosdb.models.ConflictResolutionPolicy
         :keyword analytical_storage_ttl: Analytical TTL.
         :paramtype analytical_storage_ttl: int
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(
             id=id,
@@ -5627,6 +5564,8 @@ class GremlinGraphGetPropertiesResource(GremlinGraphResource, ExtendedResourcePr
             unique_key_policy=unique_key_policy,
             conflict_resolution_policy=conflict_resolution_policy,
             analytical_storage_ttl=analytical_storage_ttl,
+            restore_parameters=restore_parameters,
+            create_mode=create_mode,
             **kwargs
         )
         self.rid = None
@@ -5639,6 +5578,8 @@ class GremlinGraphGetPropertiesResource(GremlinGraphResource, ExtendedResourcePr
         self.unique_key_policy = unique_key_policy
         self.conflict_resolution_policy = conflict_resolution_policy
         self.analytical_storage_ttl = analytical_storage_ttl
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class GremlinGraphGetResults(ARMResourceProperties):
@@ -6274,7 +6215,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.cosmosdb.models.ResourceIdentityType
     :ivar user_assigned_identities: The list of user identities associated with resource. The user
      identity dictionary key references will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.cosmosdb.models.ManagedServiceIdentityUserAssignedIdentity]
     """
@@ -6309,7 +6250,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.cosmosdb.models.ResourceIdentityType
         :keyword user_assigned_identities: The list of user identities associated with resource. The
          user identity dictionary key references will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.cosmosdb.models.ManagedServiceIdentityUserAssignedIdentity]
         """
@@ -6320,7 +6261,7 @@ class ManagedServiceIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
-class ManagedServiceIdentityUserAssignedIdentity(_serialization.Model):
+class ManagedServiceIdentityUserAssignedIdentity(_serialization.Model):  # pylint: disable=name-too-long
     """ManagedServiceIdentityUserAssignedIdentity.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6348,7 +6289,7 @@ class ManagedServiceIdentityUserAssignedIdentity(_serialization.Model):
         self.client_id = None
 
 
-class MaterializedViewsBuilderRegionalServiceResource(RegionalServiceResource):
+class MaterializedViewsBuilderRegionalServiceResource(RegionalServiceResource):  # pylint: disable=name-too-long
     """Resource for a regional service location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6361,22 +6302,6 @@ class MaterializedViewsBuilderRegionalServiceResource(RegionalServiceResource):
      "Updating", "Deleting", "Error", and "Stopped".
     :vartype status: str or ~azure.mgmt.cosmosdb.models.ServiceStatus
     """
-
-    _validation = {
-        "name": {"readonly": True},
-        "location": {"readonly": True},
-        "status": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class MaterializedViewsBuilderServiceResource(_serialization.Model):
@@ -6403,12 +6328,58 @@ class MaterializedViewsBuilderServiceResource(_serialization.Model):
         self.properties = properties
 
 
-class MaterializedViewsBuilderServiceResourceProperties(ServiceResourceProperties):
+class MaterializedViewsBuilderServiceResourceCreateUpdateProperties(
+    ServiceResourceCreateUpdateProperties
+):  # pylint: disable=name-too-long
+    """Properties for Create or Update request for MaterializedViewsBuilderServiceResource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+     "Cosmos.D8s", and "Cosmos.D16s".
+    :vartype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+    :ivar instance_count: Instance count for the service.
+    :vartype instance_count: int
+    :ivar service_type: ServiceType for the service. Required. Known values are:
+     "SqlDedicatedGateway", "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
+    :vartype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+    """
+
+    _validation = {
+        "instance_count": {"minimum": 0},
+        "service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_size": {"key": "instanceSize", "type": "str"},
+        "instance_count": {"key": "instanceCount", "type": "int"},
+        "service_type": {"key": "serviceType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
+        instance_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+         "Cosmos.D8s", and "Cosmos.D16s".
+        :paramtype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+        :keyword instance_count: Instance count for the service.
+        :paramtype instance_count: int
+        """
+        super().__init__(instance_size=instance_size, instance_count=instance_count, **kwargs)
+        self.service_type: str = "MaterializedViewsBuilder"
+
+
+class MaterializedViewsBuilderServiceResourceProperties(ServiceResourceProperties):  # pylint: disable=name-too-long
     """Properties for MaterializedViewsBuilderServiceResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -6726,7 +6697,7 @@ class MongoDBCollectionCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -6807,32 +6778,11 @@ class MongoDBCollectionGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class MongoDBCollectionResource(_serialization.Model):
     """Cosmos DB MongoDB collection resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB MongoDB collection. Required.
     :vartype id: str
@@ -6842,6 +6792,11 @@ class MongoDBCollectionResource(_serialization.Model):
     :vartype indexes: list[~azure.mgmt.cosmosdb.models.MongoIndex]
     :ivar analytical_storage_ttl: Analytical TTL.
     :vartype analytical_storage_ttl: int
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -6853,6 +6808,8 @@ class MongoDBCollectionResource(_serialization.Model):
         "shard_key": {"key": "shardKey", "type": "{str}"},
         "indexes": {"key": "indexes", "type": "[MongoIndex]"},
         "analytical_storage_ttl": {"key": "analyticalStorageTtl", "type": "int"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
     def __init__(
@@ -6862,6 +6819,8 @@ class MongoDBCollectionResource(_serialization.Model):
         shard_key: Optional[Dict[str, str]] = None,
         indexes: Optional[List["_models.MongoIndex"]] = None,
         analytical_storage_ttl: Optional[int] = None,
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
         **kwargs: Any
     ) -> None:
         """
@@ -6873,12 +6832,19 @@ class MongoDBCollectionResource(_serialization.Model):
         :paramtype indexes: list[~azure.mgmt.cosmosdb.models.MongoIndex]
         :keyword analytical_storage_ttl: Analytical TTL.
         :paramtype analytical_storage_ttl: int
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(**kwargs)
         self.id = id
         self.shard_key = shard_key
         self.indexes = indexes
         self.analytical_storage_ttl = analytical_storage_ttl
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class MongoDBCollectionGetPropertiesResource(MongoDBCollectionResource, ExtendedResourceProperties):
@@ -6886,7 +6852,7 @@ class MongoDBCollectionGetPropertiesResource(MongoDBCollectionResource, Extended
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -6903,6 +6869,11 @@ class MongoDBCollectionGetPropertiesResource(MongoDBCollectionResource, Extended
     :vartype indexes: list[~azure.mgmt.cosmosdb.models.MongoIndex]
     :ivar analytical_storage_ttl: Analytical TTL.
     :vartype analytical_storage_ttl: int
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -6920,6 +6891,8 @@ class MongoDBCollectionGetPropertiesResource(MongoDBCollectionResource, Extended
         "shard_key": {"key": "shardKey", "type": "{str}"},
         "indexes": {"key": "indexes", "type": "[MongoIndex]"},
         "analytical_storage_ttl": {"key": "analyticalStorageTtl", "type": "int"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
     def __init__(
@@ -6929,6 +6902,8 @@ class MongoDBCollectionGetPropertiesResource(MongoDBCollectionResource, Extended
         shard_key: Optional[Dict[str, str]] = None,
         indexes: Optional[List["_models.MongoIndex"]] = None,
         analytical_storage_ttl: Optional[int] = None,
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
         **kwargs: Any
     ) -> None:
         """
@@ -6940,9 +6915,20 @@ class MongoDBCollectionGetPropertiesResource(MongoDBCollectionResource, Extended
         :paramtype indexes: list[~azure.mgmt.cosmosdb.models.MongoIndex]
         :keyword analytical_storage_ttl: Analytical TTL.
         :paramtype analytical_storage_ttl: int
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(
-            id=id, shard_key=shard_key, indexes=indexes, analytical_storage_ttl=analytical_storage_ttl, **kwargs
+            id=id,
+            shard_key=shard_key,
+            indexes=indexes,
+            analytical_storage_ttl=analytical_storage_ttl,
+            restore_parameters=restore_parameters,
+            create_mode=create_mode,
+            **kwargs
         )
         self.rid = None
         self.ts = None
@@ -6951,6 +6937,8 @@ class MongoDBCollectionGetPropertiesResource(MongoDBCollectionResource, Extended
         self.shard_key = shard_key
         self.indexes = indexes
         self.analytical_storage_ttl = analytical_storage_ttl
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class MongoDBCollectionGetResults(ARMResourceProperties):
@@ -7052,7 +7040,7 @@ class MongoDBDatabaseCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -7133,35 +7121,19 @@ class MongoDBDatabaseGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class MongoDBDatabaseResource(_serialization.Model):
     """Cosmos DB MongoDB database resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB MongoDB database. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -7170,15 +7142,31 @@ class MongoDBDatabaseResource(_serialization.Model):
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB MongoDB database. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(**kwargs)
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class MongoDBDatabaseGetPropertiesResource(MongoDBDatabaseResource, ExtendedResourceProperties):
@@ -7186,7 +7174,7 @@ class MongoDBDatabaseGetPropertiesResource(MongoDBDatabaseResource, ExtendedReso
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -7197,6 +7185,11 @@ class MongoDBDatabaseGetPropertiesResource(MongoDBDatabaseResource, ExtendedReso
     :vartype etag: str
     :ivar id: Name of the Cosmos DB MongoDB database. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -7211,18 +7204,34 @@ class MongoDBDatabaseGetPropertiesResource(MongoDBDatabaseResource, ExtendedReso
         "ts": {"key": "_ts", "type": "float"},
         "etag": {"key": "_etag", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB MongoDB database. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
-        super().__init__(id=id, **kwargs)
+        super().__init__(id=id, restore_parameters=restore_parameters, create_mode=create_mode, **kwargs)
         self.rid = None
         self.ts = None
         self.etag = None
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class MongoDBDatabaseGetResults(ARMResourceProperties):
@@ -7399,7 +7408,7 @@ class MongoIndexOptions(_serialization.Model):
         self.unique = unique
 
 
-class MongoRoleDefinitionCreateUpdateParameters(_serialization.Model):
+class MongoRoleDefinitionCreateUpdateParameters(_serialization.Model):  # pylint: disable=name-too-long
     """Parameters to create and update an Azure Cosmos DB Mongo Role Definition.
 
     :ivar role_name: A user-friendly name for the Role Definition. Must be unique for the database
@@ -7565,7 +7574,7 @@ class MongoRoleDefinitionListResult(_serialization.Model):
         self.value = None
 
 
-class MongoUserDefinitionCreateUpdateParameters(_serialization.Model):
+class MongoUserDefinitionCreateUpdateParameters(_serialization.Model):  # pylint: disable=name-too-long
     """Parameters to create and update an Azure Cosmos DB Mongo User Definition.
 
     :ivar user_name: The user name for User Definition.
@@ -7815,22 +7824,6 @@ class NotebookWorkspaceCreateUpdateParameters(ARMProxyResource):
     :ivar type: The type of Azure resource.
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class NotebookWorkspaceListResult(_serialization.Model):
@@ -8302,7 +8295,7 @@ class PercentileMetricValue(MetricValue):  # pylint: disable=too-many-instance-a
 class PeriodicModeBackupPolicy(BackupPolicy):
     """The object representing periodic mode backup policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Describes the mode of backups. Required. Known values are: "Periodic" and
      "Continuous".
@@ -8428,7 +8421,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8464,7 +8457,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8473,22 +8466,6 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class PrivateEndpointConnection(ProxyResource):
     """A private endpoint connection.
@@ -8496,7 +8473,7 @@ class PrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8667,7 +8644,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         self.value = value
 
 
-class PrivateLinkServiceConnectionStateProperty(_serialization.Model):
+class PrivateLinkServiceConnectionStateProperty(_serialization.Model):  # pylint: disable=name-too-long
     """Connection State of the Private Endpoint Connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8765,7 +8742,7 @@ class PrivilegeResource(_serialization.Model):
 class RegionForOnlineOffline(_serialization.Model):
     """Cosmos DB region to online or offline.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar region: Cosmos DB region, with spaces between words and each word capitalized. Required.
     :vartype region: str
@@ -8787,6 +8764,55 @@ class RegionForOnlineOffline(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.region = region
+
+
+class RestoreParametersBase(_serialization.Model):
+    """Parameters to indicate the information about the restore.
+
+    :ivar restore_source: The id of the restorable database account from which the restore has to
+     be initiated. For example:
+     /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}.  # pylint: disable=line-too-long
+    :vartype restore_source: str
+    :ivar restore_timestamp_in_utc: Time to which the account has to be restored (ISO-8601 format).
+    :vartype restore_timestamp_in_utc: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "restore_source": {"key": "restoreSource", "type": "str"},
+        "restore_timestamp_in_utc": {"key": "restoreTimestampInUtc", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        restore_source: Optional[str] = None,
+        restore_timestamp_in_utc: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword restore_source: The id of the restorable database account from which the restore has
+         to be initiated. For example:
+         /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}.  # pylint: disable=line-too-long
+        :paramtype restore_source: str
+        :keyword restore_timestamp_in_utc: Time to which the account has to be restored (ISO-8601
+         format).
+        :paramtype restore_timestamp_in_utc: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.restore_source = restore_source
+        self.restore_timestamp_in_utc = restore_timestamp_in_utc
+
+
+class ResourceRestoreParameters(RestoreParametersBase):
+    """Parameters to indicate the information about the restore.
+
+    :ivar restore_source: The id of the restorable database account from which the restore has to
+     be initiated. For example:
+     /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}.  # pylint: disable=line-too-long
+    :vartype restore_source: str
+    :ivar restore_timestamp_in_utc: Time to which the account has to be restored (ISO-8601 format).
+    :vartype restore_timestamp_in_utc: ~datetime.datetime
+    """
 
 
 class RestorableDatabaseAccountGetResult(_serialization.Model):
@@ -8944,7 +8970,7 @@ class RestorableGremlinDatabaseGetResult(_serialization.Model):
         self.resource = resource
 
 
-class RestorableGremlinDatabasePropertiesResource(_serialization.Model):
+class RestorableGremlinDatabasePropertiesResource(_serialization.Model):  # pylint: disable=name-too-long
     """The resource of an Azure Cosmos DB Gremlin database event.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8952,8 +8978,13 @@ class RestorableGremlinDatabasePropertiesResource(_serialization.Model):
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
     :ivar operation_type: The operation type of this database event. Known values are: "Create",
-     "Replace", "Delete", and "SystemOperation".
+     "Replace", "Delete", "Recreate", and "SystemOperation".
     :vartype operation_type: str or ~azure.mgmt.cosmosdb.models.OperationType
+    :ivar can_undelete: A state of this database to identify if this database is restorable in same
+     account.
+    :vartype can_undelete: str
+    :ivar can_undelete_reason: The reason why this database can not be restored in same account.
+    :vartype can_undelete_reason: str
     :ivar event_timestamp: The time when this database event happened.
     :vartype event_timestamp: str
     :ivar owner_id: The name of this Gremlin database.
@@ -8965,6 +8996,8 @@ class RestorableGremlinDatabasePropertiesResource(_serialization.Model):
     _validation = {
         "rid": {"readonly": True},
         "operation_type": {"readonly": True},
+        "can_undelete": {"readonly": True},
+        "can_undelete_reason": {"readonly": True},
         "event_timestamp": {"readonly": True},
         "owner_id": {"readonly": True},
         "owner_resource_id": {"readonly": True},
@@ -8973,6 +9006,8 @@ class RestorableGremlinDatabasePropertiesResource(_serialization.Model):
     _attribute_map = {
         "rid": {"key": "_rid", "type": "str"},
         "operation_type": {"key": "operationType", "type": "str"},
+        "can_undelete": {"key": "canUndelete", "type": "str"},
+        "can_undelete_reason": {"key": "canUndeleteReason", "type": "str"},
         "event_timestamp": {"key": "eventTimestamp", "type": "str"},
         "owner_id": {"key": "ownerId", "type": "str"},
         "owner_resource_id": {"key": "ownerResourceId", "type": "str"},
@@ -8983,6 +9018,8 @@ class RestorableGremlinDatabasePropertiesResource(_serialization.Model):
         super().__init__(**kwargs)
         self.rid = None
         self.operation_type = None
+        self.can_undelete = None
+        self.can_undelete_reason = None
         self.event_timestamp = None
         self.owner_id = None
         self.owner_resource_id = None
@@ -9061,8 +9098,13 @@ class RestorableGremlinGraphPropertiesResource(_serialization.Model):
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
     :ivar operation_type: The operation type of this graph event. Known values are: "Create",
-     "Replace", "Delete", and "SystemOperation".
+     "Replace", "Delete", "Recreate", and "SystemOperation".
     :vartype operation_type: str or ~azure.mgmt.cosmosdb.models.OperationType
+    :ivar can_undelete: A state of this graph to identify if this graph is restorable in same
+     account.
+    :vartype can_undelete: str
+    :ivar can_undelete_reason: The reason why this graph can not be restored in same account.
+    :vartype can_undelete_reason: str
     :ivar event_timestamp: The time when this graph event happened.
     :vartype event_timestamp: str
     :ivar owner_id: The name of this Gremlin graph.
@@ -9074,6 +9116,8 @@ class RestorableGremlinGraphPropertiesResource(_serialization.Model):
     _validation = {
         "rid": {"readonly": True},
         "operation_type": {"readonly": True},
+        "can_undelete": {"readonly": True},
+        "can_undelete_reason": {"readonly": True},
         "event_timestamp": {"readonly": True},
         "owner_id": {"readonly": True},
         "owner_resource_id": {"readonly": True},
@@ -9082,6 +9126,8 @@ class RestorableGremlinGraphPropertiesResource(_serialization.Model):
     _attribute_map = {
         "rid": {"key": "_rid", "type": "str"},
         "operation_type": {"key": "operationType", "type": "str"},
+        "can_undelete": {"key": "canUndelete", "type": "str"},
+        "can_undelete_reason": {"key": "canUndeleteReason", "type": "str"},
         "event_timestamp": {"key": "eventTimestamp", "type": "str"},
         "owner_id": {"key": "ownerId", "type": "str"},
         "owner_resource_id": {"key": "ownerResourceId", "type": "str"},
@@ -9092,6 +9138,8 @@ class RestorableGremlinGraphPropertiesResource(_serialization.Model):
         super().__init__(**kwargs)
         self.rid = None
         self.operation_type = None
+        self.can_undelete = None
+        self.can_undelete_reason = None
         self.event_timestamp = None
         self.owner_id = None
         self.owner_resource_id = None
@@ -9275,7 +9323,7 @@ class RestorableMongodbCollectionGetResult(_serialization.Model):
         self.resource = resource
 
 
-class RestorableMongodbCollectionPropertiesResource(_serialization.Model):
+class RestorableMongodbCollectionPropertiesResource(_serialization.Model):  # pylint: disable=name-too-long
     """The resource of an Azure Cosmos DB MongoDB collection event.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9283,8 +9331,13 @@ class RestorableMongodbCollectionPropertiesResource(_serialization.Model):
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
     :ivar operation_type: The operation type of this collection event. Known values are: "Create",
-     "Replace", "Delete", and "SystemOperation".
+     "Replace", "Delete", "Recreate", and "SystemOperation".
     :vartype operation_type: str or ~azure.mgmt.cosmosdb.models.OperationType
+    :ivar can_undelete: A state of this collection to identify if this container is restorable in
+     same account.
+    :vartype can_undelete: str
+    :ivar can_undelete_reason: The reason why this collection can not be restored in same account.
+    :vartype can_undelete_reason: str
     :ivar event_timestamp: The time when this collection event happened.
     :vartype event_timestamp: str
     :ivar owner_id: The name of this MongoDB collection.
@@ -9296,6 +9349,8 @@ class RestorableMongodbCollectionPropertiesResource(_serialization.Model):
     _validation = {
         "rid": {"readonly": True},
         "operation_type": {"readonly": True},
+        "can_undelete": {"readonly": True},
+        "can_undelete_reason": {"readonly": True},
         "event_timestamp": {"readonly": True},
         "owner_id": {"readonly": True},
         "owner_resource_id": {"readonly": True},
@@ -9304,6 +9359,8 @@ class RestorableMongodbCollectionPropertiesResource(_serialization.Model):
     _attribute_map = {
         "rid": {"key": "_rid", "type": "str"},
         "operation_type": {"key": "operationType", "type": "str"},
+        "can_undelete": {"key": "canUndelete", "type": "str"},
+        "can_undelete_reason": {"key": "canUndeleteReason", "type": "str"},
         "event_timestamp": {"key": "eventTimestamp", "type": "str"},
         "owner_id": {"key": "ownerId", "type": "str"},
         "owner_resource_id": {"key": "ownerResourceId", "type": "str"},
@@ -9314,6 +9371,8 @@ class RestorableMongodbCollectionPropertiesResource(_serialization.Model):
         super().__init__(**kwargs)
         self.rid = None
         self.operation_type = None
+        self.can_undelete = None
+        self.can_undelete_reason = None
         self.event_timestamp = None
         self.owner_id = None
         self.owner_resource_id = None
@@ -9384,7 +9443,7 @@ class RestorableMongodbDatabaseGetResult(_serialization.Model):
         self.resource = resource
 
 
-class RestorableMongodbDatabasePropertiesResource(_serialization.Model):
+class RestorableMongodbDatabasePropertiesResource(_serialization.Model):  # pylint: disable=name-too-long
     """The resource of an Azure Cosmos DB MongoDB database event.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9392,8 +9451,13 @@ class RestorableMongodbDatabasePropertiesResource(_serialization.Model):
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
     :ivar operation_type: The operation type of this database event. Known values are: "Create",
-     "Replace", "Delete", and "SystemOperation".
+     "Replace", "Delete", "Recreate", and "SystemOperation".
     :vartype operation_type: str or ~azure.mgmt.cosmosdb.models.OperationType
+    :ivar can_undelete: A state of this database to identify if this database is restorable in same
+     account.
+    :vartype can_undelete: str
+    :ivar can_undelete_reason: The reason why this database can not be restored in same account.
+    :vartype can_undelete_reason: str
     :ivar event_timestamp: The time when this database event happened.
     :vartype event_timestamp: str
     :ivar owner_id: The name of this MongoDB database.
@@ -9405,6 +9469,8 @@ class RestorableMongodbDatabasePropertiesResource(_serialization.Model):
     _validation = {
         "rid": {"readonly": True},
         "operation_type": {"readonly": True},
+        "can_undelete": {"readonly": True},
+        "can_undelete_reason": {"readonly": True},
         "event_timestamp": {"readonly": True},
         "owner_id": {"readonly": True},
         "owner_resource_id": {"readonly": True},
@@ -9413,6 +9479,8 @@ class RestorableMongodbDatabasePropertiesResource(_serialization.Model):
     _attribute_map = {
         "rid": {"key": "_rid", "type": "str"},
         "operation_type": {"key": "operationType", "type": "str"},
+        "can_undelete": {"key": "canUndelete", "type": "str"},
+        "can_undelete_reason": {"key": "canUndeleteReason", "type": "str"},
         "event_timestamp": {"key": "eventTimestamp", "type": "str"},
         "owner_id": {"key": "ownerId", "type": "str"},
         "owner_resource_id": {"key": "ownerResourceId", "type": "str"},
@@ -9423,6 +9491,8 @@ class RestorableMongodbDatabasePropertiesResource(_serialization.Model):
         super().__init__(**kwargs)
         self.rid = None
         self.operation_type = None
+        self.can_undelete = None
+        self.can_undelete_reason = None
         self.event_timestamp = None
         self.owner_id = None
         self.owner_resource_id = None
@@ -9572,8 +9642,13 @@ class RestorableSqlContainerPropertiesResource(_serialization.Model):
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
     :ivar operation_type: The operation type of this container event. Known values are: "Create",
-     "Replace", "Delete", and "SystemOperation".
+     "Replace", "Delete", "Recreate", and "SystemOperation".
     :vartype operation_type: str or ~azure.mgmt.cosmosdb.models.OperationType
+    :ivar can_undelete: A state of this container to identify if this container is restorable in
+     same account.
+    :vartype can_undelete: str
+    :ivar can_undelete_reason: The reason why this container can not be restored in same account.
+    :vartype can_undelete_reason: str
     :ivar event_timestamp: The when this container event happened.
     :vartype event_timestamp: str
     :ivar owner_id: The name of this SQL container.
@@ -9588,6 +9663,8 @@ class RestorableSqlContainerPropertiesResource(_serialization.Model):
     _validation = {
         "rid": {"readonly": True},
         "operation_type": {"readonly": True},
+        "can_undelete": {"readonly": True},
+        "can_undelete_reason": {"readonly": True},
         "event_timestamp": {"readonly": True},
         "owner_id": {"readonly": True},
         "owner_resource_id": {"readonly": True},
@@ -9596,6 +9673,8 @@ class RestorableSqlContainerPropertiesResource(_serialization.Model):
     _attribute_map = {
         "rid": {"key": "_rid", "type": "str"},
         "operation_type": {"key": "operationType", "type": "str"},
+        "can_undelete": {"key": "canUndelete", "type": "str"},
+        "can_undelete_reason": {"key": "canUndeleteReason", "type": "str"},
         "event_timestamp": {"key": "eventTimestamp", "type": "str"},
         "owner_id": {"key": "ownerId", "type": "str"},
         "owner_resource_id": {"key": "ownerResourceId", "type": "str"},
@@ -9613,16 +9692,18 @@ class RestorableSqlContainerPropertiesResource(_serialization.Model):
         super().__init__(**kwargs)
         self.rid = None
         self.operation_type = None
+        self.can_undelete = None
+        self.can_undelete_reason = None
         self.event_timestamp = None
         self.owner_id = None
         self.owner_resource_id = None
         self.container = container
 
 
-class SqlContainerResource(_serialization.Model):
+class SqlContainerResource(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Cosmos DB SQL container resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB SQL container. Required.
     :vartype id: str
@@ -9643,6 +9724,13 @@ class SqlContainerResource(_serialization.Model):
     :vartype client_encryption_policy: ~azure.mgmt.cosmosdb.models.ClientEncryptionPolicy
     :ivar analytical_storage_ttl: Analytical TTL.
     :vartype analytical_storage_ttl: int
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
+    :ivar computed_properties: List of computed properties.
+    :vartype computed_properties: list[~azure.mgmt.cosmosdb.models.ComputedProperty]
     """
 
     _validation = {
@@ -9658,6 +9746,9 @@ class SqlContainerResource(_serialization.Model):
         "conflict_resolution_policy": {"key": "conflictResolutionPolicy", "type": "ConflictResolutionPolicy"},
         "client_encryption_policy": {"key": "clientEncryptionPolicy", "type": "ClientEncryptionPolicy"},
         "analytical_storage_ttl": {"key": "analyticalStorageTtl", "type": "int"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
+        "computed_properties": {"key": "computedProperties", "type": "[ComputedProperty]"},
     }
 
     def __init__(
@@ -9671,6 +9762,9 @@ class SqlContainerResource(_serialization.Model):
         conflict_resolution_policy: Optional["_models.ConflictResolutionPolicy"] = None,
         client_encryption_policy: Optional["_models.ClientEncryptionPolicy"] = None,
         analytical_storage_ttl: Optional[int] = None,
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        computed_properties: Optional[List["_models.ComputedProperty"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9693,6 +9787,13 @@ class SqlContainerResource(_serialization.Model):
         :paramtype client_encryption_policy: ~azure.mgmt.cosmosdb.models.ClientEncryptionPolicy
         :keyword analytical_storage_ttl: Analytical TTL.
         :paramtype analytical_storage_ttl: int
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
+        :keyword computed_properties: List of computed properties.
+        :paramtype computed_properties: list[~azure.mgmt.cosmosdb.models.ComputedProperty]
         """
         super().__init__(**kwargs)
         self.id = id
@@ -9703,16 +9804,19 @@ class SqlContainerResource(_serialization.Model):
         self.conflict_resolution_policy = conflict_resolution_policy
         self.client_encryption_policy = client_encryption_policy
         self.analytical_storage_ttl = analytical_storage_ttl
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
+        self.computed_properties = computed_properties
 
 
 class RestorableSqlContainerPropertiesResourceContainer(
     SqlContainerResource, ExtendedResourceProperties
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes,name-too-long
     """Cosmos DB SQL container resource object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -9740,6 +9844,13 @@ class RestorableSqlContainerPropertiesResourceContainer(
     :vartype client_encryption_policy: ~azure.mgmt.cosmosdb.models.ClientEncryptionPolicy
     :ivar analytical_storage_ttl: Analytical TTL.
     :vartype analytical_storage_ttl: int
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
+    :ivar computed_properties: List of computed properties.
+    :vartype computed_properties: list[~azure.mgmt.cosmosdb.models.ComputedProperty]
     :ivar self_property: A system generated property that specifies the addressable path of the
      container resource.
     :vartype self_property: str
@@ -9765,6 +9876,9 @@ class RestorableSqlContainerPropertiesResourceContainer(
         "conflict_resolution_policy": {"key": "conflictResolutionPolicy", "type": "ConflictResolutionPolicy"},
         "client_encryption_policy": {"key": "clientEncryptionPolicy", "type": "ClientEncryptionPolicy"},
         "analytical_storage_ttl": {"key": "analyticalStorageTtl", "type": "int"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
+        "computed_properties": {"key": "computedProperties", "type": "[ComputedProperty]"},
         "self_property": {"key": "_self", "type": "str"},
     }
 
@@ -9779,6 +9893,9 @@ class RestorableSqlContainerPropertiesResourceContainer(
         conflict_resolution_policy: Optional["_models.ConflictResolutionPolicy"] = None,
         client_encryption_policy: Optional["_models.ClientEncryptionPolicy"] = None,
         analytical_storage_ttl: Optional[int] = None,
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        computed_properties: Optional[List["_models.ComputedProperty"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9801,6 +9918,13 @@ class RestorableSqlContainerPropertiesResourceContainer(
         :paramtype client_encryption_policy: ~azure.mgmt.cosmosdb.models.ClientEncryptionPolicy
         :keyword analytical_storage_ttl: Analytical TTL.
         :paramtype analytical_storage_ttl: int
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
+        :keyword computed_properties: List of computed properties.
+        :paramtype computed_properties: list[~azure.mgmt.cosmosdb.models.ComputedProperty]
         """
         super().__init__(
             id=id,
@@ -9811,6 +9935,9 @@ class RestorableSqlContainerPropertiesResourceContainer(
             conflict_resolution_policy=conflict_resolution_policy,
             client_encryption_policy=client_encryption_policy,
             analytical_storage_ttl=analytical_storage_ttl,
+            restore_parameters=restore_parameters,
+            create_mode=create_mode,
+            computed_properties=computed_properties,
             **kwargs
         )
         self.rid = None
@@ -9825,6 +9952,9 @@ class RestorableSqlContainerPropertiesResourceContainer(
         self.conflict_resolution_policy = conflict_resolution_policy
         self.client_encryption_policy = client_encryption_policy
         self.analytical_storage_ttl = analytical_storage_ttl
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
+        self.computed_properties = computed_properties
 
 
 class RestorableSqlContainersListResult(_serialization.Model):
@@ -9900,8 +10030,13 @@ class RestorableSqlDatabasePropertiesResource(_serialization.Model):
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
     :ivar operation_type: The operation type of this database event. Known values are: "Create",
-     "Replace", "Delete", and "SystemOperation".
+     "Replace", "Delete", "Recreate", and "SystemOperation".
     :vartype operation_type: str or ~azure.mgmt.cosmosdb.models.OperationType
+    :ivar can_undelete: A state of this database to identify if this database is restorable in same
+     account.
+    :vartype can_undelete: str
+    :ivar can_undelete_reason: The reason why this database can not be restored in same account.
+    :vartype can_undelete_reason: str
     :ivar event_timestamp: The time when this database event happened.
     :vartype event_timestamp: str
     :ivar owner_id: The name of the SQL database.
@@ -9915,6 +10050,8 @@ class RestorableSqlDatabasePropertiesResource(_serialization.Model):
     _validation = {
         "rid": {"readonly": True},
         "operation_type": {"readonly": True},
+        "can_undelete": {"readonly": True},
+        "can_undelete_reason": {"readonly": True},
         "event_timestamp": {"readonly": True},
         "owner_id": {"readonly": True},
         "owner_resource_id": {"readonly": True},
@@ -9923,6 +10060,8 @@ class RestorableSqlDatabasePropertiesResource(_serialization.Model):
     _attribute_map = {
         "rid": {"key": "_rid", "type": "str"},
         "operation_type": {"key": "operationType", "type": "str"},
+        "can_undelete": {"key": "canUndelete", "type": "str"},
+        "can_undelete_reason": {"key": "canUndeleteReason", "type": "str"},
         "event_timestamp": {"key": "eventTimestamp", "type": "str"},
         "owner_id": {"key": "ownerId", "type": "str"},
         "owner_resource_id": {"key": "ownerResourceId", "type": "str"},
@@ -9940,6 +10079,8 @@ class RestorableSqlDatabasePropertiesResource(_serialization.Model):
         super().__init__(**kwargs)
         self.rid = None
         self.operation_type = None
+        self.can_undelete = None
+        self.can_undelete_reason = None
         self.event_timestamp = None
         self.owner_id = None
         self.owner_resource_id = None
@@ -9949,10 +10090,15 @@ class RestorableSqlDatabasePropertiesResource(_serialization.Model):
 class SqlDatabaseResource(_serialization.Model):
     """Cosmos DB SQL database resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB SQL database. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -9961,23 +10107,41 @@ class SqlDatabaseResource(_serialization.Model):
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB SQL database. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(**kwargs)
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
-class RestorableSqlDatabasePropertiesResourceDatabase(SqlDatabaseResource, ExtendedResourceProperties):
+class RestorableSqlDatabasePropertiesResourceDatabase(
+    SqlDatabaseResource, ExtendedResourceProperties
+):  # pylint: disable=name-too-long
     """Cosmos DB SQL database resource object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -9988,6 +10152,11 @@ class RestorableSqlDatabasePropertiesResourceDatabase(SqlDatabaseResource, Exten
     :vartype etag: str
     :ivar id: Name of the Cosmos DB SQL database. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     :ivar colls: A system generated property that specified the addressable path of the collections
      resource.
     :vartype colls: str
@@ -10014,17 +10183,31 @@ class RestorableSqlDatabasePropertiesResourceDatabase(SqlDatabaseResource, Exten
         "ts": {"key": "_ts", "type": "float"},
         "etag": {"key": "_etag", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
         "colls": {"key": "_colls", "type": "str"},
         "users": {"key": "_users", "type": "str"},
         "self_property": {"key": "_self", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB SQL database. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
-        super().__init__(id=id, **kwargs)
+        super().__init__(id=id, restore_parameters=restore_parameters, create_mode=create_mode, **kwargs)
         self.rid = None
         self.ts = None
         self.etag = None
@@ -10032,6 +10215,8 @@ class RestorableSqlDatabasePropertiesResourceDatabase(SqlDatabaseResource, Exten
         self.users = None
         self.self_property = None
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class RestorableSqlDatabasesListResult(_serialization.Model):
@@ -10178,8 +10363,13 @@ class RestorableTablePropertiesResource(_serialization.Model):
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
     :ivar operation_type: The operation type of this table event. Known values are: "Create",
-     "Replace", "Delete", and "SystemOperation".
+     "Replace", "Delete", "Recreate", and "SystemOperation".
     :vartype operation_type: str or ~azure.mgmt.cosmosdb.models.OperationType
+    :ivar can_undelete: A state of this table to identify if this table is restorable in same
+     account.
+    :vartype can_undelete: str
+    :ivar can_undelete_reason: The reason why this table can not be restored in same account.
+    :vartype can_undelete_reason: str
     :ivar event_timestamp: The time when this table event happened.
     :vartype event_timestamp: str
     :ivar owner_id: The name of this Table.
@@ -10191,6 +10381,8 @@ class RestorableTablePropertiesResource(_serialization.Model):
     _validation = {
         "rid": {"readonly": True},
         "operation_type": {"readonly": True},
+        "can_undelete": {"readonly": True},
+        "can_undelete_reason": {"readonly": True},
         "event_timestamp": {"readonly": True},
         "owner_id": {"readonly": True},
         "owner_resource_id": {"readonly": True},
@@ -10199,6 +10391,8 @@ class RestorableTablePropertiesResource(_serialization.Model):
     _attribute_map = {
         "rid": {"key": "_rid", "type": "str"},
         "operation_type": {"key": "operationType", "type": "str"},
+        "can_undelete": {"key": "canUndelete", "type": "str"},
+        "can_undelete_reason": {"key": "canUndeleteReason", "type": "str"},
         "event_timestamp": {"key": "eventTimestamp", "type": "str"},
         "owner_id": {"key": "ownerId", "type": "str"},
         "owner_resource_id": {"key": "ownerResourceId", "type": "str"},
@@ -10209,6 +10403,8 @@ class RestorableTablePropertiesResource(_serialization.Model):
         super().__init__(**kwargs)
         self.rid = None
         self.operation_type = None
+        self.can_undelete = None
+        self.can_undelete_reason = None
         self.event_timestamp = None
         self.owner_id = None
         self.owner_resource_id = None
@@ -10293,17 +10489,17 @@ class RestorableTablesListResult(_serialization.Model):
         self.value = None
 
 
-class RestoreParameters(_serialization.Model):
+class RestoreParameters(RestoreParametersBase):
     """Parameters to indicate the information about the restore.
 
-    :ivar restore_mode: Describes the mode of the restore. "PointInTime"
-    :vartype restore_mode: str or ~azure.mgmt.cosmosdb.models.RestoreMode
     :ivar restore_source: The id of the restorable database account from which the restore has to
      be initiated. For example:
-     /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}.
+     /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}.  # pylint: disable=line-too-long
     :vartype restore_source: str
     :ivar restore_timestamp_in_utc: Time to which the account has to be restored (ISO-8601 format).
     :vartype restore_timestamp_in_utc: ~datetime.datetime
+    :ivar restore_mode: Describes the mode of the restore. "PointInTime"
+    :vartype restore_mode: str or ~azure.mgmt.cosmosdb.models.RestoreMode
     :ivar databases_to_restore: List of specific databases available for restore.
     :vartype databases_to_restore: list[~azure.mgmt.cosmosdb.models.DatabaseRestoreResource]
     :ivar gremlin_databases_to_restore: List of specific gremlin databases available for restore.
@@ -10314,9 +10510,9 @@ class RestoreParameters(_serialization.Model):
     """
 
     _attribute_map = {
-        "restore_mode": {"key": "restoreMode", "type": "str"},
         "restore_source": {"key": "restoreSource", "type": "str"},
         "restore_timestamp_in_utc": {"key": "restoreTimestampInUtc", "type": "iso-8601"},
+        "restore_mode": {"key": "restoreMode", "type": "str"},
         "databases_to_restore": {"key": "databasesToRestore", "type": "[DatabaseRestoreResource]"},
         "gremlin_databases_to_restore": {
             "key": "gremlinDatabasesToRestore",
@@ -10328,24 +10524,24 @@ class RestoreParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        restore_mode: Optional[Union[str, "_models.RestoreMode"]] = None,
         restore_source: Optional[str] = None,
         restore_timestamp_in_utc: Optional[datetime.datetime] = None,
+        restore_mode: Optional[Union[str, "_models.RestoreMode"]] = None,
         databases_to_restore: Optional[List["_models.DatabaseRestoreResource"]] = None,
         gremlin_databases_to_restore: Optional[List["_models.GremlinDatabaseRestoreResource"]] = None,
         tables_to_restore: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword restore_mode: Describes the mode of the restore. "PointInTime"
-        :paramtype restore_mode: str or ~azure.mgmt.cosmosdb.models.RestoreMode
         :keyword restore_source: The id of the restorable database account from which the restore has
          to be initiated. For example:
-         /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}.
+         /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{restorableDatabaseAccountName}.  # pylint: disable=line-too-long
         :paramtype restore_source: str
         :keyword restore_timestamp_in_utc: Time to which the account has to be restored (ISO-8601
          format).
         :paramtype restore_timestamp_in_utc: ~datetime.datetime
+        :keyword restore_mode: Describes the mode of the restore. "PointInTime"
+        :paramtype restore_mode: str or ~azure.mgmt.cosmosdb.models.RestoreMode
         :keyword databases_to_restore: List of specific databases available for restore.
         :paramtype databases_to_restore: list[~azure.mgmt.cosmosdb.models.DatabaseRestoreResource]
         :keyword gremlin_databases_to_restore: List of specific gremlin databases available for
@@ -10355,10 +10551,8 @@ class RestoreParameters(_serialization.Model):
         :keyword tables_to_restore: List of specific tables available for restore.
         :paramtype tables_to_restore: list[str]
         """
-        super().__init__(**kwargs)
+        super().__init__(restore_source=restore_source, restore_timestamp_in_utc=restore_timestamp_in_utc, **kwargs)
         self.restore_mode = restore_mode
-        self.restore_source = restore_source
-        self.restore_timestamp_in_utc = restore_timestamp_in_utc
         self.databases_to_restore = databases_to_restore
         self.gremlin_databases_to_restore = gremlin_databases_to_restore
         self.tables_to_restore = tables_to_restore
@@ -10448,50 +10642,25 @@ class ServiceResource(ARMProxyResource):
 
 
 class ServiceResourceCreateUpdateParameters(_serialization.Model):
-    """Parameters for Create or Update Request for ServiceResource.
+    """Parameters for Create or Update request for ServiceResource.
 
-    :ivar instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
-     "Cosmos.D8s", and "Cosmos.D16s".
-    :vartype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
-    :ivar instance_count: Instance count for the service.
-    :vartype instance_count: int
-    :ivar service_type: ServiceType for the service. Known values are: "SqlDedicatedGateway",
-     "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
-    :vartype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+    :ivar properties: Properties in ServiceResourceCreateUpdateParameters.
+    :vartype properties: ~azure.mgmt.cosmosdb.models.ServiceResourceCreateUpdateProperties
     """
 
-    _validation = {
-        "instance_count": {"minimum": 0},
-    }
-
     _attribute_map = {
-        "instance_size": {"key": "properties.instanceSize", "type": "str"},
-        "instance_count": {"key": "properties.instanceCount", "type": "int"},
-        "service_type": {"key": "properties.serviceType", "type": "str"},
+        "properties": {"key": "properties", "type": "ServiceResourceCreateUpdateProperties"},
     }
 
     def __init__(
-        self,
-        *,
-        instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
-        instance_count: Optional[int] = None,
-        service_type: Optional[Union[str, "_models.ServiceType"]] = None,
-        **kwargs: Any
+        self, *, properties: Optional["_models.ServiceResourceCreateUpdateProperties"] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
-         "Cosmos.D8s", and "Cosmos.D16s".
-        :paramtype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
-        :keyword instance_count: Instance count for the service.
-        :paramtype instance_count: int
-        :keyword service_type: ServiceType for the service. Known values are: "SqlDedicatedGateway",
-         "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
-        :paramtype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+        :keyword properties: Properties in ServiceResourceCreateUpdateParameters.
+        :paramtype properties: ~azure.mgmt.cosmosdb.models.ServiceResourceCreateUpdateProperties
         """
         super().__init__(**kwargs)
-        self.instance_size = instance_size
-        self.instance_count = instance_count
-        self.service_type = service_type
+        self.properties = properties
 
 
 class ServiceResourceListResult(_serialization.Model):
@@ -10556,7 +10725,7 @@ class SqlContainerCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -10637,27 +10806,6 @@ class SqlContainerGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class SqlContainerGetPropertiesResource(
     SqlContainerResource, ExtendedResourceProperties
@@ -10666,7 +10814,7 @@ class SqlContainerGetPropertiesResource(
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -10694,6 +10842,13 @@ class SqlContainerGetPropertiesResource(
     :vartype client_encryption_policy: ~azure.mgmt.cosmosdb.models.ClientEncryptionPolicy
     :ivar analytical_storage_ttl: Analytical TTL.
     :vartype analytical_storage_ttl: int
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
+    :ivar computed_properties: List of computed properties.
+    :vartype computed_properties: list[~azure.mgmt.cosmosdb.models.ComputedProperty]
     """
 
     _validation = {
@@ -10715,6 +10870,9 @@ class SqlContainerGetPropertiesResource(
         "conflict_resolution_policy": {"key": "conflictResolutionPolicy", "type": "ConflictResolutionPolicy"},
         "client_encryption_policy": {"key": "clientEncryptionPolicy", "type": "ClientEncryptionPolicy"},
         "analytical_storage_ttl": {"key": "analyticalStorageTtl", "type": "int"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
+        "computed_properties": {"key": "computedProperties", "type": "[ComputedProperty]"},
     }
 
     def __init__(
@@ -10728,6 +10886,9 @@ class SqlContainerGetPropertiesResource(
         conflict_resolution_policy: Optional["_models.ConflictResolutionPolicy"] = None,
         client_encryption_policy: Optional["_models.ClientEncryptionPolicy"] = None,
         analytical_storage_ttl: Optional[int] = None,
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        computed_properties: Optional[List["_models.ComputedProperty"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -10750,6 +10911,13 @@ class SqlContainerGetPropertiesResource(
         :paramtype client_encryption_policy: ~azure.mgmt.cosmosdb.models.ClientEncryptionPolicy
         :keyword analytical_storage_ttl: Analytical TTL.
         :paramtype analytical_storage_ttl: int
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
+        :keyword computed_properties: List of computed properties.
+        :paramtype computed_properties: list[~azure.mgmt.cosmosdb.models.ComputedProperty]
         """
         super().__init__(
             id=id,
@@ -10760,6 +10928,9 @@ class SqlContainerGetPropertiesResource(
             conflict_resolution_policy=conflict_resolution_policy,
             client_encryption_policy=client_encryption_policy,
             analytical_storage_ttl=analytical_storage_ttl,
+            restore_parameters=restore_parameters,
+            create_mode=create_mode,
+            computed_properties=computed_properties,
             **kwargs
         )
         self.rid = None
@@ -10773,6 +10944,9 @@ class SqlContainerGetPropertiesResource(
         self.conflict_resolution_policy = conflict_resolution_policy
         self.client_encryption_policy = client_encryption_policy
         self.analytical_storage_ttl = analytical_storage_ttl
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
+        self.computed_properties = computed_properties
 
 
 class SqlContainerGetResults(ARMResourceProperties):
@@ -10874,7 +11048,7 @@ class SqlDatabaseCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -10955,34 +11129,13 @@ class SqlDatabaseGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class SqlDatabaseGetPropertiesResource(SqlDatabaseResource, ExtendedResourceProperties):
     """SqlDatabaseGetPropertiesResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -10993,6 +11146,11 @@ class SqlDatabaseGetPropertiesResource(SqlDatabaseResource, ExtendedResourceProp
     :vartype etag: str
     :ivar id: Name of the Cosmos DB SQL database. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     :ivar colls: A system generated property that specified the addressable path of the collections
      resource.
     :vartype colls: str
@@ -11013,6 +11171,8 @@ class SqlDatabaseGetPropertiesResource(SqlDatabaseResource, ExtendedResourceProp
         "ts": {"key": "_ts", "type": "float"},
         "etag": {"key": "_etag", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
         "colls": {"key": "_colls", "type": "str"},
         "users": {"key": "_users", "type": "str"},
     }
@@ -11021,6 +11181,8 @@ class SqlDatabaseGetPropertiesResource(SqlDatabaseResource, ExtendedResourceProp
         self,
         *,
         id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
         colls: Optional[str] = None,
         users: Optional[str] = None,
         **kwargs: Any
@@ -11028,6 +11190,11 @@ class SqlDatabaseGetPropertiesResource(SqlDatabaseResource, ExtendedResourceProp
         """
         :keyword id: Name of the Cosmos DB SQL database. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         :keyword colls: A system generated property that specified the addressable path of the
          collections resource.
         :paramtype colls: str
@@ -11035,13 +11202,15 @@ class SqlDatabaseGetPropertiesResource(SqlDatabaseResource, ExtendedResourceProp
          resource.
         :paramtype users: str
         """
-        super().__init__(id=id, **kwargs)
+        super().__init__(id=id, restore_parameters=restore_parameters, create_mode=create_mode, **kwargs)
         self.rid = None
         self.ts = None
         self.etag = None
         self.colls = colls
         self.users = users
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class SqlDatabaseGetResults(ARMResourceProperties):
@@ -11138,7 +11307,7 @@ class SqlDatabaseListResult(_serialization.Model):
         self.value = None
 
 
-class SqlDedicatedGatewayRegionalServiceResource(RegionalServiceResource):
+class SqlDedicatedGatewayRegionalServiceResource(RegionalServiceResource):  # pylint: disable=name-too-long
     """Resource for a regional service location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -11196,12 +11365,67 @@ class SqlDedicatedGatewayServiceResource(_serialization.Model):
         self.properties = properties
 
 
-class SqlDedicatedGatewayServiceResourceProperties(ServiceResourceProperties):
+class SqlDedicatedGatewayServiceResourceCreateUpdateProperties(
+    ServiceResourceCreateUpdateProperties
+):  # pylint: disable=name-too-long
+    """Properties for Create or Update request for SqlDedicatedGatewayServiceResource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+     "Cosmos.D8s", and "Cosmos.D16s".
+    :vartype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+    :ivar instance_count: Instance count for the service.
+    :vartype instance_count: int
+    :ivar service_type: ServiceType for the service. Required. Known values are:
+     "SqlDedicatedGateway", "DataTransfer", "GraphAPICompute", and "MaterializedViewsBuilder".
+    :vartype service_type: str or ~azure.mgmt.cosmosdb.models.ServiceType
+    :ivar dedicated_gateway_type: DedicatedGatewayType for the service. Known values are:
+     "IntegratedCache" and "DistributedQuery".
+    :vartype dedicated_gateway_type: str or ~azure.mgmt.cosmosdb.models.DedicatedGatewayType
+    """
+
+    _validation = {
+        "instance_count": {"minimum": 0},
+        "service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_size": {"key": "instanceSize", "type": "str"},
+        "instance_count": {"key": "instanceCount", "type": "int"},
+        "service_type": {"key": "serviceType", "type": "str"},
+        "dedicated_gateway_type": {"key": "dedicatedGatewayType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
+        instance_count: Optional[int] = None,
+        dedicated_gateway_type: Optional[Union[str, "_models.DedicatedGatewayType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword instance_size: Instance type for the service. Known values are: "Cosmos.D4s",
+         "Cosmos.D8s", and "Cosmos.D16s".
+        :paramtype instance_size: str or ~azure.mgmt.cosmosdb.models.ServiceSize
+        :keyword instance_count: Instance count for the service.
+        :paramtype instance_count: int
+        :keyword dedicated_gateway_type: DedicatedGatewayType for the service. Known values are:
+         "IntegratedCache" and "DistributedQuery".
+        :paramtype dedicated_gateway_type: str or ~azure.mgmt.cosmosdb.models.DedicatedGatewayType
+        """
+        super().__init__(instance_size=instance_size, instance_count=instance_count, **kwargs)
+        self.service_type: str = "SqlDedicatedGateway"
+        self.dedicated_gateway_type = dedicated_gateway_type
+
+
+class SqlDedicatedGatewayServiceResourceProperties(ServiceResourceProperties):  # pylint: disable=name-too-long
     """Properties for SqlDedicatedGatewayServiceResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -11221,6 +11445,9 @@ class SqlDedicatedGatewayServiceResourceProperties(ServiceResourceProperties):
     :vartype status: str or ~azure.mgmt.cosmosdb.models.ServiceStatus
     :ivar sql_dedicated_gateway_endpoint: SqlDedicatedGateway endpoint for the service.
     :vartype sql_dedicated_gateway_endpoint: str
+    :ivar dedicated_gateway_type: DedicatedGatewayType for the service. Known values are:
+     "IntegratedCache" and "DistributedQuery".
+    :vartype dedicated_gateway_type: str or ~azure.mgmt.cosmosdb.models.DedicatedGatewayType
     :ivar locations: An array that contains all of the locations for the service.
     :vartype locations:
      list[~azure.mgmt.cosmosdb.models.SqlDedicatedGatewayRegionalServiceResource]
@@ -11242,6 +11469,7 @@ class SqlDedicatedGatewayServiceResourceProperties(ServiceResourceProperties):
         "service_type": {"key": "serviceType", "type": "str"},
         "status": {"key": "status", "type": "str"},
         "sql_dedicated_gateway_endpoint": {"key": "sqlDedicatedGatewayEndpoint", "type": "str"},
+        "dedicated_gateway_type": {"key": "dedicatedGatewayType", "type": "str"},
         "locations": {"key": "locations", "type": "[SqlDedicatedGatewayRegionalServiceResource]"},
     }
 
@@ -11252,6 +11480,7 @@ class SqlDedicatedGatewayServiceResourceProperties(ServiceResourceProperties):
         instance_size: Optional[Union[str, "_models.ServiceSize"]] = None,
         instance_count: Optional[int] = None,
         sql_dedicated_gateway_endpoint: Optional[str] = None,
+        dedicated_gateway_type: Optional[Union[str, "_models.DedicatedGatewayType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -11265,6 +11494,9 @@ class SqlDedicatedGatewayServiceResourceProperties(ServiceResourceProperties):
         :paramtype instance_count: int
         :keyword sql_dedicated_gateway_endpoint: SqlDedicatedGateway endpoint for the service.
         :paramtype sql_dedicated_gateway_endpoint: str
+        :keyword dedicated_gateway_type: DedicatedGatewayType for the service. Known values are:
+         "IntegratedCache" and "DistributedQuery".
+        :paramtype dedicated_gateway_type: str or ~azure.mgmt.cosmosdb.models.DedicatedGatewayType
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -11274,6 +11506,7 @@ class SqlDedicatedGatewayServiceResourceProperties(ServiceResourceProperties):
         )
         self.service_type: str = "SqlDedicatedGateway"
         self.sql_dedicated_gateway_endpoint = sql_dedicated_gateway_endpoint
+        self.dedicated_gateway_type = dedicated_gateway_type
         self.locations = None
 
 
@@ -11568,7 +11801,7 @@ class SqlStoredProcedureCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -11642,7 +11875,7 @@ class SqlStoredProcedureCreateUpdateParameters(ARMResourceProperties):
 class SqlStoredProcedureResource(_serialization.Model):
     """Cosmos DB SQL storedProcedure resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB SQL storedProcedure. Required.
     :vartype id: str
@@ -11678,7 +11911,7 @@ class SqlStoredProcedureGetPropertiesResource(SqlStoredProcedureResource, Extend
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -11817,7 +12050,7 @@ class SqlTriggerCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -11891,7 +12124,7 @@ class SqlTriggerCreateUpdateParameters(ARMResourceProperties):
 class SqlTriggerResource(_serialization.Model):
     """Cosmos DB SQL trigger resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB SQL trigger. Required.
     :vartype id: str
@@ -11947,7 +12180,7 @@ class SqlTriggerGetPropertiesResource(SqlTriggerResource, ExtendedResourceProper
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -12101,12 +12334,12 @@ class SqlTriggerListResult(_serialization.Model):
         self.value = None
 
 
-class SqlUserDefinedFunctionCreateUpdateParameters(ARMResourceProperties):
+class SqlUserDefinedFunctionCreateUpdateParameters(ARMResourceProperties):  # pylint: disable=name-too-long
     """Parameters to create and update Cosmos DB userDefinedFunction.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -12180,7 +12413,7 @@ class SqlUserDefinedFunctionCreateUpdateParameters(ARMResourceProperties):
 class SqlUserDefinedFunctionResource(_serialization.Model):
     """Cosmos DB SQL userDefinedFunction resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB SQL userDefinedFunction. Required.
     :vartype id: str
@@ -12211,12 +12444,14 @@ class SqlUserDefinedFunctionResource(_serialization.Model):
         self.body = body
 
 
-class SqlUserDefinedFunctionGetPropertiesResource(SqlUserDefinedFunctionResource, ExtendedResourceProperties):
+class SqlUserDefinedFunctionGetPropertiesResource(
+    SqlUserDefinedFunctionResource, ExtendedResourceProperties
+):  # pylint: disable=name-too-long
     """SqlUserDefinedFunctionGetPropertiesResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -12419,7 +12654,7 @@ class TableCreateUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -12500,35 +12735,19 @@ class TableGetPropertiesOptions(OptionsResource):
     :vartype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
     """
 
-    _attribute_map = {
-        "throughput": {"key": "throughput", "type": "int"},
-        "autoscale_settings": {"key": "autoscaleSettings", "type": "AutoscaleSettings"},
-    }
-
-    def __init__(
-        self,
-        *,
-        throughput: Optional[int] = None,
-        autoscale_settings: Optional["_models.AutoscaleSettings"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the
-         ThroughputSetting resource when retrieving offer details.
-        :paramtype throughput: int
-        :keyword autoscale_settings: Specifies the Autoscale settings.
-        :paramtype autoscale_settings: ~azure.mgmt.cosmosdb.models.AutoscaleSettings
-        """
-        super().__init__(throughput=throughput, autoscale_settings=autoscale_settings, **kwargs)
-
 
 class TableResource(_serialization.Model):
     """Cosmos DB table resource object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Name of the Cosmos DB table. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -12537,15 +12756,31 @@ class TableResource(_serialization.Model):
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB table. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
         super().__init__(**kwargs)
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class TableGetPropertiesResource(TableResource, ExtendedResourceProperties):
@@ -12553,7 +12788,7 @@ class TableGetPropertiesResource(TableResource, ExtendedResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar rid: A system generated property. A unique identifier.
     :vartype rid: str
@@ -12564,6 +12799,11 @@ class TableGetPropertiesResource(TableResource, ExtendedResourceProperties):
     :vartype etag: str
     :ivar id: Name of the Cosmos DB table. Required.
     :vartype id: str
+    :ivar restore_parameters: Parameters to indicate the information about the restore.
+    :vartype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+    :ivar create_mode: Enum to indicate the mode of resource creation. Known values are: "Default"
+     and "Restore".
+    :vartype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
     """
 
     _validation = {
@@ -12578,18 +12818,34 @@ class TableGetPropertiesResource(TableResource, ExtendedResourceProperties):
         "ts": {"key": "_ts", "type": "float"},
         "etag": {"key": "_etag", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "restore_parameters": {"key": "restoreParameters", "type": "ResourceRestoreParameters"},
+        "create_mode": {"key": "createMode", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        restore_parameters: Optional["_models.ResourceRestoreParameters"] = None,
+        create_mode: Union[str, "_models.CreateMode"] = "Default",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Name of the Cosmos DB table. Required.
         :paramtype id: str
+        :keyword restore_parameters: Parameters to indicate the information about the restore.
+        :paramtype restore_parameters: ~azure.mgmt.cosmosdb.models.ResourceRestoreParameters
+        :keyword create_mode: Enum to indicate the mode of resource creation. Known values are:
+         "Default" and "Restore".
+        :paramtype create_mode: str or ~azure.mgmt.cosmosdb.models.CreateMode
         """
-        super().__init__(id=id, **kwargs)
+        super().__init__(id=id, restore_parameters=restore_parameters, create_mode=create_mode, **kwargs)
         self.rid = None
         self.ts = None
         self.etag = None
         self.id = id
+        self.restore_parameters = restore_parameters
+        self.create_mode = create_mode
 
 
 class TableGetResults(ARMResourceProperties):
@@ -12928,7 +13184,7 @@ class ThroughputSettingsUpdateParameters(ARMResourceProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The unique resource identifier of the ARM resource.
     :vartype id: str
@@ -13061,7 +13317,7 @@ class VirtualNetworkRule(_serialization.Model):
     """Virtual Network ACL Rule object.
 
     :ivar id: Resource ID of a subnet, for example:
-     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar ignore_missing_v_net_service_endpoint: Create firewall rule before the virtual network
      has vnet service endpoint enabled.
@@ -13082,7 +13338,7 @@ class VirtualNetworkRule(_serialization.Model):
     ) -> None:
         """
         :keyword id: Resource ID of a subnet, for example:
-         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword ignore_missing_v_net_service_endpoint: Create firewall rule before the virtual network
          has vnet service endpoint enabled.

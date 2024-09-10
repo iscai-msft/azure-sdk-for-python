@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcontainers import ContainerAppsAPIClient
 
 """
@@ -43,6 +46,7 @@ def main():
                 },
                 "daprAIConnectionString": "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://northcentralus-0.in.applicationinsights.azure.com/",
                 "peerAuthentication": {"mtls": {"enabled": True}},
+                "peerTrafficConfiguration": {"encryption": {"enabled": True}},
                 "vnetConfiguration": {
                     "infrastructureSubnetId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/RGName/providers/Microsoft.Network/virtualNetworks/VNetName/subnets/subnetName1"
                 },
@@ -74,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironments_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

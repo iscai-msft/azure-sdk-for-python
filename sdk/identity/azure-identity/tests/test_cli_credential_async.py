@@ -85,7 +85,7 @@ async def test_windows_fallback():
 
     sync_get_token = mock.Mock()
     with mock.patch("azure.identity.aio._credentials.azure_cli._SyncAzureCliCredential") as fallback:
-        fallback.return_value = mock.Mock(get_token=sync_get_token)
+        fallback.return_value = mock.Mock(spec_set=["get_token"], get_token=sync_get_token)
         with mock.patch(AzureCliCredential.__module__ + ".asyncio.get_event_loop"):
             # asyncio.get_event_loop now returns Mock, i.e. never ProactorEventLoop
             credential = AzureCliCredential()
@@ -117,6 +117,50 @@ async def test_get_token():
     assert token.token == access_token
     assert type(token.expires_on) == int
     assert token.expires_on == expected_expires_on
+
+
+async def test_expires_on_used():
+    """Test that 'expires_on' is preferred over 'expiresOn'."""
+    expires_on = 1602015811
+    successful_output = json.dumps(
+        {
+            "expiresOn": datetime.fromtimestamp(1555555555).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "expires_on": expires_on,
+            "accessToken": "access token",
+            "subscription": "some-guid",
+            "tenant": "some-guid",
+            "tokenType": "Bearer",
+        }
+    )
+
+    with mock.patch("shutil.which", return_value="az"):
+        with mock.patch(SUBPROCESS_EXEC, mock_exec(successful_output)):
+            credential = AzureCliCredential()
+            token = await credential.get_token("scope")
+
+    assert token.expires_on == expires_on
+
+
+async def test_expires_on_string():
+    """Test that 'expires_on' still works if it's a string."""
+    expires_on = 1602015811
+    successful_output = json.dumps(
+        {
+            "expires_on": f"{expires_on}",
+            "accessToken": "access token",
+            "subscription": "some-guid",
+            "tenant": "some-guid",
+            "tokenType": "Bearer",
+        }
+    )
+
+    with mock.patch("shutil.which", return_value="az"):
+        with mock.patch(SUBPROCESS_EXEC, mock_exec(successful_output)):
+            credential = AzureCliCredential()
+            token = await credential.get_token("scope")
+
+    assert type(token.expires_on) == int
+    assert token.expires_on == expires_on
 
 
 async def test_cli_not_installed():

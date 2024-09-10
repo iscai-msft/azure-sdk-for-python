@@ -1,5 +1,81 @@
 # Release History
 
+## 3.1.0 (2024-08-06)
+
+### Features Added
+
+  - The 'azure.mgmt.appcontainers.ContainerAppsAPIClient' client method 'get_custom_domain_verification_id' was added in the current version
+  - The 'azure.mgmt.appcontainers.ContainerAppsAPIClient' client had operation group 'usages' added in the current version
+  - The 'azure.mgmt.appcontainers.ContainerAppsAPIClient' client had operation group 'managed_environment_usages' added in the current version
+  - The 'azure.mgmt.appcontainers.aio.ContainerAppsAPIClient' client method 'get_custom_domain_verification_id' was added in the current version
+  - The 'azure.mgmt.appcontainers.aio.ContainerAppsAPIClient' client had operation group 'usages' added in the current version
+  - The 'azure.mgmt.appcontainers.aio.ContainerAppsAPIClient' client had operation group 'managed_environment_usages' added in the current version
+  - The 'azure.mgmt.appcontainers.aio.operations.ContainerAppsAPIClientOperationsMixin' method 'get_custom_domain_verification_id' was added in the current version
+  - The 'azure.mgmt.appcontainers.aio.operations.JobsOperations' method 'get_detector' was added in the current version
+  - The 'azure.mgmt.appcontainers.aio.operations.JobsOperations' method 'list_detectors' was added in the current version
+  - The 'azure.mgmt.appcontainers.aio.operations.JobsOperations' method 'proxy_get' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.aio.operations.ManagedEnvironmentUsagesOperations' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.aio.operations.UsagesOperations' was added in the current version
+  - The 'azure.mgmt.appcontainers.operations.ContainerAppsAPIClientOperationsMixin' method 'get_custom_domain_verification_id' was added in the current version
+  - The 'azure.mgmt.appcontainers.operations.JobsOperations' method 'get_detector' was added in the current version
+  - The 'azure.mgmt.appcontainers.operations.JobsOperations' method 'list_detectors' was added in the current version
+  - The 'azure.mgmt.appcontainers.operations.JobsOperations' method 'proxy_get' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.operations.ManagedEnvironmentUsagesOperations' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.operations.UsagesOperations' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.AuthConfig' had property 'encryption_settings' added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.AvailableWorkloadProfileProperties' had property 'gpus' added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.Ingress' had property 'additional_port_mappings' added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.Login' had property 'token_store' added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.ManagedEnvironment' had property 'peer_traffic_configuration' added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.BlobStorageTokenStore' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.EncryptionSettings' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.IngressPortMapping' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.ListUsagesResult' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerTrafficConfiguration' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.TokenStore' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.Usage' was added in the current version
+  - The model or publicly exposed class 'azure.mgmt.appcontainers.models.UsageName' was added in the current version
+
+## 3.1.0b1 (2024-03-18)
+
+### Features Added
+
+  - Added operation ContainerAppsAPIClientOperationsMixin.get_custom_domain_verification_id
+  - Added operation JobsOperations.get_detector
+  - Added operation JobsOperations.list_detectors
+  - Added operation JobsOperations.proxy_get
+  - Added operation group AppResiliencyOperations
+  - Added operation group BuildAuthTokenOperations
+  - Added operation group BuildersOperations
+  - Added operation group BuildsByBuilderResourceOperations
+  - Added operation group BuildsOperations
+  - Added operation group DaprComponentResiliencyPoliciesOperations
+  - Added operation group DaprSubscriptionsOperations
+  - Added operation group DotNetComponentsOperations
+  - Added operation group JavaComponentsOperations
+  - Added operation group ManagedEnvironmentUsagesOperations
+  - Added operation group UsagesOperations
+  - Model AuthConfig has a new parameter encryption_settings
+  - Model AvailableWorkloadProfileProperties has a new parameter gpus
+  - Model CertificateProperties has a new parameter certificate_key_vault_properties
+  - Model CertificateProperties has a new parameter certificate_type
+  - Model CustomDomainConfiguration has a new parameter certificate_key_vault_properties
+  - Model DaprComponent has a new parameter service_component_bind
+  - Model GithubActionConfiguration has a new parameter build_environment_variables
+  - Model Ingress has a new parameter additional_port_mappings
+  - Model Ingress has a new parameter target_port_http_scheme
+  - Model Job has a new parameter extended_location
+  - Model JobPatchProperties has a new parameter extended_location
+  - Model LogAnalyticsConfiguration has a new parameter dynamic_json_columns
+  - Model Login has a new parameter token_store
+  - Model ManagedEnvironment has a new parameter app_insights_configuration
+  - Model ManagedEnvironment has a new parameter identity
+  - Model ManagedEnvironment has a new parameter open_telemetry_configuration
+  - Model ManagedEnvironmentStorageProperties has a new parameter nfs_azure_file
+  - Model ServiceBind has a new parameter client_type
+  - Model ServiceBind has a new parameter customized_keys
+
 ## 3.0.0 (2023-08-18)
 
 ### Features Added

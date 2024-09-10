@@ -18,8 +18,10 @@ from github import Github, Auth
 
 logging.getLogger().setLevel(logging.INFO)
 
+CHECK_TYPE = Literal["mypy", "pylint", "pyright"]
 
-def get_version_running(check_type: Literal["mypy", "pylint", "pyright"]) -> str:
+
+def get_version_running(check_type: CHECK_TYPE) -> str:
     commands = [
         sys.executable,
         "-m",
@@ -37,7 +39,7 @@ def get_version_running(check_type: Literal["mypy", "pylint", "pyright"]) -> str
     return version_running
 
 
-def get_build_link(check_type: Literal["mypy", "pylint", "pyright"]) -> str:
+def get_build_link(check_type: CHECK_TYPE) -> str:
     build_id = os.getenv('BUILD_BUILDID')
     job_id = os.getenv('SYSTEM_JOBID')
 
@@ -85,7 +87,7 @@ def get_date_for_version_bump(today: datetime.datetime) -> str:
     return merge_date.strftime('%Y-%m-%d')
 
 
-def create_vnext_issue(package_name: str, check_type: Literal["mypy", "pylint", "pyright"]) -> None:
+def create_vnext_issue(package_name: str, check_type: CHECK_TYPE) -> None:
     """This is called when a client library fails a vnext check.
     An issue is created with the details or an existing issue is updated with the latest information."""
 
@@ -135,3 +137,18 @@ def create_vnext_issue(package_name: str, check_type: Literal["mypy", "pylint", 
         title=title,
         body=template,
     )
+
+
+def close_vnext_issue(package_name: str, check_type: CHECK_TYPE) -> None:
+    """This is called when a client library passes a vnext check. If an issue exists for the library, it is closed."""
+
+    auth = Auth.Token(os.environ["GH_TOKEN"])
+    g = Github(auth=auth)
+
+    repo = g.get_repo("Azure/azure-sdk-for-python")
+
+    issues = repo.get_issues(state="open", labels=[check_type], creator="azure-sdk")
+    vnext_issue = [issue for issue in issues if issue.title.split("needs")[0].strip() == package_name]
+    if vnext_issue:
+        logging.info(f"{package_name} passes {check_type}. Closing existing GH issue #{vnext_issue[0].number}...")
+        vnext_issue[0].edit(state="closed")

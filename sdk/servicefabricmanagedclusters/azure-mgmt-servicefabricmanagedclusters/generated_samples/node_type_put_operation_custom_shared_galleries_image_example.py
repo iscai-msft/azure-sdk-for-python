@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.servicefabricmanagedclusters import ServiceFabricManagedClustersManagementClient
 
 """
@@ -35,10 +38,10 @@ def main():
         node_type_name="BE",
         parameters={
             "properties": {
-                "VmSharedGalleryImageId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-custom-image/providers/Microsoft.Compute/sharedGalleries/35349201-a0b3-405e-8a23-9f1450984307-SFSHAREDGALLERY/images/TestNoProdContainerDImage/versions/latest",
                 "dataDiskSizeGB": 200,
                 "isPrimary": False,
                 "vmInstanceCount": 10,
+                "vmSharedGalleryImageId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-custom-image/providers/Microsoft.Compute/sharedGalleries/35349201-a0b3-405e-8a23-9f1450984307-SFSHAREDGALLERY/images/TestNoProdContainerDImage/versions/latest",
                 "vmSize": "Standard_D3",
             }
         },
@@ -46,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-02-01-preview/examples/NodeTypePutOperationCustomSharedGalleriesImage_example.json
+# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePutOperationCustomSharedGalleriesImage_example.json
 if __name__ == "__main__":
     main()

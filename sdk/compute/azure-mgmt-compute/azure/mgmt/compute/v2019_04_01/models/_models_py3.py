@@ -26,7 +26,7 @@ class ResourceSku(_serialization.Model):  # pylint: disable=too-many-instance-at
     :ivar name: The name of SKU.
     :vartype name: str
     :ivar tier: Specifies the tier of virtual machines in a scale set.:code:`<br />`:code:`<br />`
-     Possible Values::code:`<br />`:code:`<br />` **Standard**\ :code:`<br />`:code:`<br />`
+     Possible Values::code:`<br />`:code:`<br />` **Standard**\\ :code:`<br />`:code:`<br />`
      **Basic**.
     :vartype tier: str
     :ivar size: The Size of the SKU.
@@ -308,7 +308,7 @@ class ResourceSkuRestrictions(_serialization.Model):
 class ResourceSkusResult(_serialization.Model):
     """The List Resource Skus operation response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of skus available for the subscription. Required.
     :vartype value: list[~azure.mgmt.compute.v2019_04_01.models.ResourceSku]

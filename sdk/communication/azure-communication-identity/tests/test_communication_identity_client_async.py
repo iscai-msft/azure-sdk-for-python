@@ -7,13 +7,13 @@
 import pytest
 from datetime import timedelta
 from azure.communication.identity import CommunicationTokenScope
-from devtools_testutils import is_live
+from devtools_testutils import is_live, get_credential
 from devtools_testutils.aio import recorded_by_proxy_async
-from utils import is_token_expiration_within_allowed_deviation
+from test_communication_identity_client import ArgumentPasser
+from utils import is_token_expiration_within_allowed_deviation, token_scope_scenarios
 from acs_identity_test_case import ACSIdentityTestCase
 from azure.communication.identity.aio import CommunicationIdentityClient
 from devtools_testutils.fake_credentials_async import AsyncFakeCredential
-from azure.identity.aio import DefaultAzureCredential
 from _shared.utils import get_http_logging_policy
 
 
@@ -31,7 +31,7 @@ class TestClientAsync(ACSIdentityTestCase):
         if not is_live():
             credential = AsyncFakeCredential()
         else:
-            credential = DefaultAzureCredential()
+            credential = get_credential(is_async=True)
         return CommunicationIdentityClient(
             self.endpoint, credential, http_logging_policy=get_http_logging_policy()
         )
@@ -52,34 +52,17 @@ class TestClientAsync(ACSIdentityTestCase):
 
         assert user.properties.get("id") is not None
 
+    @pytest.mark.parametrize(
+        "_, value",
+        token_scope_scenarios,
+    )
+    @ArgumentPasser()
     @recorded_by_proxy_async
-    async def test_create_user_and_token_with_scope_chat(self):
+    async def test_create_user_and_token(self, _, scopes):
         identity_client = self.create_client_from_connection_string()
         async with identity_client:
             user, token_response = await identity_client.create_user_and_token(
-                scopes=[CommunicationTokenScope.CHAT]
-            )
-
-        assert user.properties.get("id") is not None
-        assert token_response.token is not None
-
-    @recorded_by_proxy_async
-    async def test_create_user_and_token_with_scope_voip(self):
-        identity_client = self.create_client_from_connection_string()
-        async with identity_client:
-            user, token_response = await identity_client.create_user_and_token(
-                scopes=[CommunicationTokenScope.VOIP]
-            )
-
-        assert user.properties.get("id") is not None
-        assert token_response.token is not None
-
-    @recorded_by_proxy_async
-    async def test_create_user_and_token_with_scope_chat_and_voip(self):
-        identity_client = self.create_client_from_connection_string()
-        async with identity_client:
-            user, token_response = await identity_client.create_user_and_token(
-                scopes=[CommunicationTokenScope.CHAT, CommunicationTokenScope.VOIP]
+                scopes=scopes
             )
 
         assert user.properties.get("id") is not None
@@ -155,39 +138,17 @@ class TestClientAsync(ACSIdentityTestCase):
         assert str(ex.value.status_code) == "400"
         assert ex.value.message is not None
 
+    @pytest.mark.parametrize(
+        "_, value",
+        token_scope_scenarios,
+    )
+    @ArgumentPasser()
     @recorded_by_proxy_async
-    async def test_get_token_from_token_credential_with_scope_chat(self):
+    async def test_get_token_from_token_credential(self, _, scopes):
         identity_client = self.create_client_from_token_credential()
         async with identity_client:
             user = await identity_client.create_user()
-            token_response = await identity_client.get_token(
-                user, scopes=[CommunicationTokenScope.CHAT]
-            )
-
-        assert user.properties.get("id") is not None
-        assert token_response.token is not None
-
-    @recorded_by_proxy_async
-    async def test_get_token_from_token_credential_with_scope_voip(self):
-        identity_client = self.create_client_from_token_credential()
-        async with identity_client:
-            user = await identity_client.create_user()
-            token_response = await identity_client.get_token(
-                user, scopes=[CommunicationTokenScope.VOIP]
-            )
-
-        assert user.properties.get("id") is not None
-        assert token_response.token is not None
-
-    @recorded_by_proxy_async
-    async def test_get_token_from_token_credential_with_scope_chat_and_voip(self):
-        identity_client = self.create_client_from_token_credential()
-        async with identity_client:
-            user = await identity_client.create_user()
-            token_response = await identity_client.get_token(
-                user,
-                scopes=[CommunicationTokenScope.CHAT, CommunicationTokenScope.VOIP],
-            )
+            token_response = await identity_client.get_token(user, scopes=scopes)
 
         assert user.properties.get("id") is not None
         assert token_response.token is not None

@@ -1,6 +1,6 @@
 # Document Translation Performance Tests
 
-In order to run the performance tests, the `azure-devtools` package must be installed. This is done as part of the `dev_requirements` install.
+In order to run the performance tests, the `devtools_testutils` package must be installed. This is done as part of the `dev_requirements` install.
 Start by creating a new virtual environment for your perf tests. This will need to be a Python 3 environment, preferably >=3.7.
 
 ### Setup for test resources
@@ -9,7 +9,6 @@ The following environment variable will need to be set for the tests to access t
 
 ```
 TRANSLATION_DOCUMENT_TEST_ENDPOINT=<translation-endpoint>
-TRANSLATION_DOCUMENT_TEST_API_KEY=<translation-key>
 TRANSLATION_DOCUMENT_STORAGE_NAME=<storage-blob-account-name>
 TRANSLATION_DOCUMENT_STORAGE_KEY=<storage-shared-key>
 ```
@@ -23,7 +22,7 @@ TRANSLATION_DOCUMENT_STORAGE_KEY=<storage-shared-key>
 
 ## Test commands
 
-When `azure-devtools` is installed, you will have access to the `perfstress` command line tool, which will scan the current module for runable perf tests. Only a specific test can be run at a time (i.e. there is no "run all" feature).
+When `devtools_testutils` is installed, you will have access to the `perfstress` command line tool, which will scan the current module for runable perf tests. Only a specific test can be run at a time (i.e. there is no "run all" feature).
 
 ```cmd
 (env) ~/azure-ai-translation-document> cd tests/perfstress_tests/

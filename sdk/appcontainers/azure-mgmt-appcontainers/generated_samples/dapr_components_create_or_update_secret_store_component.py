@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcontainers import ContainerAppsAPIClient
 
 """
@@ -53,6 +56,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
 if __name__ == "__main__":
     main()
