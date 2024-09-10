@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,6 +33,10 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +50,7 @@ def build_list_cassandra_keyspaces_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -80,7 +85,7 @@ def build_get_cassandra_keyspace_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -110,13 +115,13 @@ def build_get_cassandra_keyspace_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_cassandra_keyspace_request(
+def build_create_update_cassandra_keyspace_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, keyspace_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -154,7 +159,7 @@ def build_delete_cassandra_keyspace_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -179,13 +184,13 @@ def build_delete_cassandra_keyspace_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
 
 
-def build_get_cassandra_keyspace_throughput_request(
+def build_get_cassandra_keyspace_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, keyspace_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -215,13 +220,13 @@ def build_get_cassandra_keyspace_throughput_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_cassandra_keyspace_throughput_request(
+def build_update_cassandra_keyspace_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, keyspace_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -254,13 +259,13 @@ def build_update_cassandra_keyspace_throughput_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_cassandra_keyspace_to_autoscale_request(
+def build_migrate_cassandra_keyspace_to_autoscale_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, keyspace_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -290,13 +295,13 @@ def build_migrate_cassandra_keyspace_to_autoscale_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_cassandra_keyspace_to_manual_throughput_request(
+def build_migrate_cassandra_keyspace_to_manual_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, keyspace_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -332,7 +337,7 @@ def build_list_cassandra_tables_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -373,7 +378,7 @@ def build_get_cassandra_table_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -404,7 +409,7 @@ def build_get_cassandra_table_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_update_cassandra_table_request(
+def build_create_update_cassandra_table_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     keyspace_name: str,
@@ -415,7 +420,7 @@ def build_create_update_cassandra_table_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -459,7 +464,7 @@ def build_delete_cassandra_table_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -485,7 +490,7 @@ def build_delete_cassandra_table_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
 
 
-def build_get_cassandra_table_throughput_request(
+def build_get_cassandra_table_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     keyspace_name: str,
@@ -496,7 +501,7 @@ def build_get_cassandra_table_throughput_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -527,7 +532,7 @@ def build_get_cassandra_table_throughput_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_cassandra_table_throughput_request(
+def build_update_cassandra_table_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     keyspace_name: str,
@@ -538,7 +543,7 @@ def build_update_cassandra_table_throughput_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -572,7 +577,7 @@ def build_update_cassandra_table_throughput_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_cassandra_table_to_autoscale_request(
+def build_migrate_cassandra_table_to_autoscale_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     keyspace_name: str,
@@ -583,7 +588,7 @@ def build_migrate_cassandra_table_to_autoscale_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -614,7 +619,7 @@ def build_migrate_cassandra_table_to_autoscale_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_migrate_cassandra_table_to_manual_throughput_request(
+def build_migrate_cassandra_table_to_manual_throughput_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     keyspace_name: str,
@@ -625,7 +630,7 @@ def build_migrate_cassandra_table_to_manual_throughput_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-15"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -686,7 +691,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param account_name: Cosmos DB database account name. Required.
         :type account_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either CassandraKeyspaceGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.CassandraKeyspaceGetResults]
@@ -698,7 +702,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CassandraKeyspaceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -709,17 +713,16 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_cassandra_keyspaces_request(
+                _request = build_list_cassandra_keyspaces_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_cassandra_keyspaces.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -731,13 +734,13 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("CassandraKeyspaceListResult", pipeline_response)
@@ -747,11 +750,11 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -762,10 +765,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_cassandra_keyspaces.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces"
-    }
 
     @distributed_trace
     def get_cassandra_keyspace(
@@ -781,12 +780,11 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CassandraKeyspaceGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.CassandraKeyspaceGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -800,22 +798,21 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CassandraKeyspaceGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_cassandra_keyspace_request(
+        _request = build_get_cassandra_keyspace_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_cassandra_keyspace.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -827,23 +824,19 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("CassandraKeyspaceGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_cassandra_keyspace.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}"
-    }
-
-    def _create_update_cassandra_keyspace_initial(
+    def _create_update_cassandra_keyspace_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         keyspace_name: str,
-        create_update_cassandra_keyspace_parameters: Union[_models.CassandraKeyspaceCreateUpdateParameters, IO],
+        create_update_cassandra_keyspace_parameters: Union[_models.CassandraKeyspaceCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.CassandraKeyspaceGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -868,7 +861,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_cassandra_keyspace_parameters, "CassandraKeyspaceCreateUpdateParameters"
             )
 
-        request = build_create_update_cassandra_keyspace_request(
+        _request = build_create_update_cassandra_keyspace_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
@@ -877,16 +870,15 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_cassandra_keyspace_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -907,13 +899,9 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_cassandra_keyspace_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_cassandra_keyspace(
@@ -942,14 +930,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either CassandraKeyspaceGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.CassandraKeyspaceGetResults]
@@ -962,7 +942,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         keyspace_name: str,
-        create_update_cassandra_keyspace_parameters: IO,
+        create_update_cassandra_keyspace_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -978,18 +958,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type keyspace_name: str
         :param create_update_cassandra_keyspace_parameters: The parameters to provide for the current
          Cassandra keyspace. Required.
-        :type create_update_cassandra_keyspace_parameters: IO
+        :type create_update_cassandra_keyspace_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either CassandraKeyspaceGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.CassandraKeyspaceGetResults]
@@ -1002,7 +974,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         account_name: str,
         keyspace_name: str,
-        create_update_cassandra_keyspace_parameters: Union[_models.CassandraKeyspaceCreateUpdateParameters, IO],
+        create_update_cassandra_keyspace_parameters: Union[_models.CassandraKeyspaceCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.CassandraKeyspaceGetResults]:
         """Create or update an Azure Cosmos DB Cassandra keyspace.
@@ -1015,21 +987,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
         :param create_update_cassandra_keyspace_parameters: The parameters to provide for the current
-         Cassandra keyspace. Is either a CassandraKeyspaceCreateUpdateParameters type or a IO type.
-         Required.
+         Cassandra keyspace. Is either a CassandraKeyspaceCreateUpdateParameters type or a IO[bytes]
+         type. Required.
         :type create_update_cassandra_keyspace_parameters:
-         ~azure.mgmt.cosmosdb.models.CassandraKeyspaceCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.CassandraKeyspaceCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either CassandraKeyspaceGetResults or the result
          of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.CassandraKeyspaceGetResults]
@@ -1062,7 +1023,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("CassandraKeyspaceGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1072,22 +1033,20 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.CassandraKeyspaceGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_cassandra_keyspace.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}"
-    }
+        return LROPoller[_models.CassandraKeyspaceGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_cassandra_keyspace_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, account_name: str, keyspace_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1101,22 +1060,21 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_cassandra_keyspace_request(
+        _request = build_delete_cassandra_keyspace_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_cassandra_keyspace_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1133,11 +1091,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_cassandra_keyspace_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_cassandra_keyspace(
@@ -1152,14 +1106,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1187,7 +1133,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -1196,17 +1142,13 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_cassandra_keyspace.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get_cassandra_keyspace_throughput(
@@ -1222,12 +1164,11 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ThroughputSettingsGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1241,22 +1182,21 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ThroughputSettingsGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_cassandra_keyspace_throughput_request(
+        _request = build_get_cassandra_keyspace_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_cassandra_keyspace_throughput.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1268,23 +1208,19 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_cassandra_keyspace_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default"
-    }
-
-    def _update_cassandra_keyspace_throughput_initial(
+    def _update_cassandra_keyspace_throughput_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         keyspace_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1307,7 +1243,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(update_throughput_parameters, "ThroughputSettingsUpdateParameters")
 
-        request = build_update_cassandra_keyspace_throughput_request(
+        _request = build_update_cassandra_keyspace_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
@@ -1316,16 +1252,15 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_cassandra_keyspace_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1346,16 +1281,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_cassandra_keyspace_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     @overload
-    def begin_update_cassandra_keyspace_throughput(
+    def begin_update_cassandra_keyspace_throughput(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
@@ -1381,14 +1312,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -1396,12 +1319,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    def begin_update_cassandra_keyspace_throughput(
+    def begin_update_cassandra_keyspace_throughput(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         keyspace_name: str,
-        update_throughput_parameters: IO,
+        update_throughput_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1417,18 +1340,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type keyspace_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
          current Cassandra Keyspace. Required.
-        :type update_throughput_parameters: IO
+        :type update_throughput_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -1436,12 +1351,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace
-    def begin_update_cassandra_keyspace_throughput(
+    def begin_update_cassandra_keyspace_throughput(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         keyspace_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Update RUs per second of an Azure Cosmos DB Cassandra Keyspace.
@@ -1454,21 +1369,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
-         current Cassandra Keyspace. Is either a ThroughputSettingsUpdateParameters type or a IO type.
-         Required.
+         current Cassandra Keyspace. Is either a ThroughputSettingsUpdateParameters type or a IO[bytes]
+         type. Required.
         :type update_throughput_parameters:
-         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -1501,7 +1405,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1511,22 +1415,20 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_update_cassandra_keyspace_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default"
-    }
-
-    def _migrate_cassandra_keyspace_to_autoscale_initial(
+    def _migrate_cassandra_keyspace_to_autoscale_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1540,22 +1442,21 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_cassandra_keyspace_to_autoscale_request(
+        _request = build_migrate_cassandra_keyspace_to_autoscale_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_cassandra_keyspace_to_autoscale_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1576,16 +1477,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_cassandra_keyspace_to_autoscale_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_migrate_cassandra_keyspace_to_autoscale(
+    def begin_migrate_cassandra_keyspace_to_autoscale(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale.
@@ -1597,14 +1494,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -1634,7 +1523,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1644,22 +1533,20 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_migrate_cassandra_keyspace_to_autoscale.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale"
-    }
-
-    def _migrate_cassandra_keyspace_to_manual_throughput_initial(
+    def _migrate_cassandra_keyspace_to_manual_throughput_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1673,22 +1560,21 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_cassandra_keyspace_to_manual_throughput_request(
+        _request = build_migrate_cassandra_keyspace_to_manual_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_cassandra_keyspace_to_manual_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1709,16 +1595,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_cassandra_keyspace_to_manual_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_migrate_cassandra_keyspace_to_manual_throughput(
+    def begin_migrate_cassandra_keyspace_to_manual_throughput(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB Cassandra Keyspace from autoscale to manual throughput.
@@ -1730,14 +1612,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -1767,7 +1641,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1777,17 +1651,15 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_migrate_cassandra_keyspace_to_manual_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_cassandra_tables(
@@ -1802,7 +1674,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type account_name: str
         :param keyspace_name: Cosmos DB keyspace name. Required.
         :type keyspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either CassandraTableGetResults or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.cosmosdb.models.CassandraTableGetResults]
@@ -1814,7 +1685,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CassandraTableListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1825,18 +1696,17 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_cassandra_tables_request(
+                _request = build_list_cassandra_tables_request(
                     resource_group_name=resource_group_name,
                     account_name=account_name,
                     keyspace_name=keyspace_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_cassandra_tables.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1848,13 +1718,13 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("CassandraTableListResult", pipeline_response)
@@ -1864,11 +1734,11 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             return None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1879,10 +1749,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_cassandra_tables.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables"
-    }
 
     @distributed_trace
     def get_cassandra_table(
@@ -1899,12 +1765,11 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type keyspace_name: str
         :param table_name: Cosmos DB table name. Required.
         :type table_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CassandraTableGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.CassandraTableGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1918,23 +1783,22 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CassandraTableGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_cassandra_table_request(
+        _request = build_get_cassandra_table_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             table_name=table_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_cassandra_table.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1946,13 +1810,9 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("CassandraTableGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_cassandra_table.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_update_cassandra_table_initial(
         self,
@@ -1960,10 +1820,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         keyspace_name: str,
         table_name: str,
-        create_update_cassandra_table_parameters: Union[_models.CassandraTableCreateUpdateParameters, IO],
+        create_update_cassandra_table_parameters: Union[_models.CassandraTableCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.CassandraTableGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1988,7 +1848,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
                 create_update_cassandra_table_parameters, "CassandraTableCreateUpdateParameters"
             )
 
-        request = build_create_update_cassandra_table_request(
+        _request = build_create_update_cassandra_table_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
@@ -1998,16 +1858,15 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_update_cassandra_table_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2028,13 +1887,9 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_update_cassandra_table_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_create_update_cassandra_table(
@@ -2066,14 +1921,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either CassandraTableGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.CassandraTableGetResults]
@@ -2087,7 +1934,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         keyspace_name: str,
         table_name: str,
-        create_update_cassandra_table_parameters: IO,
+        create_update_cassandra_table_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2105,18 +1952,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type table_name: str
         :param create_update_cassandra_table_parameters: The parameters to provide for the current
          Cassandra Table. Required.
-        :type create_update_cassandra_table_parameters: IO
+        :type create_update_cassandra_table_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either CassandraTableGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.CassandraTableGetResults]
@@ -2130,7 +1969,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         keyspace_name: str,
         table_name: str,
-        create_update_cassandra_table_parameters: Union[_models.CassandraTableCreateUpdateParameters, IO],
+        create_update_cassandra_table_parameters: Union[_models.CassandraTableCreateUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.CassandraTableGetResults]:
         """Create or update an Azure Cosmos DB Cassandra Table.
@@ -2145,20 +1984,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :param table_name: Cosmos DB table name. Required.
         :type table_name: str
         :param create_update_cassandra_table_parameters: The parameters to provide for the current
-         Cassandra Table. Is either a CassandraTableCreateUpdateParameters type or a IO type. Required.
+         Cassandra Table. Is either a CassandraTableCreateUpdateParameters type or a IO[bytes] type.
+         Required.
         :type create_update_cassandra_table_parameters:
-         ~azure.mgmt.cosmosdb.models.CassandraTableCreateUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.CassandraTableCreateUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either CassandraTableGetResults or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.CassandraTableGetResults]
@@ -2192,7 +2021,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("CassandraTableGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2202,22 +2031,20 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.CassandraTableGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_update_cassandra_table.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}"
-    }
+        return LROPoller[_models.CassandraTableGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     def _delete_cassandra_table_initial(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, account_name: str, keyspace_name: str, table_name: str, **kwargs: Any
     ) -> None:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2231,23 +2058,22 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_cassandra_table_request(
+        _request = build_delete_cassandra_table_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             table_name=table_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_cassandra_table_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2264,11 +2090,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    _delete_cassandra_table_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}"
-    }
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def begin_delete_cassandra_table(
@@ -2285,14 +2107,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type keyspace_name: str
         :param table_name: Cosmos DB table name. Required.
         :type table_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2321,7 +2135,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -2330,17 +2144,13 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_cassandra_table.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get_cassandra_table_throughput(
@@ -2358,12 +2168,11 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type keyspace_name: str
         :param table_name: Cosmos DB table name. Required.
         :type table_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ThroughputSettingsGetResults or the result of cls(response)
         :rtype: ~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2377,23 +2186,22 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ThroughputSettingsGetResults] = kwargs.pop("cls", None)
 
-        request = build_get_cassandra_table_throughput_request(
+        _request = build_get_cassandra_table_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             table_name=table_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_cassandra_table_throughput.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2405,24 +2213,20 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_cassandra_table_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default"
-    }
-
-    def _update_cassandra_table_throughput_initial(
+    def _update_cassandra_table_throughput_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         account_name: str,
         keyspace_name: str,
         table_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2445,7 +2249,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             _json = self._serialize.body(update_throughput_parameters, "ThroughputSettingsUpdateParameters")
 
-        request = build_update_cassandra_table_throughput_request(
+        _request = build_update_cassandra_table_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
@@ -2455,16 +2259,15 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._update_cassandra_table_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2485,13 +2288,9 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _update_cassandra_table_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def begin_update_cassandra_table_throughput(
@@ -2523,14 +2322,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2544,7 +2335,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         keyspace_name: str,
         table_name: str,
-        update_throughput_parameters: IO,
+        update_throughput_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2562,18 +2353,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type table_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
          current Cassandra table. Required.
-        :type update_throughput_parameters: IO
+        :type update_throughput_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2587,7 +2370,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         keyspace_name: str,
         table_name: str,
-        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO],
+        update_throughput_parameters: Union[_models.ThroughputSettingsUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Update RUs per second of an Azure Cosmos DB Cassandra table.
@@ -2602,21 +2385,10 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :param table_name: Cosmos DB table name. Required.
         :type table_name: str
         :param update_throughput_parameters: The RUs per second of the parameters to provide for the
-         current Cassandra table. Is either a ThroughputSettingsUpdateParameters type or a IO type.
-         Required.
+         current Cassandra table. Is either a ThroughputSettingsUpdateParameters type or a IO[bytes]
+         type. Required.
         :type update_throughput_parameters:
-         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         ~azure.mgmt.cosmosdb.models.ThroughputSettingsUpdateParameters or IO[bytes]
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2650,7 +2422,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2660,22 +2432,20 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_update_cassandra_table_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default"
-    }
-
-    def _migrate_cassandra_table_to_autoscale_initial(
+    def _migrate_cassandra_table_to_autoscale_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, table_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2689,23 +2459,22 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_cassandra_table_to_autoscale_request(
+        _request = build_migrate_cassandra_table_to_autoscale_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             table_name=table_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_cassandra_table_to_autoscale_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2726,16 +2495,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_cassandra_table_to_autoscale_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_migrate_cassandra_table_to_autoscale(
+    def begin_migrate_cassandra_table_to_autoscale(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, table_name: str, **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale.
@@ -2749,14 +2514,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type keyspace_name: str
         :param table_name: Cosmos DB table name. Required.
         :type table_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2787,7 +2544,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2797,22 +2554,20 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_migrate_cassandra_table_to_autoscale.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale"
-    }
-
-    def _migrate_cassandra_table_to_manual_throughput_initial(
+    def _migrate_cassandra_table_to_manual_throughput_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, table_name: str, **kwargs: Any
     ) -> Optional[_models.ThroughputSettingsGetResults]:
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2826,23 +2581,22 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.ThroughputSettingsGetResults]] = kwargs.pop("cls", None)
 
-        request = build_migrate_cassandra_table_to_manual_throughput_request(
+        _request = build_migrate_cassandra_table_to_manual_throughput_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             keyspace_name=keyspace_name,
             table_name=table_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._migrate_cassandra_table_to_manual_throughput_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2863,16 +2617,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _migrate_cassandra_table_to_manual_throughput_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_migrate_cassandra_table_to_manual_throughput(
+    def begin_migrate_cassandra_table_to_manual_throughput(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, keyspace_name: str, table_name: str, **kwargs: Any
     ) -> LROPoller[_models.ThroughputSettingsGetResults]:
         """Migrate an Azure Cosmos DB Cassandra table from autoscale to manual throughput.
@@ -2886,14 +2636,6 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         :type keyspace_name: str
         :param table_name: Cosmos DB table name. Required.
         :type table_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either ThroughputSettingsGetResults or the
          result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.cosmosdb.models.ThroughputSettingsGetResults]
@@ -2924,7 +2666,7 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         def get_long_running_output(pipeline_response):
             deserialized = self._deserialize("ThroughputSettingsGetResults", pipeline_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -2934,14 +2676,12 @@ class CassandraResourcesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.ThroughputSettingsGetResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_migrate_cassandra_table_to_manual_throughput.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput"
-    }
+        return LROPoller[_models.ThroughputSettingsGetResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

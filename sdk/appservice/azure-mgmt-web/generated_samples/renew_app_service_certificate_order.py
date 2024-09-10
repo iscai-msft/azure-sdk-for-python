@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.web import WebSiteManagementClient
 
 """
@@ -29,16 +32,15 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.app_service_certificate_orders.renew(
+    client.app_service_certificate_orders.renew(
         resource_group_name="testrg123",
         certificate_order_name="SampleCertificateOrderName",
         renew_certificate_order_request={
             "properties": {"csr": "CSR1223238Value", "isPrivateKeyExternal": False, "keySize": 2048}
         },
     )
-    print(response)
 
 
-# x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/RenewAppServiceCertificateOrder.json
+# x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/RenewAppServiceCertificateOrder.json
 if __name__ == "__main__":
     main()

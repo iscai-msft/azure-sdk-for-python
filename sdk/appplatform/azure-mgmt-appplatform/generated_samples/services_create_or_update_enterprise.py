@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appplatform import AppPlatformManagementClient
 
 """
@@ -34,7 +37,13 @@ def main():
         service_name="myservice",
         resource={
             "location": "eastus",
-            "properties": {},
+            "properties": {
+                "marketplaceResource": {
+                    "plan": "tanzu-asc-ent-mtr",
+                    "product": "azure-spring-cloud-vmware-tanzu-2",
+                    "publisher": "vmware-inc",
+                }
+            },
             "sku": {"name": "E0", "tier": "Enterprise"},
             "tags": {"key1": "value1"},
         },
@@ -42,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2022-12-01/examples/Services_CreateOrUpdate_Enterprise.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_CreateOrUpdate_Enterprise.json
 if __name__ == "__main__":
     main()

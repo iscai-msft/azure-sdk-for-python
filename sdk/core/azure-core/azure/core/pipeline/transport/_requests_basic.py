@@ -24,7 +24,7 @@
 #
 # --------------------------------------------------------------------------
 import logging
-from typing import Iterator, Optional, Union, TypeVar, overload, cast, TYPE_CHECKING
+from typing import Iterator, Optional, Union, TypeVar, overload, TYPE_CHECKING, MutableMapping
 from urllib3.util.retry import Retry
 from urllib3.exceptions import (
     DecodeError as CoreDecodeError,
@@ -71,8 +71,7 @@ def _read_raw_stream(response, chunk_size=1):
     # Special case for urllib3.
     if hasattr(response.raw, "stream"):
         try:
-            for chunk in response.raw.stream(chunk_size, decode_content=False):
-                yield chunk
+            yield from response.raw.stream(chunk_size, decode_content=False)
         except ProtocolError as e:
             raise ServiceResponseError(e, error=e) from e
         except CoreDecodeError as e:
@@ -251,6 +250,8 @@ class RequestsTransport(HttpTransport):
             raise ValueError("session_owner cannot be False if no session is provided")
         self.connection_config = ConnectionConfiguration(**kwargs)
         self._use_env_settings = kwargs.pop("use_env_settings", True)
+        # See https://github.com/Azure/azure-sdk-for-python/issues/25640 to understand why we track this
+        self._has_been_opened = False
 
     def __enter__(self) -> "RequestsTransport":
         self.open()
@@ -273,20 +274,29 @@ class RequestsTransport(HttpTransport):
             session.mount(p, adapter)
 
     def open(self):
-        if not self.session and self._session_owner:
-            self.session = requests.Session()
-            self._init_session(self.session)
-        # pyright has trouble to understand that self.session is not None, since we raised at worst in the init
-        self.session = cast(requests.Session, self.session)
+        if self._has_been_opened and not self.session:
+            raise ValueError(
+                "HTTP transport has already been closed. "
+                "You may check if you're calling a function outside of the `with` of your client creation, "
+                "or if you called `close()` on your client already."
+            )
+        if not self.session:
+            if self._session_owner:
+                self.session = requests.Session()
+                self._init_session(self.session)
+            else:
+                raise ValueError("session_owner cannot be False and no session is available")
+        self._has_been_opened = True
 
     def close(self):
         if self._session_owner and self.session:
             self.session.close()
-            self._session_owner = False
             self.session = None
 
     @overload
-    def send(self, request: HttpRequest, **kwargs) -> HttpResponse:
+    def send(
+        self, request: HttpRequest, *, proxies: Optional[MutableMapping[str, str]] = None, **kwargs
+    ) -> HttpResponse:
         """Send a rest request and get back a rest response.
 
         :param request: The request object to be sent.
@@ -294,13 +304,13 @@ class RequestsTransport(HttpTransport):
         :return: An HTTPResponse object.
         :rtype: ~azure.core.pipeline.transport.HttpResponse
 
-        :keyword requests.Session session: will override the driver session and use yours.
-         Should NOT be done unless really required. Anything else is sent straight to requests.
-        :keyword dict proxies: will define the proxy to use. Proxy is a dict (protocol, url)
+        :keyword MutableMapping proxies: will define the proxy to use. Proxy is a dict (protocol, url)
         """
 
     @overload
-    def send(self, request: "RestHttpRequest", **kwargs) -> "RestHttpResponse":
+    def send(
+        self, request: "RestHttpRequest", *, proxies: Optional[MutableMapping[str, str]] = None, **kwargs
+    ) -> "RestHttpResponse":
         """Send an `azure.core.rest` request and get back a rest response.
 
         :param request: The request object to be sent.
@@ -308,12 +318,16 @@ class RequestsTransport(HttpTransport):
         :return: An HTTPResponse object.
         :rtype: ~azure.core.rest.HttpResponse
 
-        :keyword requests.Session session: will override the driver session and use yours.
-         Should NOT be done unless really required. Anything else is sent straight to requests.
-        :keyword dict proxies: will define the proxy to use. Proxy is a dict (protocol, url)
+        :keyword MutableMapping proxies: will define the proxy to use. Proxy is a dict (protocol, url)
         """
 
-    def send(self, request: Union[HttpRequest, "RestHttpRequest"], **kwargs) -> Union[HttpResponse, "RestHttpResponse"]:
+    def send(  # pylint: disable=too-many-statements
+        self,
+        request: Union[HttpRequest, "RestHttpRequest"],
+        *,
+        proxies: Optional[MutableMapping[str, str]] = None,
+        **kwargs
+    ) -> Union[HttpResponse, "RestHttpResponse"]:
         """Send request object according to configuration.
 
         :param request: The request object to be sent.
@@ -321,9 +335,7 @@ class RequestsTransport(HttpTransport):
         :return: An HTTPResponse object.
         :rtype: ~azure.core.pipeline.transport.HttpResponse
 
-        :keyword requests.Session session: will override the driver session and use yours.
-         Should NOT be done unless really required. Anything else is sent straight to requests.
-        :keyword dict proxies: will define the proxy to use. Proxy is a dict (protocol, url)
+        :keyword MutableMapping proxies: will define the proxy to use. Proxy is a dict (protocol, url)
         """
         self.open()
         response = None
@@ -350,10 +362,18 @@ class RequestsTransport(HttpTransport):
                 timeout=timeout,
                 cert=kwargs.pop("connection_cert", self.connection_config.cert),
                 allow_redirects=False,
+                proxies=proxies,
                 **kwargs
             )
             response.raw.enforce_content_length = True
 
+        except AttributeError as err:
+            if self.session is None:
+                raise ValueError(
+                    "No session available for request. "
+                    "Please report this issue to https://github.com/Azure/azure-sdk-for-python/issues."
+                ) from err
+            raise
         except (
             NewConnectionError,
             ConnectTimeoutError,

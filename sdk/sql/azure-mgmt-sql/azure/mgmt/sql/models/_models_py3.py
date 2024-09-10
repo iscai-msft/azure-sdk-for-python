@@ -91,22 +91,6 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class Advisor(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Database, Server or Elastic Pool Advisor.
@@ -544,12 +528,49 @@ class BenchmarkReference(_serialization.Model):
         self.reference = None
 
 
+class ChangeLongTermRetentionBackupAccessTierParameters(_serialization.Model):  # pylint: disable=name-too-long
+    """Contains the information necessary to change long term retention backup access tier and related
+    operation mode.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar backup_storage_access_tier: The long term retention backup storage access tier. Required.
+    :vartype backup_storage_access_tier: str
+    :ivar operation_mode: The operation mode when updating ltr backup storage access tier.
+     Required.
+    :vartype operation_mode: str
+    """
+
+    _validation = {
+        "backup_storage_access_tier": {"required": True},
+        "operation_mode": {"required": True},
+    }
+
+    _attribute_map = {
+        "backup_storage_access_tier": {"key": "backupStorageAccessTier", "type": "str"},
+        "operation_mode": {"key": "operationMode", "type": "str"},
+    }
+
+    def __init__(self, *, backup_storage_access_tier: str, operation_mode: str, **kwargs: Any) -> None:
+        """
+        :keyword backup_storage_access_tier: The long term retention backup storage access tier.
+         Required.
+        :paramtype backup_storage_access_tier: str
+        :keyword operation_mode: The operation mode when updating ltr backup storage access tier.
+         Required.
+        :paramtype operation_mode: str
+        """
+        super().__init__(**kwargs)
+        self.backup_storage_access_tier = backup_storage_access_tier
+        self.operation_mode = operation_mode
+
+
 class CheckNameAvailabilityRequest(_serialization.Model):
     """A request to check whether the specified name for a resource is available.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Required.
     :vartype name: str
@@ -621,7 +642,7 @@ class CheckNameAvailabilityResponse(_serialization.Model):
 class CompleteDatabaseRestoreDefinition(_serialization.Model):
     """Contains the information necessary to perform a complete database restore operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar last_backup_name: The last backup name to apply. Required.
     :vartype last_backup_name: str
@@ -717,7 +738,7 @@ class CopyLongTermRetentionBackupParameters(_serialization.Model):
 class CreateDatabaseRestorePointDefinition(_serialization.Model):
     """Contains the information necessary to perform a create database restore point operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar restore_point_label: The restore point label to apply. Required.
     :vartype restore_point_label: str
@@ -745,7 +766,7 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -791,7 +812,7 @@ class Database(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -1481,7 +1502,7 @@ class DatabaseAdvancedThreatProtection(ProxyResource):
         self.creation_time = None
 
 
-class DatabaseAdvancedThreatProtectionListResult(_serialization.Model):
+class DatabaseAdvancedThreatProtectionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the database's Advanced Threat Protection configurations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1628,7 +1649,7 @@ class DatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-ins
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -1653,7 +1674,7 @@ class DatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-ins
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is the
      storage's secondary key.
@@ -1669,7 +1690,7 @@ class DatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-ins
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -1795,7 +1816,7 @@ class DatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-ins
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -1820,7 +1841,7 @@ class DatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-ins
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is
          the storage's secondary key.
@@ -1836,7 +1857,7 @@ class DatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-ins
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -1930,7 +1951,7 @@ class DatabaseColumn(ProxyResource):
      "date", "time", "datetime2", "datetimeoffset", "tinyint", "smallint", "int", "smalldatetime",
      "real", "money", "datetime", "float", "sql_variant", "ntext", "bit", "decimal", "numeric",
      "smallmoney", "bigint", "hierarchyid", "geometry", "geography", "varbinary", "varchar",
-     "binary", "char", "timestamp", "nvarchar", "nchar", "xml", and "sysname".
+     "binary", "char", "timestamp", "nvarchar", "nchar", "xml", "sysname", and "int".
     :vartype column_type: str or ~azure.mgmt.sql.models.ColumnDataType
     :ivar temporal_type: The table temporal type. Known values are: "NonTemporalTable",
      "HistoryTable", and "SystemVersionedTemporalTable".
@@ -1971,8 +1992,8 @@ class DatabaseColumn(ProxyResource):
          "uniqueidentifier", "date", "time", "datetime2", "datetimeoffset", "tinyint", "smallint",
          "int", "smalldatetime", "real", "money", "datetime", "float", "sql_variant", "ntext", "bit",
          "decimal", "numeric", "smallmoney", "bigint", "hierarchyid", "geometry", "geography",
-         "varbinary", "varchar", "binary", "char", "timestamp", "nvarchar", "nchar", "xml", and
-         "sysname".
+         "varbinary", "varchar", "binary", "char", "timestamp", "nvarchar", "nchar", "xml", "sysname",
+         and "int".
         :paramtype column_type: str or ~azure.mgmt.sql.models.ColumnDataType
         :keyword temporal_type: The table temporal type. Known values are: "NonTemporalTable",
          "HistoryTable", and "SystemVersionedTemporalTable".
@@ -2230,6 +2251,8 @@ class DatabaseOperation(ProxyResource):  # pylint: disable=too-many-instance-att
     :vartype description: str
     :ivar is_cancellable: Whether the operation can be cancelled.
     :vartype is_cancellable: bool
+    :ivar operation_phase_details: The operation phase details.
+    :vartype operation_phase_details: ~azure.mgmt.sql.models.PhaseDetails
     """
 
     _validation = {
@@ -2250,6 +2273,7 @@ class DatabaseOperation(ProxyResource):  # pylint: disable=too-many-instance-att
         "estimated_completion_time": {"readonly": True},
         "description": {"readonly": True},
         "is_cancellable": {"readonly": True},
+        "operation_phase_details": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2270,6 +2294,7 @@ class DatabaseOperation(ProxyResource):  # pylint: disable=too-many-instance-att
         "estimated_completion_time": {"key": "properties.estimatedCompletionTime", "type": "iso-8601"},
         "description": {"key": "properties.description", "type": "str"},
         "is_cancellable": {"key": "properties.isCancellable", "type": "bool"},
+        "operation_phase_details": {"key": "properties.operationPhaseDetails", "type": "PhaseDetails"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -2289,6 +2314,7 @@ class DatabaseOperation(ProxyResource):  # pylint: disable=too-many-instance-att
         self.estimated_completion_time = None
         self.description = None
         self.is_cancellable = None
+        self.operation_phase_details = None
 
 
 class DatabaseOperationListResult(_serialization.Model):
@@ -2331,22 +2357,6 @@ class DatabaseSchema(ProxyResource):
     :ivar type: Resource type.
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class DatabaseSchemaListResult(_serialization.Model):
@@ -2513,7 +2523,7 @@ class DatabaseSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-many-in
         self.creation_time = None
 
 
-class DatabaseSqlVulnerabilityAssessmentBaselineSet(ProxyResource):
+class DatabaseSqlVulnerabilityAssessmentBaselineSet(ProxyResource):  # pylint: disable=name-too-long
     """A database sql vulnerability assessment baseline set.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2555,7 +2565,7 @@ class DatabaseSqlVulnerabilityAssessmentBaselineSet(ProxyResource):
         self.results = results
 
 
-class DatabaseSqlVulnerabilityAssessmentBaselineSetListResult(_serialization.Model):
+class DatabaseSqlVulnerabilityAssessmentBaselineSetListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of SQL Vulnerability Assessments baseline set.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2583,7 +2593,7 @@ class DatabaseSqlVulnerabilityAssessmentBaselineSetListResult(_serialization.Mod
         self.next_link = None
 
 
-class DatabaseSqlVulnerabilityAssessmentRuleBaseline(ProxyResource):
+class DatabaseSqlVulnerabilityAssessmentRuleBaseline(ProxyResource):  # pylint: disable=name-too-long
     """A database sql vulnerability assessment rule baseline.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2625,7 +2635,7 @@ class DatabaseSqlVulnerabilityAssessmentRuleBaseline(ProxyResource):
         self.results = results
 
 
-class DatabaseSqlVulnerabilityAssessmentRuleBaselineInput(ProxyResource):
+class DatabaseSqlVulnerabilityAssessmentRuleBaselineInput(ProxyResource):  # pylint: disable=name-too-long
     """A database sql vulnerability assessment rule baseline input.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2675,7 +2685,7 @@ class DatabaseSqlVulnerabilityAssessmentRuleBaselineInput(ProxyResource):
         self.results = results
 
 
-class DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput(ProxyResource):
+class DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput(ProxyResource):  # pylint: disable=name-too-long
     """A database sql vulnerability assessment rule baseline list input.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2726,7 +2736,7 @@ class DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput(ProxyResource):
         self.results = results
 
 
-class DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult(_serialization.Model):
+class DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of SQL Vulnerability Assessments rule baseline.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3541,7 +3551,7 @@ class DatabaseVulnerabilityAssessment(ProxyResource):
         self.recurring_scans = recurring_scans
 
 
-class DatabaseVulnerabilityAssessmentListResult(_serialization.Model):
+class DatabaseVulnerabilityAssessmentListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the database's vulnerability assessments.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3569,7 +3579,7 @@ class DatabaseVulnerabilityAssessmentListResult(_serialization.Model):
         self.next_link = None
 
 
-class DatabaseVulnerabilityAssessmentRuleBaseline(ProxyResource):
+class DatabaseVulnerabilityAssessmentRuleBaseline(ProxyResource):  # pylint: disable=name-too-long
     """A database vulnerability assessment rule baseline.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3616,10 +3626,10 @@ class DatabaseVulnerabilityAssessmentRuleBaseline(ProxyResource):
         self.baseline_results = baseline_results
 
 
-class DatabaseVulnerabilityAssessmentRuleBaselineItem(_serialization.Model):
+class DatabaseVulnerabilityAssessmentRuleBaselineItem(_serialization.Model):  # pylint: disable=name-too-long
     """Properties for an Azure SQL Database Vulnerability Assessment rule baseline's result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar result: The rule baseline result. Required.
     :vartype result: list[str]
@@ -3642,7 +3652,7 @@ class DatabaseVulnerabilityAssessmentRuleBaselineItem(_serialization.Model):
         self.result = result
 
 
-class DatabaseVulnerabilityAssessmentScansExport(ProxyResource):
+class DatabaseVulnerabilityAssessmentScansExport(ProxyResource):  # pylint: disable=name-too-long
     """A database Vulnerability Assessment scan export resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4254,7 +4264,7 @@ class ElasticPool(TrackedResource):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -4559,7 +4569,7 @@ class ElasticPoolActivity(ProxyResource):  # pylint: disable=too-many-instance-a
 class ElasticPoolActivityListResult(_serialization.Model):
     """Represents the response to a list elastic pool activity request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of elastic pool activities. Required.
     :vartype value: list[~azure.mgmt.sql.models.ElasticPoolActivity]
@@ -4699,7 +4709,7 @@ class ElasticPoolDatabaseActivity(ProxyResource):  # pylint: disable=too-many-in
 class ElasticPoolDatabaseActivityListResult(_serialization.Model):
     """Represents the response to a list elastic pool database activity request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of elastic pool database activities. Required.
     :vartype value: list[~azure.mgmt.sql.models.ElasticPoolDatabaseActivity]
@@ -4929,7 +4939,7 @@ class ElasticPoolOperationListResult(_serialization.Model):
         self.next_link = None
 
 
-class ElasticPoolPerDatabaseMaxPerformanceLevelCapability(_serialization.Model):
+class ElasticPoolPerDatabaseMaxPerformanceLevelCapability(_serialization.Model):  # pylint: disable=name-too-long
     """The max per-database performance level capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4980,7 +4990,7 @@ class ElasticPoolPerDatabaseMaxPerformanceLevelCapability(_serialization.Model):
         self.reason = reason
 
 
-class ElasticPoolPerDatabaseMinPerformanceLevelCapability(_serialization.Model):
+class ElasticPoolPerDatabaseMinPerformanceLevelCapability(_serialization.Model):  # pylint: disable=name-too-long
     """The minimum per-database performance level capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5479,10 +5489,102 @@ class EndpointDetail(_serialization.Model):
         self.port = None
 
 
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.sql.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.sql.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.sql.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.sql.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class ExportDatabaseDefinition(_serialization.Model):
     """Contains the information necessary to perform export database operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_key_type: Storage key type. Required. Known values are: "SharedAccessKey" and
      "StorageAccessKey".
@@ -5621,7 +5723,7 @@ class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -5646,7 +5748,7 @@ class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is the
      storage's secondary key.
@@ -5662,7 +5764,7 @@ class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -5790,7 +5892,7 @@ class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -5815,7 +5917,7 @@ class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is
          the storage's secondary key.
@@ -5831,7 +5933,7 @@ class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -5882,7 +5984,7 @@ class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-
         self.storage_account_subscription_id = storage_account_subscription_id
 
 
-class ExtendedDatabaseBlobAuditingPolicyListResult(_serialization.Model):
+class ExtendedDatabaseBlobAuditingPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of database extended auditing settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5931,7 +6033,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -5988,7 +6090,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -6013,7 +6115,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is the
      storage's secondary key.
@@ -6029,7 +6131,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -6118,7 +6220,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -6175,7 +6277,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -6200,7 +6302,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is
          the storage's secondary key.
@@ -6216,7 +6318,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -6268,7 +6370,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
         self.storage_account_subscription_id = storage_account_subscription_id
 
 
-class ExtendedServerBlobAuditingPolicyListResult(_serialization.Model):
+class ExtendedServerBlobAuditingPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of server extended auditing settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6324,6 +6426,9 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
     :vartype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
     :ivar databases: List of databases in the failover group.
     :vartype databases: list[str]
+    :ivar secondary_type: Databases secondary type on partner server. Known values are: "Geo" and
+     "Standby".
+    :vartype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
     """
 
     _validation = {
@@ -6347,6 +6452,7 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         "replication_state": {"key": "properties.replicationState", "type": "str"},
         "partner_servers": {"key": "properties.partnerServers", "type": "[PartnerInfo]"},
         "databases": {"key": "properties.databases", "type": "[str]"},
+        "secondary_type": {"key": "properties.secondaryType", "type": "str"},
     }
 
     def __init__(
@@ -6357,6 +6463,7 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         read_only_endpoint: Optional["_models.FailoverGroupReadOnlyEndpoint"] = None,
         partner_servers: Optional[List["_models.PartnerInfo"]] = None,
         databases: Optional[List[str]] = None,
+        secondary_type: Optional[Union[str, "_models.FailoverGroupDatabasesSecondaryType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -6370,6 +6477,9 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         :paramtype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
         :keyword databases: List of databases in the failover group.
         :paramtype databases: list[str]
+        :keyword secondary_type: Databases secondary type on partner server. Known values are: "Geo"
+         and "Standby".
+        :paramtype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
         """
         super().__init__(**kwargs)
         self.location = None
@@ -6380,6 +6490,7 @@ class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attribu
         self.replication_state = None
         self.partner_servers = partner_servers
         self.databases = databases
+        self.secondary_type = secondary_type
 
 
 class FailoverGroupListResult(_serialization.Model):
@@ -6416,28 +6527,38 @@ class FailoverGroupReadOnlyEndpoint(_serialization.Model):
     :ivar failover_policy: Failover policy of the read-only endpoint for the failover group. Known
      values are: "Disabled" and "Enabled".
     :vartype failover_policy: str or ~azure.mgmt.sql.models.ReadOnlyEndpointFailoverPolicy
+    :ivar target_server: The target partner server where the read-only endpoint points to.
+    :vartype target_server: str
     """
 
     _attribute_map = {
         "failover_policy": {"key": "failoverPolicy", "type": "str"},
+        "target_server": {"key": "targetServer", "type": "str"},
     }
 
     def __init__(
-        self, *, failover_policy: Optional[Union[str, "_models.ReadOnlyEndpointFailoverPolicy"]] = None, **kwargs: Any
+        self,
+        *,
+        failover_policy: Optional[Union[str, "_models.ReadOnlyEndpointFailoverPolicy"]] = None,
+        target_server: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword failover_policy: Failover policy of the read-only endpoint for the failover group.
          Known values are: "Disabled" and "Enabled".
         :paramtype failover_policy: str or ~azure.mgmt.sql.models.ReadOnlyEndpointFailoverPolicy
+        :keyword target_server: The target partner server where the read-only endpoint points to.
+        :paramtype target_server: str
         """
         super().__init__(**kwargs)
         self.failover_policy = failover_policy
+        self.target_server = target_server
 
 
 class FailoverGroupReadWriteEndpoint(_serialization.Model):
     """Read-write endpoint of the failover group instance.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar failover_policy: Failover policy of the read-write endpoint for the failover group. If
      failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. Required.
@@ -6494,6 +6615,11 @@ class FailoverGroupUpdate(_serialization.Model):
     :vartype read_only_endpoint: ~azure.mgmt.sql.models.FailoverGroupReadOnlyEndpoint
     :ivar databases: List of databases in the failover group.
     :vartype databases: list[str]
+    :ivar partner_servers: List of partner server information for the failover group.
+    :vartype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
+    :ivar secondary_type: Databases secondary type on partner server. Known values are: "Geo" and
+     "Standby".
+    :vartype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
     """
 
     _attribute_map = {
@@ -6501,6 +6627,8 @@ class FailoverGroupUpdate(_serialization.Model):
         "read_write_endpoint": {"key": "properties.readWriteEndpoint", "type": "FailoverGroupReadWriteEndpoint"},
         "read_only_endpoint": {"key": "properties.readOnlyEndpoint", "type": "FailoverGroupReadOnlyEndpoint"},
         "databases": {"key": "properties.databases", "type": "[str]"},
+        "partner_servers": {"key": "properties.partnerServers", "type": "[PartnerInfo]"},
+        "secondary_type": {"key": "properties.secondaryType", "type": "str"},
     }
 
     def __init__(
@@ -6510,6 +6638,8 @@ class FailoverGroupUpdate(_serialization.Model):
         read_write_endpoint: Optional["_models.FailoverGroupReadWriteEndpoint"] = None,
         read_only_endpoint: Optional["_models.FailoverGroupReadOnlyEndpoint"] = None,
         databases: Optional[List[str]] = None,
+        partner_servers: Optional[List["_models.PartnerInfo"]] = None,
+        secondary_type: Optional[Union[str, "_models.FailoverGroupDatabasesSecondaryType"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -6521,12 +6651,19 @@ class FailoverGroupUpdate(_serialization.Model):
         :paramtype read_only_endpoint: ~azure.mgmt.sql.models.FailoverGroupReadOnlyEndpoint
         :keyword databases: List of databases in the failover group.
         :paramtype databases: list[str]
+        :keyword partner_servers: List of partner server information for the failover group.
+        :paramtype partner_servers: list[~azure.mgmt.sql.models.PartnerInfo]
+        :keyword secondary_type: Databases secondary type on partner server. Known values are: "Geo"
+         and "Standby".
+        :paramtype secondary_type: str or ~azure.mgmt.sql.models.FailoverGroupDatabasesSecondaryType
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.read_write_endpoint = read_write_endpoint
         self.read_only_endpoint = read_only_endpoint
         self.databases = databases
+        self.partner_servers = partner_servers
+        self.secondary_type = secondary_type
 
 
 class ResourceWithWritableName(_serialization.Model):
@@ -6576,24 +6713,6 @@ class ProxyResourceWithWritableName(ResourceWithWritableName):
     :ivar type: Resource type.
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword name: Resource name.
-        :paramtype name: str
-        """
-        super().__init__(name=name, **kwargs)
 
 
 class FirewallRule(ProxyResourceWithWritableName):
@@ -6706,7 +6825,7 @@ class GeoBackupPolicy(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -6781,7 +6900,7 @@ class GeoBackupPolicyListResult(_serialization.Model):
 class ImportExistingDatabaseDefinition(_serialization.Model):
     """Contains the information necessary to perform import operation for existing database.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar storage_key_type: Storage key type. Required. Known values are: "SharedAccessKey" and
      "StorageAccessKey".
@@ -6858,7 +6977,7 @@ class ImportExistingDatabaseDefinition(_serialization.Model):
         self.network_isolation = network_isolation
 
 
-class ImportExportExtensionsOperationListResult(_serialization.Model):
+class ImportExportExtensionsOperationListResult(_serialization.Model):  # pylint: disable=name-too-long
     """Import export operation extensions list.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7039,7 +7158,7 @@ class ImportExportOperationResult(ProxyResource):  # pylint: disable=too-many-in
 class ImportNewDatabaseDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Contains the information necessary to perform import operation for new database.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar database_name: Name of the import database.
     :vartype database_name: str
@@ -7063,7 +7182,7 @@ class ImportNewDatabaseDefinition(_serialization.Model):  # pylint: disable=too-
     :ivar authentication_type: Authentication type.
     :vartype authentication_type: str
     :ivar network_isolation: Optional resource information to enable network isolation for request.
-    :vartype network_isolation: ~azure.mgmt.sql.models.NetworkIsolationSettingsAutoGenerated
+    :vartype network_isolation: ~azure.mgmt.sql.models.NetworkIsolationSettings
     """
 
     _validation = {
@@ -7085,7 +7204,7 @@ class ImportNewDatabaseDefinition(_serialization.Model):  # pylint: disable=too-
         "administrator_login": {"key": "administratorLogin", "type": "str"},
         "administrator_login_password": {"key": "administratorLoginPassword", "type": "str"},
         "authentication_type": {"key": "authenticationType", "type": "str"},
-        "network_isolation": {"key": "networkIsolation", "type": "NetworkIsolationSettingsAutoGenerated"},
+        "network_isolation": {"key": "networkIsolation", "type": "NetworkIsolationSettings"},
     }
 
     def __init__(
@@ -7101,7 +7220,7 @@ class ImportNewDatabaseDefinition(_serialization.Model):  # pylint: disable=too-
         service_objective_name: Optional[str] = None,
         max_size_bytes: Optional[str] = None,
         authentication_type: Optional[str] = None,
-        network_isolation: Optional["_models.NetworkIsolationSettingsAutoGenerated"] = None,
+        network_isolation: Optional["_models.NetworkIsolationSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7128,7 +7247,7 @@ class ImportNewDatabaseDefinition(_serialization.Model):  # pylint: disable=too-
         :paramtype authentication_type: str
         :keyword network_isolation: Optional resource information to enable network isolation for
          request.
-        :paramtype network_isolation: ~azure.mgmt.sql.models.NetworkIsolationSettingsAutoGenerated
+        :paramtype network_isolation: ~azure.mgmt.sql.models.NetworkIsolationSettings
         """
         super().__init__(**kwargs)
         self.database_name = database_name
@@ -7285,7 +7404,7 @@ class InstanceFailoverGroupReadOnlyEndpoint(_serialization.Model):
 class InstanceFailoverGroupReadWriteEndpoint(_serialization.Model):
     """Read-write endpoint of the failover group instance.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar failover_policy: Failover policy of the read-write endpoint for the failover group. If
      failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. Required.
@@ -7331,12 +7450,12 @@ class InstanceFailoverGroupReadWriteEndpoint(_serialization.Model):
         self.failover_with_data_loss_grace_period_minutes = failover_with_data_loss_grace_period_minutes
 
 
-class InstancePool(TrackedResource):
+class InstancePool(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """An Azure SQL instance pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -7358,6 +7477,11 @@ class InstancePool(TrackedResource):
      license is included) and 'BasePrice' (without SQL license price). Known values are:
      "LicenseIncluded" and "BasePrice".
     :vartype license_type: str or ~azure.mgmt.sql.models.InstancePoolLicenseType
+    :ivar dns_zone: The Dns Zone that the managed instance pool is in.
+    :vartype dns_zone: str
+    :ivar maintenance_configuration_id: Specifies maintenance configuration id to apply to this
+     managed instance.
+    :vartype maintenance_configuration_id: str
     """
 
     _validation = {
@@ -7365,6 +7489,7 @@ class InstancePool(TrackedResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "location": {"required": True},
+        "dns_zone": {"readonly": True},
     }
 
     _attribute_map = {
@@ -7377,6 +7502,8 @@ class InstancePool(TrackedResource):
         "subnet_id": {"key": "properties.subnetId", "type": "str"},
         "v_cores": {"key": "properties.vCores", "type": "int"},
         "license_type": {"key": "properties.licenseType", "type": "str"},
+        "dns_zone": {"key": "properties.dnsZone", "type": "str"},
+        "maintenance_configuration_id": {"key": "properties.maintenanceConfigurationId", "type": "str"},
     }
 
     def __init__(
@@ -7388,6 +7515,7 @@ class InstancePool(TrackedResource):
         subnet_id: Optional[str] = None,
         v_cores: Optional[int] = None,
         license_type: Optional[Union[str, "_models.InstancePoolLicenseType"]] = None,
+        maintenance_configuration_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7405,12 +7533,17 @@ class InstancePool(TrackedResource):
          license is included) and 'BasePrice' (without SQL license price). Known values are:
          "LicenseIncluded" and "BasePrice".
         :paramtype license_type: str or ~azure.mgmt.sql.models.InstancePoolLicenseType
+        :keyword maintenance_configuration_id: Specifies maintenance configuration id to apply to this
+         managed instance.
+        :paramtype maintenance_configuration_id: str
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
         self.subnet_id = subnet_id
         self.v_cores = v_cores
         self.license_type = license_type
+        self.dns_zone = None
+        self.maintenance_configuration_id = maintenance_configuration_id
 
 
 class InstancePoolEditionCapability(_serialization.Model):
@@ -7531,21 +7664,77 @@ class InstancePoolListResult(_serialization.Model):
 class InstancePoolUpdate(_serialization.Model):
     """An update to an Instance pool.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar sku: The name and tier of the SKU.
+    :vartype sku: ~azure.mgmt.sql.models.Sku
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar subnet_id: Resource ID of the subnet to place this instance pool in.
+    :vartype subnet_id: str
+    :ivar v_cores: Count of vCores belonging to this instance pool.
+    :vartype v_cores: int
+    :ivar license_type: The license type. Possible values are 'LicenseIncluded' (price for SQL
+     license is included) and 'BasePrice' (without SQL license price). Known values are:
+     "LicenseIncluded" and "BasePrice".
+    :vartype license_type: str or ~azure.mgmt.sql.models.InstancePoolLicenseType
+    :ivar dns_zone: The Dns Zone that the managed instance pool is in.
+    :vartype dns_zone: str
+    :ivar maintenance_configuration_id: Specifies maintenance configuration id to apply to this
+     managed instance.
+    :vartype maintenance_configuration_id: str
     """
 
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
+    _validation = {
+        "dns_zone": {"readonly": True},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    _attribute_map = {
+        "sku": {"key": "sku", "type": "Sku"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "subnet_id": {"key": "properties.subnetId", "type": "str"},
+        "v_cores": {"key": "properties.vCores", "type": "int"},
+        "license_type": {"key": "properties.licenseType", "type": "str"},
+        "dns_zone": {"key": "properties.dnsZone", "type": "str"},
+        "maintenance_configuration_id": {"key": "properties.maintenanceConfigurationId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        sku: Optional["_models.Sku"] = None,
+        tags: Optional[Dict[str, str]] = None,
+        subnet_id: Optional[str] = None,
+        v_cores: Optional[int] = None,
+        license_type: Optional[Union[str, "_models.InstancePoolLicenseType"]] = None,
+        maintenance_configuration_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword sku: The name and tier of the SKU.
+        :paramtype sku: ~azure.mgmt.sql.models.Sku
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword subnet_id: Resource ID of the subnet to place this instance pool in.
+        :paramtype subnet_id: str
+        :keyword v_cores: Count of vCores belonging to this instance pool.
+        :paramtype v_cores: int
+        :keyword license_type: The license type. Possible values are 'LicenseIncluded' (price for SQL
+         license is included) and 'BasePrice' (without SQL license price). Known values are:
+         "LicenseIncluded" and "BasePrice".
+        :paramtype license_type: str or ~azure.mgmt.sql.models.InstancePoolLicenseType
+        :keyword maintenance_configuration_id: Specifies maintenance configuration id to apply to this
+         managed instance.
+        :paramtype maintenance_configuration_id: str
         """
         super().__init__(**kwargs)
+        self.sku = sku
         self.tags = tags
+        self.subnet_id = subnet_id
+        self.v_cores = v_cores
+        self.license_type = license_type
+        self.dns_zone = None
+        self.maintenance_configuration_id = maintenance_configuration_id
 
 
 class InstancePoolVcoresCapability(_serialization.Model):
@@ -7730,7 +7919,7 @@ class JobAgent(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -8104,6 +8293,78 @@ class JobListResult(_serialization.Model):
         self.next_link = None
 
 
+class JobPrivateEndpoint(ProxyResource):
+    """A job agent private endpoint.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: Resource name.
+    :vartype name: str
+    :ivar type: Resource type.
+    :vartype type: str
+    :ivar target_server_azure_resource_id: ARM resource id of the server the private endpoint will
+     target.
+    :vartype target_server_azure_resource_id: str
+    :ivar private_endpoint_id: Private endpoint id of the private endpoint.
+    :vartype private_endpoint_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "private_endpoint_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "target_server_azure_resource_id": {"key": "properties.targetServerAzureResourceId", "type": "str"},
+        "private_endpoint_id": {"key": "properties.privateEndpointId", "type": "str"},
+    }
+
+    def __init__(self, *, target_server_azure_resource_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword target_server_azure_resource_id: ARM resource id of the server the private endpoint
+         will target.
+        :paramtype target_server_azure_resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.target_server_azure_resource_id = target_server_azure_resource_id
+        self.private_endpoint_id = None
+
+
+class JobPrivateEndpointListResult(_serialization.Model):
+    """A list of job agent private endpoints.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Array of results.
+    :vartype value: list[~azure.mgmt.sql.models.JobPrivateEndpoint]
+    :ivar next_link: Link to retrieve next page of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[JobPrivateEndpoint]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
 class JobSchedule(_serialization.Model):
     """Scheduling properties of a job.
 
@@ -8246,7 +8507,7 @@ class JobStep(ProxyResource):
 class JobStepAction(_serialization.Model):
     """The action to be executed by a job step.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of action being executed by the job step. "TSql"
     :vartype type: str or ~azure.mgmt.sql.models.JobStepActionType
@@ -8378,7 +8639,7 @@ class JobStepListResult(_serialization.Model):
 class JobStepOutput(_serialization.Model):
     """The output configuration of a job step.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The output destination type. "SqlDatabase"
     :vartype type: str or ~azure.mgmt.sql.models.JobStepOutputType
@@ -8464,7 +8725,7 @@ class JobTarget(_serialization.Model):
     """A job target, for example a specific database or a container of databases that is evaluated
     during job execution.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar membership_type: Whether the target is included or excluded from the group. Known values
      are: "Include" and "Exclude".
@@ -8617,22 +8878,6 @@ class JobVersion(ProxyResource):
     :ivar type: Resource type.
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class JobVersionListResult(_serialization.Model):
@@ -8863,7 +9108,7 @@ class LogicalDatabaseTransparentDataEncryption(ProxyResource):
         self.state = state
 
 
-class LogicalDatabaseTransparentDataEncryptionListResult(_serialization.Model):
+class LogicalDatabaseTransparentDataEncryptionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of transparent data encryptions.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8891,7 +9136,7 @@ class LogicalDatabaseTransparentDataEncryptionListResult(_serialization.Model):
         self.next_link = None
 
 
-class LogicalServerAdvancedThreatProtectionListResult(_serialization.Model):
+class LogicalServerAdvancedThreatProtectionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the server's Advanced Threat Protection configurations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8919,7 +9164,7 @@ class LogicalServerAdvancedThreatProtectionListResult(_serialization.Model):
         self.next_link = None
 
 
-class LogicalServerSecurityAlertPolicyListResult(_serialization.Model):
+class LogicalServerSecurityAlertPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the server's security alert policies.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9006,6 +9251,11 @@ class LongTermRetentionBackup(ProxyResource):  # pylint: disable=too-many-instan
      values are: "Geo", "Local", "Zone", and "GeoZone".
     :vartype requested_backup_storage_redundancy: str or
      ~azure.mgmt.sql.models.BackupStorageRedundancy
+    :ivar is_backup_immutable: The setting whether the LTR backup is immutable.
+    :vartype is_backup_immutable: bool
+    :ivar backup_storage_access_tier: The BackupStorageAccessTier for the LTR backup. Known values
+     are: "Hot" and "Archive".
+    :vartype backup_storage_access_tier: str or ~azure.mgmt.sql.models.BackupStorageAccessTier
     """
 
     _validation = {
@@ -9019,6 +9269,7 @@ class LongTermRetentionBackup(ProxyResource):  # pylint: disable=too-many-instan
         "backup_time": {"readonly": True},
         "backup_expiration_time": {"readonly": True},
         "backup_storage_redundancy": {"readonly": True},
+        "backup_storage_access_tier": {"readonly": True},
     }
 
     _attribute_map = {
@@ -9033,12 +9284,15 @@ class LongTermRetentionBackup(ProxyResource):  # pylint: disable=too-many-instan
         "backup_expiration_time": {"key": "properties.backupExpirationTime", "type": "iso-8601"},
         "backup_storage_redundancy": {"key": "properties.backupStorageRedundancy", "type": "str"},
         "requested_backup_storage_redundancy": {"key": "properties.requestedBackupStorageRedundancy", "type": "str"},
+        "is_backup_immutable": {"key": "properties.isBackupImmutable", "type": "bool"},
+        "backup_storage_access_tier": {"key": "properties.backupStorageAccessTier", "type": "str"},
     }
 
     def __init__(
         self,
         *,
         requested_backup_storage_redundancy: Optional[Union[str, "_models.BackupStorageRedundancy"]] = None,
+        is_backup_immutable: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9046,6 +9300,8 @@ class LongTermRetentionBackup(ProxyResource):  # pylint: disable=too-many-instan
          values are: "Geo", "Local", "Zone", and "GeoZone".
         :paramtype requested_backup_storage_redundancy: str or
          ~azure.mgmt.sql.models.BackupStorageRedundancy
+        :keyword is_backup_immutable: The setting whether the LTR backup is immutable.
+        :paramtype is_backup_immutable: bool
         """
         super().__init__(**kwargs)
         self.server_name = None
@@ -9056,6 +9312,8 @@ class LongTermRetentionBackup(ProxyResource):  # pylint: disable=too-many-instan
         self.backup_expiration_time = None
         self.backup_storage_redundancy = None
         self.requested_backup_storage_redundancy = requested_backup_storage_redundancy
+        self.is_backup_immutable = is_backup_immutable
+        self.backup_storage_access_tier = None
 
 
 class LongTermRetentionBackupListResult(_serialization.Model):
@@ -9164,6 +9422,11 @@ class LongTermRetentionPolicy(ProxyResource):
     :vartype name: str
     :ivar type: Resource type.
     :vartype type: str
+    :ivar make_backups_immutable: The setting whether to make LTR backups immutable.
+    :vartype make_backups_immutable: bool
+    :ivar backup_storage_access_tier: The BackupStorageAccessTier for the LTR backups. Known values
+     are: "Hot" and "Archive".
+    :vartype backup_storage_access_tier: str or ~azure.mgmt.sql.models.BackupStorageAccessTier
     :ivar weekly_retention: The weekly retention policy for an LTR backup in an ISO 8601 format.
     :vartype weekly_retention: str
     :ivar monthly_retention: The monthly retention policy for an LTR backup in an ISO 8601 format.
@@ -9184,6 +9447,8 @@ class LongTermRetentionPolicy(ProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "make_backups_immutable": {"key": "properties.makeBackupsImmutable", "type": "bool"},
+        "backup_storage_access_tier": {"key": "properties.backupStorageAccessTier", "type": "str"},
         "weekly_retention": {"key": "properties.weeklyRetention", "type": "str"},
         "monthly_retention": {"key": "properties.monthlyRetention", "type": "str"},
         "yearly_retention": {"key": "properties.yearlyRetention", "type": "str"},
@@ -9193,6 +9458,8 @@ class LongTermRetentionPolicy(ProxyResource):
     def __init__(
         self,
         *,
+        make_backups_immutable: Optional[bool] = None,
+        backup_storage_access_tier: Optional[Union[str, "_models.BackupStorageAccessTier"]] = None,
         weekly_retention: Optional[str] = None,
         monthly_retention: Optional[str] = None,
         yearly_retention: Optional[str] = None,
@@ -9200,6 +9467,11 @@ class LongTermRetentionPolicy(ProxyResource):
         **kwargs: Any
     ) -> None:
         """
+        :keyword make_backups_immutable: The setting whether to make LTR backups immutable.
+        :paramtype make_backups_immutable: bool
+        :keyword backup_storage_access_tier: The BackupStorageAccessTier for the LTR backups. Known
+         values are: "Hot" and "Archive".
+        :paramtype backup_storage_access_tier: str or ~azure.mgmt.sql.models.BackupStorageAccessTier
         :keyword weekly_retention: The weekly retention policy for an LTR backup in an ISO 8601 format.
         :paramtype weekly_retention: str
         :keyword monthly_retention: The monthly retention policy for an LTR backup in an ISO 8601
@@ -9211,6 +9483,8 @@ class LongTermRetentionPolicy(ProxyResource):
         :paramtype week_of_year: int
         """
         super().__init__(**kwargs)
+        self.make_backups_immutable = make_backups_immutable
+        self.backup_storage_access_tier = backup_storage_access_tier
         self.weekly_retention = weekly_retention
         self.monthly_retention = monthly_retention
         self.yearly_retention = yearly_retention
@@ -9300,8 +9574,8 @@ class MaintenanceWindowOptions(ProxyResource):
     :vartype type: str
     :ivar is_enabled: Whether maintenance windows are enabled for the database.
     :vartype is_enabled: bool
-    :ivar maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\ *60},
-     {Wednesday, 0, 24*\ 60}.
+    :ivar maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\\ *60},
+     {Wednesday, 0, 24*\\ 60}.
     :vartype maintenance_window_cycles: list[~azure.mgmt.sql.models.MaintenanceWindowTimeRange]
     :ivar min_duration_in_minutes: Minimum duration of maintenance window.
     :vartype min_duration_in_minutes: int
@@ -9356,8 +9630,8 @@ class MaintenanceWindowOptions(ProxyResource):
         """
         :keyword is_enabled: Whether maintenance windows are enabled for the database.
         :paramtype is_enabled: bool
-        :keyword maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\ *60},
-         {Wednesday, 0, 24*\ 60}.
+        :keyword maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\\ *60},
+         {Wednesday, 0, 24*\\ 60}.
         :paramtype maintenance_window_cycles: list[~azure.mgmt.sql.models.MaintenanceWindowTimeRange]
         :keyword min_duration_in_minutes: Minimum duration of maintenance window.
         :paramtype min_duration_in_minutes: int
@@ -9500,7 +9774,7 @@ class ManagedBackupShortTermRetentionPolicy(ProxyResource):
         self.retention_days = retention_days
 
 
-class ManagedBackupShortTermRetentionPolicyListResult(_serialization.Model):
+class ManagedBackupShortTermRetentionPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of short term retention policies.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9533,7 +9807,7 @@ class ManagedDatabase(TrackedResource):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -9842,7 +10116,7 @@ class ManagedDatabaseAdvancedThreatProtection(ProxyResource):
         self.creation_time = None
 
 
-class ManagedDatabaseAdvancedThreatProtectionListResult(_serialization.Model):
+class ManagedDatabaseAdvancedThreatProtectionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the managed database's Advanced Threat Protection settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9901,7 +10175,7 @@ class ManagedDatabaseListResult(_serialization.Model):
 class ManagedDatabaseMoveDefinition(_serialization.Model):
     """Contains the information necessary to perform a managed database move.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar destination_managed_database_id: The destination managed database ID. Required.
     :vartype destination_managed_database_id: str
@@ -10063,7 +10337,7 @@ class ManagedDatabaseMoveOperationResult(ProxyResource):  # pylint: disable=too-
         self.is_user_error = None
 
 
-class ManagedDatabaseRestoreDetailsBackupSetProperties(_serialization.Model):
+class ManagedDatabaseRestoreDetailsBackupSetProperties(_serialization.Model):  # pylint: disable=name-too-long
     """The managed database's restore details backup set properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10267,7 +10541,7 @@ class ManagedDatabaseRestoreDetailsResult(ProxyResource):  # pylint: disable=too
         self.unrestorable_files = None
 
 
-class ManagedDatabaseRestoreDetailsUnrestorableFileProperties(_serialization.Model):
+class ManagedDatabaseRestoreDetailsUnrestorableFileProperties(_serialization.Model):  # pylint: disable=name-too-long
     """The managed database's restore details unrestorable file properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10394,7 +10668,7 @@ class ManagedDatabaseSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-
         self.creation_time = None
 
 
-class ManagedDatabaseSecurityAlertPolicyListResult(_serialization.Model):
+class ManagedDatabaseSecurityAlertPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the managed database's security alert policies.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10425,7 +10699,7 @@ class ManagedDatabaseSecurityAlertPolicyListResult(_serialization.Model):
 class ManagedDatabaseStartMoveDefinition(_serialization.Model):
     """Contains the information necessary to start a managed database move.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar destination_managed_database_id: The destination managed database ID. Required.
     :vartype destination_managed_database_id: str
@@ -10706,7 +10980,7 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -10723,11 +10997,9 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :ivar sku: Managed instance SKU. Allowed values for sku.name: GP_Gen5, GP_G8IM, GP_G8IH,
      BC_Gen5, BC_G8IM, BC_G8IH.
     :vartype sku: ~azure.mgmt.sql.models.Sku
-    :ivar provisioning_state: Known values are: "Creating", "Deleting", "Updating", "Unknown",
-     "Succeeded", "Failed", "Accepted", "Created", "Deleted", "Unrecognized", "Running", "Canceled",
-     "NotSpecified", "Registering", and "TimedOut".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.sql.models.ManagedInstancePropertiesProvisioningState
+    :ivar provisioning_state: Provisioning state of managed instance. Known values are: "Created",
+     "InProgress", "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.sql.models.ProvisioningState
     :ivar managed_instance_create_mode: Specifies the mode of database creation.
 
      Default: Regular instance creation.
@@ -10738,6 +11010,8 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
     :ivar fully_qualified_domain_name: The fully qualified domain name of the managed instance.
     :vartype fully_qualified_domain_name: str
+    :ivar is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose edition.
+    :vartype is_general_purpose_v2: bool
     :ivar administrator_login: Administrator username for the managed instance. Can only be
      specified when the managed instance is being created (and is required for creation).
     :vartype administrator_login: str
@@ -10752,12 +11026,28 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
      inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
      licenses). Known values are: "LicenseIncluded" and "BasePrice".
     :vartype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
+    :ivar hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
+     value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
+     and "Passive".
+    :vartype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
+    :ivar hybrid_secondary_usage_detected: Hybrid secondary usage detected. Possible values are
+     'Active' (customer does not meet the requirements to use the secondary as Passive DR) and
+     'Passive' (customer meets the requirements to use the secondary as Passive DR). Known values
+     are: "Active" and "Passive".
+    :vartype hybrid_secondary_usage_detected: str or
+     ~azure.mgmt.sql.models.HybridSecondaryUsageDetected
     :ivar v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
     :vartype v_cores: int
     :ivar storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
      Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
      number of vCores.
     :vartype storage_size_in_gb: int
+    :ivar storage_iops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
+     IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
+    :vartype storage_iops: int
+    :ivar storage_throughput_mbps: Storage throughput MBps parameter is not supported in the
+     instance create/update operation.
+    :vartype storage_throughput_mbps: int
     :ivar collation: Collation of the managed instance.
     :vartype collation: str
     :ivar dns_zone: The Dns Zone that the managed instance is in.
@@ -10778,7 +11068,7 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
     :ivar timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
      Windows keeps details on supported timezones, including the id, in registry under
-     KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+     KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
      You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
      sys.time_zone_info.
      List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -10819,6 +11109,23 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
     :ivar service_principal: The managed instance's service principal.
     :vartype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
+    :ivar virtual_cluster_id: Virtual cluster resource id for the Managed Instance.
+    :vartype virtual_cluster_id: str
+    :ivar external_governance_status: Status of external governance. Known values are: "Enabled"
+     and "Disabled".
+    :vartype external_governance_status: str or ~azure.mgmt.sql.models.ExternalGovernanceStatus
+    :ivar pricing_model: Weather or not Managed Instance is freemium. Known values are: "Regular"
+     and "Freemium".
+    :vartype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
+    :ivar create_time: Specifies the point in time (ISO8601 format) of the Managed Instance
+     creation.
+    :vartype create_time: ~datetime.datetime
+    :ivar authentication_metadata: The managed instance's authentication metadata lookup mode.
+     Known values are: "AzureAD", "Paired", and "Windows".
+    :vartype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
+    :ivar database_format: Specifies the internal format of instance databases specific to the SQL
+     engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
+    :vartype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
     """
 
     _validation = {
@@ -10829,9 +11136,13 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         "provisioning_state": {"readonly": True},
         "fully_qualified_domain_name": {"readonly": True},
         "state": {"readonly": True},
+        "hybrid_secondary_usage_detected": {"readonly": True},
         "dns_zone": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
         "current_backup_storage_redundancy": {"readonly": True},
+        "virtual_cluster_id": {"readonly": True},
+        "external_governance_status": {"readonly": True},
+        "create_time": {"readonly": True},
     }
 
     _attribute_map = {
@@ -10845,13 +11156,18 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "managed_instance_create_mode": {"key": "properties.managedInstanceCreateMode", "type": "str"},
         "fully_qualified_domain_name": {"key": "properties.fullyQualifiedDomainName", "type": "str"},
+        "is_general_purpose_v2": {"key": "properties.isGeneralPurposeV2", "type": "bool"},
         "administrator_login": {"key": "properties.administratorLogin", "type": "str"},
         "administrator_login_password": {"key": "properties.administratorLoginPassword", "type": "str"},
         "subnet_id": {"key": "properties.subnetId", "type": "str"},
         "state": {"key": "properties.state", "type": "str"},
         "license_type": {"key": "properties.licenseType", "type": "str"},
+        "hybrid_secondary_usage": {"key": "properties.hybridSecondaryUsage", "type": "str"},
+        "hybrid_secondary_usage_detected": {"key": "properties.hybridSecondaryUsageDetected", "type": "str"},
         "v_cores": {"key": "properties.vCores", "type": "int"},
         "storage_size_in_gb": {"key": "properties.storageSizeInGB", "type": "int"},
+        "storage_iops": {"key": "properties.storageIOps", "type": "int"},
+        "storage_throughput_mbps": {"key": "properties.storageThroughputMBps", "type": "int"},
         "collation": {"key": "properties.collation", "type": "str"},
         "dns_zone": {"key": "properties.dnsZone", "type": "str"},
         "dns_zone_partner": {"key": "properties.dnsZonePartner", "type": "str"},
@@ -10874,6 +11190,12 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         "key_id": {"key": "properties.keyId", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ManagedInstanceExternalAdministrator"},
         "service_principal": {"key": "properties.servicePrincipal", "type": "ServicePrincipal"},
+        "virtual_cluster_id": {"key": "properties.virtualClusterId", "type": "str"},
+        "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
+        "pricing_model": {"key": "properties.pricingModel", "type": "str"},
+        "create_time": {"key": "properties.createTime", "type": "iso-8601"},
+        "authentication_metadata": {"key": "properties.authenticationMetadata", "type": "str"},
+        "database_format": {"key": "properties.databaseFormat", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -10884,12 +11206,16 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         identity: Optional["_models.ResourceIdentity"] = None,
         sku: Optional["_models.Sku"] = None,
         managed_instance_create_mode: Optional[Union[str, "_models.ManagedServerCreateMode"]] = None,
+        is_general_purpose_v2: Optional[bool] = None,
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         subnet_id: Optional[str] = None,
         license_type: Optional[Union[str, "_models.ManagedInstanceLicenseType"]] = None,
+        hybrid_secondary_usage: Optional[Union[str, "_models.HybridSecondaryUsage"]] = None,
         v_cores: Optional[int] = None,
         storage_size_in_gb: Optional[int] = None,
+        storage_iops: Optional[int] = None,
+        storage_throughput_mbps: Optional[int] = None,
         collation: Optional[str] = None,
         dns_zone_partner: Optional[str] = None,
         public_data_endpoint_enabled: Optional[bool] = None,
@@ -10906,6 +11232,9 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         key_id: Optional[str] = None,
         administrators: Optional["_models.ManagedInstanceExternalAdministrator"] = None,
         service_principal: Optional["_models.ServicePrincipal"] = None,
+        pricing_model: Optional[Union[str, "_models.FreemiumType"]] = None,
+        authentication_metadata: Optional[Union[str, "_models.AuthMetadataLookupModes"]] = None,
+        database_format: Optional[Union[str, "_models.ManagedInstanceDatabaseFormat"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -10926,6 +11255,9 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
          RestorePointInTime and SourceManagedInstanceId must be specified. Known values are: "Default"
          and "PointInTimeRestore".
         :paramtype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
+        :keyword is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose
+         edition.
+        :paramtype is_general_purpose_v2: bool
         :keyword administrator_login: Administrator username for the managed instance. Can only be
          specified when the managed instance is being created (and is required for creation).
         :paramtype administrator_login: str
@@ -10938,12 +11270,22 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
          inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
          licenses). Known values are: "LicenseIncluded" and "BasePrice".
         :paramtype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
+        :keyword hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
+         value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
+         and "Passive".
+        :paramtype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
         :keyword v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
         :paramtype v_cores: int
         :keyword storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
          Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
          number of vCores.
         :paramtype storage_size_in_gb: int
+        :keyword storage_iops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
+         IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
+        :paramtype storage_iops: int
+        :keyword storage_throughput_mbps: Storage throughput MBps parameter is not supported in the
+         instance create/update operation.
+        :paramtype storage_throughput_mbps: int
         :keyword collation: Collation of the managed instance.
         :paramtype collation: str
         :keyword dns_zone_partner: The resource id of another managed instance whose DNS zone this
@@ -10962,7 +11304,7 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         :paramtype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
         :keyword timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
          Windows keeps details on supported timezones, including the id, in registry under
-         KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+         KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
          You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
          sys.time_zone_info.
          List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -10995,6 +11337,15 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         :paramtype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
         :keyword service_principal: The managed instance's service principal.
         :paramtype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
+        :keyword pricing_model: Weather or not Managed Instance is freemium. Known values are:
+         "Regular" and "Freemium".
+        :paramtype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
+        :keyword authentication_metadata: The managed instance's authentication metadata lookup mode.
+         Known values are: "AzureAD", "Paired", and "Windows".
+        :paramtype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
+        :keyword database_format: Specifies the internal format of instance databases specific to the
+         SQL engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
+        :paramtype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.identity = identity
@@ -11002,13 +11353,18 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         self.provisioning_state = None
         self.managed_instance_create_mode = managed_instance_create_mode
         self.fully_qualified_domain_name = None
+        self.is_general_purpose_v2 = is_general_purpose_v2
         self.administrator_login = administrator_login
         self.administrator_login_password = administrator_login_password
         self.subnet_id = subnet_id
         self.state = None
         self.license_type = license_type
+        self.hybrid_secondary_usage = hybrid_secondary_usage
+        self.hybrid_secondary_usage_detected = None
         self.v_cores = v_cores
         self.storage_size_in_gb = storage_size_in_gb
+        self.storage_iops = storage_iops
+        self.storage_throughput_mbps = storage_throughput_mbps
         self.collation = collation
         self.dns_zone = None
         self.dns_zone_partner = dns_zone_partner
@@ -11028,6 +11384,12 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
         self.key_id = key_id
         self.administrators = administrators
         self.service_principal = service_principal
+        self.virtual_cluster_id = None
+        self.external_governance_status = None
+        self.pricing_model = pricing_model
+        self.create_time = None
+        self.authentication_metadata = authentication_metadata
+        self.database_format = database_format
 
 
 class ManagedInstanceAdministrator(ProxyResource):
@@ -11174,7 +11536,7 @@ class ManagedInstanceAdvancedThreatProtection(ProxyResource):
         self.creation_time = None
 
 
-class ManagedInstanceAdvancedThreatProtectionListResult(_serialization.Model):
+class ManagedInstanceAdvancedThreatProtectionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the managed instance's Advanced Threat Protection settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -11427,7 +11789,7 @@ class ManagedInstanceDtcSecuritySettings(_serialization.Model):
         self.xa_transactions_maximum_timeout = xa_transactions_maximum_timeout
 
 
-class ManagedInstanceDtcTransactionManagerCommunicationSettings(_serialization.Model):
+class ManagedInstanceDtcTransactionManagerCommunicationSettings(_serialization.Model):  # pylint: disable=name-too-long
     """The Transaction Manager Communication Settings of managed instance DTC.
 
     :ivar allow_inbound_enabled: Allow Inbound traffic to managed instance DTC.
@@ -11592,7 +11954,7 @@ class ManagedInstanceEncryptionProtector(ProxyResource):
         self.auto_rotation_enabled = auto_rotation_enabled
 
 
-class ManagedInstanceEncryptionProtectorListResult(_serialization.Model):
+class ManagedInstanceEncryptionProtectorListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of managed instance encryption protectors.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -11928,7 +12290,7 @@ class ManagedInstanceLongTermRetentionBackup(ProxyResource):
         self.backup_storage_redundancy = None
 
 
-class ManagedInstanceLongTermRetentionBackupListResult(_serialization.Model):
+class ManagedInstanceLongTermRetentionBackupListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of long term retention backups for managed database(s).
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12020,7 +12382,7 @@ class ManagedInstanceLongTermRetentionPolicy(ProxyResource):
         self.week_of_year = week_of_year
 
 
-class ManagedInstanceLongTermRetentionPolicyListResult(_serialization.Model):
+class ManagedInstanceLongTermRetentionPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of long term retention policies.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12048,7 +12410,7 @@ class ManagedInstanceLongTermRetentionPolicyListResult(_serialization.Model):
         self.next_link = None
 
 
-class ManagedInstanceMaintenanceConfigurationCapability(_serialization.Model):
+class ManagedInstanceMaintenanceConfigurationCapability(_serialization.Model):  # pylint: disable=name-too-long
     """The maintenance configuration capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12406,7 +12768,7 @@ class ManagedInstancePrivateEndpointConnection(ProxyResource):
         self.provisioning_state = None
 
 
-class ManagedInstancePrivateEndpointConnectionListResult(_serialization.Model):
+class ManagedInstancePrivateEndpointConnectionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of private endpoint connections.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12434,7 +12796,7 @@ class ManagedInstancePrivateEndpointConnectionListResult(_serialization.Model):
         self.next_link = None
 
 
-class ManagedInstancePrivateEndpointConnectionProperties(_serialization.Model):
+class ManagedInstancePrivateEndpointConnectionProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Properties of a private endpoint connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12596,12 +12958,12 @@ class ManagedInstancePrivateLinkProperties(_serialization.Model):
         self.required_members = None
 
 
-class ManagedInstancePrivateLinkServiceConnectionStateProperty(_serialization.Model):
+class ManagedInstancePrivateLinkServiceConnectionStateProperty(_serialization.Model):  # pylint: disable=name-too-long
     """ManagedInstancePrivateLinkServiceConnectionStateProperty.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: The private link service connection status. Required.
     :vartype status: str
@@ -12712,11 +13074,9 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype identity: ~azure.mgmt.sql.models.ResourceIdentity
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar provisioning_state: Known values are: "Creating", "Deleting", "Updating", "Unknown",
-     "Succeeded", "Failed", "Accepted", "Created", "Deleted", "Unrecognized", "Running", "Canceled",
-     "NotSpecified", "Registering", and "TimedOut".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.sql.models.ManagedInstancePropertiesProvisioningState
+    :ivar provisioning_state: Provisioning state of managed instance. Known values are: "Created",
+     "InProgress", "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.sql.models.ProvisioningState
     :ivar managed_instance_create_mode: Specifies the mode of database creation.
 
      Default: Regular instance creation.
@@ -12727,6 +13087,8 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
     :ivar fully_qualified_domain_name: The fully qualified domain name of the managed instance.
     :vartype fully_qualified_domain_name: str
+    :ivar is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose edition.
+    :vartype is_general_purpose_v2: bool
     :ivar administrator_login: Administrator username for the managed instance. Can only be
      specified when the managed instance is being created (and is required for creation).
     :vartype administrator_login: str
@@ -12741,12 +13103,28 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
      inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
      licenses). Known values are: "LicenseIncluded" and "BasePrice".
     :vartype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
+    :ivar hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
+     value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
+     and "Passive".
+    :vartype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
+    :ivar hybrid_secondary_usage_detected: Hybrid secondary usage detected. Possible values are
+     'Active' (customer does not meet the requirements to use the secondary as Passive DR) and
+     'Passive' (customer meets the requirements to use the secondary as Passive DR). Known values
+     are: "Active" and "Passive".
+    :vartype hybrid_secondary_usage_detected: str or
+     ~azure.mgmt.sql.models.HybridSecondaryUsageDetected
     :ivar v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
     :vartype v_cores: int
     :ivar storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
      Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
      number of vCores.
     :vartype storage_size_in_gb: int
+    :ivar storage_iops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
+     IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
+    :vartype storage_iops: int
+    :ivar storage_throughput_mbps: Storage throughput MBps parameter is not supported in the
+     instance create/update operation.
+    :vartype storage_throughput_mbps: int
     :ivar collation: Collation of the managed instance.
     :vartype collation: str
     :ivar dns_zone: The Dns Zone that the managed instance is in.
@@ -12767,7 +13145,7 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
     :ivar timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
      Windows keeps details on supported timezones, including the id, in registry under
-     KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+     KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
      You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
      sys.time_zone_info.
      List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -12808,15 +13186,36 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
     :vartype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
     :ivar service_principal: The managed instance's service principal.
     :vartype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
+    :ivar virtual_cluster_id: Virtual cluster resource id for the Managed Instance.
+    :vartype virtual_cluster_id: str
+    :ivar external_governance_status: Status of external governance. Known values are: "Enabled"
+     and "Disabled".
+    :vartype external_governance_status: str or ~azure.mgmt.sql.models.ExternalGovernanceStatus
+    :ivar pricing_model: Weather or not Managed Instance is freemium. Known values are: "Regular"
+     and "Freemium".
+    :vartype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
+    :ivar create_time: Specifies the point in time (ISO8601 format) of the Managed Instance
+     creation.
+    :vartype create_time: ~datetime.datetime
+    :ivar authentication_metadata: The managed instance's authentication metadata lookup mode.
+     Known values are: "AzureAD", "Paired", and "Windows".
+    :vartype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
+    :ivar database_format: Specifies the internal format of instance databases specific to the SQL
+     engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
+    :vartype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
     """
 
     _validation = {
         "provisioning_state": {"readonly": True},
         "fully_qualified_domain_name": {"readonly": True},
         "state": {"readonly": True},
+        "hybrid_secondary_usage_detected": {"readonly": True},
         "dns_zone": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
         "current_backup_storage_redundancy": {"readonly": True},
+        "virtual_cluster_id": {"readonly": True},
+        "external_governance_status": {"readonly": True},
+        "create_time": {"readonly": True},
     }
 
     _attribute_map = {
@@ -12826,13 +13225,18 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "managed_instance_create_mode": {"key": "properties.managedInstanceCreateMode", "type": "str"},
         "fully_qualified_domain_name": {"key": "properties.fullyQualifiedDomainName", "type": "str"},
+        "is_general_purpose_v2": {"key": "properties.isGeneralPurposeV2", "type": "bool"},
         "administrator_login": {"key": "properties.administratorLogin", "type": "str"},
         "administrator_login_password": {"key": "properties.administratorLoginPassword", "type": "str"},
         "subnet_id": {"key": "properties.subnetId", "type": "str"},
         "state": {"key": "properties.state", "type": "str"},
         "license_type": {"key": "properties.licenseType", "type": "str"},
+        "hybrid_secondary_usage": {"key": "properties.hybridSecondaryUsage", "type": "str"},
+        "hybrid_secondary_usage_detected": {"key": "properties.hybridSecondaryUsageDetected", "type": "str"},
         "v_cores": {"key": "properties.vCores", "type": "int"},
         "storage_size_in_gb": {"key": "properties.storageSizeInGB", "type": "int"},
+        "storage_iops": {"key": "properties.storageIOps", "type": "int"},
+        "storage_throughput_mbps": {"key": "properties.storageThroughputMBps", "type": "int"},
         "collation": {"key": "properties.collation", "type": "str"},
         "dns_zone": {"key": "properties.dnsZone", "type": "str"},
         "dns_zone_partner": {"key": "properties.dnsZonePartner", "type": "str"},
@@ -12855,6 +13259,12 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         "key_id": {"key": "properties.keyId", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ManagedInstanceExternalAdministrator"},
         "service_principal": {"key": "properties.servicePrincipal", "type": "ServicePrincipal"},
+        "virtual_cluster_id": {"key": "properties.virtualClusterId", "type": "str"},
+        "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
+        "pricing_model": {"key": "properties.pricingModel", "type": "str"},
+        "create_time": {"key": "properties.createTime", "type": "iso-8601"},
+        "authentication_metadata": {"key": "properties.authenticationMetadata", "type": "str"},
+        "database_format": {"key": "properties.databaseFormat", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -12864,12 +13274,16 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         identity: Optional["_models.ResourceIdentity"] = None,
         tags: Optional[Dict[str, str]] = None,
         managed_instance_create_mode: Optional[Union[str, "_models.ManagedServerCreateMode"]] = None,
+        is_general_purpose_v2: Optional[bool] = None,
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         subnet_id: Optional[str] = None,
         license_type: Optional[Union[str, "_models.ManagedInstanceLicenseType"]] = None,
+        hybrid_secondary_usage: Optional[Union[str, "_models.HybridSecondaryUsage"]] = None,
         v_cores: Optional[int] = None,
         storage_size_in_gb: Optional[int] = None,
+        storage_iops: Optional[int] = None,
+        storage_throughput_mbps: Optional[int] = None,
         collation: Optional[str] = None,
         dns_zone_partner: Optional[str] = None,
         public_data_endpoint_enabled: Optional[bool] = None,
@@ -12886,6 +13300,9 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         key_id: Optional[str] = None,
         administrators: Optional["_models.ManagedInstanceExternalAdministrator"] = None,
         service_principal: Optional["_models.ServicePrincipal"] = None,
+        pricing_model: Optional[Union[str, "_models.FreemiumType"]] = None,
+        authentication_metadata: Optional[Union[str, "_models.AuthMetadataLookupModes"]] = None,
+        database_format: Optional[Union[str, "_models.ManagedInstanceDatabaseFormat"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -12903,6 +13320,9 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
          RestorePointInTime and SourceManagedInstanceId must be specified. Known values are: "Default"
          and "PointInTimeRestore".
         :paramtype managed_instance_create_mode: str or ~azure.mgmt.sql.models.ManagedServerCreateMode
+        :keyword is_general_purpose_v2: Whether or not this is a GPv2 variant of General Purpose
+         edition.
+        :paramtype is_general_purpose_v2: bool
         :keyword administrator_login: Administrator username for the managed instance. Can only be
          specified when the managed instance is being created (and is required for creation).
         :paramtype administrator_login: str
@@ -12915,12 +13335,22 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
          inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL
          licenses). Known values are: "LicenseIncluded" and "BasePrice".
         :paramtype license_type: str or ~azure.mgmt.sql.models.ManagedInstanceLicenseType
+        :keyword hybrid_secondary_usage: Hybrid secondary usage. Possible values are 'Active' (default
+         value) and 'Passive' (customer uses the secondary as Passive DR). Known values are: "Active"
+         and "Passive".
+        :paramtype hybrid_secondary_usage: str or ~azure.mgmt.sql.models.HybridSecondaryUsage
         :keyword v_cores: The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
         :paramtype v_cores: int
         :keyword storage_size_in_gb: Storage size in GB. Minimum value: 32. Maximum value: 16384.
          Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
          number of vCores.
         :paramtype storage_size_in_gb: int
+        :keyword storage_iops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
+         IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
+        :paramtype storage_iops: int
+        :keyword storage_throughput_mbps: Storage throughput MBps parameter is not supported in the
+         instance create/update operation.
+        :paramtype storage_throughput_mbps: int
         :keyword collation: Collation of the managed instance.
         :paramtype collation: str
         :keyword dns_zone_partner: The resource id of another managed instance whose DNS zone this
@@ -12939,7 +13369,7 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         :paramtype proxy_override: str or ~azure.mgmt.sql.models.ManagedInstanceProxyOverride
         :keyword timezone_id: Id of the timezone. Allowed values are timezones supported by Windows.
          Windows keeps details on supported timezones, including the id, in registry under
-         KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+         KEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones.
          You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM
          sys.time_zone_info.
          List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in
@@ -12972,6 +13402,15 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         :paramtype administrators: ~azure.mgmt.sql.models.ManagedInstanceExternalAdministrator
         :keyword service_principal: The managed instance's service principal.
         :paramtype service_principal: ~azure.mgmt.sql.models.ServicePrincipal
+        :keyword pricing_model: Weather or not Managed Instance is freemium. Known values are:
+         "Regular" and "Freemium".
+        :paramtype pricing_model: str or ~azure.mgmt.sql.models.FreemiumType
+        :keyword authentication_metadata: The managed instance's authentication metadata lookup mode.
+         Known values are: "AzureAD", "Paired", and "Windows".
+        :paramtype authentication_metadata: str or ~azure.mgmt.sql.models.AuthMetadataLookupModes
+        :keyword database_format: Specifies the internal format of instance databases specific to the
+         SQL engine version. Known values are: "AlwaysUpToDate" and "SQLServer2022".
+        :paramtype database_format: str or ~azure.mgmt.sql.models.ManagedInstanceDatabaseFormat
         """
         super().__init__(**kwargs)
         self.sku = sku
@@ -12980,13 +13419,18 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         self.provisioning_state = None
         self.managed_instance_create_mode = managed_instance_create_mode
         self.fully_qualified_domain_name = None
+        self.is_general_purpose_v2 = is_general_purpose_v2
         self.administrator_login = administrator_login
         self.administrator_login_password = administrator_login_password
         self.subnet_id = subnet_id
         self.state = None
         self.license_type = license_type
+        self.hybrid_secondary_usage = hybrid_secondary_usage
+        self.hybrid_secondary_usage_detected = None
         self.v_cores = v_cores
         self.storage_size_in_gb = storage_size_in_gb
+        self.storage_iops = storage_iops
+        self.storage_throughput_mbps = storage_throughput_mbps
         self.collation = collation
         self.dns_zone = None
         self.dns_zone_partner = dns_zone_partner
@@ -13006,6 +13450,12 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
         self.key_id = key_id
         self.administrators = administrators
         self.service_principal = service_principal
+        self.virtual_cluster_id = None
+        self.external_governance_status = None
+        self.pricing_model = pricing_model
+        self.create_time = None
+        self.authentication_metadata = authentication_metadata
+        self.database_format = database_format
 
 
 class ManagedInstanceVcoresCapability(_serialization.Model):
@@ -13212,7 +13662,7 @@ class ManagedInstanceVulnerabilityAssessment(ProxyResource):
         self.recurring_scans = recurring_scans
 
 
-class ManagedInstanceVulnerabilityAssessmentListResult(_serialization.Model):
+class ManagedInstanceVulnerabilityAssessmentListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the ManagedInstance's vulnerability assessments.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -13356,7 +13806,7 @@ class ManagedServerDnsAlias(ProxyResource):
 class ManagedServerDnsAliasAcquisition(_serialization.Model):
     """A managed server DNS alias acquisition request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar old_managed_server_dns_alias_resource_id: The resource ID of the managed server DNS alias
      that will be acquired to point to this managed server instead. Required.
@@ -13537,7 +13987,7 @@ class ManagedServerSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-ma
         self.creation_time = None
 
 
-class ManagedServerSecurityAlertPolicyListResult(_serialization.Model):
+class ManagedServerSecurityAlertPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of the managed Server's security alert policies.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -13606,7 +14056,7 @@ class ManagedTransparentDataEncryption(ProxyResource):
         self.state = state
 
 
-class ManagedTransparentDataEncryptionListResult(_serialization.Model):
+class ManagedTransparentDataEncryptionListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of managed transparent data encryptions.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -13840,7 +14290,7 @@ class MetricDefinition(_serialization.Model):
 class MetricDefinitionListResult(_serialization.Model):
     """The response to a list database metric definitions request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of metric definitions for the database. Required.
     :vartype value: list[~azure.mgmt.sql.models.MetricDefinition]
@@ -13866,7 +14316,7 @@ class MetricDefinitionListResult(_serialization.Model):
 class MetricListResult(_serialization.Model):
     """The response to a list database metrics request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of metrics for the database. Required.
     :vartype value: list[~azure.mgmt.sql.models.Metric]
@@ -14028,46 +14478,6 @@ class Name(_serialization.Model):
 
 
 class NetworkIsolationSettings(_serialization.Model):
-    """Contains the ARM resources for which to create private endpoint connection.
-
-    :ivar storage_account_resource_id: The resource id for the storage account used to store BACPAC
-     file. If set, private endpoint connection will be created for the storage account. Must match
-     storage account used for StorageUri parameter.
-    :vartype storage_account_resource_id: str
-    :ivar sql_server_resource_id: The resource id for the SQL server which is the target of this
-     request. If set, private endpoint connection will be created for the SQL server. Must match
-     server which is target of the operation.
-    :vartype sql_server_resource_id: str
-    """
-
-    _attribute_map = {
-        "storage_account_resource_id": {"key": "storageAccountResourceId", "type": "str"},
-        "sql_server_resource_id": {"key": "sqlServerResourceId", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        storage_account_resource_id: Optional[str] = None,
-        sql_server_resource_id: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword storage_account_resource_id: The resource id for the storage account used to store
-         BACPAC file. If set, private endpoint connection will be created for the storage account. Must
-         match storage account used for StorageUri parameter.
-        :paramtype storage_account_resource_id: str
-        :keyword sql_server_resource_id: The resource id for the SQL server which is the target of this
-         request. If set, private endpoint connection will be created for the SQL server. Must match
-         server which is target of the operation.
-        :paramtype sql_server_resource_id: str
-        """
-        super().__init__(**kwargs)
-        self.storage_account_resource_id = storage_account_resource_id
-        self.sql_server_resource_id = sql_server_resource_id
-
-
-class NetworkIsolationSettingsAutoGenerated(_serialization.Model):
     """Contains the ARM resources for which to create private endpoint connection.
 
     :ivar storage_account_resource_id: The resource id for the storage account used to store BACPAC
@@ -14377,7 +14787,7 @@ class PartnerInfo(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource identifier of the partner server. Required.
     :vartype id: str
@@ -14468,6 +14878,35 @@ class PerformanceLevelCapability(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.unit = None
+
+
+class PhaseDetails(_serialization.Model):
+    """The phase details properties of a database operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar phase: The operation phase. Known values are: "Copying", "Catchup", "WaitingForCutover",
+     and "CutoverInProgress".
+    :vartype phase: str or ~azure.mgmt.sql.models.Phase
+    :ivar phase_information: The operation phase information.
+    :vartype phase_information: dict[str, str]
+    """
+
+    _validation = {
+        "phase": {"readonly": True},
+        "phase_information": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "phase": {"key": "phase", "type": "str"},
+        "phase_information": {"key": "phaseInformation", "type": "{str}"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.phase = None
+        self.phase_information = None
 
 
 class PrivateEndpointConnection(ProxyResource):
@@ -14769,12 +15208,12 @@ class PrivateLinkResourceProperties(_serialization.Model):
         self.required_zone_names = None
 
 
-class PrivateLinkServiceConnectionStateProperty(_serialization.Model):
+class PrivateLinkServiceConnectionStateProperty(_serialization.Model):  # pylint: disable=name-too-long
     """PrivateLinkServiceConnectionStateProperty.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: The private link service connection status. Required. Known values are:
      "Approved", "Pending", "Rejected", and "Disconnected".
@@ -14848,6 +15287,46 @@ class QueryCheck(_serialization.Model):
 
 
 class QueryMetricInterval(_serialization.Model):
+    """Properties of a query metrics interval.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar interval_start_time: The start time for the metric interval (ISO-8601 format).
+    :vartype interval_start_time: str
+    :ivar interval_type: Interval type (length). Known values are: "PT1H" and "P1D".
+    :vartype interval_type: str or ~azure.mgmt.sql.models.QueryTimeGrainType
+    :ivar execution_count: Execution count of a query in this interval.
+    :vartype execution_count: int
+    :ivar metrics: List of metric objects for this interval.
+    :vartype metrics: list[~azure.mgmt.sql.models.QueryMetricProperties]
+    """
+
+    _validation = {
+        "interval_start_time": {"readonly": True},
+        "interval_type": {"readonly": True},
+        "execution_count": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "interval_start_time": {"key": "intervalStartTime", "type": "str"},
+        "interval_type": {"key": "intervalType", "type": "str"},
+        "execution_count": {"key": "executionCount", "type": "int"},
+        "metrics": {"key": "metrics", "type": "[QueryMetricProperties]"},
+    }
+
+    def __init__(self, *, metrics: Optional[List["_models.QueryMetricProperties"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword metrics: List of metric objects for this interval.
+        :paramtype metrics: list[~azure.mgmt.sql.models.QueryMetricProperties]
+        """
+        super().__init__(**kwargs)
+        self.interval_start_time = None
+        self.interval_type = None
+        self.execution_count = None
+        self.metrics = metrics
+
+
+class QueryMetricIntervalAutoGenerated(_serialization.Model):
     """Properties of a query metrics interval.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -15022,7 +15501,7 @@ class QueryStatisticsProperties(_serialization.Model):
     :ivar end_time: The end time for the metric (ISO-8601 format).
     :vartype end_time: str
     :ivar intervals: List of intervals with appropriate metric data.
-    :vartype intervals: list[~azure.mgmt.sql.models.QueryMetricInterval]
+    :vartype intervals: list[~azure.mgmt.sql.models.QueryMetricIntervalAutoGenerated]
     """
 
     _validation = {
@@ -15037,13 +15516,15 @@ class QueryStatisticsProperties(_serialization.Model):
         "query_id": {"key": "queryId", "type": "str"},
         "start_time": {"key": "startTime", "type": "str"},
         "end_time": {"key": "endTime", "type": "str"},
-        "intervals": {"key": "intervals", "type": "[QueryMetricInterval]"},
+        "intervals": {"key": "intervals", "type": "[QueryMetricIntervalAutoGenerated]"},
     }
 
-    def __init__(self, *, intervals: Optional[List["_models.QueryMetricInterval"]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self, *, intervals: Optional[List["_models.QueryMetricIntervalAutoGenerated"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword intervals: List of intervals with appropriate metric data.
-        :paramtype intervals: list[~azure.mgmt.sql.models.QueryMetricInterval]
+        :paramtype intervals: list[~azure.mgmt.sql.models.QueryMetricIntervalAutoGenerated]
         """
         super().__init__(**kwargs)
         self.database_name = None
@@ -15431,7 +15912,7 @@ class RecommendedActionStateInfo(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar current_value: Current state the recommended action is in. Some commonly used states are:
      Active      -> recommended action is active and no action has been taken yet. Pending     ->
@@ -15724,7 +16205,7 @@ class RecoverableManagedDatabaseListResult(_serialization.Model):
         self.next_link = None
 
 
-class RefreshExternalGovernanceStatusOperationResult(ProxyResource):
+class RefreshExternalGovernanceStatusOperationResult(ProxyResource):  # pylint: disable=name-too-long
     """An RefreshExternalGovernanceStatus operation result resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -15784,6 +16265,66 @@ class RefreshExternalGovernanceStatusOperationResult(ProxyResource):
         self.error_message = None
 
 
+class RefreshExternalGovernanceStatusOperationResultMI(ProxyResource):  # pylint: disable=name-too-long
+    """An RefreshExternalGovernanceStatus operation result resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: Resource name.
+    :vartype name: str
+    :ivar type: Resource type.
+    :vartype type: str
+    :ivar request_id: Request Id.
+    :vartype request_id: str
+    :ivar request_type: Request type.
+    :vartype request_type: str
+    :ivar queued_time: Queued time.
+    :vartype queued_time: str
+    :ivar managed_instance_name: Managed instance name.
+    :vartype managed_instance_name: str
+    :ivar status: Operation status.
+    :vartype status: str
+    :ivar error_message: Error message.
+    :vartype error_message: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "request_id": {"readonly": True},
+        "request_type": {"readonly": True},
+        "queued_time": {"readonly": True},
+        "managed_instance_name": {"readonly": True},
+        "status": {"readonly": True},
+        "error_message": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "request_id": {"key": "properties.requestId", "type": "str"},
+        "request_type": {"key": "properties.requestType", "type": "str"},
+        "queued_time": {"key": "properties.queuedTime", "type": "str"},
+        "managed_instance_name": {"key": "properties.managedInstanceName", "type": "str"},
+        "status": {"key": "properties.status", "type": "str"},
+        "error_message": {"key": "properties.errorMessage", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.request_id = None
+        self.request_type = None
+        self.queued_time = None
+        self.managed_instance_name = None
+        self.status = None
+        self.error_message = None
+
+
 class Remediation(_serialization.Model):
     """SQL Vulnerability Assessment remediation Details.
 
@@ -15837,6 +16378,8 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype partner_server: str
     :ivar partner_database: Resource partner database.
     :vartype partner_database: str
+    :ivar partner_database_id: Resource partner database Id.
+    :vartype partner_database_id: str
     :ivar partner_location: Resource partner location.
     :vartype partner_location: str
     :ivar role: Local replication role. Known values are: "Primary", "Secondary",
@@ -15856,8 +16399,8 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype replication_state: str or ~azure.mgmt.sql.models.ReplicationState
     :ivar is_termination_allowed: Whether the user is currently allowed to terminate the link.
     :vartype is_termination_allowed: bool
-    :ivar link_type: Link type (GEO, NAMED, STANDBY). Known values are: "GEO", "NAMED", and
-     "STANDBY".
+    :ivar link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+     Known values are: "GEO", "NAMED", and "STANDBY".
     :vartype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
     """
 
@@ -15867,6 +16410,7 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "type": {"readonly": True},
         "partner_server": {"readonly": True},
         "partner_database": {"readonly": True},
+        "partner_database_id": {"readonly": True},
         "partner_location": {"readonly": True},
         "role": {"readonly": True},
         "partner_role": {"readonly": True},
@@ -15875,7 +16419,6 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "percent_complete": {"readonly": True},
         "replication_state": {"readonly": True},
         "is_termination_allowed": {"readonly": True},
-        "link_type": {"readonly": True},
     }
 
     _attribute_map = {
@@ -15884,6 +16427,7 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "type": {"key": "type", "type": "str"},
         "partner_server": {"key": "properties.partnerServer", "type": "str"},
         "partner_database": {"key": "properties.partnerDatabase", "type": "str"},
+        "partner_database_id": {"key": "properties.partnerDatabaseId", "type": "str"},
         "partner_location": {"key": "properties.partnerLocation", "type": "str"},
         "role": {"key": "properties.role", "type": "str"},
         "partner_role": {"key": "properties.partnerRole", "type": "str"},
@@ -15895,11 +16439,16 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         "link_type": {"key": "properties.linkType", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, link_type: Optional[Union[str, "_models.ReplicationLinkType"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+         Known values are: "GEO", "NAMED", and "STANDBY".
+        :paramtype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
+        """
         super().__init__(**kwargs)
         self.partner_server = None
         self.partner_database = None
+        self.partner_database_id = None
         self.partner_location = None
         self.role = None
         self.partner_role = None
@@ -15908,7 +16457,7 @@ class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attri
         self.percent_complete = None
         self.replication_state = None
         self.is_termination_allowed = None
-        self.link_type = None
+        self.link_type = link_type
 
 
 class ReplicationLinkListResult(_serialization.Model):
@@ -15937,6 +16486,45 @@ class ReplicationLinkListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class ReplicationLinkUpdate(ProxyResource):
+    """A replication link update request.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: Resource name.
+    :vartype name: str
+    :ivar type: Resource type.
+    :vartype type: str
+    :ivar link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+     Known values are: "GEO", "NAMED", and "STANDBY".
+    :vartype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "link_type": {"key": "properties.linkType", "type": "str"},
+    }
+
+    def __init__(self, *, link_type: Optional[Union[str, "_models.ReplicationLinkType"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword link_type: Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED.
+         Known values are: "GEO", "NAMED", and "STANDBY".
+        :paramtype link_type: str or ~azure.mgmt.sql.models.ReplicationLinkType
+        """
+        super().__init__(**kwargs)
+        self.link_type = link_type
 
 
 class ResourceIdentity(_serialization.Model):
@@ -15993,7 +16581,7 @@ class ResourceIdentity(_serialization.Model):
 class ResourceMoveDefinition(_serialization.Model):
     """Contains the information necessary to perform a resource move (rename).
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The target ID for the resource. Required.
     :vartype id: str
@@ -16143,7 +16731,7 @@ class RestorableDroppedManagedDatabase(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -16202,7 +16790,7 @@ class RestorableDroppedManagedDatabase(TrackedResource):
         self.earliest_restore_date = None
 
 
-class RestorableDroppedManagedDatabaseListResult(_serialization.Model):
+class RestorableDroppedManagedDatabaseListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of restorable dropped managed databases.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -16317,7 +16905,7 @@ class RestorePointListResult(_serialization.Model):
 class ScheduleItem(_serialization.Model):
     """Schedule info describing when the server should be started or stopped.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_day: Start day. Required. Known values are: "Sunday", "Monday", "Tuesday",
      "Wednesday", "Thursday", "Friday", and "Saturday".
@@ -16514,7 +17102,7 @@ class SecurityEventsFilterParameters(_serialization.Model):
         self.show_server_records = show_server_records
 
 
-class SecurityEventSqlInjectionAdditionalProperties(_serialization.Model):
+class SecurityEventSqlInjectionAdditionalProperties(_serialization.Model):  # pylint: disable=name-too-long
     """The properties of a security event sql injection additional properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -16787,7 +17375,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -16818,8 +17406,9 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar private_endpoint_connections: List of private endpoint connections on a server.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.sql.models.ServerPrivateEndpointConnection]
-    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
-    :vartype minimal_tls_version: str
+    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
+     '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
+    :vartype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this server.
      Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter'.
      Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -16843,6 +17432,10 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
      are: "Enabled" and "Disabled".
     :vartype restrict_outbound_network_access: str or
      ~azure.mgmt.sql.models.ServerNetworkAccessFlag
+    :ivar is_i_pv6_enabled: Whether or not to enable IPv6 support for this server.  Value is
+     optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+     "Disabled".
+    :vartype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerNetworkAccessFlag
     :ivar external_governance_status: Status of external governance. Known values are: "Enabled"
      and "Disabled".
     :vartype external_governance_status: str or ~azure.mgmt.sql.models.ExternalGovernanceStatus
@@ -16886,6 +17479,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "key_id": {"key": "properties.keyId", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ServerExternalAdministrator"},
         "restrict_outbound_network_access": {"key": "properties.restrictOutboundNetworkAccess", "type": "str"},
+        "is_i_pv6_enabled": {"key": "properties.isIPv6Enabled", "type": "str"},
         "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
     }
 
@@ -16898,13 +17492,14 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         version: Optional[str] = None,
-        minimal_tls_version: Optional[str] = None,
+        minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
         public_network_access: Optional[Union[str, "_models.ServerPublicNetworkAccessFlag"]] = None,
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
         key_id: Optional[str] = None,
         administrators: Optional["_models.ServerExternalAdministrator"] = None,
         restrict_outbound_network_access: Optional[Union[str, "_models.ServerNetworkAccessFlag"]] = None,
+        is_i_pv6_enabled: Optional[Union[str, "_models.ServerNetworkAccessFlag"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -16922,8 +17517,9 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype administrator_login_password: str
         :keyword version: The version of the server.
         :paramtype version: str
-        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
-        :paramtype minimal_tls_version: str
+        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
+         '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
+        :paramtype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
          server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or
          'SecuredByPerimeter'. Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -16944,6 +17540,10 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
          values are: "Enabled" and "Disabled".
         :paramtype restrict_outbound_network_access: str or
          ~azure.mgmt.sql.models.ServerNetworkAccessFlag
+        :keyword is_i_pv6_enabled: Whether or not to enable IPv6 support for this server.  Value is
+         optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+         "Disabled".
+        :paramtype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerNetworkAccessFlag
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.identity = identity
@@ -16962,6 +17562,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.key_id = key_id
         self.administrators = administrators
         self.restrict_outbound_network_access = restrict_outbound_network_access
+        self.is_i_pv6_enabled = is_i_pv6_enabled
         self.external_governance_status = None
 
 
@@ -17201,7 +17802,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -17256,7 +17857,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -17281,7 +17882,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is the
      storage's secondary key.
@@ -17297,7 +17898,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -17384,7 +17985,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -17439,7 +18040,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -17464,7 +18065,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword is_storage_secondary_key_in_use: Specifies whether storageAccountAccessKey value is
          the storage's secondary key.
@@ -17480,7 +18081,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -17804,7 +18405,7 @@ class ServerDevOpsAuditingSettings(ProxyResource):
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -17879,7 +18480,7 @@ class ServerDevOpsAuditingSettings(ProxyResource):
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -17988,7 +18589,7 @@ class ServerDnsAlias(ProxyResource):
 class ServerDnsAliasAcquisition(_serialization.Model):
     """A server dns alias acquisition request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar old_server_dns_alias_id: The id of the server alias that will be acquired to point to
      this server instead. Required.
@@ -18106,7 +18707,7 @@ class ServerExternalAdministrator(_serialization.Model):
 class ServerInfo(_serialization.Model):
     """Server info for the server trust group.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar server_id: Server Id. Required.
     :vartype server_id: str
@@ -18708,8 +19309,9 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
     :ivar private_endpoint_connections: List of private endpoint connections on a server.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.sql.models.ServerPrivateEndpointConnection]
-    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
-    :vartype minimal_tls_version: str
+    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
+     '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
+    :vartype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this server.
      Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter'.
      Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -18733,6 +19335,10 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
      are: "Enabled" and "Disabled".
     :vartype restrict_outbound_network_access: str or
      ~azure.mgmt.sql.models.ServerNetworkAccessFlag
+    :ivar is_i_pv6_enabled: Whether or not to enable IPv6 support for this server.  Value is
+     optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+     "Disabled".
+    :vartype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerNetworkAccessFlag
     :ivar external_governance_status: Status of external governance. Known values are: "Enabled"
      and "Disabled".
     :vartype external_governance_status: str or ~azure.mgmt.sql.models.ExternalGovernanceStatus
@@ -18766,6 +19372,7 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         "key_id": {"key": "properties.keyId", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ServerExternalAdministrator"},
         "restrict_outbound_network_access": {"key": "properties.restrictOutboundNetworkAccess", "type": "str"},
+        "is_i_pv6_enabled": {"key": "properties.isIPv6Enabled", "type": "str"},
         "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
     }
 
@@ -18777,13 +19384,14 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         version: Optional[str] = None,
-        minimal_tls_version: Optional[str] = None,
+        minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
         public_network_access: Optional[Union[str, "_models.ServerPublicNetworkAccessFlag"]] = None,
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
         key_id: Optional[str] = None,
         administrators: Optional["_models.ServerExternalAdministrator"] = None,
         restrict_outbound_network_access: Optional[Union[str, "_models.ServerNetworkAccessFlag"]] = None,
+        is_i_pv6_enabled: Optional[Union[str, "_models.ServerNetworkAccessFlag"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -18799,8 +19407,9 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         :paramtype administrator_login_password: str
         :keyword version: The version of the server.
         :paramtype version: str
-        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
-        :paramtype minimal_tls_version: str
+        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
+         '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
+        :paramtype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
          server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or
          'SecuredByPerimeter'. Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -18821,6 +19430,10 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
          values are: "Enabled" and "Disabled".
         :paramtype restrict_outbound_network_access: str or
          ~azure.mgmt.sql.models.ServerNetworkAccessFlag
+        :keyword is_i_pv6_enabled: Whether or not to enable IPv6 support for this server.  Value is
+         optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+         "Disabled".
+        :paramtype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerNetworkAccessFlag
         """
         super().__init__(**kwargs)
         self.identity = identity
@@ -18839,6 +19452,7 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         self.key_id = key_id
         self.administrators = administrators
         self.restrict_outbound_network_access = restrict_outbound_network_access
+        self.is_i_pv6_enabled = is_i_pv6_enabled
         self.external_governance_status = None
 
 
@@ -18898,7 +19512,7 @@ class ServerUsage(_serialization.Model):
 class ServerUsageListResult(_serialization.Model):
     """Represents the response to a list server metrics request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of server metrics for the server. Required.
     :vartype value: list[~azure.mgmt.sql.models.ServerUsage]
@@ -19234,7 +19848,7 @@ class ServiceObjectiveCapability(_serialization.Model):  # pylint: disable=too-m
 class ServiceObjectiveListResult(_serialization.Model):
     """Represents the response to a get database service objectives request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of database service objectives. Required.
     :vartype value: list[~azure.mgmt.sql.models.ServiceObjective]
@@ -19300,7 +19914,7 @@ class ServicePrincipal(_serialization.Model):
 class Sku(_serialization.Model):
     """An ARM Resource SKU.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SKU, typically, a letter + Number code, e.g. P3. Required.
     :vartype name: str
@@ -19690,7 +20304,7 @@ class SqlVulnerabilityAssessmentScanRecord(ProxyResource):  # pylint: disable=to
         self.last_scan_time = None
 
 
-class SqlVulnerabilityAssessmentScanRecordListResult(_serialization.Model):
+class SqlVulnerabilityAssessmentScanRecordListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of vulnerability assessment scan records.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -19867,7 +20481,7 @@ class StartStopManagedInstanceSchedule(ProxyResource):
         self.next_execution_time = None
 
 
-class StartStopManagedInstanceScheduleListResult(_serialization.Model):
+class StartStopManagedInstanceScheduleListResult(_serialization.Model):  # pylint: disable=name-too-long
     """Managed instance's Start/Stop schedule list result.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -21598,7 +22212,7 @@ class VirtualCluster(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource ID.
     :vartype id: str
@@ -21809,7 +22423,7 @@ class VirtualNetworkRuleListResult(_serialization.Model):
         self.next_link = None
 
 
-class VulnerabilityAssessmentRecurringScansProperties(_serialization.Model):
+class VulnerabilityAssessmentRecurringScansProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Properties of a Vulnerability Assessment recurring scans.
 
     :ivar is_enabled: Recurring scans state.
@@ -21949,7 +22563,7 @@ class VulnerabilityAssessmentScanRecord(ProxyResource):  # pylint: disable=too-m
         self.number_of_failed_security_checks = None
 
 
-class VulnerabilityAssessmentScanRecordListResult(_serialization.Model):
+class VulnerabilityAssessmentScanRecordListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of vulnerability assessment scan records.
 
     Variables are only populated by the server, and will be ignored when sending a request.

@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcontainers import ContainerAppsAPIClient
 
 """
@@ -31,7 +34,7 @@ def main():
 
     response = client.container_apps.begin_create_or_update(
         resource_group_name="rg",
-        container_app_name="testcontainerApp0",
+        container_app_name="testcontainerapp0",
         container_app_envelope={
             "location": "East US",
             "properties": {
@@ -46,6 +49,10 @@ def main():
                         "logLevel": "debug",
                     },
                     "ingress": {
+                        "additionalPortMappings": [
+                            {"external": True, "targetPort": 1234},
+                            {"exposedPort": 3456, "external": False, "targetPort": 2345},
+                        ],
                         "clientCertificateMode": "accept",
                         "corsPolicy": {
                             "allowCredentials": True,
@@ -84,7 +91,7 @@ def main():
                         ],
                         "stickySessions": {"affinity": "sticky"},
                         "targetPort": 3000,
-                        "traffic": [{"label": "production", "revisionName": "testcontainerApp0-ab1234", "weight": 100}],
+                        "traffic": [{"label": "production", "revisionName": "testcontainerapp0-ab1234", "weight": 100}],
                     },
                     "maxInactiveRevisions": 10,
                     "service": {"type": "redis"},
@@ -93,8 +100,8 @@ def main():
                 "template": {
                     "containers": [
                         {
-                            "image": "repo/testcontainerApp0:v1",
-                            "name": "testcontainerApp0",
+                            "image": "repo/testcontainerapp0:v1",
+                            "name": "testcontainerapp0",
                             "probes": [
                                 {
                                     "httpGet": {
@@ -113,9 +120,9 @@ def main():
                         {
                             "args": ["-c", "while true; do echo hello; sleep 10;done"],
                             "command": ["/bin/sh"],
-                            "image": "repo/testcontainerApp0:v4",
+                            "image": "repo/testcontainerapp0:v4",
                             "name": "testinitcontainerApp0",
-                            "resources": {"cpu": 0.2, "memory": "100Mi"},
+                            "resources": {"cpu": 0.5, "memory": "1Gi"},
                         }
                     ],
                     "scale": {
@@ -142,6 +149,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

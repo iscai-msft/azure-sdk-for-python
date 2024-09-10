@@ -72,6 +72,14 @@ class AuthenticationName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DEFAULT = "Default"
 
 
+class AuthMetadataLookupModes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The managed instance's authentication metadata lookup mode."""
+
+    AZURE_AD = "AzureAD"
+    PAIRED = "Paired"
+    WINDOWS = "Windows"
+
+
 class AutoExecuteStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets the auto-execute status (whether to let the system execute the recommendations) of this
     advisor. Possible values are 'Enabled' and 'Disabled'.
@@ -157,8 +165,15 @@ class AvailabilityZoneType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     THREE = "3"
 
 
+class BackupStorageAccessTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The BackupStorageAccessTier for the LTR backup."""
+
+    HOT = "Hot"
+    ARCHIVE = "Archive"
+
+
 class BackupStorageRedundancy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The storage redundancy type of the copied backup."""
+    """The storage redundancy type of the backup."""
 
     GEO = "Geo"
     LOCAL = "Local"
@@ -253,6 +268,7 @@ class ColumnDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NCHAR = "nchar"
     XML = "xml"
     SYSNAME = "sysname"
+    INT_ENUM = "int"
 
 
 class ConnectionPolicyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -488,6 +504,13 @@ class ExternalGovernanceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
+class FailoverGroupDatabasesSecondaryType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Databases secondary type on partner server."""
+
+    GEO = "Geo"
+    STANDBY = "Standby"
+
+
 class FailoverGroupReplicationRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Local replication role of the failover group instance."""
 
@@ -509,6 +532,13 @@ class FreeLimitExhaustionBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     BILL_OVER_USAGE = "BillOverUsage"
 
 
+class FreemiumType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Weather or not Managed Instance is freemium."""
+
+    REGULAR = "Regular"
+    FREEMIUM = "Freemium"
+
+
 class GeoBackupPolicyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """GeoBackupPolicyName."""
 
@@ -520,6 +550,25 @@ class GeoBackupPolicyState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     DISABLED = "Disabled"
     ENABLED = "Enabled"
+
+
+class HybridSecondaryUsage(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Hybrid secondary usage. Possible values are 'Active' (default value) and 'Passive' (customer
+    uses the secondary as Passive DR).
+    """
+
+    ACTIVE = "Active"
+    PASSIVE = "Passive"
+
+
+class HybridSecondaryUsageDetected(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Hybrid secondary usage detected. Possible values are 'Active' (customer does not meet the
+    requirements to use the secondary as Passive DR) and 'Passive' (customer meets the requirements
+    to use the secondary as Passive DR).
+    """
+
+    ACTIVE = "Active"
+    PASSIVE = "Passive"
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -704,6 +753,13 @@ class ManagedInstanceAdministratorType(str, Enum, metaclass=CaseInsensitiveEnumM
     ACTIVE_DIRECTORY = "ActiveDirectory"
 
 
+class ManagedInstanceDatabaseFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the internal format of instance databases specific to the SQL engine version."""
+
+    ALWAYS_UP_TO_DATE = "AlwaysUpToDate"
+    SQL_SERVER2022 = "SQLServer2022"
+
+
 class ManagedInstanceLicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL
     license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses).
@@ -717,26 +773,6 @@ class ManagedInstanceLongTermRetentionPolicyName(str, Enum, metaclass=CaseInsens
     """ManagedInstanceLongTermRetentionPolicyName."""
 
     DEFAULT = "default"
-
-
-class ManagedInstancePropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """ManagedInstancePropertiesProvisioningState."""
-
-    CREATING = "Creating"
-    DELETING = "Deleting"
-    UPDATING = "Updating"
-    UNKNOWN = "Unknown"
-    SUCCEEDED = "Succeeded"
-    FAILED = "Failed"
-    ACCEPTED = "Accepted"
-    CREATED = "Created"
-    DELETED = "Deleted"
-    UNRECOGNIZED = "Unrecognized"
-    RUNNING = "Running"
-    CANCELED = "Canceled"
-    NOT_SPECIFIED = "NotSpecified"
-    REGISTERING = "Registering"
-    TIMED_OUT = "TimedOut"
 
 
 class ManagedInstanceProxyOverride(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -809,6 +845,16 @@ class MetricType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DTU = "dtu"
 
 
+class MinimalTlsVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2', '1.3'."""
+
+    NONE = "None"
+    ONE0 = "1.0"
+    ONE1 = "1.1"
+    ONE2 = "1.2"
+    ONE3 = "1.3"
+
+
 class MoveOperationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Operation mode."""
 
@@ -840,6 +886,15 @@ class PerformanceLevelUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     DTU = "DTU"
     V_CORES = "VCores"
+
+
+class Phase(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The operation phase."""
+
+    COPYING = "Copying"
+    CATCHUP = "Catchup"
+    WAITING_FOR_CUTOVER = "WaitingForCutover"
+    CUTOVER_IN_PROGRESS = "CutoverInProgress"
 
 
 class PrimaryAggregationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -972,7 +1027,7 @@ class RecommendedSensitivityLabelUpdateKind(str, Enum, metaclass=CaseInsensitive
 
 
 class ReplicationLinkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Link type (GEO, NAMED, STANDBY)."""
+    """Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED."""
 
     GEO = "GEO"
     NAMED = "NAMED"

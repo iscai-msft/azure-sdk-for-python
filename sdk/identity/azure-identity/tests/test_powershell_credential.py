@@ -110,10 +110,12 @@ def test_get_token(stderr):
     command = args[0][-1]
     assert command.startswith("pwsh -NoProfile -NonInteractive -EncodedCommand ")
 
-    encoded_script = command.split()[-1]
+    match = re.search(r"-EncodedCommand\s+(\S+)", command)
+    assert match, "couldn't find encoded script in command line"
+    encoded_script = match.groups()[0]
     decoded_script = base64.b64decode(encoded_script).decode("utf-16-le")
-    assert "TenantId" not in decoded_script
-    assert "Get-AzAccessToken -ResourceUrl '{}'".format(scope) in decoded_script
+    assert "tenantId = ''" in decoded_script
+    assert f"'ResourceUrl' = '{scope}'" in decoded_script
 
     assert Popen().communicate.call_count == 1
     args, kwargs = Popen().communicate.call_args
@@ -250,7 +252,14 @@ def test_unexpected_error():
     assert False, "Credential should have included stderr in a DEBUG level message"
 
 
-def test_windows_powershell_fallback():
+@pytest.mark.parametrize(
+    "error_message",
+    (
+        "'pwsh' is not recognized as an internal or external command,\r\noperable program or batch file.",
+        "some other message",
+    ),
+)
+def test_windows_powershell_fallback(error_message):
     """On Windows, the credential should fall back to powershell.exe when pwsh.exe isn't on the path"""
 
     class Fake:
@@ -262,8 +271,8 @@ def test_windows_powershell_fallback():
         if args[-1].startswith("pwsh"):
             assert Fake.calls == 1, 'credential should invoke "pwsh" only once'
             stdout = ""
-            stderr = "'pwsh' is not recognized as an internal or external command,\r\noperable program or batch file."
-            return_code = 1
+            stderr = error_message
+            return_code = 9009
         else:
             assert args[-1].startswith("powershell"), 'credential should fall back to "powershell"'
             stdout = NO_AZ_ACCOUNT_MODULE
@@ -283,18 +292,21 @@ def test_windows_powershell_fallback():
 
 def test_multitenant_authentication():
     first_token = "***"
-    second_tenant = "second-tenant"
+    second_tenant = "12345"
     second_token = first_token * 2
 
     def fake_Popen(command, **_):
         assert command[-1].startswith("pwsh -NoProfile -NonInteractive -EncodedCommand ")
-        encoded_script = command[-1].split()[-1]
+        match = re.search(r"-EncodedCommand\s+(\S+)", command[-1])
+        assert match, "couldn't find encoded script in command line"
+        encoded_script = match.groups()[0]
         decoded_script = base64.b64decode(encoded_script).decode("utf-16-le")
-        match = re.search(r"Get-AzAccessToken -ResourceUrl '(\S+)'(?: -TenantId (\S+))?", decoded_script)
-        tenant = match.groups()[1]
+        match = re.search(r"\$tenantId\s*=\s*'([^']*)'", decoded_script)
+        assert match
+        tenant = match.group(1)
 
-        assert tenant is None or tenant == second_tenant, 'unexpected tenant "{}"'.format(tenant)
-        token = first_token if tenant is None else second_token
+        assert not tenant or tenant == second_tenant, 'unexpected tenant "{}"'.format(tenant)
+        token = first_token if not tenant else second_token
         stdout = "azsdk%{}%{}".format(token, int(time.time()) + 3600)
 
         communicate = Mock(return_value=(stdout, ""))
@@ -318,12 +330,15 @@ def test_multitenant_authentication_not_allowed():
 
     def fake_Popen(command, **_):
         assert command[-1].startswith("pwsh -NoProfile -NonInteractive -EncodedCommand ")
-        encoded_script = command[-1].split()[-1]
+        match = re.search(r"-EncodedCommand\s+(\S+)", command[-1])
+        assert match, "couldn't find encoded script in command line"
+        encoded_script = match.groups()[0]
         decoded_script = base64.b64decode(encoded_script).decode("utf-16-le")
-        match = re.search(r"Get-AzAccessToken -ResourceUrl '(\S+)'(?: -TenantId (\S+))?", decoded_script)
-        tenant = match.groups()[1]
+        match = re.search(r"\$tenantId\s*=\s*'([^']*)'", decoded_script)
+        assert match
+        tenant = match.group(1)
 
-        assert tenant is None, "credential shouldn't accept an explicit tenant ID"
+        assert not tenant, "credential shouldn't accept an explicit tenant ID"
         stdout = "azsdk%{}%{}".format(expected_token, int(time.time()) + 3600)
 
         communicate = Mock(return_value=(stdout, ""))
@@ -335,5 +350,5 @@ def test_multitenant_authentication_not_allowed():
         assert token.token == expected_token
 
         with patch.dict("os.environ", {EnvironmentVariables.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH: "true"}):
-            token = credential.get_token("scope", tenant_id="some-tenant")
+            token = credential.get_token("scope", tenant_id="12345")
             assert token.token == expected_token

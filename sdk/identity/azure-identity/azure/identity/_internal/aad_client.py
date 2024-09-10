@@ -14,7 +14,7 @@ from .pipeline import build_pipeline
 
 
 class AadClient(AadClientBase):
-    def __enter__(self):
+    def __enter__(self) -> "AadClient":
         self._pipeline.__enter__()
         return self
 
@@ -68,6 +68,7 @@ class AadClient(AadClientBase):
         # tenant_id is already part of `request` at this point
         kwargs.pop("tenant_id", None)
         kwargs.pop("claims", None)
+        kwargs.pop("client_secret", None)
         enable_cae = kwargs.pop("enable_cae", False)
         now = int(time.time())
         response = self._pipeline.run(request, retry_on_methods=self._POST, **kwargs)

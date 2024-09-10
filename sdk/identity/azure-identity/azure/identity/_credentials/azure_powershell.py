@@ -34,9 +34,24 @@ if (! $m) {{
     exit
 }}
 
-$token = Get-AzAccessToken -ResourceUrl '{}'{}
+$params = @{{ 'ResourceUrl' = '{}'; 'WarningAction' = 'Ignore' }}
 
-Write-Output "`nazsdk%$($token.Token)%$($token.ExpiresOn.ToUnixTimeSeconds())`n"
+$tenantId = '{}'
+if ($tenantId.Length -gt 0) {{
+    $params['TenantId'] = $tenantId
+}}
+
+$useSecureString = $m.Version -ge [version]'2.17.0'
+if ($useSecureString) {{
+    $params['AsSecureString'] = $true
+}}
+
+$token = Get-AzAccessToken @params
+$tokenValue = $token.Token
+if ($useSecureString) {{
+    $tokenValue = $tokenValue | ConvertFrom-SecureString -AsPlainText
+}}
+Write-Output "`nazsdk%$($tokenValue)%$($token.ExpiresOn.ToUnixTimeSeconds())`n"
 """
 
 
@@ -74,16 +89,16 @@ class AzurePowerShellCredential:
         self._additionally_allowed_tenants = additionally_allowed_tenants or []
         self._process_timeout = process_timeout
 
-    def __enter__(self):
+    def __enter__(self) -> "AzurePowerShellCredential":
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *args: Any) -> None:
         pass
 
     def close(self) -> None:
         """Calling this method is unnecessary."""
 
-    @log_get_token("AzurePowerShellCredential")
+    @log_get_token
     def get_token(
         self,
         *scopes: str,
@@ -98,7 +113,7 @@ class AzurePowerShellCredential:
 
         :param str scopes: desired scope for the access token. This credential allows only one scope per request.
             For more information about scopes, see
-            https://learn.microsoft.com/azure/active-directory/develop/scopes-oidc.
+            https://learn.microsoft.com/entra/identity-platform/scopes-oidc.
         :keyword str claims: not used by this credential; any value provided will be ignored.
         :keyword str tenant_id: optional tenant to include in the token request.
 
@@ -135,7 +150,7 @@ def run_command_line(command_line: List[str], timeout: int) -> str:
     try:
         proc = start_process(command_line)
         stdout, stderr = proc.communicate(**kwargs)
-        if sys.platform.startswith("win") and "' is not recognized" in stderr:
+        if sys.platform.startswith("win") and ("' is not recognized" in stderr or proc.returncode == 9009):
             # pwsh.exe isn't on the path; try powershell.exe
             command_line[-1] = command_line[-1].replace("pwsh", "powershell", 1)
             proc = start_process(command_line)
@@ -182,17 +197,14 @@ def parse_token(output: str) -> AccessToken:
 
 
 def get_command_line(scopes: Tuple[str, ...], tenant_id: str) -> List[str]:
-    if tenant_id:
-        tenant_argument = " -TenantId " + tenant_id
-    else:
-        tenant_argument = ""
+    tenant_argument = tenant_id if tenant_id else ""
     resource = _scopes_to_resource(*scopes)
     script = SCRIPT.format(NO_AZ_ACCOUNT_MODULE, resource, tenant_argument)
     encoded_script = base64.b64encode(script.encode("utf-16-le")).decode()
 
     command = "pwsh -NoProfile -NonInteractive -EncodedCommand " + encoded_script
     if sys.platform.startswith("win"):
-        return ["cmd", "/c", command]
+        return ["cmd", "/c", command + " & exit"]
     return ["/bin/sh", "-c", command]
 
 
@@ -212,4 +224,6 @@ def raise_for_error(return_code: int, stdout: str, stderr: str) -> None:
     if stderr:
         # stderr is too noisy to include with an exception but may be useful for debugging
         _LOGGER.debug('%s received an error from Azure PowerShell: "%s"', AzurePowerShellCredential.__name__, stderr)
-    raise CredentialUnavailableError(message="Failed to invoke PowerShell")
+    raise CredentialUnavailableError(
+        message="Failed to invoke PowerShell. Enable debug logging for additional information."
+    )

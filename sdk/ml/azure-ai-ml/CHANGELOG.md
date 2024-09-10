@@ -1,6 +1,139 @@
 # Release History
 
-## 1.12.0 (unreleased)
+## 1.20.0 (unreleased)
+
+### Features Added
+  - When a workspace is created with `managed_network` enabled or has `public_network_access` set to disabled, the resources created with the workspace (Key Vault, Storage Account) will be set to have restricted network access settings. This is only applicable when the user does not specify existing resources.
+  - Added support of `fqdns` property for managed network `PrivateEndpointDestination` outbound rule objects. Enabling the support of Application Gateway as a Private Endpoint target in the workspace managed network.
+  - Added support of `address_prefixes` property for managed network `ServiceTagDestination` outbound rule objects.
+  - Removed experimental tag from `managed_network` which is a GA feature.
+
+## 1.19.0 (2024-07-29)
+
+### Feature Added
+
+  - Added enable_sso operation under compute operation that will allow user to enable sso setting of a compute instance without any write permission set on compute.
+  
+### Bugs Fixed
+- Workspace update no longer broken for older workspaces due to deprecated tags.
+- Support credential-less fileshare datastore
+
+## 1.18.0 (2024-07-09)
+
+### Features Added
+
+ - Expose `public_ip_address` in `AmlComputeNodeInfo`, to get the public ip address with the ssh port when calling `ml_client.compute.list_nodes`
+ - Uploads to account key access datastores will be authorized via a SAS token retrieved from a call to `DatastoreOperations._list_secrets`. Key-based authentication for uploads for such datastores is no longer used. Identity-based datastores will use user identity authentication retrieved from the MLClient.
+- Support `update_sso_settings` in `ComputeOperations`, to enable or disable single sign-on settings of a compute instance.
+
+### Bugs Fixed
+- InputTypes exported in constants module
+- WorkspaceConnection tags are now listed as deprecated, and the erroneously-deprecated metadata field has been un-deprecated and added as a initialization field. These two fields still point to the same underlying object property, and actual API usage of this value is unchanged.
+- Workspace Create operation works without an application insights being provided, and creates a default appIn resource for normal workspaces in that case.
+- Project create operations works in general.
+
+
+### Other Changes
+- WorkspaceConnections are officially GA'd and no longer experimental. But its much newer subclasses remain experimental.
+
+## 1.17.1 (2024-07-04)
+
+### Bugs Fixed
+- Workspace Create operation works without an application insights being provided, and creates a default appIn resource for normal workspaces in that case.
+- Project create operations works in general.
+
+## 1.17.0 (2024-06-18)
+
+## 1.16.0 (2024-05-14)
+
+### Features Added
+- Add experimental support for working with Promptflow evaluators: `ml_client.evaluators`.
+- Many changes to the Connection entity class and its associated operations.
+- Workspace Connection `list`, `get`, and `create_or_update` operations now include an optional `populate_secrets` input, which causes the operations to try making a secondary call to fill in the returned connections' credential info if possible. Only works with api key-based credentials for now.
+- Many workspace connection subtypes added. The full list of subclasses is now:
+  - `AzureBlobStoreConnection`
+  - `AzureBlobStoreConnection`
+  - `MicrosoftOneLakeConnection`
+  - `AzureOpenAIConnection`
+  - `AzureAIServicesConnection`
+  - `AzureAISearchConnection`
+  - `AzureContentSafetyConnection`
+  - `AzureSpeechServicesConnection`
+  - `APIKeyConnection`
+  - `OpenAIConnection`
+  - `SerpConnection`
+  - `ServerlessConnection`
+- Many workspace connections only accept api keys or entra ids for credentials. Since Entra IDs require not inputs, these have been refactored to not required a full credential object. Instead they only accept an api_key as a top-level input, and default to an entra credential otherwise. Their YAML schemas have been similarly altered.
+- Client-side credential-type validation added for some workspace connection types.
+- Added new credential type: `AadCredentialConfiguration`
+- Renamed WorkspaceHub class as Hub.
+- Added Project entity class and YAML support.
+- Project and Hub operations supported by workspace operations.
+- workspace list operation supports type filtering.
+- Add support for Microsoft Entra token (`aad_token`) auth in `invoke` and `get-credentials` operations.
+- Add experimental support for working with indexes: `ml_client.indexes`
+
+### Bugs Fixed
+
+### Breaking Changes
+
+- Removed WorkspaceHubConfig entity, and renamed WorkspaceHub to Hub.
+- workspace_hub input of Workspace class hidden, renamed to hub_id, and re-surfaced in child class Project.
+- Removed Workspace Hub Operations from ML Client.
+
+### Other Changes
+
+## 1.15.0 (2024-03-26)
+
+### Other Changes
+
+- The following classes will still be able to be imported from `azure.ai.ml`, but the import is deprecated and emits a warning. Instead, please import them from `azure.ai.ml.entities`.
+  - `AmlTokenConfiguration`
+  - `ManagedIdentityConfiguration`
+  - `UserIdentityConfiguration`
+- The following classes will still be able to be imported from `azure.ai.ml.entities`, but the import is deprecated and emits a warning. Instead, please import them from `azure.ai.ml.sweep`.
+  - `Choice`
+  - `Uniform`
+  - `LogUniform`
+  - `QLogUniform`
+  - `QUniform`
+  - `QLogNormal`
+  - `QNormal`
+  - `LogNormal`
+  - `Normal`
+  - `Randint`
+
+## 1.14.0 (2024-03-11)
+
+### Features Added
+- Remove `experimental` tag for  `ml_client.jobs.validate`.
+- Workspace Connection has new read-only subclass: AzureBlobStoreWorkspaceConnectionSchema.
+- Workspace Connection supports 2 new types under main class: gen 2 and azure_one_lake.
+- Workspace Connection LIST operation can return data connections via new optional flag: include_data_connections.
+- Support `ml_client.schedules.trigger(name='my_schedule')` function to trigger a schedule once.
+
+### Bugs Fixed
+- Fix pipeline job `outputs` not load correctly when `component: <local-file>` exists in pipeline job yaml.
+- Workspace ListKey operation serialization issue fixed.
+- Workspace Diagnose result now can be print in to Json format.
+
+### Breaking Changes
+
+### Other Changes
+
+- Support for Python 3.12
+
+## 1.13.0 (2024-01-29)
+
+### Features Added
+
+### Bugs Fixed
+
+### Breaking Changes
+
+### Other Changes
+
+## 1.12.0 (2023-11-13)
 
 ### Features Added
 - Workspace Connections had 3 child classes added for open AI, cog search, and cog service connections.
@@ -8,6 +141,8 @@
 
 
 ### Bugs Fixed
+- Workspace Hubs now properly create various endpoints, and surface a variable to select the resource they connect to via the
+  'endpoint_resource_id' kwarg.
 
 ### Breaking Changes
 
@@ -50,7 +185,7 @@
 
 ### Other Changes
 
-- `azure-ai-ml` now performs all file i/o on `utf-8` encoded files per Azure SDK guidance. 
+- `azure-ai-ml` now performs all file i/o on `utf-8` encoded files per Azure SDK guidance.
   (instead of the default behavior for python < 3.15, which uses locale specific encodings)
 - Removed references to deprecated "feature_store" workspace connection type.
 
@@ -92,6 +227,7 @@
 - Added data import schedule. The class added is `ImportDataSchedule`.
 - Added support to enable data isolation feature at workspace creation stage.
 - Added auto_delete_setting support for asset version in data import job.
+- Switched code snapshot upload from directory-based to container-based design in order to allow finer RBAC within workspaces. A container will be created for each new snapshot. This change does not affect storage costs or snapshot functionality.
 
 ### Bugs Fixed
 

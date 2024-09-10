@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appplatform import AppPlatformManagementClient
 
 """
@@ -34,13 +37,21 @@ def main():
         service_name="myservice",
         gateway_name="default",
         gateway_resource={
-            "properties": {"public": True, "resourceRequests": {"cpu": "1", "memory": "1G"}},
+            "properties": {
+                "apms": [
+                    {
+                        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apms/myappinsights"
+                    }
+                ],
+                "public": True,
+                "resourceRequests": {"cpu": "1", "memory": "1G"},
+            },
             "sku": {"capacity": 2, "name": "E0", "tier": "Enterprise"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2022-12-01/examples/Gateways_CreateOrUpdate.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Gateways_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

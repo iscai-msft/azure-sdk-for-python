@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,22 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import (
+    Any,
+    AsyncIterable,
+    AsyncIterator,
+    Callable,
+    Dict,
+    IO,
+    List,
+    Optional,
+    Type,
+    TypeVar,
+    Union,
+    cast,
+    overload,
+)
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -17,19 +32,19 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
 from azure.core.polling.async_base_polling import AsyncLROBasePolling
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._azure_app_configuration_operations import (
     build_check_key_value_request,
     build_check_key_values_request,
@@ -55,11 +70,16 @@ from ...operations._azure_app_configuration_operations import (
 )
 from .._vendor import AzureAppConfigurationMixinABC
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
 class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # pylint: disable=too-many-public-methods
+
     @distributed_trace
     def get_keys(
         self,
@@ -80,7 +100,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param accept_datetime: Requests the server to respond with the state of the resource at the
          specified time. Default value is None.
         :type accept_datetime: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Key or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.appconfiguration.models.Key]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -91,7 +110,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.KeyListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -102,23 +121,21 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_keys_request(
+                _request = build_get_keys_request(
                     name=name,
                     after=after,
                     accept_datetime=accept_datetime,
                     sync_token=self._config.sync_token,
                     api_version=api_version,
-                    template_url=self.get_keys.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -130,18 +147,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("KeyListResult", pipeline_response)
@@ -151,11 +167,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -167,8 +183,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_keys.metadata = {"url": "/keys"}
 
     @distributed_trace_async
     async def check_keys(  # pylint: disable=inconsistent-return-statements
@@ -190,12 +204,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param accept_datetime: Requests the server to respond with the state of the resource at the
          specified time. Default value is None.
         :type accept_datetime: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -209,25 +222,23 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_check_keys_request(
+        _request = build_check_keys_request(
             name=name,
             after=after,
             accept_datetime=accept_datetime,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.check_keys.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -240,9 +251,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    check_keys.metadata = {"url": "/keys"}
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def get_key_values(
@@ -251,17 +260,22 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         label: Optional[str] = None,
         after: Optional[str] = None,
         accept_datetime: Optional[str] = None,
-        select: Optional[List[Union[str, _models.KeyValueFields]]] = None,
+        select: Optional[List[Union[str, _models.ConfigurationSettingFields]]] = None,
         snapshot: Optional[str] = None,
+        if_match: Optional[str] = None,
+        if_none_match: Optional[str] = None,
+        tags: Optional[List[str]] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.KeyValue"]:
         """Gets a list of key-values.
 
         Gets a list of key-values.
 
-        :param key: A filter used to match keys. Default value is None.
+        :param key: A filter used to match keys. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering. Default value is None.
         :type key: str
-        :param label: A filter used to match labels. Default value is None.
+        :param label: A filter used to match labels. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering. Default value is None.
         :type label: str
         :param after: Instructs the server to return elements that appear after the element referred to
          by the specified token. Default value is None.
@@ -271,11 +285,19 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :type accept_datetime: str
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
-        :type select: list[str or ~azure.appconfiguration.models.KeyValueFields]
+        :type select: list[str or ~azure.appconfiguration.models.ConfigurationSettingFields]
         :param snapshot: A filter used get key-values for a snapshot. The value should be the name of
          the snapshot. Not valid when used with 'key' and 'label' filters. Default value is None.
         :type snapshot: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param if_match: Used to perform an operation only if the targeted resource's etag matches the
+         value provided. Default value is None.
+        :type if_match: str
+        :param if_none_match: Used to perform an operation only if the targeted resource's etag does
+         not match the value provided. Default value is None.
+        :type if_none_match: str
+        :param tags: A filter used to query by tags. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering. Default value is None.
+        :type tags: list[str]
         :return: An iterator like instance of either KeyValue or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.appconfiguration.models.KeyValue]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -286,7 +308,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.KeyValueListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -297,26 +319,27 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_key_values_request(
+                _request = build_get_key_values_request(
                     key=key,
                     label=label,
                     after=after,
                     accept_datetime=accept_datetime,
                     select=select,
                     snapshot=snapshot,
+                    if_match=if_match,
+                    if_none_match=if_none_match,
+                    tags=tags,
                     sync_token=self._config.sync_token,
                     api_version=api_version,
-                    template_url=self.get_key_values.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -328,18 +351,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("KeyValueListResult", pipeline_response)
@@ -349,11 +371,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -366,8 +388,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         return AsyncItemPaged(get_next, extract_data)
 
-    get_key_values.metadata = {"url": "/kv"}
-
     @distributed_trace_async
     async def check_key_values(  # pylint: disable=inconsistent-return-statements
         self,
@@ -375,17 +395,22 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         label: Optional[str] = None,
         after: Optional[str] = None,
         accept_datetime: Optional[str] = None,
-        select: Optional[List[Union[str, _models.KeyValueFields]]] = None,
+        select: Optional[List[Union[str, _models.ConfigurationSettingFields]]] = None,
         snapshot: Optional[str] = None,
+        if_match: Optional[str] = None,
+        if_none_match: Optional[str] = None,
+        tags: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """Requests the headers and status of the given resource.
 
         Requests the headers and status of the given resource.
 
-        :param key: A filter used to match keys. Default value is None.
+        :param key: A filter used to match keys. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering. Default value is None.
         :type key: str
-        :param label: A filter used to match labels. Default value is None.
+        :param label: A filter used to match labels. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering. Default value is None.
         :type label: str
         :param after: Instructs the server to return elements that appear after the element referred to
          by the specified token. Default value is None.
@@ -395,16 +420,24 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :type accept_datetime: str
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
-        :type select: list[str or ~azure.appconfiguration.models.KeyValueFields]
+        :type select: list[str or ~azure.appconfiguration.models.ConfigurationSettingFields]
         :param snapshot: A filter used get key-values for a snapshot. Not valid when used with 'key'
          and 'label' filters. Default value is None.
         :type snapshot: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param if_match: Used to perform an operation only if the targeted resource's etag matches the
+         value provided. Default value is None.
+        :type if_match: str
+        :param if_none_match: Used to perform an operation only if the targeted resource's etag does
+         not match the value provided. Default value is None.
+        :type if_none_match: str
+        :param tags: A filter used to query by tags. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering. Default value is None.
+        :type tags: list[str]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -418,28 +451,29 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_check_key_values_request(
+        _request = build_check_key_values_request(
             key=key,
             label=label,
             after=after,
             accept_datetime=accept_datetime,
             select=select,
             snapshot=snapshot,
+            if_match=if_match,
+            if_none_match=if_none_match,
+            tags=tags,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.check_key_values.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -450,11 +484,10 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         response_headers = {}
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
+        response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    check_key_values.metadata = {"url": "/kv"}
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def get_key_value(
@@ -464,7 +497,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         accept_datetime: Optional[str] = None,
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
-        select: Optional[List[Union[str, _models.KeyValueFields]]] = None,
+        select: Optional[List[Union[str, _models.ConfigurationSettingFields]]] = None,
         **kwargs: Any
     ) -> _models.KeyValue:
         """Gets a single key-value.
@@ -486,13 +519,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :type if_none_match: str
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
-        :type select: list[str or ~azure.appconfiguration.models.KeyValueFields]
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :type select: list[str or ~azure.appconfiguration.models.ConfigurationSettingFields]
         :return: KeyValue or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -506,7 +538,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.KeyValue] = kwargs.pop("cls", None)
 
-        request = build_get_key_value_request(
+        _request = build_get_key_value_request(
             key=key,
             label=label,
             accept_datetime=accept_datetime,
@@ -515,19 +547,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             select=select,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.get_key_value.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -541,14 +571,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("KeyValue", pipeline_response)
+        deserialized = self._deserialize("KeyValue", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get_key_value.metadata = {"url": "/kv/{key}"}
+        return deserialized  # type: ignore
 
     @overload
     async def put_key_value(
@@ -581,7 +609,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: KeyValue or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -594,7 +621,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         label: Optional[str] = None,
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
-        entity: Optional[IO] = None,
+        entity: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -614,14 +641,13 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
          not match the value provided. Default value is None.
         :type if_none_match: str
         :param entity: The key-value to create. Default value is None.
-        :type entity: IO
+        :type entity: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Known values are: 'application/*+json', 'application/json', 'application/json-patch+json',
          'application/vnd.microsoft.appconfig.kv+json',
          'application/vnd.microsoft.appconfig.kvset+json', 'text/json'. Default value is
          "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: KeyValue or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -634,7 +660,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         label: Optional[str] = None,
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
-        entity: Optional[Union[_models.KeyValue, IO]] = None,
+        entity: Optional[Union[_models.KeyValue, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.KeyValue:
         """Creates a key-value.
@@ -651,20 +677,14 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param if_none_match: Used to perform an operation only if the targeted resource's etag does
          not match the value provided. Default value is None.
         :type if_none_match: str
-        :param entity: The key-value to create. Is either a KeyValue type or a IO type. Default value
-         is None.
-        :type entity: ~azure.appconfiguration.models.KeyValue or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/*+json',
-         'application/json', 'application/json-patch+json',
-         'application/vnd.microsoft.appconfig.kv+json',
-         'application/vnd.microsoft.appconfig.kvset+json', 'text/json'. Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param entity: The key-value to create. Is either a KeyValue type or a IO[bytes] type. Default
+         value is None.
+        :type entity: ~azure.appconfiguration.models.KeyValue or IO[bytes]
         :return: KeyValue or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -690,7 +710,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             else:
                 _json = None
 
-        request = build_put_key_value_request(
+        _request = build_put_key_value_request(
             key=key,
             label=label,
             if_match=if_match,
@@ -700,19 +720,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.put_key_value.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -726,14 +744,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("KeyValue", pipeline_response)
+        deserialized = self._deserialize("KeyValue", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    put_key_value.metadata = {"url": "/kv/{key}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete_key_value(
@@ -750,12 +766,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param if_match: Used to perform an operation only if the targeted resource's etag matches the
          value provided. Default value is None.
         :type if_match: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: KeyValue or None or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.KeyValue or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -769,25 +784,23 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.KeyValue]] = kwargs.pop("cls", None)
 
-        request = build_delete_key_value_request(
+        _request = build_delete_key_value_request(
             key=key,
             label=label,
             if_match=if_match,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.delete_key_value.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -803,17 +816,15 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-            deserialized = self._deserialize("KeyValue", pipeline_response)
+            deserialized = self._deserialize("KeyValue", pipeline_response.http_response)
 
         if response.status_code == 204:
             response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    delete_key_value.metadata = {"url": "/kv/{key}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def check_key_value(  # pylint: disable=inconsistent-return-statements
@@ -823,7 +834,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         accept_datetime: Optional[str] = None,
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
-        select: Optional[List[Union[str, _models.KeyValueFields]]] = None,
+        select: Optional[List[Union[str, _models.ConfigurationSettingFields]]] = None,
         **kwargs: Any
     ) -> None:
         """Requests the headers and status of the given resource.
@@ -845,13 +856,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :type if_none_match: str
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
-        :type select: list[str or ~azure.appconfiguration.models.KeyValueFields]
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :type select: list[str or ~azure.appconfiguration.models.ConfigurationSettingFields]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -865,7 +875,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_check_key_value_request(
+        _request = build_check_key_value_request(
             key=key,
             label=label,
             accept_datetime=accept_datetime,
@@ -874,19 +884,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             select=select,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.check_key_value.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -900,9 +908,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    check_key_value.metadata = {"url": "/kv/{key}"}
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def get_snapshots(
@@ -928,7 +934,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param status: Used to filter returned snapshots by their status property. Default value is
          None.
         :type status: list[str or ~azure.appconfiguration.models.SnapshotStatus]
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Snapshot or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.appconfiguration.models.Snapshot]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -939,7 +944,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SnapshotListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -950,24 +955,22 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_snapshots_request(
+                _request = build_get_snapshots_request(
                     name=name,
                     after=after,
                     select=select,
                     status=status,
                     sync_token=self._config.sync_token,
                     api_version=api_version,
-                    template_url=self.get_snapshots.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -979,18 +982,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("SnapshotListResult", pipeline_response)
@@ -1000,11 +1002,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1017,8 +1019,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         return AsyncItemPaged(get_next, extract_data)
 
-    get_snapshots.metadata = {"url": "/snapshots"}
-
     @distributed_trace_async
     async def check_snapshots(  # pylint: disable=inconsistent-return-statements
         self, after: Optional[str] = None, **kwargs: Any
@@ -1030,12 +1030,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param after: Instructs the server to return elements that appear after the element referred to
          by the specified token. Default value is None.
         :type after: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1049,23 +1048,21 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_check_snapshots_request(
+        _request = build_check_snapshots_request(
             after=after,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.check_snapshots.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1078,9 +1075,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    check_snapshots.metadata = {"url": "/snapshots"}
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def get_snapshot(
@@ -1106,12 +1101,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
         :type select: list[str or ~azure.appconfiguration.models.SnapshotFields]
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Snapshot or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.Snapshot
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1125,26 +1119,24 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Snapshot] = kwargs.pop("cls", None)
 
-        request = build_get_snapshot_request(
+        _request = build_get_snapshot_request(
             name=name,
             if_match=if_match,
             if_none_match=if_none_match,
             select=select,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.get_snapshot.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1159,19 +1151,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
         response_headers["Link"] = self._deserialize("str", response.headers.get("Link"))
 
-        deserialized = self._deserialize("Snapshot", pipeline_response)
+        deserialized = self._deserialize("Snapshot", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get_snapshot.metadata = {"url": "/snapshots/{name}"}
+        return deserialized  # type: ignore
 
     async def _create_snapshot_initial(
-        self, name: str, entity: Union[_models.Snapshot, IO], **kwargs: Any
-    ) -> _models.Snapshot:
-        error_map = {
+        self, name: str, entity: Union[_models.Snapshot, IO[bytes]], **kwargs: Any
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1184,7 +1174,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Snapshot] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -1194,31 +1184,34 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         else:
             _json = self._serialize.body(entity, "Snapshot")
 
-        request = build_create_snapshot_request(
+        _request = build_create_snapshot_request(
             name=name,
             sync_token=self._config.sync_token,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_snapshot_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [201]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.Error, pipeline_response)
             raise HttpResponseError(response=response, model=error)
@@ -1229,14 +1222,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Link"] = self._deserialize("str", response.headers.get("Link"))
         response_headers["Operation-Location"] = self._deserialize("str", response.headers.get("Operation-Location"))
 
-        deserialized = self._deserialize("Snapshot", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_snapshot_initial.metadata = {"url": "/snapshots/{name}"}
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create_snapshot(
@@ -1253,14 +1244,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncLROBasePolling. Pass in False
-         for this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Snapshot or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.appconfiguration.models.Snapshot]
@@ -1269,7 +1252,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
     @overload
     async def begin_create_snapshot(
-        self, name: str, entity: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, name: str, entity: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> AsyncLROPoller[_models.Snapshot]:
         """Creates a key-value snapshot.
 
@@ -1278,19 +1261,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param name: The name of the key-value snapshot to create. Required.
         :type name: str
         :param entity: The key-value snapshot to create. Required.
-        :type entity: IO
+        :type entity: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Known values are: 'application/json', 'application/vnd.microsoft.appconfig.snapshot+json'.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncLROBasePolling. Pass in False
-         for this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either Snapshot or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.appconfiguration.models.Snapshot]
@@ -1299,7 +1274,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
     @distributed_trace_async
     async def begin_create_snapshot(
-        self, name: str, entity: Union[_models.Snapshot, IO], **kwargs: Any
+        self, name: str, entity: Union[_models.Snapshot, IO[bytes]], **kwargs: Any
     ) -> AsyncLROPoller[_models.Snapshot]:
         """Creates a key-value snapshot.
 
@@ -1307,20 +1282,9 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         :param name: The name of the key-value snapshot to create. Required.
         :type name: str
-        :param entity: The key-value snapshot to create. Is either a Snapshot type or a IO type.
+        :param entity: The key-value snapshot to create. Is either a Snapshot type or a IO[bytes] type.
          Required.
-        :type entity: ~azure.appconfiguration.models.Snapshot or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json',
-         'application/vnd.microsoft.appconfig.snapshot+json'. Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncLROBasePolling. Pass in False
-         for this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :type entity: ~azure.appconfiguration.models.Snapshot or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either Snapshot or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.appconfiguration.models.Snapshot]
@@ -1346,6 +1310,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1358,9 +1323,9 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
                 "str", response.headers.get("Operation-Location")
             )
 
-            deserialized = self._deserialize("Snapshot", pipeline_response)
+            deserialized = self._deserialize("Snapshot", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, response_headers)
+                return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
 
         path_format_arguments = {
@@ -1377,15 +1342,15 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.Snapshot].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_snapshot.metadata = {"url": "/snapshots/{name}"}
+        return AsyncLROPoller[_models.Snapshot](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     async def update_snapshot(
@@ -1415,7 +1380,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Snapshot or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.Snapshot
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1425,7 +1389,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
     async def update_snapshot(
         self,
         name: str,
-        entity: IO,
+        entity: IO[bytes],
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
         *,
@@ -1439,7 +1403,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param name: The name of the key-value snapshot to update. Required.
         :type name: str
         :param entity: The parameters used to update the snapshot. Required.
-        :type entity: IO
+        :type entity: IO[bytes]
         :param if_match: Used to perform an operation only if the targeted resource's etag matches the
          value provided. Default value is None.
         :type if_match: str
@@ -1447,9 +1411,9 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
          not match the value provided. Default value is None.
         :type if_none_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
+         Known values are: 'application/json', 'application/merge-patch+json'. Default value is
+         "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Snapshot or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.Snapshot
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1459,7 +1423,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
     async def update_snapshot(
         self,
         name: str,
-        entity: Union[_models.SnapshotUpdateParameters, IO],
+        entity: Union[_models.SnapshotUpdateParameters, IO[bytes]],
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
         **kwargs: Any
@@ -1471,23 +1435,19 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param name: The name of the key-value snapshot to update. Required.
         :type name: str
         :param entity: The parameters used to update the snapshot. Is either a SnapshotUpdateParameters
-         type or a IO type. Required.
-        :type entity: ~azure.appconfiguration.models.SnapshotUpdateParameters or IO
+         type or a IO[bytes] type. Required.
+        :type entity: ~azure.appconfiguration.models.SnapshotUpdateParameters or IO[bytes]
         :param if_match: Used to perform an operation only if the targeted resource's etag matches the
          value provided. Default value is None.
         :type if_match: str
         :param if_none_match: Used to perform an operation only if the targeted resource's etag does
          not match the value provided. Default value is None.
         :type if_none_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Snapshot or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.Snapshot
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1510,7 +1470,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         else:
             _json = self._serialize.body(entity, "SnapshotUpdateParameters")
 
-        request = build_update_snapshot_request(
+        _request = build_update_snapshot_request(
             name=name,
             if_match=if_match,
             if_none_match=if_none_match,
@@ -1519,19 +1479,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update_snapshot.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1546,14 +1504,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
         response_headers["Link"] = self._deserialize("str", response.headers.get("Link"))
 
-        deserialized = self._deserialize("Snapshot", pipeline_response)
+        deserialized = self._deserialize("Snapshot", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    update_snapshot.metadata = {"url": "/snapshots/{name}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def check_snapshot(  # pylint: disable=inconsistent-return-statements
@@ -1571,12 +1527,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param if_none_match: Used to perform an operation only if the targeted resource's etag does
          not match the value provided. Default value is None.
         :type if_none_match: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1590,25 +1545,23 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_check_snapshot_request(
+        _request = build_check_snapshot_request(
             name=name,
             if_match=if_match,
             if_none_match=if_none_match,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.check_snapshot.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1623,9 +1576,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Link"] = self._deserialize("str", response.headers.get("Link"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    check_snapshot.metadata = {"url": "/snapshots/{name}"}
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace
     def get_labels(
@@ -1651,7 +1602,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
         :type select: list[str or ~azure.appconfiguration.models.LabelFields]
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Label or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.appconfiguration.models.Label]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1662,7 +1612,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.LabelListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1673,24 +1623,22 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_labels_request(
+                _request = build_get_labels_request(
                     name=name,
                     after=after,
                     accept_datetime=accept_datetime,
                     select=select,
                     sync_token=self._config.sync_token,
                     api_version=api_version,
-                    template_url=self.get_labels.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -1702,18 +1650,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("LabelListResult", pipeline_response)
@@ -1723,11 +1670,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1739,8 +1686,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_labels.metadata = {"url": "/labels"}
 
     @distributed_trace_async
     async def check_labels(  # pylint: disable=inconsistent-return-statements
@@ -1766,12 +1711,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
         :type select: list[str or ~azure.appconfiguration.models.LabelFields]
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1785,26 +1729,24 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_check_labels_request(
+        _request = build_check_labels_request(
             name=name,
             after=after,
             accept_datetime=accept_datetime,
             select=select,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.check_labels.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1817,9 +1759,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    check_labels.metadata = {"url": "/labels"}
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def put_lock(
@@ -1844,12 +1784,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param if_none_match: Used to perform an operation only if the targeted resource's etag does
          not match the value provided. Default value is None.
         :type if_none_match: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: KeyValue or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1863,26 +1802,24 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.KeyValue] = kwargs.pop("cls", None)
 
-        request = build_put_lock_request(
+        _request = build_put_lock_request(
             key=key,
             label=label,
             if_match=if_match,
             if_none_match=if_none_match,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.put_lock.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1896,14 +1833,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("KeyValue", pipeline_response)
+        deserialized = self._deserialize("KeyValue", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    put_lock.metadata = {"url": "/locks/{key}"}
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def delete_lock(
@@ -1928,12 +1863,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :param if_none_match: Used to perform an operation only if the targeted resource's etag does
          not match the value provided. Default value is None.
         :type if_none_match: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: KeyValue or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1947,26 +1881,24 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.KeyValue] = kwargs.pop("cls", None)
 
-        request = build_delete_lock_request(
+        _request = build_delete_lock_request(
             key=key,
             label=label,
             if_match=if_match,
             if_none_match=if_none_match,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.delete_lock.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1980,14 +1912,12 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("KeyValue", pipeline_response)
+        deserialized = self._deserialize("KeyValue", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    delete_lock.metadata = {"url": "/locks/{key}"}
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get_revisions(
@@ -1996,16 +1926,19 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         label: Optional[str] = None,
         after: Optional[str] = None,
         accept_datetime: Optional[str] = None,
-        select: Optional[List[Union[str, _models.KeyValueFields]]] = None,
+        select: Optional[List[Union[str, _models.ConfigurationSettingFields]]] = None,
+        tags: Optional[List[str]] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.KeyValue"]:
         """Gets a list of key-value revisions.
 
         Gets a list of key-value revisions.
 
-        :param key: A filter used to match keys. Default value is None.
+        :param key: A filter used to match keys. Syntax reference:
+         https://aka.ms/azconfig/docs/restapirevisions. Default value is None.
         :type key: str
-        :param label: A filter used to match labels. Default value is None.
+        :param label: A filter used to match labels. Syntax reference:
+         https://aka.ms/azconfig/docs/restapirevisions. Default value is None.
         :type label: str
         :param after: Instructs the server to return elements that appear after the element referred to
          by the specified token. Default value is None.
@@ -2015,8 +1948,10 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :type accept_datetime: str
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
-        :type select: list[str or ~azure.appconfiguration.models.KeyValueFields]
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :type select: list[str or ~azure.appconfiguration.models.ConfigurationSettingFields]
+        :param tags: A filter used to query by tags. Syntax reference:
+         https://aka.ms/azconfig/docs/restapirevisions. Default value is None.
+        :type tags: list[str]
         :return: An iterator like instance of either KeyValue or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.appconfiguration.models.KeyValue]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2027,7 +1962,7 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.KeyValueListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2038,25 +1973,24 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_revisions_request(
+                _request = build_get_revisions_request(
                     key=key,
                     label=label,
                     after=after,
                     accept_datetime=accept_datetime,
                     select=select,
+                    tags=tags,
                     sync_token=self._config.sync_token,
                     api_version=api_version,
-                    template_url=self.get_revisions.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
             else:
                 # make call to next link with the client's api-version
@@ -2068,18 +2002,17 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
                 path_format_arguments = {
                     "endpoint": self._serialize.url(
                         "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
                     ),
                 }
-                request.url = self._client.format_url(request.url, **path_format_arguments)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("KeyValueListResult", pipeline_response)
@@ -2089,11 +2022,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2106,8 +2039,6 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         return AsyncItemPaged(get_next, extract_data)
 
-    get_revisions.metadata = {"url": "/revisions"}
-
     @distributed_trace_async
     async def check_revisions(  # pylint: disable=inconsistent-return-statements
         self,
@@ -2115,16 +2046,19 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         label: Optional[str] = None,
         after: Optional[str] = None,
         accept_datetime: Optional[str] = None,
-        select: Optional[List[Union[str, _models.KeyValueFields]]] = None,
+        select: Optional[List[Union[str, _models.ConfigurationSettingFields]]] = None,
+        tags: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """Requests the headers and status of the given resource.
 
         Requests the headers and status of the given resource.
 
-        :param key: A filter used to match keys. Default value is None.
+        :param key: A filter used to match keys. Syntax reference:
+         https://aka.ms/azconfig/docs/restapirevisions. Default value is None.
         :type key: str
-        :param label: A filter used to match labels. Default value is None.
+        :param label: A filter used to match labels. Syntax reference:
+         https://aka.ms/azconfig/docs/restapirevisions. Default value is None.
         :type label: str
         :param after: Instructs the server to return elements that appear after the element referred to
          by the specified token. Default value is None.
@@ -2134,13 +2068,15 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         :type accept_datetime: str
         :param select: Used to select what fields are present in the returned resource(s). Default
          value is None.
-        :type select: list[str or ~azure.appconfiguration.models.KeyValueFields]
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :type select: list[str or ~azure.appconfiguration.models.ConfigurationSettingFields]
+        :param tags: A filter used to query by tags. Syntax reference:
+         https://aka.ms/azconfig/docs/restapirevisions. Default value is None.
+        :type tags: list[str]
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2154,27 +2090,26 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_check_revisions_request(
+        _request = build_check_revisions_request(
             key=key,
             label=label,
             after=after,
             accept_datetime=accept_datetime,
             select=select,
+            tags=tags,
             sync_token=self._config.sync_token,
             api_version=api_version,
-            template_url=self.check_revisions.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2185,11 +2120,10 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         response_headers = {}
         response_headers["Sync-Token"] = self._deserialize("str", response.headers.get("Sync-Token"))
+        response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
-
-    check_revisions.metadata = {"url": "/revisions"}
+            return cls(pipeline_response, None, response_headers)  # type: ignore
 
     @distributed_trace_async
     async def get_operation_details(self, snapshot: str, **kwargs: Any) -> _models.OperationDetails:
@@ -2199,12 +2133,11 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
 
         :param snapshot: Snapshot identifier for the long running operation. Required.
         :type snapshot: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OperationDetails or the result of cls(response)
         :rtype: ~azure.appconfiguration.models.OperationDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2218,22 +2151,20 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.OperationDetails] = kwargs.pop("cls", None)
 
-        request = build_get_operation_details_request(
+        _request = build_get_operation_details_request(
             snapshot=snapshot,
             api_version=api_version,
-            template_url=self.get_operation_details.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
         path_format_arguments = {
             "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
-        request.url = self._client.format_url(request.url, **path_format_arguments)
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2243,11 +2174,9 @@ class AzureAppConfigurationOperationsMixin(AzureAppConfigurationMixinABC):  # py
             error = self._deserialize.failsafe_deserialize(_models.Error, pipeline_response)
             raise HttpResponseError(response=response, model=error)
 
-        deserialized = self._deserialize("OperationDetails", pipeline_response)
+        deserialized = self._deserialize("OperationDetails", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_operation_details.metadata = {"url": "/operations"}
+        return deserialized  # type: ignore

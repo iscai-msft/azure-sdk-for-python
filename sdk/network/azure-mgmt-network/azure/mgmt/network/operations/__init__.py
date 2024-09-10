@@ -152,7 +152,6 @@ from ._operations import (
     FirewallPolicyIdpsSignaturesOperations,
     FirewallPolicyIdpsSignaturesOverridesOperations,
     ManagementGroupNetworkManagerConnectionsOperations,
-    NetworkVirtualApplianceConnectionsOperations,
     RouteMapsOperations,
     RoutingIntentOperations,
     ScopeConnectionsOperations,
@@ -160,6 +159,10 @@ from ._operations import (
     StaticMembersOperations,
     SubscriptionNetworkManagerConnectionsOperations,
     VipSwapOperations,
+    NetworkVirtualApplianceConnectionsOperations,
+    FirewallPolicyDeploymentsOperations,
+    FirewallPolicyDraftsOperations,
+    FirewallPolicyRuleCollectionGroupDraftsOperations,
     NetworkManagementClientOperationsMixin,
 )
 
@@ -314,7 +317,6 @@ __all__ = [
     "FirewallPolicyIdpsSignaturesOperations",
     "FirewallPolicyIdpsSignaturesOverridesOperations",
     "ManagementGroupNetworkManagerConnectionsOperations",
-    "NetworkVirtualApplianceConnectionsOperations",
     "RouteMapsOperations",
     "RoutingIntentOperations",
     "ScopeConnectionsOperations",
@@ -322,6 +324,10 @@ __all__ = [
     "StaticMembersOperations",
     "SubscriptionNetworkManagerConnectionsOperations",
     "VipSwapOperations",
+    "NetworkVirtualApplianceConnectionsOperations",
+    "FirewallPolicyDeploymentsOperations",
+    "FirewallPolicyDraftsOperations",
+    "FirewallPolicyRuleCollectionGroupDraftsOperations",
     "NetworkManagementClientOperationsMixin",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

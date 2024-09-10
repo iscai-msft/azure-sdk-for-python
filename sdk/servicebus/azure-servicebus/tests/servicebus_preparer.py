@@ -5,16 +5,18 @@ import datetime
 import logging
 
 from azure.core.exceptions import HttpResponseError
-from azure_devtools.scenario_tests import AzureTestError, ReservedResourceNameError
 from azure.mgmt.resource import ResourceManagementClient
 
 from azure.mgmt.servicebus import ServiceBusManagementClient
 from azure.mgmt.servicebus.models import SBQueue, SBSubscription, AccessRights, SBAuthorizationRule
 
-from azure_devtools.scenario_tests.exceptions import AzureTestError
-
 from devtools_testutils import (
-    AzureMgmtPreparer, FakeResource, get_region_override, add_general_regex_sanitizer
+    AzureMgmtPreparer,
+    AzureTestError,
+    FakeResource,
+    get_region_override,
+    add_general_regex_sanitizer,
+    ReservedResourceNameError
 )
 from devtools_testutils.resource_testcase import RESOURCE_GROUP_PARAM
 
@@ -57,7 +59,7 @@ class ServiceBusResourceGroupPreparer(AzureMgmtPreparer):
         self.location = location
         self.parameter_name = parameter_name
         self.parameter_name_for_location = parameter_name_for_location
-        env_value = os.environ.get("AZURE_RESOURCEGROUP_NAME", None)
+        env_value = os.environ.get("SERVICEBUS_RESOURCE_GROUP", None)
         self._need_creation = True
         if env_value:
             self.resource_random_name = env_value

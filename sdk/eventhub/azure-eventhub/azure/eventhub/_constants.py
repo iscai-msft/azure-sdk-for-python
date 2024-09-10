@@ -46,6 +46,7 @@ MGMT_STATUS_DESC = b"status-description"
 USER_AGENT_PREFIX = "azsdk-python-eventhubs"
 UAMQP_LIBRARY = "uamqp"
 PYAMQP_LIBRARY = "pyamqp"
+MAX_BUFFER_LENGTH = 300
 
 NO_RETRY_ERRORS = [
     b"com.microsoft:argument-out-of-range",
@@ -67,9 +68,9 @@ CUSTOM_CONDITION_BACKOFF = {
 class TransportType(Enum):
     """Transport type
     The underlying transport protocol type:
-     Amqp: AMQP over the default TCP transport protocol, it uses port 5671.
-     AmqpOverWebsocket: Amqp over the Web Sockets transport protocol, it uses
-     port 443.
+    Amqp: AMQP over the default TCP transport protocol, it uses port 5671.
+    AmqpOverWebsocket: Amqp over the Web Sockets transport protocol, it uses
+    port 443.
     """
     Amqp = 1
     AmqpOverWebsocket = 2

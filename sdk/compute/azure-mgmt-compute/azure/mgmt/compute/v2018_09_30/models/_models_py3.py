@@ -42,7 +42,7 @@ class AccessUri(_serialization.Model):
 class CreationData(_serialization.Model):
     """Data used when creating a disk.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar create_option: This enumerates the possible sources of a disk's creation. Required. Known
      values are: "Empty", "Attach", "FromImage", "Import", "Copy", "Restore", "Upload", and
@@ -115,7 +115,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource Id.
     :vartype id: str
@@ -164,7 +164,7 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource Id.
     :vartype id: str
@@ -321,7 +321,7 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
 class DiskList(_serialization.Model):
     """The List Disks operation response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of disks. Required.
     :vartype value: list[~azure.mgmt.compute.v2018_09_30.models.Disk]
@@ -475,7 +475,7 @@ class DiskUpdate(_serialization.Model):
 class EncryptionSettingsCollection(_serialization.Model):
     """Encryption settings for disk or snapshot.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: Set this flag to true and provide DiskEncryptionKey and optional
      KeyEncryptionKey to enable encryption. Set this flag to false and remove DiskEncryptionKey and
@@ -556,7 +556,7 @@ class EncryptionSettingsElement(_serialization.Model):
 class GrantAccessData(_serialization.Model):
     """Data used for requesting a SAS.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar access: Required. Known values are: "None", "Read", and "Write".
     :vartype access: str or ~azure.mgmt.compute.v2018_09_30.models.AccessLevel
@@ -589,7 +589,7 @@ class GrantAccessData(_serialization.Model):
 class ImageDiskReference(_serialization.Model):
     """The source image used for creating the disk.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: A relative uri containing either a Platform Image Repository or user image reference.
      Required.
@@ -628,7 +628,7 @@ class KeyVaultAndKeyReference(_serialization.Model):
     """Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the
     encryptionKey.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_vault: Resource id of the KeyVault containing the key or secret. Required.
     :vartype source_vault: ~azure.mgmt.compute.v2018_09_30.models.SourceVault
@@ -661,7 +661,7 @@ class KeyVaultAndKeyReference(_serialization.Model):
 class KeyVaultAndSecretReference(_serialization.Model):
     """Key Vault Secret Url and vault id of the encryption key.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_vault: Resource id of the KeyVault containing the key or secret. Required.
     :vartype source_vault: ~azure.mgmt.compute.v2018_09_30.models.SourceVault
@@ -696,7 +696,7 @@ class Snapshot(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Resource Id.
     :vartype id: str
@@ -818,7 +818,7 @@ class Snapshot(Resource):  # pylint: disable=too-many-instance-attributes
 class SnapshotList(_serialization.Model):
     """The List Snapshots operation response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of snapshots. Required.
     :vartype value: list[~azure.mgmt.compute.v2018_09_30.models.Snapshot]

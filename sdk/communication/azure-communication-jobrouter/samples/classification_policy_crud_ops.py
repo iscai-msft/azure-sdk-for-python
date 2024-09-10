@@ -13,21 +13,19 @@ DESCRIPTION:
 USAGE:
     python classification_policy_crud_ops.py
     Set the environment variables with your own values before running the sample:
-    1) AZURE_COMMUNICATION_SERVICE_ENDPOINT - Communication Service endpoint url
+    1) AZURE_COMMUNICATION_SERVICE_CONNECTION_STRING - Communication Service connection string
 """
 
 import os
 
 
 class ClassificationPolicySamples(object):
-    endpoint = os.environ.get("AZURE_COMMUNICATION_SERVICE_ENDPOINT", None)
-    if not endpoint:
-        raise ValueError("Set AZURE_COMMUNICATION_SERVICE_ENDPOINT env before run this sample.")
+    connection_string = os.environ["AZURE_COMMUNICATION_SERVICE_CONNECTION_STRING"]
 
     _cp_policy_id = "sample_cp_policy"
 
     def create_classification_policy(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         policy_id = self._cp_policy_id
         # [START create_classification_policy]
         from azure.communication.jobrouter import (
@@ -49,11 +47,11 @@ class ClassificationPolicySamples(object):
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
         print("JobRouterAdministrationClient created successfully!")
 
-        classification_policy: ClassificationPolicy = router_admin_client.create_classification_policy(
-            id=policy_id,
-            classification_policy=ClassificationPolicy(
+        classification_policy: ClassificationPolicy = router_admin_client.upsert_classification_policy(
+            policy_id,
+            ClassificationPolicy(
                 prioritization_rule=StaticRouterRule(value=10),
-                queue_selectors=[
+                queue_selector_attachments=[
                     StaticQueueSelectorAttachment(
                         queue_selector=RouterQueueSelector(key="Region", label_operator=LabelOperator.EQUAL, value="NA")
                     ),
@@ -65,7 +63,7 @@ class ClassificationPolicySamples(object):
                         ],
                     ),
                 ],
-                worker_selectors=[
+                worker_selector_attachments=[
                     ConditionalWorkerSelectorAttachment(
                         condition=ExpressionRouterRule(expression='If(job.Product = "O365", true, false)'),
                         worker_selectors=[
@@ -92,7 +90,7 @@ class ClassificationPolicySamples(object):
         # [END create_classification_policy]
 
     def update_classification_policy(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         policy_id = self._cp_policy_id
         # [START update_classification_policy]
         from azure.communication.jobrouter import (
@@ -107,8 +105,8 @@ class ClassificationPolicySamples(object):
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
         print("JobRouterAdministrationClient created successfully!")
 
-        updated_classification_policy: ClassificationPolicy = router_admin_client.update_classification_policy(
-            id=policy_id,
+        updated_classification_policy: ClassificationPolicy = router_admin_client.upsert_classification_policy(
+            policy_id,
             prioritization_rule=ExpressionRouterRule(expression='If(job.HighPriority = "true", 50, 10)'),
         )
 
@@ -116,7 +114,7 @@ class ClassificationPolicySamples(object):
         # [END update_classification_policy]
 
     def get_classification_policy(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         policy_id = self._cp_policy_id
         # [START get_classification_policy]
         from azure.communication.jobrouter import JobRouterAdministrationClient
@@ -124,13 +122,13 @@ class ClassificationPolicySamples(object):
 
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
 
-        classification_policy: ClassificationPolicy = router_admin_client.get_classification_policy(id=policy_id)
+        classification_policy: ClassificationPolicy = router_admin_client.get_classification_policy(policy_id)
 
         print(f"Successfully fetched classification policy with id: {classification_policy.id}")
         # [END get_classification_policy]
 
     def list_classification_policies_batched(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         # [START list_classification_policies_batched]
         from azure.communication.jobrouter import JobRouterAdministrationClient
 
@@ -143,13 +141,13 @@ class ClassificationPolicySamples(object):
             print(f"Retrieved {len(policies_in_page)} policies in current page")
 
             for cp in policies_in_page:
-                print(f"Retrieved classification policy with id: {cp.classification_policy.id}")
+                print(f"Retrieved classification policy with id: {cp.id}")
 
         print(f"Successfully completed fetching classification policies")
         # [END list_classification_policies_batched]
 
     def list_classification_policies(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         # [START list_classification_policies]
         from azure.communication.jobrouter import JobRouterAdministrationClient
 
@@ -158,13 +156,13 @@ class ClassificationPolicySamples(object):
         classification_policy_iterator = router_admin_client.list_classification_policies()
 
         for cp in classification_policy_iterator:
-            print(f"Retrieved classification policy with id: {cp.classification_policy.id}")
+            print(f"Retrieved classification policy with id: {cp.id}")
 
         print(f"Successfully completed fetching classification policies")
         # [END list_classification_policies]
 
     def clean_up(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         policy_id = self._cp_policy_id
 
         # [START delete_classification_policy]
@@ -172,7 +170,7 @@ class ClassificationPolicySamples(object):
 
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
 
-        router_admin_client.delete_classification_policy(id=policy_id)
+        router_admin_client.delete_classification_policy(policy_id)
 
         # [END delete_classification_policy]
 

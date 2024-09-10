@@ -36,7 +36,7 @@ pip install azure-servicebus
 To use this package, you must have:
 * Azure subscription - [Create a free account][azure_sub]
 * Azure Service Bus - [Namespace and management credentials][service_bus_namespace]
-* Python 3.7 or later - [Install Python][python]
+* Python 3.8 or later - [Install Python][python]
 
 
 If you need an Azure service bus namespace, you can create it via the [Azure Portal][azure_namespace_creation].
@@ -119,12 +119,14 @@ This example sends single message and array of messages to a queue that is assum
 
 ```python
 from azure.servicebus import ServiceBusClient, ServiceBusMessage
+from azure.identity import DefaultAzureCredential
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_sender(queue_name) as sender:
         # Sending a single message
         single_message = ServiceBusMessage("Single message")
@@ -147,12 +149,14 @@ To receive from a queue, you can either perform an ad-hoc receive via `receiver.
 
 ```python
 from azure.servicebus import ServiceBusClient
+from azure.identity import DefaultAzureCredential
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     # max_wait_time specifies how long the receiver should wait with no incoming messages before stopping receipt.
     # Default is None; to receive forever.
     with client.get_queue_receiver(queue_name, max_wait_time=30) as receiver:
@@ -172,12 +176,14 @@ with ServiceBusClient.from_connection_string(connstr) as client:
 
 ```python
 from azure.servicebus import ServiceBusClient
+from azure.identity import DefaultAzureCredential
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_receiver(queue_name) as receiver:
         received_message_array = receiver.receive_messages(max_wait_time=10)  # try to receive a single message within 10 seconds
         if received_message_array:
@@ -201,13 +207,15 @@ Sessions provide first-in-first-out and single-receiver semantics on top of a qu
 
 ```python
 from azure.servicebus import ServiceBusClient, ServiceBusMessage
+from azure.identity import DefaultAzureCredential
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
-queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
+queue_name = os.environ['SERVICE_BUS_SESSION_QUEUE_NAME']
 session_id = os.environ['SERVICE_BUS_SESSION_ID']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_sender(queue_name) as sender:
         sender.send_messages(ServiceBusMessage("Session Enabled Message", session_id=session_id))
 
@@ -229,13 +237,16 @@ and of how these differ from queues.
 
 ```python
 from azure.servicebus import ServiceBusClient, ServiceBusMessage
+from azure.identity import DefaultAzureCredential
+
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 topic_name = os.environ['SERVICE_BUS_TOPIC_NAME']
 subscription_name = os.environ['SERVICE_BUS_SUBSCRIPTION_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_topic_sender(topic_name) as sender:
         sender.send_messages(ServiceBusMessage("Data"))
 
@@ -264,12 +275,15 @@ Declares the message processing to be successfully completed, removing the messa
 
 ```python
 from azure.servicebus import ServiceBusClient
+from azure.identity import DefaultAzureCredential
+
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_receiver(queue_name) as receiver:
         for msg in receiver:
             print(str(msg))
@@ -282,12 +296,15 @@ Abandon processing of the message for the time being, returning the message imme
 
 ```python
 from azure.servicebus import ServiceBusClient
+from azure.identity import DefaultAzureCredential
+
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_receiver(queue_name) as receiver:
         for msg in receiver:
             print(str(msg))
@@ -300,12 +317,15 @@ Transfer the message from the primary queue into a special "dead-letter sub-queu
 
 ```python
 from azure.servicebus import ServiceBusClient
+from azure.identity import DefaultAzureCredential
+
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_receiver(queue_name) as receiver:
         for msg in receiver:
             print(str(msg))
@@ -319,12 +339,15 @@ by setting it aside such that it must be received by sequence number in a call t
 
 ```python
 from azure.servicebus import ServiceBusClient
+from azure.identity import DefaultAzureCredential
+
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_receiver(queue_name) as receiver:
         for msg in receiver:
             print(str(msg))
@@ -342,14 +365,17 @@ It should be used as follows:
 
 ```python
 from azure.servicebus import ServiceBusClient, AutoLockRenewer
+from azure.identity import DefaultAzureCredential
+
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 queue_name = os.environ['SERVICE_BUS_QUEUE_NAME']
 
 # Can also be called via "with AutoLockRenewer() as renewer" to automate closing.
 renewer = AutoLockRenewer()
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_receiver(queue_name) as receiver:
         for msg in receiver.receive_messages():
             renewer.register(receiver, msg, max_lock_renewal_duration=60)
@@ -362,15 +388,18 @@ renewer.close()
 
 ```python
 from azure.servicebus import ServiceBusClient, AutoLockRenewer
+from azure.identity import DefaultAzureCredential
+
 
 import os
-connstr = os.environ['SERVICE_BUS_CONNECTION_STR']
+fully_qualified_namespace = os.environ['SERVICEBUS_FULLY_QUALIFIED_NAMESPACE']
 session_queue_name = os.environ['SERVICE_BUS_SESSION_QUEUE_NAME']
 session_id = os.environ['SERVICE_BUS_SESSION_ID']
 
 # Can also be called via "with AutoLockRenewer() as renewer" to automate closing.
 renewer = AutoLockRenewer()
-with ServiceBusClient.from_connection_string(connstr) as client:
+credential = DefaultAzureCredential()
+with ServiceBusClient(fully_qualified_namespace, credential) as client:
     with client.get_queue_receiver(session_queue_name, session_id=session_id) as receiver:
         renewer.register(receiver, receiver.session, max_lock_renewal_duration=300) # Duration for how long to maintain the lock for, in seconds.
 
@@ -388,19 +417,22 @@ It would also manifest when trying to take action (such as completing a message)
 ### Logging
 
 - Enable `azure.servicebus` logger to collect traces from the library.
-- Enable `uamqp` logger to collect traces from the underlying uAMQP library.
 - Enable AMQP frame level trace by setting `logging_enable=True` when creating the client.
-- There may be cases where you consider the `uamqp` logging to be too verbose. To suppress unnecessary logging, add the following snippet to the top of your code:
+
 ```python
 import logging
+import sys
 
-# The logging levels below may need to be changed based on the logging that you want to suppress.
-uamqp_logger = logging.getLogger('uamqp')
-uamqp_logger.setLevel(logging.ERROR)
+handler = logging.StreamHandler(stream=sys.stdout)
+logger = logging.getLogger('azure.servicebus')
+logger.setLevel(logging.DEBUG)
+logger.addHandler(handler)
 
-# or even further fine-grained control, suppressing the warnings in uamqp.connection module
-uamqp_connection_logger = logging.getLogger('uamqp.connection')
-uamqp_connection_logger.setLevel(logging.ERROR)
+...
+
+from azure.servicebus import ServiceBusClient
+
+client = ServiceBusClient(..., logging_enable=True)
 ```
 
 ### Timeouts
@@ -505,6 +537,34 @@ client = ServiceBusClient.from_connection_string(
 
 Note: The `message` attribute on `ServiceBusMessage`/`ServiceBusMessageBatch`/`ServiceBusReceivedMessage`, which previously exposed the `uamqp.Message`, has been deprecated.
  The "Legacy" objects returned by `message` attribute have been introduced to help facilitate the transition.
+
+To enable the `uamqp` logger to collect traces from the underlying uAMQP library:
+```python
+import logging
+
+uamqp_logger = logging.getLogger('uamqp')
+uamqp_logger.setLevel(logging.DEBUG)
+uamqp_logger.addHandler(handler)
+
+...
+
+from azure.servicebus import ServiceBusClient
+
+client = ServiceBusClient(..., logging_enable=True)
+```
+
+There may be cases where you consider the `uamqp` logging to be too verbose. To suppress unnecessary logging, add the following snippet to the top of your code:
+```python
+import logging
+
+# The logging levels below may need to be changed based on the logging that you want to suppress.
+uamqp_logger = logging.getLogger('uamqp')
+uamqp_logger.setLevel(logging.ERROR)
+
+# or even further fine-grained control, suppressing the warnings in uamqp.connection module
+uamqp_connection_logger = logging.getLogger('uamqp.connection')
+uamqp_connection_logger.setLevel(logging.ERROR)
+```
 
 ### Building uAMQP wheel from source
 

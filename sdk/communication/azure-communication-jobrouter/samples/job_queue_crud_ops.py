@@ -13,30 +13,28 @@ DESCRIPTION:
 USAGE:
     python job_queue_crud_ops.py
     Set the environment variables with your own values before running the sample:
-    1) AZURE_COMMUNICATION_SERVICE_ENDPOINT - Communication Service endpoint url
+    1) AZURE_COMMUNICATION_SERVICE_CONNECTION_STRING - Communication Service connection string
 """
 
 import os
 
 
 class JobQueueSamples(object):
-    endpoint = os.environ.get("AZURE_COMMUNICATION_SERVICE_ENDPOINT", None)
-    if not endpoint:
-        raise ValueError("Set AZURE_COMMUNICATION_SERVICE_ENDPOINT env before run this sample.")
+    connection_string = os.environ["AZURE_COMMUNICATION_SERVICE_CONNECTION_STRING"]
 
     _job_queue_id = "sample_q_policy"
     _distribution_policy_id = "sample_dp_policy"
 
     def setup_distribution_policy(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         distribution_policy_id = self._distribution_policy_id
         from azure.communication.jobrouter import JobRouterAdministrationClient
         from azure.communication.jobrouter.models import LongestIdleMode, DistributionPolicy
 
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
-        distribution_policy = router_admin_client.create_distribution_policy(
-            id=distribution_policy_id,
-            distribution_policy=DistributionPolicy(
+        distribution_policy = router_admin_client.upsert_distribution_policy(
+            distribution_policy_id,
+            DistributionPolicy(
                 offer_expires_after_seconds=10 * 60,
                 mode=LongestIdleMode(min_concurrent_offers=1, max_concurrent_offers=1),
             ),
@@ -44,7 +42,7 @@ class JobQueueSamples(object):
         print(f"Sample setup completed: Created distribution policy")
 
     def create_queue(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         job_queue_id = self._job_queue_id
         distribution_policy_id = self._distribution_policy_id
         # [START create_queue]
@@ -59,8 +57,8 @@ class JobQueueSamples(object):
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
         print("JobRouterAdministrationClient created successfully!")
 
-        job_queue: RouterQueue = router_admin_client.create_queue(
-            id=job_queue_id, queue=RouterQueue(distribution_policy_id=distribution_policy_id, name="My job queue")
+        job_queue: RouterQueue = router_admin_client.upsert_queue(
+            job_queue_id, RouterQueue(distribution_policy_id=distribution_policy_id, name="My job queue")
         )
 
         print(f"Job queue successfully created with id: {job_queue.id}")
@@ -68,7 +66,7 @@ class JobQueueSamples(object):
         # [END create_queue]
 
     def update_queue(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         job_queue_id = self._job_queue_id
         # [START update_queue]
         from azure.communication.jobrouter import (
@@ -82,28 +80,28 @@ class JobQueueSamples(object):
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
         print("JobRouterAdministrationClient created successfully!")
 
-        updated_job_queue: RouterQueue = router_admin_client.update_queue(
-            id=job_queue_id, labels={"Additional-Queue-Label": "ChatQueue"}
+        updated_job_queue: RouterQueue = router_admin_client.upsert_queue(
+            job_queue_id, labels={"Additional-Queue-Label": "ChatQueue"}
         )
 
         print(f"Router queue successfully update with labels {updated_job_queue.labels}")
         # [END update_queue]
 
     def get_queue(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         job_queue_id = self._job_queue_id
         # [START get_queue]
         from azure.communication.jobrouter import JobRouterAdministrationClient
 
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
 
-        job_queue = router_admin_client.get_queue(id=job_queue_id)
+        job_queue = router_admin_client.get_queue(job_queue_id)
 
         print(f"Successfully fetched router queue with id: {job_queue.id}")
         # [END get_queue]
 
     def get_queue_statistics(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         job_queue_id = self._job_queue_id
 
         # [START get_queue_statistics]
@@ -112,13 +110,13 @@ class JobQueueSamples(object):
 
         router_client: JobRouterClient = JobRouterClient.from_connection_string(conn_str=connection_string)
 
-        job_queue_statistics: RouterQueueStatistics = router_client.get_queue_statistics(id=job_queue_id)
+        job_queue_statistics: RouterQueueStatistics = router_client.get_queue_statistics(job_queue_id)
 
         print(f"Successfully fetched queue statistics router queue: {job_queue_statistics}")
         # [END get_queue_statistics]
 
     def list_queues(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         # [START list_queues]
         from azure.communication.jobrouter import JobRouterAdministrationClient
 
@@ -127,13 +125,13 @@ class JobQueueSamples(object):
         job_queue_iterator = router_admin_client.list_queues()
 
         for q in job_queue_iterator:
-            print(f"Retrieved queue policy with id: {q.queue.id}")
+            print(f"Retrieved queue policy with id: {q.id}")
 
         print(f"Successfully completed fetching job queues")
         # [END list_queues]
 
     def list_queues_batched(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         # [START list_queues_batched]
         from azure.communication.jobrouter import JobRouterAdministrationClient
 
@@ -146,13 +144,13 @@ class JobQueueSamples(object):
             print(f"Retrieved {len(job_queues_in_page)} queues in current page")
 
             for q in job_queues_in_page:
-                print(f"Retrieved queue policy with id: {q.queue.id}")
+                print(f"Retrieved queue policy with id: {q.id}")
 
         print(f"Successfully completed fetching job queues")
         # [END list_queues_batched]
 
     def clean_up(self):
-        connection_string = self.endpoint
+        connection_string = self.connection_string
         job_queue_id = self._job_queue_id
 
         # [START delete_queue]
@@ -160,16 +158,18 @@ class JobQueueSamples(object):
 
         router_admin_client = JobRouterAdministrationClient.from_connection_string(conn_str=connection_string)
 
-        router_admin_client.delete_queue(id=job_queue_id)
+        router_admin_client.delete_queue(job_queue_id)
 
         # [END delete_queue]
+
+        router_admin_client.delete_distribution_policy(self._distribution_policy_id)
 
 
 if __name__ == "__main__":
     sample = JobQueueSamples()
     sample.setup_distribution_policy()
     sample.create_queue()
-    # sample.update_queue()
+    sample.update_queue()
     sample.get_queue()
     sample.get_queue_statistics()
     sample.list_queues()

@@ -28,6 +28,9 @@ MANAGEMENT_PACKAGE_IDENTIFIERS = [
     "azure-ai-anomalydetector",
 ]
 
+NO_TESTS_ALLOWED = []
+
+
 META_PACKAGES = ["azure", "azure-mgmt", "azure-keyvault"]
 
 REGRESSION_EXCLUDED_PACKAGES = [
@@ -151,7 +154,7 @@ def generate_difference(original_packages: List[str], filtered_packages: List[st
 
 def glob_packages(glob_string: str, target_root_dir: str) -> List[str]:
     if glob_string:
-        individual_globs = glob_string.split(",")
+        individual_globs = [glob_string.strip() for glob_string in glob_string.split(",")]
     else:
         individual_globs = "azure-*"
     collected_top_level_directories = []
@@ -206,10 +209,8 @@ def discover_targeted_packages(
     if compatibility_filter:
         collected_packages = apply_compatibility_filter(collected_packages)
 
-    # apply package-specific exclusions only if we have gotten more than one
-    if len(collected_packages) > 1:
-        if not include_inactive:
-            collected_packages = apply_inactive_filter(collected_packages)
+    if not include_inactive:
+        collected_packages = apply_inactive_filter(collected_packages)
 
     # Apply filter based on filter type. for e.g. Docs, Regression, Management
     collected_packages = apply_business_filter(collected_packages, filter_type)
@@ -278,6 +279,27 @@ def get_package_from_repo(pkg_name: str, repo_root: str = None) -> ParsedSetup:
     return None
 
 
+def get_package_from_repo_or_folder(req: str, prebuilt_wheel_dir: str = None) -> str:
+    """Takes a package name and a possible prebuilt wheel directory. Attempts to resolve a wheel that matches the package name, and if it can't,
+    attempts to find the package within the repo to install directly from path on disk.
+
+    During a CI build, it is preferred that the package is installed from a prebuilt wheel directory, as multiple CI environments attempting to install the relative
+    req can cause inconsistent installation issues during parallel tox environment execution.
+    """
+
+    local_package = get_package_from_repo(req)
+
+    if prebuilt_wheel_dir and os.path.exists(prebuilt_wheel_dir):
+        prebuilt_package = discover_prebuilt_package(prebuilt_wheel_dir, local_package.setup_filename, "wheel")
+        if prebuilt_package:
+            # return the first package found, there should only be a single one matching given that our prebuilt wheel directory
+            # is populated by the replacement of dev_reqs.txt with the prebuilt wheels
+            # ref tox_harness replace_dev_reqs() calls
+            return os.path.join(prebuilt_wheel_dir, prebuilt_package[0])
+
+    return local_package.folder
+
+
 def get_version_from_repo(pkg_name: str, repo_root: str = None) -> str:
     pkg_info = get_package_from_repo(pkg_name, repo_root)
     if pkg_info:
@@ -311,7 +333,7 @@ def get_base_version(pkg_name: str) -> str:
         exit(1)
 
 
-def process_requires(setup_py_path: str):
+def process_requires(setup_py_path: str, is_dev_build: bool = False):
     """
     This method processes a setup.py's package requirements to verify if all required packages are available on PyPI.
     If any azure sdk package is not available on PyPI then requirement will be updated to refer to the sdk "dev_identifier".
@@ -331,7 +353,7 @@ def process_requires(setup_py_path: str):
         pkg_name = req.key
         spec = SpecifierSet(str(req).replace(pkg_name, ""))
 
-        if not is_required_version_on_pypi(pkg_name, spec):
+        if not is_required_version_on_pypi(pkg_name, spec) or is_dev_build:
             old_req = str(req)
             version = get_version_from_repo(pkg_name)
             base_version = get_base_version(pkg_name)
@@ -348,7 +370,8 @@ def process_requires(setup_py_path: str):
             #        )?
             #       )?
             rx = r"{}(((a|b|rc)\d+)?(\.post\d+)?)?".format(base_version)
-            new_req = re.sub(rx, "{}{}1".format(base_version, DEV_BUILD_IDENTIFIER), str(req), flags=re.IGNORECASE)
+            new_req_format = f"{base_version}{DEV_BUILD_IDENTIFIER}1,<{base_version}b0"
+            new_req = re.sub(rx, new_req_format, str(req), flags=re.IGNORECASE)
             logging.info("New requirement for package {0}: {1}".format(pkg_name, new_req))
             requirement_to_update[old_req] = new_req
 
@@ -358,108 +381,6 @@ def process_requires(setup_py_path: str):
         logging.info("Packages not available on PyPI:{}".format(requirement_to_update))
         update_requires(setup_py_path, requirement_to_update)
         logging.info("Package requirement is updated in setup.py")
-
-
-def build_and_install_dev_reqs(file: str, pkg_root: str) -> None:
-    """This function builds whls for every requirement found in a package's
-    dev_requirements.txt and installs it.
-
-    :param str file: the absolute path to the dev_requirements.txt file
-    :param str pkg_root: the absolute path to the package's root
-    :return: None
-    """
-    adjusted_req_lines = []
-
-    with open(file, "r") as f:
-        for line in f:
-            args = [part.strip() for part in line.split() if part and not part.strip() == "-e"]
-            amended_line = " ".join(args)
-
-            if amended_line.endswith("]"):
-                trim_amount = amended_line[::-1].index("[") + 1
-                amended_line = amended_line[0 : (len(amended_line) - trim_amount)]
-
-            adjusted_req_lines.append(amended_line)
-
-    adjusted_req_lines = list(map(lambda x: build_whl_for_req(x, pkg_root), adjusted_req_lines))
-    install_deps_commands = [
-        sys.executable,
-        "-m",
-        "pip",
-        "install",
-    ]
-    logging.info(f"Installing dev requirements from freshly built packages: {adjusted_req_lines}")
-    install_deps_commands.extend(adjusted_req_lines)
-    subprocess.check_call(install_deps_commands)
-    shutil.rmtree(os.path.join(pkg_root, ".tmp_whl_dir"))
-
-
-def replace_dev_reqs(file, pkg_root):
-    adjusted_req_lines = []
-
-    with open(file, "r") as f:
-        original_req_lines = list(line.strip() for line in f)
-
-    for line in original_req_lines:
-        args = [part.strip() for part in line.split() if part and not part.strip() == "-e"]
-        amended_line = " ".join(args)
-        extras = ""
-
-        if amended_line.endswith("]"):
-            amended_line, extras = amended_line.rsplit("[", maxsplit=1)
-            if extras:
-                extras = f"[{extras}"
-
-        adjusted_req_lines.append(f"{build_whl_for_req(amended_line, pkg_root)}{extras}")
-
-    req_file_name = os.path.basename(file)
-    logging.info("Old {0}:{1}".format(req_file_name, original_req_lines))
-    logging.info("New {0}:{1}".format(req_file_name, adjusted_req_lines))
-
-    with open(file, "w") as f:
-        # note that we directly use '\n' here instead of os.linesep due to how f.write() actually handles this stuff internally
-        # If a file is opened in text mode (the default), during write python will accidentally double replace due to "\r" being
-        # replaced with "\r\n" on Windows. Result: "\r\n\n". Extra line breaks!
-        f.write("\n".join(adjusted_req_lines))
-
-
-def is_relative_install_path(req: str, package_path: str) -> str:
-    possible_setup_path = os.path.join(package_path, req, "setup.py")
-
-    # blank lines are _allowed_ in a dev requirements. they should not resolve to the package_path erroneously
-    if not req:
-        return False
-
-    return os.path.exists(possible_setup_path)
-
-
-def build_whl_for_req(req: str, package_path: str) -> str:
-    """Builds a whl from the dev_requirements file.
-
-    :param str req: a requirement from the dev_requirements.txt
-    :param str package_path: the absolute path to the package's root
-    :return: The absolute path to the whl built or the requirement if a third-party package
-    """
-    from ci_tools.build import create_package
-
-    if is_relative_install_path(req, package_path):
-        # Create temp path if it doesn't exist
-        temp_dir = os.path.join(package_path, ".tmp_whl_dir")
-        if not os.path.exists(temp_dir):
-            os.mkdir(temp_dir)
-
-        req_pkg_path = os.path.abspath(os.path.join(package_path, req.replace("\n", "")))
-        parsed = ParsedSetup.from_path(req_pkg_path)
-
-        logging.info("Building wheel for package {}".format(parsed.name))
-        create_package(req_pkg_path, temp_dir, enable_sdist=False)
-
-        whl_path = os.path.join(temp_dir, find_whl(temp_dir, parsed.name, parsed.version))
-        logging.info("Wheel for package {0} is {1}".format(parsed.name, whl_path))
-        logging.info("Replacing dev requirement. Old requirement:{0}, New requirement:{1}".format(req, whl_path))
-        return whl_path
-    else:
-        return req
 
 
 def find_sdist(dist_dir: str, pkg_name: str, pkg_version: str) -> str:
@@ -472,20 +393,120 @@ def find_sdist(dist_dir: str, pkg_name: str, pkg_version: str) -> str:
     if pkg_name is None:
         logging.error("Package name cannot be empty to find sdist")
         return
+    else:
+        # ensure package name matches cananonicalized package name
+        pkg_name = pkg_name.replace("-", "[-_]")
 
-    pkg_name_format = f"{pkg_name}-{pkg_version}.tar.gz"
+    pkg_format = f"{pkg_name}-{pkg_version}.tar.gz"
 
     packages = []
     for root, dirnames, filenames in os.walk(dist_dir):
-        for filename in fnmatch.filter(filenames, pkg_name_format):
+        for filename in fnmatch.filter(filenames, pkg_format):
             packages.append(os.path.join(root, filename))
 
     packages = [os.path.relpath(w, dist_dir) for w in packages]
 
     if not packages:
-        logging.error("No sdist is found in directory %s with package name format %s", dist_dir, pkg_name_format)
+        logging.error(
+            f"No sdist is found in directory {dist_dir} with package name format {pkg_format}."
+        )
         return
     return packages[0]
+
+
+def pip_install(requirements: List[str], include_dependencies: bool = True, python_executable: str = None) -> bool:
+    """
+    Attempts to invoke an install operation using the invoking python's pip. Empty requirements are auto-success.
+    """
+
+    exe = python_executable or sys.executable
+
+    command = [exe, "-m", "pip", "install"]
+
+    if requirements:
+        command.extend([req.strip() for req in requirements])
+    else:
+        return True
+
+    try:
+        subprocess.check_call(command)
+    except subprocess.CalledProcessError as f:
+        return False
+
+    return True
+
+
+def pip_uninstall(requirements: List[str], python_executable: str) -> bool:
+    """
+    Attempts to invoke an install operation using the invoking python's pip. Empty requirements are auto-success.
+    """
+    exe = python_executable or sys.executable
+    command = [exe, "-m", "pip", "uninstall", "-y"]
+
+    if requirements:
+        command.extend([req.strip() for req in requirements])
+    else:
+        return True
+
+    try:
+        result = subprocess.check_call(command)
+        return True
+    except subprocess.CalledProcessError as f:
+        return False
+
+
+def pip_install_requirements_file(requirements_file: str, python_executable: str = None) -> bool:
+    return pip_install(["-r", requirements_file], True, python_executable)
+
+
+def get_pip_list_output(python_executable: str = None):
+    """Uses the invoking python executable to get the output from pip list."""
+    exe = python_executable or sys.executable
+
+    out = subprocess.Popen(
+        [exe, "-m", "pip", "list", "--disable-pip-version-check", "--format", "freeze"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+
+    stdout, stderr = out.communicate()
+
+    collected_output = {}
+
+    if stdout and (stderr is None):
+        # this should be compatible with py27 https://docs.python.org/2.7/library/stdtypes.html#str.decode
+        for line in stdout.decode("utf-8").split(os.linesep)[2:]:
+            if line:
+                package, version = re.split("==", line)
+                collected_output[package] = version
+    else:
+        raise Exception(stderr)
+
+    return collected_output
+
+
+def pytest(args: [], cwd: str = None, python_executable: str = None) -> bool:
+    """
+    Invokes a set of tests, returns true if successful, false otherwise.
+    """
+
+    exe = python_executable or sys.executable
+
+    commands = [
+        exe,
+        "-m",
+        "pytest",
+    ]
+
+    commands.extend(args)
+
+    logging.info(commands)
+    if cwd:
+        result = subprocess.run(commands, cwd=cwd)
+    else:
+        result = subprocess.run(commands)
+
+    return result.returncode == 0
 
 
 def get_interpreter_compatible_tags() -> List[str]:
@@ -541,8 +562,8 @@ def find_whl(whl_dir: str, pkg_name: str, pkg_version: str) -> str:
     whls = [os.path.relpath(w, whl_dir) for w in whls]
 
     if not whls:
-        logging.error("No whl is found in directory %s with package name format %s", whl_dir, pkg_name_format)
-        logging.info("List of whls in directory: %s", glob.glob(os.path.join(whl_dir, "*.whl")))
+        logging.info(f"No whl is found in directory {whl_dir} with package name format {pkg_name_format}")
+        logging.info(f"List of whls in directory: {glob.glob(os.path.join(whl_dir, '*.whl'))}")
         return
 
     compatible_tags = get_interpreter_compatible_tags()

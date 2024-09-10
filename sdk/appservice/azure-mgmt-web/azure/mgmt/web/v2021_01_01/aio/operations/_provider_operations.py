@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar, Union
+from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar, Union
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -20,14 +20,12 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._provider_operations import (
     build_get_available_stacks_on_prem_request,
     build_get_available_stacks_request,
@@ -39,10 +37,10 @@ from ...operations._provider_operations import (
 )
 from .._vendor import WebSiteManagementClientMixinABC
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -65,6 +63,7 @@ class ProviderOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def get_available_stacks(
@@ -77,7 +76,6 @@ class ProviderOperations:
         :param os_type_selected: Known values are: "Windows", "Linux", "WindowsFunctions",
          "LinuxFunctions", and "All". Default value is None.
         :type os_type_selected: str or ~azure.mgmt.web.v2021_01_01.models.Enum9
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ApplicationStackResource or the result of
          cls(response)
         :rtype:
@@ -87,10 +85,10 @@ class ProviderOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-01-01"))
         cls: ClsType[_models.ApplicationStackCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -101,15 +99,13 @@ class ProviderOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_available_stacks_request(
+                _request = build_get_available_stacks_request(
                     os_type_selected=os_type_selected,
                     api_version=api_version,
-                    template_url=self.get_available_stacks.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -120,14 +116,13 @@ class ProviderOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ApplicationStackCollection", pipeline_response)
@@ -137,11 +132,11 @@ class ProviderOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -153,8 +148,6 @@ class ProviderOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_available_stacks.metadata = {"url": "/providers/Microsoft.Web/availableStacks"}
 
     @distributed_trace
     def get_function_app_stacks(
@@ -167,7 +160,6 @@ class ProviderOperations:
         :param stack_os_type: Stack OS Type. Known values are: "Windows", "Linux", and "All". Default
          value is None.
         :type stack_os_type: str or ~azure.mgmt.web.v2021_01_01.models.Enum10
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either FunctionAppStack or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2021_01_01.models.FunctionAppStack]
@@ -176,10 +168,10 @@ class ProviderOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-01-01"))
         cls: ClsType[_models.FunctionAppStackCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -190,15 +182,13 @@ class ProviderOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_function_app_stacks_request(
+                _request = build_get_function_app_stacks_request(
                     stack_os_type=stack_os_type,
                     api_version=api_version,
-                    template_url=self.get_function_app_stacks.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -209,14 +199,13 @@ class ProviderOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("FunctionAppStackCollection", pipeline_response)
@@ -226,11 +215,11 @@ class ProviderOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -242,8 +231,6 @@ class ProviderOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_function_app_stacks.metadata = {"url": "/providers/Microsoft.Web/functionAppStacks"}
 
     @distributed_trace
     def get_function_app_stacks_for_location(
@@ -258,7 +245,6 @@ class ProviderOperations:
         :param stack_os_type: Stack OS Type. Known values are: "Windows", "Linux", and "All". Default
          value is None.
         :type stack_os_type: str or ~azure.mgmt.web.v2021_01_01.models.Enum11
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either FunctionAppStack or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2021_01_01.models.FunctionAppStack]
@@ -267,10 +253,10 @@ class ProviderOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-01-01"))
         cls: ClsType[_models.FunctionAppStackCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -281,16 +267,14 @@ class ProviderOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_function_app_stacks_for_location_request(
+                _request = build_get_function_app_stacks_for_location_request(
                     location=location,
                     stack_os_type=stack_os_type,
                     api_version=api_version,
-                    template_url=self.get_function_app_stacks_for_location.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -301,14 +285,13 @@ class ProviderOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("FunctionAppStackCollection", pipeline_response)
@@ -318,11 +301,11 @@ class ProviderOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -334,10 +317,6 @@ class ProviderOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_function_app_stacks_for_location.metadata = {
-        "url": "/providers/Microsoft.Web/locations/{location}/functionAppStacks"
-    }
 
     @distributed_trace
     def get_web_app_stacks_for_location(
@@ -352,7 +331,6 @@ class ProviderOperations:
         :param stack_os_type: Stack OS Type. Known values are: "Windows", "Linux", and "All". Default
          value is None.
         :type stack_os_type: str or ~azure.mgmt.web.v2021_01_01.models.Enum12
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either WebAppStack or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2021_01_01.models.WebAppStack]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -360,10 +338,10 @@ class ProviderOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-01-01"))
         cls: ClsType[_models.WebAppStackCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -374,16 +352,14 @@ class ProviderOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_web_app_stacks_for_location_request(
+                _request = build_get_web_app_stacks_for_location_request(
                     location=location,
                     stack_os_type=stack_os_type,
                     api_version=api_version,
-                    template_url=self.get_web_app_stacks_for_location.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -394,14 +370,13 @@ class ProviderOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WebAppStackCollection", pipeline_response)
@@ -411,11 +386,11 @@ class ProviderOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -428,8 +403,6 @@ class ProviderOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    get_web_app_stacks_for_location.metadata = {"url": "/providers/Microsoft.Web/locations/{location}/webAppStacks"}
-
     @distributed_trace
     def list_operations(self, **kwargs: Any) -> AsyncIterable["_models.CsmOperationDescription"]:
         """Gets all available operations for the Microsoft.Web resource provider. Also exposes resource
@@ -438,7 +411,6 @@ class ProviderOperations:
         Gets all available operations for the Microsoft.Web resource provider. Also exposes resource
         metric definitions.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either CsmOperationDescription or the result of
          cls(response)
         :rtype:
@@ -448,10 +420,10 @@ class ProviderOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-01-01"))
         cls: ClsType[_models.CsmOperationCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -462,14 +434,12 @@ class ProviderOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_operations_request(
+                _request = build_list_operations_request(
                     api_version=api_version,
-                    template_url=self.list_operations.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -480,14 +450,13 @@ class ProviderOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("CsmOperationCollection", pipeline_response)
@@ -497,11 +466,11 @@ class ProviderOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -513,8 +482,6 @@ class ProviderOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_operations.metadata = {"url": "/providers/Microsoft.Web/operations"}
 
     @distributed_trace
     def get_web_app_stacks(
@@ -527,7 +494,6 @@ class ProviderOperations:
         :param stack_os_type: Stack OS Type. Known values are: "Windows", "Linux", and "All". Default
          value is None.
         :type stack_os_type: str or ~azure.mgmt.web.v2021_01_01.models.Enum13
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either WebAppStack or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2021_01_01.models.WebAppStack]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -535,10 +501,10 @@ class ProviderOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-01-01"))
         cls: ClsType[_models.WebAppStackCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -549,15 +515,13 @@ class ProviderOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_web_app_stacks_request(
+                _request = build_get_web_app_stacks_request(
                     stack_os_type=stack_os_type,
                     api_version=api_version,
-                    template_url=self.get_web_app_stacks.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -568,14 +532,13 @@ class ProviderOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("WebAppStackCollection", pipeline_response)
@@ -585,11 +548,11 @@ class ProviderOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -601,8 +564,6 @@ class ProviderOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_web_app_stacks.metadata = {"url": "/providers/Microsoft.Web/webAppStacks"}
 
     @distributed_trace
     def get_available_stacks_on_prem(
@@ -615,7 +576,6 @@ class ProviderOperations:
         :param os_type_selected: Known values are: "Windows", "Linux", "WindowsFunctions",
          "LinuxFunctions", and "All". Default value is None.
         :type os_type_selected: str or ~azure.mgmt.web.v2021_01_01.models.Enum14
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ApplicationStackResource or the result of
          cls(response)
         :rtype:
@@ -625,10 +585,10 @@ class ProviderOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-01-01"))
         cls: ClsType[_models.ApplicationStackCollection] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -639,16 +599,14 @@ class ProviderOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_available_stacks_on_prem_request(
+                _request = build_get_available_stacks_on_prem_request(
                     subscription_id=self._config.subscription_id,
                     os_type_selected=os_type_selected,
                     api_version=api_version,
-                    template_url=self.get_available_stacks_on_prem.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -659,14 +617,13 @@ class ProviderOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("ApplicationStackCollection", pipeline_response)
@@ -676,11 +633,11 @@ class ProviderOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -692,7 +649,3 @@ class ProviderOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    get_available_stacks_on_prem.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks"
-    }

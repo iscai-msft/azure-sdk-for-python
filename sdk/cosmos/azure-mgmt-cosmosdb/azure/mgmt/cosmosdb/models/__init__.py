@@ -53,6 +53,7 @@ from ._models_py3 import Column
 from ._models_py3 import CommandOutput
 from ._models_py3 import CommandPostBody
 from ._models_py3 import CompositePath
+from ._models_py3 import ComputedProperty
 from ._models_py3 import ConflictResolutionPolicy
 from ._models_py3 import ConnectionError
 from ._models_py3 import ConsistencyPolicy
@@ -67,6 +68,7 @@ from ._models_py3 import DataCenterResource
 from ._models_py3 import DataCenterResourceProperties
 from ._models_py3 import DataTransferRegionalServiceResource
 from ._models_py3 import DataTransferServiceResource
+from ._models_py3 import DataTransferServiceResourceCreateUpdateProperties
 from ._models_py3 import DataTransferServiceResourceProperties
 from ._models_py3 import DatabaseAccountConnectionString
 from ._models_py3 import DatabaseAccountCreateUpdateParameters
@@ -86,6 +88,7 @@ from ._models_py3 import FailoverPolicies
 from ._models_py3 import FailoverPolicy
 from ._models_py3 import GraphAPIComputeRegionalServiceResource
 from ._models_py3 import GraphAPIComputeServiceResource
+from ._models_py3 import GraphAPIComputeServiceResourceCreateUpdateProperties
 from ._models_py3 import GraphAPIComputeServiceResourceProperties
 from ._models_py3 import GremlinDatabaseCreateUpdateParameters
 from ._models_py3 import GremlinDatabaseGetPropertiesOptions
@@ -118,6 +121,7 @@ from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import ManagedServiceIdentityUserAssignedIdentity
 from ._models_py3 import MaterializedViewsBuilderRegionalServiceResource
 from ._models_py3 import MaterializedViewsBuilderServiceResource
+from ._models_py3 import MaterializedViewsBuilderServiceResourceCreateUpdateProperties
 from ._models_py3 import MaterializedViewsBuilderServiceResourceProperties
 from ._models_py3 import Metric
 from ._models_py3 import MetricAvailability
@@ -177,6 +181,7 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import RegionForOnlineOffline
 from ._models_py3 import RegionalServiceResource
 from ._models_py3 import Resource
+from ._models_py3 import ResourceRestoreParameters
 from ._models_py3 import RestorableDatabaseAccountGetResult
 from ._models_py3 import RestorableDatabaseAccountsListResult
 from ._models_py3 import RestorableGremlinDatabaseGetResult
@@ -212,10 +217,12 @@ from ._models_py3 import RestorableTableResourcesGetResult
 from ._models_py3 import RestorableTableResourcesListResult
 from ._models_py3 import RestorableTablesListResult
 from ._models_py3 import RestoreParameters
+from ._models_py3 import RestoreParametersBase
 from ._models_py3 import Role
 from ._models_py3 import SeedNode
 from ._models_py3 import ServiceResource
 from ._models_py3 import ServiceResourceCreateUpdateParameters
+from ._models_py3 import ServiceResourceCreateUpdateProperties
 from ._models_py3 import ServiceResourceListResult
 from ._models_py3 import ServiceResourceProperties
 from ._models_py3 import SpatialSpec
@@ -233,6 +240,7 @@ from ._models_py3 import SqlDatabaseListResult
 from ._models_py3 import SqlDatabaseResource
 from ._models_py3 import SqlDedicatedGatewayRegionalServiceResource
 from ._models_py3 import SqlDedicatedGatewayServiceResource
+from ._models_py3 import SqlDedicatedGatewayServiceResourceCreateUpdateProperties
 from ._models_py3 import SqlDedicatedGatewayServiceResourceProperties
 from ._models_py3 import SqlRoleAssignmentCreateUpdateParameters
 from ._models_py3 import SqlRoleAssignmentGetResults
@@ -276,6 +284,7 @@ from ._models_py3 import VirtualNetworkRule
 from ._cosmos_db_management_client_enums import AnalyticalStorageSchemaType
 from ._cosmos_db_management_client_enums import ApiType
 from ._cosmos_db_management_client_enums import AuthenticationMethod
+from ._cosmos_db_management_client_enums import AzureConnectionType
 from ._cosmos_db_management_client_enums import BackupPolicyMigrationStatus
 from ._cosmos_db_management_client_enums import BackupPolicyType
 from ._cosmos_db_management_client_enums import BackupStorageRedundancy
@@ -286,9 +295,9 @@ from ._cosmos_db_management_client_enums import ConnectorOffer
 from ._cosmos_db_management_client_enums import ContinuousTier
 from ._cosmos_db_management_client_enums import CreateMode
 from ._cosmos_db_management_client_enums import CreatedByType
-from ._cosmos_db_management_client_enums import CustomerManagedKeyStatus
 from ._cosmos_db_management_client_enums import DataType
 from ._cosmos_db_management_client_enums import DatabaseAccountKind
+from ._cosmos_db_management_client_enums import DedicatedGatewayType
 from ._cosmos_db_management_client_enums import DefaultConsistencyLevel
 from ._cosmos_db_management_client_enums import IndexKind
 from ._cosmos_db_management_client_enums import IndexingMode
@@ -371,6 +380,7 @@ __all__ = [
     "CommandOutput",
     "CommandPostBody",
     "CompositePath",
+    "ComputedProperty",
     "ConflictResolutionPolicy",
     "ConnectionError",
     "ConsistencyPolicy",
@@ -385,6 +395,7 @@ __all__ = [
     "DataCenterResourceProperties",
     "DataTransferRegionalServiceResource",
     "DataTransferServiceResource",
+    "DataTransferServiceResourceCreateUpdateProperties",
     "DataTransferServiceResourceProperties",
     "DatabaseAccountConnectionString",
     "DatabaseAccountCreateUpdateParameters",
@@ -404,6 +415,7 @@ __all__ = [
     "FailoverPolicy",
     "GraphAPIComputeRegionalServiceResource",
     "GraphAPIComputeServiceResource",
+    "GraphAPIComputeServiceResourceCreateUpdateProperties",
     "GraphAPIComputeServiceResourceProperties",
     "GremlinDatabaseCreateUpdateParameters",
     "GremlinDatabaseGetPropertiesOptions",
@@ -436,6 +448,7 @@ __all__ = [
     "ManagedServiceIdentityUserAssignedIdentity",
     "MaterializedViewsBuilderRegionalServiceResource",
     "MaterializedViewsBuilderServiceResource",
+    "MaterializedViewsBuilderServiceResourceCreateUpdateProperties",
     "MaterializedViewsBuilderServiceResourceProperties",
     "Metric",
     "MetricAvailability",
@@ -495,6 +508,7 @@ __all__ = [
     "RegionForOnlineOffline",
     "RegionalServiceResource",
     "Resource",
+    "ResourceRestoreParameters",
     "RestorableDatabaseAccountGetResult",
     "RestorableDatabaseAccountsListResult",
     "RestorableGremlinDatabaseGetResult",
@@ -530,10 +544,12 @@ __all__ = [
     "RestorableTableResourcesListResult",
     "RestorableTablesListResult",
     "RestoreParameters",
+    "RestoreParametersBase",
     "Role",
     "SeedNode",
     "ServiceResource",
     "ServiceResourceCreateUpdateParameters",
+    "ServiceResourceCreateUpdateProperties",
     "ServiceResourceListResult",
     "ServiceResourceProperties",
     "SpatialSpec",
@@ -551,6 +567,7 @@ __all__ = [
     "SqlDatabaseResource",
     "SqlDedicatedGatewayRegionalServiceResource",
     "SqlDedicatedGatewayServiceResource",
+    "SqlDedicatedGatewayServiceResourceCreateUpdateProperties",
     "SqlDedicatedGatewayServiceResourceProperties",
     "SqlRoleAssignmentCreateUpdateParameters",
     "SqlRoleAssignmentGetResults",
@@ -593,6 +610,7 @@ __all__ = [
     "AnalyticalStorageSchemaType",
     "ApiType",
     "AuthenticationMethod",
+    "AzureConnectionType",
     "BackupPolicyMigrationStatus",
     "BackupPolicyType",
     "BackupStorageRedundancy",
@@ -603,9 +621,9 @@ __all__ = [
     "ContinuousTier",
     "CreateMode",
     "CreatedByType",
-    "CustomerManagedKeyStatus",
     "DataType",
     "DatabaseAccountKind",
+    "DedicatedGatewayType",
     "DefaultConsistencyLevel",
     "IndexKind",
     "IndexingMode",

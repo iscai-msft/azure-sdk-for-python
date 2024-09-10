@@ -46,14 +46,14 @@ if TYPE_CHECKING:
     from .._pyamqp.aio._authentication_async import JWTTokenAuthAsync
     try:
         from uamqp import (
-            authentication as uamqp_authentication,
             Message as uamqp_Message,
             AMQPClientAsync as uamqp_AMQPClientAsync,
         )
+        from uamqp.authentication import JWTTokenAsync as uamqp_JWTTokenAsync
     except ImportError:
-        uamqp_authentication = None
         uamqp_Message = None
         uamqp_AMQPClientAsync = None
+        uamqp_JWTTokenAsync = None
     from azure.core.credentials_async import AsyncTokenCredential
 
     try:
@@ -86,11 +86,11 @@ if TYPE_CHECKING:
             pass
 
         @property
-        def _handler(self) -> Union[uamqp_AMQPClientAsync, AMQPClientAsync]:
+        def _handler(self) -> Union["uamqp_AMQPClientAsync", AMQPClientAsync]:
             """The instance of SendClientAsync or ReceiveClientAsync"""
 
         @property
-        def _internal_kwargs(self) -> dict:
+        def _internal_kwargs(self) -> Dict[Any, Any]:
             """The dict with an event loop that users may pass in to wrap sync calls to async API.
             It's furthur passed to uamqp APIs
             """
@@ -100,15 +100,14 @@ if TYPE_CHECKING:
             pass
 
         @property
-        def running(self):
-            # type: () -> bool
+        def running(self) -> bool:
             """Whether the consumer or producer is running"""
 
         @running.setter
-        def running(self, value):
+        def running(self, value: bool) -> None:
             pass
 
-        def _create_handler(self, auth: Union[uamqp_authentication.JWTTokenAsync, JWTTokenAuthAsync]) -> None:
+        def _create_handler(self, auth: Union["uamqp_JWTTokenAsync", JWTTokenAuthAsync]) -> None:
             pass
 
     _MIXIN_BASE = AbstractConsumerProducer
@@ -119,7 +118,7 @@ else:
 _LOGGER = logging.getLogger(__name__)
 
 
-class EventHubSharedKeyCredential(object):
+class EventHubSharedKeyCredential:
     """The shared access key credential used for authentication.
 
     :param str policy: The name of the shared access policy.
@@ -132,14 +131,14 @@ class EventHubSharedKeyCredential(object):
         self.token_type = b"servicebus.windows.net:sastoken"
 
     async def get_token(
-        self, *scopes, **kwargs # pylint:disable=unused-argument
+        self, *scopes: str, **kwargs: Any # pylint:disable=unused-argument
     ) -> AccessToken:
         if not scopes:
             raise ValueError("No token scope provided.")
         return _generate_sas_token(scopes[0], self.policy, self.key)
 
 
-class EventHubSASTokenCredential(object):
+class EventHubSASTokenCredential:
     """The shared access token credential used for authentication.
 
     :param str token: The shared access token string
@@ -168,7 +167,7 @@ class EventHubSASTokenCredential(object):
         return AccessToken(self.token, self.expiry)
 
 
-class EventhubAzureNamedKeyTokenCredentialAsync(object): # pylint: disable=name-too-long
+class EventhubAzureNamedKeyTokenCredentialAsync: # pylint: disable=name-too-long
     """The named key credential used for authentication.
 
     :param credential: The AzureNamedKeyCredential that should be used.
@@ -176,8 +175,8 @@ class EventhubAzureNamedKeyTokenCredentialAsync(object): # pylint: disable=name-
     """
 
     def __init__(self, azure_named_key_credential: AzureNamedKeyCredential) -> None:
-        self._credential = azure_named_key_credential
-        self.token_type = b"servicebus.windows.net:sastoken"
+        self._credential: AzureNamedKeyCredential = azure_named_key_credential
+        self.token_type: bytes = b"servicebus.windows.net:sastoken"
 
     async def get_token(
         self, *scopes, **kwargs # pylint:disable=unused-argument
@@ -188,7 +187,7 @@ class EventhubAzureNamedKeyTokenCredentialAsync(object): # pylint: disable=name-
         return _generate_sas_token(scopes[0], name, key)
 
 
-class EventhubAzureSasTokenCredentialAsync(object):
+class EventhubAzureSasTokenCredentialAsync:
     """The shared access token credential used for authentication
     when AzureSasCredential is provided.
 
@@ -211,7 +210,7 @@ class EventhubAzureSasTokenCredentialAsync(object):
         :rtype: ~azure.core.credentials.AccessToken
         """
         signature, expiry = parse_sas_credential(self._credential)
-        return AccessToken(signature, expiry)
+        return AccessToken(signature, cast(int, expiry))
 
 
 class ClientBaseAsync(ClientBase):
@@ -246,33 +245,43 @@ class ClientBaseAsync(ClientBase):
             **kwargs
         )
 
-    def __enter__(self):
+    def __enter__(self) -> None:
         raise TypeError(
             "Asynchronous client must be opened with async context manager."
         )
 
     @staticmethod
     def _from_connection_string(conn_str: str, **kwargs) -> Dict[str, Any]:
-        host, policy, key, entity, token, token_expiry = _parse_conn_str(
+        host, policy, key, entity, token, token_expiry, emulator = _parse_conn_str(
             conn_str, **kwargs
         )
         kwargs["fully_qualified_namespace"] = host
         kwargs["eventhub_name"] = entity
+        # Check if emulator is in use, unset tls if it is
+        if emulator:
+            kwargs["use_tls"] = False
         if token and token_expiry:
             kwargs["credential"] = EventHubSASTokenCredential(token, token_expiry)
         elif policy and key:
             kwargs["credential"] = EventHubSharedKeyCredential(policy, key)
         return kwargs
 
-    async def _create_auth_async(self) -> Union[uamqp_authentication.JWTTokenAsync, JWTTokenAuthAsync]:
+    async def _create_auth_async(
+        self, *, auth_uri: Optional[str] = None
+    ) -> Union["uamqp_JWTTokenAsync", JWTTokenAuthAsync]:
         """
         Create an ~uamqp.authentication.SASTokenAuthAsync instance to authenticate
         the session.
 
+        :keyword auth_uri: The URI to authenticate with.
+        :paramtype auth_uri: str or None
+        
         :return: A JWTTokenAuthAsync instance to authenticate the session.
         :rtype: ~uamqp.authentication.JWTTokenAsync or JWTTokenAuthAsync
-
         """
+        # if auth_uri is not provided, use the default hub one
+        entity_auth_uri = auth_uri if auth_uri else self._eventhub_auth_uri
+
         try:
             # ignore mypy's warning because token_type is Optional
             token_type = self._credential.token_type  # type: ignore
@@ -280,14 +289,14 @@ class ClientBaseAsync(ClientBase):
             token_type = b"jwt"
         if token_type == b"servicebus.windows.net:sastoken":
             return await self._amqp_transport.create_token_auth_async(
-                self._auth_uri,
-                functools.partial(self._credential.get_token, self._auth_uri),
+                entity_auth_uri,
+                functools.partial(self._credential.get_token, entity_auth_uri),
                 token_type=token_type,
                 config=self._config,
                 update_token=True,
             )
         return await self._amqp_transport.create_token_auth_async(
-            self._auth_uri,
+            entity_auth_uri,
             functools.partial(self._credential.get_token, JWT_TOKEN_SCOPE),
             token_type=token_type,
             config=self._config,
@@ -338,12 +347,12 @@ class ClientBaseAsync(ClientBase):
             )
             try:
                 conn = await self._conn_manager_async.get_connection(
-                    host=self._address.hostname, auth=mgmt_auth
+                    endpoint=self._address.hostname, auth=mgmt_auth
                 )
                 await mgmt_client.open_async(connection=conn)
                 while not await mgmt_client.client_ready_async():
                     await asyncio.sleep(0.05)
-                mgmt_msg.application_properties[
+                cast(Dict[Union[str, bytes], Any], mgmt_msg.application_properties)[
                     "security_token"
                 ] = await self._amqp_transport.get_updated_token_async(mgmt_auth)
                 status_code, description, response = await self._amqp_transport.mgmt_client_request_async(
@@ -421,8 +430,8 @@ class ClientBaseAsync(ClientBase):
         response = await self._management_request_async(
             mgmt_msg, op_type=MGMT_PARTITION_OPERATION
         )
-        partition_info = response.value  # type: Dict[bytes, Union[bytes, int]]
-        output = {}  # type: Dict[str, Any]
+        partition_info: Dict[bytes, Union[bytes, int]] = response.value
+        output: Dict[str, Any] = {}
         if partition_info:
             output["eventhub_name"] = cast(bytes, partition_info[b"name"]).decode(
                 "utf-8"
@@ -448,10 +457,10 @@ class ClientBaseAsync(ClientBase):
 
 
 class ConsumerProducerMixin(_MIXIN_BASE):
-    async def __aenter__(self):
+    async def __aenter__(self) -> ConsumerProducerMixin:
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
+    async def __aexit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
         await self.close()
 
     def _check_closed(self) -> None:
@@ -471,10 +480,10 @@ class ConsumerProducerMixin(_MIXIN_BASE):
         if not self.running:
             if self._handler:
                 await self._handler.close_async()
-            auth = await self._client._create_auth_async()
+            auth = await self._client._create_auth_async(auth_uri=self._client._auth_uri)
             self._create_handler(auth)
             conn = await self._client._conn_manager_async.get_connection(
-                host=self._client._address.hostname, auth=auth
+                endpoint=self._client._address.hostname, auth=auth
             )
             await self._handler.open_async(connection=conn)
             while not await self._handler.client_ready_async():

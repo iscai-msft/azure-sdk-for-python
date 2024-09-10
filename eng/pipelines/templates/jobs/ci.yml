@@ -63,44 +63,80 @@ parameters:
     default: false
 
 jobs:
-  - job: 'Build'
+  - job: 'Build_Linux'
     timeoutInMinutes: 90
-    variables:
-      Codeql.Enabled: true
-      Codeql.BuildIdentifier: ${{ parameters.ServiceDirectory }}
-      Codeql.SkipTaskAutoInjection: false
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      vmImage: MMSUbuntu20.04
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
+      os: linux
 
     steps:
-    - template: /eng/pipelines/templates/steps/targeting-string-resolve.yml
-      parameters:
-        BuildTargetingString: ${{ parameters.BuildTargetingString }}
-
-    - template: ../steps/build-package-artifacts.yml
+    - template: /eng/pipelines/templates/steps/build.yml
       parameters:
         ServiceDirectory: ${{ parameters.ServiceDirectory }}
+        BuildTargetingString: ${{ parameters.BuildTargetingString }}
         BeforePublishSteps: ${{ parameters.BeforePublishSteps }}
         TestPipeline: ${{ parameters.TestPipeline }}
+        ArtifactSuffix: linux
+        Artifacts: ${{ parameters.Artifacts }}
+
+  - job: 'Build_Windows'
+    timeoutInMinutes: 90
+
+    pool:
+      name: $(WINDOWSPOOL)
+      image: $(WINDOWSVMIMAGE)
+      os: windows
+
+    steps:
+    - template: /eng/pipelines/templates/steps/build.yml
+      parameters:
+        ServiceDirectory: ${{ parameters.ServiceDirectory }}
+        BuildTargetingString: ${{ parameters.BuildTargetingString }}
+        BeforePublishSteps: ${{ parameters.BeforePublishSteps }}
+        TestPipeline: ${{ parameters.TestPipeline }}
+        ArtifactSuffix: windows
+        Artifacts: ${{ parameters.Artifacts }}
+
+  - job: 'Build_MacOS'
+    timeoutInMinutes: 90
+
+    pool:
+      name: $(MACPOOL)
+      vmImage: $(MACVMIMAGE)
+      os: macOS
+
+    steps:
+    - template: /eng/pipelines/templates/steps/build.yml
+      parameters:
+        ServiceDirectory: ${{ parameters.ServiceDirectory }}
+        BuildTargetingString: ${{ parameters.BuildTargetingString }}
+        BeforePublishSteps: ${{ parameters.BeforePublishSteps }}
+        TestPipeline: ${{ parameters.TestPipeline }}
+        ArtifactSuffix: mac
         Artifacts: ${{ parameters.Artifacts }}
 
   - job: 'Build_Extended'
     displayName: Build Extended
-    dependsOn: 
-      - 'Build'
+    dependsOn:
+      - 'Build_Linux'
+      - 'Build_Windows'
+      - 'Build_MacOS'
+
     timeoutInMinutes: 90
-    variables:
-      Codeql.Enabled: true
-      Codeql.BuildIdentifier: ${{ parameters.ServiceDirectory }}
-      Codeql.SkipTaskAutoInjection: false
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      vmImage: MMSUbuntu20.04
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
+      os: linux
+    
+    variables:
+      ComponentDetection.SourcePath: '$(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}'
 
     steps:
+    - template: /eng/pipelines/templates/steps/download-package-artifacts.yml
+
     - template: /eng/pipelines/templates/steps/targeting-string-resolve.yml
       parameters:
         BuildTargetingString: ${{ parameters.BuildTargetingString }}
@@ -114,7 +150,7 @@ jobs:
         Artifacts: ${{ parameters.Artifacts }}
 
   - job: 'Analyze'
-    condition: and(succeededOrFailed(), ne(variables['Skip.Analyze'], 'true'))
+    condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
 
     timeoutInMinutes: ${{ parameters.TestTimeoutInMinutes }}
 
@@ -122,8 +158,9 @@ jobs:
       - 'Build_Extended'
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      vmImage: MMSUbuntu20.04
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
+      os: linux
 
     steps:
     - template: /eng/pipelines/templates/steps/targeting-string-resolve.yml
@@ -142,6 +179,13 @@ jobs:
         ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
           Directory: sdk/${{ parameters.ServiceDirectory }}
         CheckLinkGuidance: $true
+        Condition: succeededOrFailed()
+
+    - task: DownloadPipelineArtifact@2
+      condition: succeededOrFailed()
+      inputs:
+        artifactName: 'packages_extended'
+        targetPath: $(Build.ArtifactStagingDirectory)
 
     - template: ../steps/analyze.yml
       parameters:
@@ -154,21 +198,15 @@ jobs:
         ValidateFormatting: ${{ parameters.ValidateFormatting }}
         GenerateApiReviewForManualOnly: ${{ parameters.GenerateApiReviewForManualOnly }}
 
-  - job: Compliance
-    pool:
-      name: azsdk-pool-mms-win-2022-general
-      vmImage: MMS2022
-    steps:
-      - template: /eng/common/pipelines/templates/steps/credscan.yml
-        parameters:
-          ServiceDirectory: ${{ parameters.ServiceDirectory }}
-          BaselineFilePath: $(Build.SourcesDirectory)\eng\python.gdnbaselines
-
-  - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+  - template: /eng/common/pipelines/templates/jobs/generate-job-matrix.yml
     parameters:
       JobTemplatePath: /eng/pipelines/templates/jobs/ci.tests.yml
+      OsVmImage: azsdk-pool-mms-ubuntu-2004-1espt
+      Pool: azsdk-pool-mms-ubuntu-2004-general
       DependsOn:
-        - 'Build'
+        - 'Build_Linux'
+        - 'Build_Windows'
+        - 'Build_MacOS'
       MatrixConfigs: ${{ parameters.MatrixConfigs }}
       MatrixFilters: ${{ parameters.MatrixFilters }}
       MatrixReplace: ${{ parameters.MatrixReplace }}
@@ -187,9 +225,11 @@ jobs:
         UnsupportedToxEnvironments: ${{ parameters.UnsupportedToxEnvironments }}
         TestProxy: ${{ parameters.TestProxy }}
 
-  - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+  - template: /eng/common/pipelines/templates/jobs/generate-job-matrix.yml
     parameters:
       JobTemplatePath: /eng/pipelines/templates/jobs/regression.yml
+      OsVmImage: azsdk-pool-mms-ubuntu-2004-1espt
+      Pool: azsdk-pool-mms-ubuntu-2004-general
       GenerateJobName: generate_regression_matrix
       SparseCheckoutPaths: [ "scripts/", "sdk/", "tools/azure-sdk-tools/" ]
       MatrixConfigs:
@@ -198,6 +238,9 @@ jobs:
             Selection: sparse
             GenerateVMJobs: true
       PreGenerationSteps:
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.12'
         - pwsh: |
             python -m pip install "./tools/azure-sdk-tools[build]"
           displayName: 'Prep Environment'
@@ -215,7 +258,9 @@ jobs:
       CloudConfig:
         Cloud: Public
       DependsOn:
-        - 'Build'
+        - 'Build_Linux'
+        - 'Build_Windows'
+        - 'Build_MacOS'
       AdditionalParameters:
         BuildTargetingString: ${{ parameters.BuildTargetingString }}
         ServiceDirectory: ${{ parameters.ServiceDirectory }}

@@ -19,8 +19,8 @@ from ._container_apps_revision_replicas_operations import ContainerAppsRevisionR
 from ._container_apps_diagnostics_operations import ContainerAppsDiagnosticsOperations
 from ._managed_environment_diagnostics_operations import ManagedEnvironmentDiagnosticsOperations
 from ._managed_environments_diagnostics_operations import ManagedEnvironmentsDiagnosticsOperations
-from ._operations import Operations
 from ._jobs_operations import JobsOperations
+from ._operations import Operations
 from ._jobs_executions_operations import JobsExecutionsOperations
 from ._container_apps_api_client_operations import ContainerAppsAPIClientOperationsMixin
 from ._managed_environments_operations import ManagedEnvironmentsOperations
@@ -30,6 +30,8 @@ from ._namespaces_operations import NamespacesOperations
 from ._dapr_components_operations import DaprComponentsOperations
 from ._managed_environments_storages_operations import ManagedEnvironmentsStoragesOperations
 from ._container_apps_source_controls_operations import ContainerAppsSourceControlsOperations
+from ._usages_operations import UsagesOperations
+from ._managed_environment_usages_operations import ManagedEnvironmentUsagesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -49,8 +51,8 @@ __all__ = [
     "ContainerAppsDiagnosticsOperations",
     "ManagedEnvironmentDiagnosticsOperations",
     "ManagedEnvironmentsDiagnosticsOperations",
-    "Operations",
     "JobsOperations",
+    "Operations",
     "JobsExecutionsOperations",
     "ContainerAppsAPIClientOperationsMixin",
     "ManagedEnvironmentsOperations",
@@ -60,6 +62,8 @@ __all__ = [
     "DaprComponentsOperations",
     "ManagedEnvironmentsStoragesOperations",
     "ContainerAppsSourceControlsOperations",
+    "UsagesOperations",
+    "ManagedEnvironmentUsagesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
