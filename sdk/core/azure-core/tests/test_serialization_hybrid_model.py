@@ -2,7 +2,45 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
+from azure.core.serialization import is_sdk_model
 
+def test_is_sdk_model_with_hybrid_model():
+
+    class HybridModel(Model):
+        pass
+
+    assert is_sdk_model(HybridModel())
+
+def test_is_sdk_model_with_msrest_model():
+    # Instead of importing msrest, we're just going to do a basic rendering of the msrest models
+    class MsrestModel(object):
+        _subtype_map = {}
+        _attribute_map = {}
+        _validation = {}
+
+        def __init__(self, *args, **kwargs):
+            self.additional_properties = {}
+
+    assert is_sdk_model(MsrestModel())
+    class InstatiatedMsrestModel(MsrestModel):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.attr = "value"
+
+    assert is_sdk_model(InstatiatedMsrestModel())
+
+def test_is_sdk_model_with_non_models():
+    assert not is_sdk_model({})
+    assert not is_sdk_model([])
+    assert not is_sdk_model("string")
+    assert not is_sdk_model(42)
+    assert not is_sdk_model(None)
+    assert not is_sdk_model(object)
+
+    class Model:
+        def __init__(self):
+            self.attr = "value"
+    assert not is_sdk_model(Model())
 
 
 # -------------------------------------------------------

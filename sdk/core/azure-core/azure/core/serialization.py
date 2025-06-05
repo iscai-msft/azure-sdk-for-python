@@ -138,4 +138,4 @@ def is_sdk_model(obj: Any) -> bool:
     :return: True if the object is an SDK model, False otherwise.
     :rtype: bool
     """
-    return bool(getattr(obj, "_is_sdk_model", False) or getattr(obj, "_attribute_map", None))
+    return bool(getattr(obj, "_is_model", False) or hasattr(obj, "_attribute_map"))
