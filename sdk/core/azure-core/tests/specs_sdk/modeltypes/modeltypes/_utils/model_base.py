@@ -655,7 +655,7 @@ class Model(_MyMutableMapping):
                     rf._rest_name_input = attr
             cls._attr_to_rest_field: typing.Dict[str, _RestField] = dict(attr_to_rest_field.items())
             cls._backcompat_attr_to_rest_field: typing.Dict[str, _RestField] = {
-                Model._get_backcompat_attribute_name(attr): rf for attr, rf in cls
+                Model._get_backcompat_attribute_name(cls._attr_to_rest_field, attr): rf for attr, rf in cls
                 ._attr_to_rest_field.items()
             }
             cls._calculated.add(f"{cls.__module__}.{cls.__qualname__}")
@@ -668,8 +668,8 @@ class Model(_MyMutableMapping):
                 base.__mapping__[discriminator or cls.__name__] = cls  # type: ignore
 
     @classmethod
-    def _get_backcompat_attribute_name(cls, attr_name: str) -> str:
-        rest_field = cls._attr_to_rest_field.get(attr_name)  # pylint: disable=protected-access
+    def _get_backcompat_attribute_name(cls, _attr_to_rest_field: typing.Dict[str, "_RestField"], attr_name: str) -> str:
+        rest_field = _attr_to_rest_field.get(attr_name)  # pylint: disable=protected-access
         if rest_field is None:
             return attr_name
         original_tsp_name = getattr(rest_field, "_original_tsp_name", None)  # pylint: disable=protected-access
@@ -1077,6 +1077,7 @@ def rest_field(
     format: typing.Optional[str] = None,
     is_multipart_file_input: bool = False,
     xml: typing.Optional[typing.Dict[str, typing.Any]] = None,
+    original_tsp_name: typing.Optional[str] = None,
 ) -> typing.Any:
     return _RestField(
         name=name,
@@ -1086,6 +1087,7 @@ def rest_field(
         format=format,
         is_multipart_file_input=is_multipart_file_input,
         xml=xml,
+        original_tsp_name=original_tsp_name,
     )
 
 
