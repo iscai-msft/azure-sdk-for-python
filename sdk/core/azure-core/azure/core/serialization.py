@@ -331,6 +331,17 @@ def _as_attribute_dict_value(v: Any, *, exclude_readonly: bool = False) -> Any:
         return {dk: _as_attribute_dict_value(dv, exclude_readonly=exclude_readonly) for dk, dv in v.items()}
     return as_attribute_dict(v, exclude_readonly=exclude_readonly) if is_generated_model(v) else v
 
+def _get_backcompat_attr_to_rest_field(obj: Any) -> Dict[str, Any]:
+    """Get the backcompat attribute to rest field mapping for a generated TypeSpec model.
+
+    :param any obj: The object to get the mapping from.
+    :return: The backcompat attribute to rest field mapping.
+    :rtype: Dict[str, Any]
+    """
+    try:
+        return obj._backcompat_attr_to_rest_field  # pylint: disable=protected-access
+    except AttributeError:
+        return obj._attr_to_rest_field  # pylint: disable=protected-access
 
 def _get_flattened_attribute(obj: Any) -> Optional[str]:
     """Get the name of the flattened attribute in a generated TypeSpec model if one exists.
@@ -348,7 +359,7 @@ def _get_flattened_attribute(obj: Any) -> Optional[str]:
     if flattened_items is None:
         return None
 
-    for k, v in obj._attr_to_rest_field.items():  # pylint: disable=protected-access
+    for k, v in _get_backcompat_attr_to_rest_field(obj).items():  # pylint: disable=protected-access
         try:
             if set(v._class_type._attr_to_rest_field.keys()).intersection(  # pylint: disable=protected-access
                 set(flattened_items)
@@ -375,7 +386,7 @@ def attribute_list(obj: Any) -> List[str]:
         return list(obj._attribute_map.keys())  # pylint: disable=protected-access
     flattened_attribute = _get_flattened_attribute(obj)
     retval: List[str] = []
-    for attr_name, rest_field in obj._attr_to_rest_field.items():  # pylint: disable=protected-access
+    for attr_name, rest_field in _get_backcompat_attr_to_rest_field(obj).items():  # pylint: disable=protected-access
         if flattened_attribute == attr_name:
             retval.extend(attribute_list(rest_field._class_type))  # pylint: disable=protected-access
         else:
@@ -410,13 +421,13 @@ def as_attribute_dict(obj: Any, *, exclude_readonly: bool = False) -> Dict[str, 
         # create a reverse mapping from rest field name to attribute name
         rest_to_attr = {}
         flattened_attribute = _get_flattened_attribute(obj)
-        for attr_name, rest_field in obj._attr_to_rest_field.items():  # pylint: disable=protected-access
+        for attr_name, rest_field in _get_backcompat_attr_to_rest_field(obj).items():  # pylint: disable=protected-access
 
             if exclude_readonly and _is_readonly(rest_field):
                 # if we're excluding readonly properties, we need to track them
                 readonly_props.add(rest_field._rest_name)  # pylint: disable=protected-access
             if flattened_attribute == attr_name:
-                for fk, fv in rest_field._class_type._attr_to_rest_field.items():  # pylint: disable=protected-access
+                for fk, fv in _get_backcompat_attr_to_rest_field(rest_field._class_type).items():  # pylint: disable=protected-access
                     rest_to_attr[fv._rest_name] = fk  # pylint: disable=protected-access
             else:
                 rest_to_attr[rest_field._rest_name] = attr_name  # pylint: disable=protected-access
@@ -431,7 +442,7 @@ def as_attribute_dict(obj: Any, *, exclude_readonly: bool = False) -> Dict[str, 
                 try:
                     is_multipart_file_input = next(  # pylint: disable=protected-access
                         rf
-                        for rf in obj._attr_to_rest_field.values()  # pylint: disable=protected-access
+                        for rf in _get_backcompat_attr_to_rest_field(obj).values()  # pylint: disable=protected-access
                         if rf._rest_name == k  # pylint: disable=protected-access
                     )._is_multipart_file_input
                 except StopIteration:
