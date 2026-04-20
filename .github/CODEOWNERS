@@ -862,5 +862,9 @@
 /eng/emitter-package.json                                            @mccoyp @catalinaperalta @iscai-msft
 /eng/emitter-package-lock.json                                       @mccoyp @catalinaperalta @iscai-msft
 
+# TypeSpec Python generated tests and regeneration workflow
+/eng/tools/tsp-python-gen/                                           @tadelesh @msyyc @iscai-msft @lmazuel @lirenhe
+/.github/workflows/typespec-python-regenerate.yml                    @tadelesh @msyyc @iscai-msft @lmazuel @lirenhe
+
 /pylintrc                                                            @l0lawrence @scbedd @mccoyp
 /sdk/**/ci.yml                                                       @msyyc @lmazuel @scbedd

@@ -1,9 +1,9 @@
-name: TypeSpec Python Regen Tests
+name: TypeSpec Python Regenerate Tests
 
 on:
   # Triggered by microsoft/typespec when http-client-python merges to main
   repository_dispatch:
-    types: [typespec-python-regen]
+    types: [typespec-python-regenerate]
   # Allow manual triggering
   workflow_dispatch:
     inputs:
@@ -75,7 +75,7 @@ jobs:
       - name: Copy regenerated tests
         run: |
           set -euo pipefail
-          TARGET="eng/tools/typespec-python-generated-tests"
+          TARGET="eng/tools/tsp-python-gen"
           rm -rf "$TARGET/azure" "$TARGET/unbranded"
           mkdir -p "$TARGET"
           cp -r typespec/packages/http-client-python/tests/generated/azure "$TARGET/azure"
@@ -100,10 +100,10 @@ jobs:
         id: create-pr
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: auto/typespec-python-regen
+          branch: auto/typespec-python-regenerate
           base: main
           delete-branch: true
-          add-paths: eng/tools/typespec-python-generated-tests/**
+          add-paths: eng/tools/tsp-python-gen/**
           title: "[typespec-python] Regenerate tests from http-client-python"
           body: |
             Automated regeneration of TypeSpec Python generated tests.
