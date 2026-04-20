@@ -20,7 +20,10 @@ To regenerate manually, trigger the workflow via GitHub Actions or run locally:
 
 ```bash
 # From the microsoft/typespec repo (packages/http-client-python):
+npm install --ignore-scripts
 npm run build
+npm run install
+npm run prepare
 npm run regenerate
 
 # Then copy tests/generated/{azure,unbranded} to this folder

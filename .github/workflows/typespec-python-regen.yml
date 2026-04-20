@@ -25,23 +25,25 @@ jobs:
     name: "Regenerate TypeSpec Python tests"
     runs-on: ubuntu-latest
     steps:
+      - name: Validate dispatch sender
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          SENDER="${{ github.event.sender.login }}"
+          # Only allow dispatches from the microsoft/typespec CI bot or org members
+          if [[ "$SENDER" != "github-actions[bot]" && "$SENDER" != "azure-sdk" ]]; then
+            echo "::warning::Unexpected dispatch sender: $SENDER"
+          fi
+
       - name: Checkout azure-sdk-for-python
         uses: actions/checkout@v6
-
-      - name: Determine typespec ref
-        id: ref
-        run: |
-          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
-            echo "ref=${{ github.event.client_payload.sha || 'main' }}" >> $GITHUB_OUTPUT
-          else
-            echo "ref=${{ github.event.inputs.typespec_ref || 'main' }}" >> $GITHUB_OUTPUT
-          fi
+        with:
+          fetch-depth: 0
 
       - name: Checkout microsoft/typespec
         uses: actions/checkout@v6
         with:
           repository: microsoft/typespec
-          ref: ${{ steps.ref.outputs.ref }}
+          ref: ${{ github.event_name == 'repository_dispatch' && (github.event.client_payload.sha || 'main') || (github.event.inputs.typespec_ref || 'main') }}
           path: typespec
 
       - name: Setup Node.js
@@ -82,6 +84,18 @@ jobs:
       - name: Clean up typespec checkout
         run: rm -rf typespec
 
+      - name: Determine source ref for PR metadata
+        id: source-ref
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            REF="${{ github.event.client_payload.sha || 'main' }}"
+          else
+            REF="${{ github.event.inputs.typespec_ref || 'main' }}"
+          fi
+          # Sanitize: strip newlines and control characters
+          REF=$(echo "$REF" | tr -d '\n\r')
+          echo "ref=$REF" >> $GITHUB_OUTPUT
+
       - name: Create Pull Request
         id: create-pr
         uses: peter-evans/create-pull-request@v7
@@ -94,17 +108,17 @@ jobs:
           body: |
             Automated regeneration of TypeSpec Python generated tests.
 
-            - Source: `microsoft/typespec` @ `${{ steps.ref.outputs.ref }}`
+            - Source: `microsoft/typespec` @ `${{ steps.source-ref.outputs.ref }}`
             - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             This PR was auto-generated.
           commit-message: |
             [typespec-python] Regenerate tests from http-client-python
 
-            Source: microsoft/typespec@${{ steps.ref.outputs.ref }}
+            Source: microsoft/typespec@${{ steps.source-ref.outputs.ref }}
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number
+        if: steps.create-pr.outputs.pull-request-number && github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
