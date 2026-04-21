@@ -1,0 +1,21 @@
+{
+    "CrossLanguagePackageId": "Type.Model.Visibility",
+    "CrossLanguageDefinitionId": {
+        "type.model.visibility.models.ReadOnlyModel": "Type.Model.Visibility.ReadOnlyModel",
+        "type.model.visibility.models.VisibilityModel": "Type.Model.Visibility.VisibilityModel",
+        "type.model.visibility.VisibilityClient.get_model": "Type.Model.Visibility.getModel",
+        "type.model.visibility.aio.VisibilityClient.get_model": "Type.Model.Visibility.getModel",
+        "type.model.visibility.VisibilityClient.head_model": "Type.Model.Visibility.headModel",
+        "type.model.visibility.aio.VisibilityClient.head_model": "Type.Model.Visibility.headModel",
+        "type.model.visibility.VisibilityClient.put_model": "Type.Model.Visibility.putModel",
+        "type.model.visibility.aio.VisibilityClient.put_model": "Type.Model.Visibility.putModel",
+        "type.model.visibility.VisibilityClient.patch_model": "Type.Model.Visibility.patchModel",
+        "type.model.visibility.aio.VisibilityClient.patch_model": "Type.Model.Visibility.patchModel",
+        "type.model.visibility.VisibilityClient.post_model": "Type.Model.Visibility.postModel",
+        "type.model.visibility.aio.VisibilityClient.post_model": "Type.Model.Visibility.postModel",
+        "type.model.visibility.VisibilityClient.delete_model": "Type.Model.Visibility.deleteModel",
+        "type.model.visibility.aio.VisibilityClient.delete_model": "Type.Model.Visibility.deleteModel",
+        "type.model.visibility.VisibilityClient.put_read_only_model": "Type.Model.Visibility.putReadOnlyModel",
+        "type.model.visibility.aio.VisibilityClient.put_read_only_model": "Type.Model.Visibility.putReadOnlyModel"
+    }
+}

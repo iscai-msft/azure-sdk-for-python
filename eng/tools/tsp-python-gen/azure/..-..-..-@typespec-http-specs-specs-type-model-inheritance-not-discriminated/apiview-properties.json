@@ -1,0 +1,14 @@
+{
+    "CrossLanguagePackageId": "Type.Model.Inheritance.NotDiscriminated",
+    "CrossLanguageDefinitionId": {
+        "type.model.inheritance.notdiscriminated.models.Pet": "Type.Model.Inheritance.NotDiscriminated.Pet",
+        "type.model.inheritance.notdiscriminated.models.Cat": "Type.Model.Inheritance.NotDiscriminated.Cat",
+        "type.model.inheritance.notdiscriminated.models.Siamese": "Type.Model.Inheritance.NotDiscriminated.Siamese",
+        "type.model.inheritance.notdiscriminated.NotDiscriminatedClient.post_valid": "Type.Model.Inheritance.NotDiscriminated.postValid",
+        "type.model.inheritance.notdiscriminated.aio.NotDiscriminatedClient.post_valid": "Type.Model.Inheritance.NotDiscriminated.postValid",
+        "type.model.inheritance.notdiscriminated.NotDiscriminatedClient.get_valid": "Type.Model.Inheritance.NotDiscriminated.getValid",
+        "type.model.inheritance.notdiscriminated.aio.NotDiscriminatedClient.get_valid": "Type.Model.Inheritance.NotDiscriminated.getValid",
+        "type.model.inheritance.notdiscriminated.NotDiscriminatedClient.put_valid": "Type.Model.Inheritance.NotDiscriminated.putValid",
+        "type.model.inheritance.notdiscriminated.aio.NotDiscriminatedClient.put_valid": "Type.Model.Inheritance.NotDiscriminated.putValid"
+    }
+}
