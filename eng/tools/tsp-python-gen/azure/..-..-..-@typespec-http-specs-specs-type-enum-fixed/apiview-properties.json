@@ -1,0 +1,12 @@
+{
+    "CrossLanguagePackageId": "Type.Enum.Fixed",
+    "CrossLanguageDefinitionId": {
+        "type.enum.fixed.models.DaysOfWeekEnum": "Type.Enum.Fixed.DaysOfWeekEnum",
+        "type.enum.fixed.operations.StringOperations.get_known_value": "Type.Enum.Fixed.String.getKnownValue",
+        "type.enum.fixed.aio.operations.StringOperations.get_known_value": "Type.Enum.Fixed.String.getKnownValue",
+        "type.enum.fixed.operations.StringOperations.put_known_value": "Type.Enum.Fixed.String.putKnownValue",
+        "type.enum.fixed.aio.operations.StringOperations.put_known_value": "Type.Enum.Fixed.String.putKnownValue",
+        "type.enum.fixed.operations.StringOperations.put_unknown_value": "Type.Enum.Fixed.String.putUnknownValue",
+        "type.enum.fixed.aio.operations.StringOperations.put_unknown_value": "Type.Enum.Fixed.String.putUnknownValue"
+    }
+}

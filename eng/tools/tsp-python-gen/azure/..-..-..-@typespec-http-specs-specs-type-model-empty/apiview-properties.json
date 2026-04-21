@@ -1,0 +1,14 @@
+{
+    "CrossLanguagePackageId": "Type.Model.Empty",
+    "CrossLanguageDefinitionId": {
+        "type.model.empty.models.EmptyInput": "Type.Model.Empty.EmptyInput",
+        "type.model.empty.models.EmptyInputOutput": "Type.Model.Empty.EmptyInputOutput",
+        "type.model.empty.models.EmptyOutput": "Type.Model.Empty.EmptyOutput",
+        "type.model.empty.EmptyClient.put_empty": "Type.Model.Empty.putEmpty",
+        "type.model.empty.aio.EmptyClient.put_empty": "Type.Model.Empty.putEmpty",
+        "type.model.empty.EmptyClient.get_empty": "Type.Model.Empty.getEmpty",
+        "type.model.empty.aio.EmptyClient.get_empty": "Type.Model.Empty.getEmpty",
+        "type.model.empty.EmptyClient.post_round_trip_empty": "Type.Model.Empty.postRoundTripEmpty",
+        "type.model.empty.aio.EmptyClient.post_round_trip_empty": "Type.Model.Empty.postRoundTripEmpty"
+    }
+}

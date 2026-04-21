@@ -1,0 +1,22 @@
+{
+    "CrossLanguagePackageId": "Type.Model.Inheritance.NestedDiscriminator",
+    "CrossLanguageDefinitionId": {
+        "type.model.inheritance.nesteddiscriminator.models.Fish": "Type.Model.Inheritance.NestedDiscriminator.Fish",
+        "type.model.inheritance.nesteddiscriminator.models.Shark": "Type.Model.Inheritance.NestedDiscriminator.Shark",
+        "type.model.inheritance.nesteddiscriminator.models.GoblinShark": "Type.Model.Inheritance.NestedDiscriminator.GoblinShark",
+        "type.model.inheritance.nesteddiscriminator.models.Salmon": "Type.Model.Inheritance.NestedDiscriminator.Salmon",
+        "type.model.inheritance.nesteddiscriminator.models.SawShark": "Type.Model.Inheritance.NestedDiscriminator.SawShark",
+        "type.model.inheritance.nesteddiscriminator.NestedDiscriminatorClient.get_model": "Type.Model.Inheritance.NestedDiscriminator.getModel",
+        "type.model.inheritance.nesteddiscriminator.aio.NestedDiscriminatorClient.get_model": "Type.Model.Inheritance.NestedDiscriminator.getModel",
+        "type.model.inheritance.nesteddiscriminator.NestedDiscriminatorClient.put_model": "Type.Model.Inheritance.NestedDiscriminator.putModel",
+        "type.model.inheritance.nesteddiscriminator.aio.NestedDiscriminatorClient.put_model": "Type.Model.Inheritance.NestedDiscriminator.putModel",
+        "type.model.inheritance.nesteddiscriminator.NestedDiscriminatorClient.get_recursive_model": "Type.Model.Inheritance.NestedDiscriminator.getRecursiveModel",
+        "type.model.inheritance.nesteddiscriminator.aio.NestedDiscriminatorClient.get_recursive_model": "Type.Model.Inheritance.NestedDiscriminator.getRecursiveModel",
+        "type.model.inheritance.nesteddiscriminator.NestedDiscriminatorClient.put_recursive_model": "Type.Model.Inheritance.NestedDiscriminator.putRecursiveModel",
+        "type.model.inheritance.nesteddiscriminator.aio.NestedDiscriminatorClient.put_recursive_model": "Type.Model.Inheritance.NestedDiscriminator.putRecursiveModel",
+        "type.model.inheritance.nesteddiscriminator.NestedDiscriminatorClient.get_missing_discriminator": "Type.Model.Inheritance.NestedDiscriminator.getMissingDiscriminator",
+        "type.model.inheritance.nesteddiscriminator.aio.NestedDiscriminatorClient.get_missing_discriminator": "Type.Model.Inheritance.NestedDiscriminator.getMissingDiscriminator",
+        "type.model.inheritance.nesteddiscriminator.NestedDiscriminatorClient.get_wrong_discriminator": "Type.Model.Inheritance.NestedDiscriminator.getWrongDiscriminator",
+        "type.model.inheritance.nesteddiscriminator.aio.NestedDiscriminatorClient.get_wrong_discriminator": "Type.Model.Inheritance.NestedDiscriminator.getWrongDiscriminator"
+    }
+}

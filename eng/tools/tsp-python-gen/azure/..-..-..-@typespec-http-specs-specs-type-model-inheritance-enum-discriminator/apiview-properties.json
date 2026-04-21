@@ -1,0 +1,27 @@
+{
+    "CrossLanguagePackageId": "Type.Model.Inheritance.EnumDiscriminator",
+    "CrossLanguageDefinitionId": {
+        "type.model.inheritance.enumdiscriminator.models.Snake": "Type.Model.Inheritance.EnumDiscriminator.Snake",
+        "type.model.inheritance.enumdiscriminator.models.Cobra": "Type.Model.Inheritance.EnumDiscriminator.Cobra",
+        "type.model.inheritance.enumdiscriminator.models.Dog": "Type.Model.Inheritance.EnumDiscriminator.Dog",
+        "type.model.inheritance.enumdiscriminator.models.Golden": "Type.Model.Inheritance.EnumDiscriminator.Golden",
+        "type.model.inheritance.enumdiscriminator.models.DogKind": "Type.Model.Inheritance.EnumDiscriminator.DogKind",
+        "type.model.inheritance.enumdiscriminator.models.SnakeKind": "Type.Model.Inheritance.EnumDiscriminator.SnakeKind",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.get_extensible_model": "Type.Model.Inheritance.EnumDiscriminator.getExtensibleModel",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.get_extensible_model": "Type.Model.Inheritance.EnumDiscriminator.getExtensibleModel",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.put_extensible_model": "Type.Model.Inheritance.EnumDiscriminator.putExtensibleModel",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.put_extensible_model": "Type.Model.Inheritance.EnumDiscriminator.putExtensibleModel",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.get_extensible_model_missing_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getExtensibleModelMissingDiscriminator",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.get_extensible_model_missing_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getExtensibleModelMissingDiscriminator",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.get_extensible_model_wrong_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getExtensibleModelWrongDiscriminator",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.get_extensible_model_wrong_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getExtensibleModelWrongDiscriminator",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.get_fixed_model": "Type.Model.Inheritance.EnumDiscriminator.getFixedModel",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.get_fixed_model": "Type.Model.Inheritance.EnumDiscriminator.getFixedModel",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.put_fixed_model": "Type.Model.Inheritance.EnumDiscriminator.putFixedModel",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.put_fixed_model": "Type.Model.Inheritance.EnumDiscriminator.putFixedModel",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.get_fixed_model_missing_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getFixedModelMissingDiscriminator",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.get_fixed_model_missing_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getFixedModelMissingDiscriminator",
+        "type.model.inheritance.enumdiscriminator.EnumDiscriminatorClient.get_fixed_model_wrong_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getFixedModelWrongDiscriminator",
+        "type.model.inheritance.enumdiscriminator.aio.EnumDiscriminatorClient.get_fixed_model_wrong_discriminator": "Type.Model.Inheritance.EnumDiscriminator.getFixedModelWrongDiscriminator"
+    }
+}

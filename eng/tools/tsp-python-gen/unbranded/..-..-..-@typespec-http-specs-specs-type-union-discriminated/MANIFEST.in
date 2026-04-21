@@ -1,0 +1,7 @@
+include *.md
+include LICENSE
+include type/union/discriminated/py.typed
+recursive-include tests *.py
+recursive-include samples *.py *.md
+include type/__init__.py
+include type/union/__init__.py
