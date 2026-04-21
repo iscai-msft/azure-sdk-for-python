@@ -176,7 +176,7 @@ jobs:
               body: `The TypeSpec Python test regeneration workflow failed.\n\n` +
                     `- **Run:** ${runUrl}\n` +
                     `- **Trigger:** ${context.eventName}\n\n` +
-                    `cc @iscai-msft`,
+                    `cc @iscai-msft @msyyc`,
               labels: ['typespec-python'],
-              assignees: ['iscai-msft']
+              assignees: ['iscai-msft', 'msyyc']
             });
