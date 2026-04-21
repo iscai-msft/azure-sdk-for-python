@@ -1,7 +1,10 @@
 name: TypeSpec Python Regenerate Tests
 
 on:
-  # Check daily for new @typespec/http-client-python releases on npm
+  # Triggered after http-client-python publishes to npm
+  repository_dispatch:
+    types: [typespec-python-regenerate]
+  # Fallback: check daily for new releases
   schedule:
     - cron: "0 8 * * *" # 8:00 UTC daily
   # Allow manual triggering
@@ -61,7 +64,7 @@ jobs:
   regenerate:
     name: "Regenerate TypeSpec Python tests"
     needs: [check-version]
-    if: always() && (github.event_name == 'workflow_dispatch' || needs.check-version.outputs.should_regenerate == 'true')
+    if: always() && (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch' || needs.check-version.outputs.should_regenerate == 'true')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout azure-sdk-for-python
@@ -73,7 +76,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: microsoft/typespec
-          ref: ${{ github.event.inputs.typespec_ref || 'main' }}
+          ref: ${{ github.event.client_payload.sha || github.event.inputs.typespec_ref || 'main' }}
           path: typespec
 
       - name: Setup Node.js
