@@ -173,12 +173,13 @@ jobs:
           EXISTING_PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number' || echo "")
           if [ -n "$EXISTING_PR" ]; then
             echo "Updating existing PR #$EXISTING_PR"
-            gh pr edit "$EXISTING_PR" --title "$TITLE" --body "$BODY"
+            gh pr edit "$EXISTING_PR" --title "$TITLE" --body "$BODY" --add-reviewer iscai-msft,msyyc
             PR_NUMBER="$EXISTING_PR"
           else
             echo "Creating new PR"
             PR_NUMBER=$(gh pr create --head "$BRANCH" --base main \
-              --title "$TITLE" --body "$BODY" | grep -oP '\d+$')
+              --title "$TITLE" --body "$BODY" \
+              --reviewer iscai-msft,msyyc | grep -oP '\d+$')
             echo "Created PR #$PR_NUMBER"
           fi
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
