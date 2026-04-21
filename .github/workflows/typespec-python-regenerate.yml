@@ -1,0 +1,215 @@
+name: TypeSpec Python Regenerate Tests
+
+on:
+  # Triggered after http-client-python publishes to npm
+  repository_dispatch:
+    types: [typespec-python-regenerate]
+  # Fallback: check daily for new releases
+  schedule:
+    - cron: "0 8 * * *" # 8:00 UTC daily
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      typespec_ref:
+        description: "Git ref of microsoft/typespec to regenerate from (branch, tag, or SHA)"
+        required: false
+        default: "main"
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  check-version:
+    name: "Check for new release"
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    outputs:
+      should_regenerate: ${{ steps.check.outputs.should_regenerate }}
+      npm_version: ${{ steps.check.outputs.npm_version }}
+    steps:
+      - name: Checkout azure-sdk-for-python
+        uses: actions/checkout@v6
+
+      - name: Check npm for new version
+        id: check
+        run: |
+          set -euo pipefail
+          # Get latest published version
+          NPM_VERSION=$(npm view @typespec/http-client-python version 2>/dev/null || echo "unknown")
+          echo "Latest npm version: $NPM_VERSION"
+          echo "npm_version=$NPM_VERSION" >> $GITHUB_OUTPUT
+
+          # Check last regenerated version (stored in marker file)
+          MARKER_FILE="eng/tools/tsp-python-gen/.last-version"
+          LAST_VERSION=""
+          if [ -f "$MARKER_FILE" ]; then
+            LAST_VERSION=$(cat "$MARKER_FILE")
+          fi
+          echo "Last regenerated version: $LAST_VERSION"
+
+          if [ "$NPM_VERSION" != "$LAST_VERSION" ] && [ "$NPM_VERSION" != "unknown" ]; then
+            echo "New version detected"
+            echo "should_regenerate=true" >> $GITHUB_OUTPUT
+          else
+            echo "No new version"
+            echo "should_regenerate=false" >> $GITHUB_OUTPUT
+          fi
+
+  regenerate:
+    name: "Regenerate TypeSpec Python tests"
+    needs: [check-version]
+    if: always() && (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch' || needs.check-version.outputs.should_regenerate == 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout azure-sdk-for-python
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Checkout microsoft/typespec
+        uses: actions/checkout@v6
+        with:
+          repository: microsoft/typespec
+          ref: ${{ github.event.client_payload.sha || github.event.inputs.typespec_ref || 'main' }}
+          path: typespec
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build http-client-python
+        working-directory: typespec/packages/http-client-python
+        run: |
+          npm install --ignore-scripts
+          npm run build
+
+      - name: Prepare Python environment
+        working-directory: typespec/packages/http-client-python
+        run: |
+          npm run install
+          npm run prepare
+
+      - name: Regenerate tests
+        working-directory: typespec/packages/http-client-python
+        run: npm run regenerate
+
+      - name: Copy regenerated tests
+        run: |
+          set -euo pipefail
+          TARGET="eng/tools/tsp-python-gen"
+          rm -rf "$TARGET/azure" "$TARGET/unbranded"
+          mkdir -p "$TARGET"
+          cp -r typespec/packages/http-client-python/tests/generated/azure "$TARGET/azure"
+          cp -r typespec/packages/http-client-python/tests/generated/unbranded "$TARGET/unbranded"
+
+      - name: Update version marker
+        run: |
+          NPM_VERSION=$(npm view @typespec/http-client-python version 2>/dev/null || echo "unknown")
+          echo "$NPM_VERSION" > eng/tools/tsp-python-gen/.last-version
+
+      - name: Clean up typespec checkout
+        run: rm -rf typespec
+
+      - name: Determine source ref for PR metadata
+        id: source-ref
+        run: |
+          REF="${{ github.event.inputs.typespec_ref || 'main' }}"
+          # Sanitize: strip newlines and control characters
+          REF=$(echo "$REF" | tr -d '\n\r')
+          echo "ref=$REF" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        id: push-changes
+        run: |
+          set -euo pipefail
+          BRANCH="auto/typespec-python-regenerate"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add eng/tools/tsp-python-gen/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          git checkout -B "$BRANCH"
+          git commit -m "[typespec-python] Regenerate tests from http-client-python
+
+          Source: microsoft/typespec@${{ steps.source-ref.outputs.ref }}"
+          git push origin "$BRANCH" --force
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Create or update Pull Request
+        id: create-pr
+        if: steps.push-changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.push-changes.outputs.branch }}"
+          TITLE="[typespec-python] Regenerate tests from http-client-python"
+          BODY="Automated regeneration of TypeSpec Python generated tests.
+
+          - Source: \`microsoft/typespec\` @ \`${{ steps.source-ref.outputs.ref }}\`
+          - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          This PR was auto-generated."
+
+          # Check if a PR already exists for this branch
+          EXISTING_PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number' || echo "")
+          if [ -n "$EXISTING_PR" ]; then
+            echo "Updating existing PR #$EXISTING_PR"
+            gh pr edit "$EXISTING_PR" --title "$TITLE" --body "$BODY"
+            PR_NUMBER="$EXISTING_PR"
+          else
+            echo "Creating new PR"
+            PR_NUMBER=$(gh pr create --head "$BRANCH" --base main \
+              --title "$TITLE" --body "$BODY" | grep -oP '\d+$')
+            echo "Created PR #$PR_NUMBER"
+          fi
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: Enable auto-merge
+        if: steps.push-changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr merge "${{ steps.create-pr.outputs.pr_number }}" --auto --squash || \
+            echo "::warning::Auto-merge could not be enabled (may require branch protection rules)"
+
+  notify-on-failure:
+    name: "Notify on failure"
+    needs: regenerate
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send failure notification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '[typespec-python] Regeneration workflow failed',
+              body: `The TypeSpec Python test regeneration workflow failed.\n\n` +
+                    `- **Run:** ${runUrl}\n` +
+                    `- **Trigger:** ${context.eventName}\n\n` +
+                    `cc @iscai-msft @msyyc`,
+              labels: ['typespec-python'],
+              assignees: ['iscai-msft', 'msyyc']
+            });
