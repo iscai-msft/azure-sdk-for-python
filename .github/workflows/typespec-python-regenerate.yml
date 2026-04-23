@@ -80,6 +80,7 @@ jobs:
           repository: microsoft/typespec
           ref: ${{ github.event.inputs.typespec_ref || 'main' }}
           path: typespec
+          fetch-depth: 0
 
       - name: Setup Node.js
         # SHA corresponds to actions/setup-node@v6
