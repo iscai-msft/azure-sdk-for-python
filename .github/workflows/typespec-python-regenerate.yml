@@ -1,17 +1,27 @@
 name: TypeSpec Python Regenerate Tests
 
 on:
-  # Triggered after http-client-python publishes to npm
-  repository_dispatch:
-    types: [typespec-python-regenerate]
-  # Fallback: check daily for new releases
-  schedule:
-    - cron: "0 8 * * *" # 8:00 UTC daily
-  # Allow manual triggering
+  # Trigger when eng/emitter-package.json is updated on main (branded emitter version bump)
+  push:
+    branches: [main]
+    paths:
+      - "eng/emitter-package.json"
+  # Allow manual triggering with emitter choice
   workflow_dispatch:
     inputs:
+      emitter:
+        description: "Which emitter to regenerate with"
+        required: true
+        type: choice
+        options:
+          - "branded (@azure-tools/typespec-python)"
+          - "unbranded (@typespec/http-client-python)"
+        default: "branded (@azure-tools/typespec-python)"
+      version:
+        description: "Emitter version (leave empty to use version from emitter-package.json for branded, or latest for unbranded)"
+        required: false
       typespec_ref:
-        description: "Git ref of microsoft/typespec to regenerate from (branch, tag, or SHA)"
+        description: "Git ref of microsoft/typespec to build regeneration infrastructure from"
         required: false
         default: "main"
 
@@ -25,47 +35,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-version:
-    name: "Check for new release"
-    if: github.event_name == 'schedule'
-    runs-on: ubuntu-latest
-    outputs:
-      should_regenerate: ${{ steps.check.outputs.should_regenerate }}
-      npm_version: ${{ steps.check.outputs.npm_version }}
-    steps:
-      - name: Checkout azure-sdk-for-python
-        # SHA corresponds to actions/checkout@v6
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-
-      - name: Check npm for new version
-        id: check
-        run: |
-          set -euo pipefail
-          # Get latest published version
-          NPM_VERSION=$(npm view @typespec/http-client-python version 2>/dev/null || echo "unknown")
-          echo "Latest npm version: $NPM_VERSION"
-          echo "npm_version=$NPM_VERSION" >> $GITHUB_OUTPUT
-
-          # Check last regenerated version (stored in marker file)
-          MARKER_FILE="eng/tools/tsp-python-gen/.last-version"
-          LAST_VERSION=""
-          if [ -f "$MARKER_FILE" ]; then
-            LAST_VERSION=$(cat "$MARKER_FILE")
-          fi
-          echo "Last regenerated version: $LAST_VERSION"
-
-          if [ "$NPM_VERSION" != "$LAST_VERSION" ] && [ "$NPM_VERSION" != "unknown" ]; then
-            echo "New version detected"
-            echo "should_regenerate=true" >> $GITHUB_OUTPUT
-          else
-            echo "No new version"
-            echo "should_regenerate=false" >> $GITHUB_OUTPUT
-          fi
-
   regenerate:
     name: "Regenerate TypeSpec Python tests"
-    needs: [check-version]
-    if: always() && (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch' || needs.check-version.outputs.should_regenerate == 'true')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout azure-sdk-for-python
@@ -74,12 +45,40 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Determine emitter to use
+        id: emitter-info
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "push" ]; then
+            # Push trigger: always use branded emitter at version from emitter-package.json
+            EMITTER_NAME="@azure-tools/typespec-python"
+            VERSION=$(jq -r '.dependencies["@azure-tools/typespec-python"]' eng/emitter-package.json)
+            echo "Push trigger: using branded emitter @ $VERSION"
+          elif [[ "${{ github.event.inputs.emitter }}" == branded* ]]; then
+            EMITTER_NAME="@azure-tools/typespec-python"
+            VERSION="${{ github.event.inputs.version }}"
+            if [ -z "$VERSION" ]; then
+              VERSION=$(jq -r '.dependencies["@azure-tools/typespec-python"]' eng/emitter-package.json)
+              echo "No version specified, using emitter-package.json version: $VERSION"
+            fi
+          else
+            EMITTER_NAME="@typespec/http-client-python"
+            VERSION="${{ github.event.inputs.version }}"
+            if [ -z "$VERSION" ]; then
+              VERSION=$(npm view @typespec/http-client-python version 2>/dev/null)
+              echo "No version specified, using latest npm version: $VERSION"
+            fi
+          fi
+          echo "emitter_name=$EMITTER_NAME" >> $GITHUB_OUTPUT
+          echo "emitter_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "::notice::Regenerating with $EMITTER_NAME@$VERSION"
+
       - name: Checkout microsoft/typespec
         # SHA corresponds to actions/checkout@v6
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           repository: microsoft/typespec
-          ref: ${{ github.event.client_payload.sha || github.event.inputs.typespec_ref || 'main' }}
+          ref: ${{ github.event.inputs.typespec_ref || 'main' }}
           path: typespec
 
       - name: Setup Node.js
@@ -100,6 +99,14 @@ jobs:
           npm install --ignore-scripts
           npm run build
 
+      - name: Install target emitter
+        working-directory: typespec/packages/http-client-python
+        run: |
+          EMITTER="${{ steps.emitter-info.outputs.emitter_name }}"
+          VERSION="${{ steps.emitter-info.outputs.emitter_version }}"
+          echo "Installing $EMITTER@$VERSION"
+          npm install "${EMITTER}@${VERSION}"
+
       - name: Prepare Python environment
         working-directory: typespec/packages/http-client-python
         run: |
@@ -108,7 +115,9 @@ jobs:
 
       - name: Regenerate tests
         working-directory: typespec/packages/http-client-python
-        run: npm run regenerate
+        run: |
+          EMITTER="${{ steps.emitter-info.outputs.emitter_name }}"
+          npm run regenerate -- --emitterName "$EMITTER"
 
       - name: Copy regenerated tests
         run: |
@@ -119,26 +128,15 @@ jobs:
           cp -r typespec/packages/http-client-python/tests/generated/azure "$TARGET/azure"
           cp -r typespec/packages/http-client-python/tests/generated/unbranded "$TARGET/unbranded"
 
-      - name: Update version marker
-        run: |
-          NPM_VERSION=$(npm view @typespec/http-client-python version 2>/dev/null || echo "unknown")
-          echo "$NPM_VERSION" > eng/tools/tsp-python-gen/.last-version
-
       - name: Clean up typespec checkout
         run: rm -rf typespec
-
-      - name: Determine source ref for PR metadata
-        id: source-ref
-        run: |
-          REF="${{ github.event.inputs.typespec_ref || 'main' }}"
-          # Sanitize: strip newlines and control characters
-          REF=$(echo "$REF" | tr -d '\n\r')
-          echo "ref=$REF" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         id: push-changes
         run: |
           set -euo pipefail
+          EMITTER="${{ steps.emitter-info.outputs.emitter_name }}"
+          VERSION="${{ steps.emitter-info.outputs.emitter_version }}"
           BRANCH="auto/typespec-python-regenerate"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -151,9 +149,7 @@ jobs:
           fi
 
           git checkout -B "$BRANCH"
-          git commit -m "[typespec-python] Regenerate tests from http-client-python
-
-          Source: microsoft/typespec@${{ steps.source-ref.outputs.ref }}"
+          git commit -m "[typespec-python] Regenerate tests with ${EMITTER}@${VERSION}"
           git push origin "$BRANCH" --force
           echo "has_changes=true" >> $GITHUB_OUTPUT
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
@@ -165,11 +161,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          EMITTER="${{ steps.emitter-info.outputs.emitter_name }}"
+          VERSION="${{ steps.emitter-info.outputs.emitter_version }}"
           BRANCH="${{ steps.push-changes.outputs.branch }}"
-          TITLE="[typespec-python] Regenerate tests from http-client-python"
+          TITLE="[typespec-python] Regenerate tests with ${EMITTER}@${VERSION}"
           BODY="Automated regeneration of TypeSpec Python generated tests.
 
-          - Source: \`microsoft/typespec\` @ \`${{ steps.source-ref.outputs.ref }}\`
+          - Emitter: \`${EMITTER}@${VERSION}\`
           - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
           This PR was auto-generated."
