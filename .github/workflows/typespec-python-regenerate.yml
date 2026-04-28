@@ -21,9 +21,13 @@ on:
         description: "Emitter version (leave empty to use version from emitter-package.json for branded, or latest for unbranded)"
         required: false
       typespec_ref:
-        description: "Git ref of microsoft/typespec to build regeneration infrastructure from"
+        description: "Git ref (branch, tag, or SHA) of typespec repo to build regeneration infrastructure from"
         required: false
         default: "main"
+      typespec_repo:
+        description: "TypeSpec repository (owner/repo) to checkout from (default: microsoft/typespec)"
+        required: false
+        default: "microsoft/typespec"
 
 permissions:
   contents: write
@@ -77,7 +81,7 @@ jobs:
         # SHA corresponds to actions/checkout@v6
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
-          repository: microsoft/typespec
+          repository: ${{ github.event.inputs.typespec_repo || 'microsoft/typespec' }}
           ref: ${{ github.event.inputs.typespec_ref || 'main' }}
           path: typespec
           fetch-depth: 0
