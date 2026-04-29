@@ -859,8 +859,8 @@
 /eng/pipelines/docindex.yml                                          @danieljurek @scbedd @weshaggard @benbp
 
 # Add approvers for typespec-python emitter version updates
-/eng/emitter-package.json                                            @mccoyp @catalinaperalta @iscai-msft
-/eng/emitter-package-lock.json                                       @mccoyp @catalinaperalta @iscai-msft
+/eng/emitter-package.json                                            @mccoyp @catalinaperalta @iscai-msft @msyyc @ChenxiJiang333
+/eng/emitter-package-lock.json                                       @mccoyp @catalinaperalta @iscai-msft @msyyc @ChenxiJiang333
 
 # TypeSpec Python generated tests and regeneration workflow
 /eng/emitter/                                                        @tadelesh @msyyc @iscai-msft @lmazuel @lirenhe
