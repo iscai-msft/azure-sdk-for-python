@@ -79,11 +79,13 @@ jobs:
 
       - name: Checkout microsoft/typespec
         # SHA corresponds to actions/checkout@v6
+        # Checkout to runner.temp to avoid the workspace path containing "azure",
+        # which interferes with spec flavor detection in regenerate.ts
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           repository: ${{ github.event.inputs.typespec_repo || 'microsoft/typespec' }}
           ref: ${{ github.event.inputs.typespec_ref || 'main' }}
-          path: typespec
+          path: ${{ runner.temp }}/typespec
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -99,13 +101,13 @@ jobs:
           python-version: "3.12"
 
       - name: Build http-client-python
-        working-directory: typespec/packages/http-client-python
+        working-directory: ${{ runner.temp }}/typespec/packages/http-client-python
         run: |
           npm install --ignore-scripts
           npm run build
 
       - name: Install target emitter
-        working-directory: typespec/packages/http-client-python
+        working-directory: ${{ runner.temp }}/typespec/packages/http-client-python
         run: |
           EMITTER="${{ steps.emitter-info.outputs.emitter_name }}"
           VERSION="${{ steps.emitter-info.outputs.emitter_version }}"
@@ -113,13 +115,13 @@ jobs:
           npm install "${EMITTER}@${VERSION}"
 
       - name: Prepare Python environment
-        working-directory: typespec/packages/http-client-python
+        working-directory: ${{ runner.temp }}/typespec/packages/http-client-python
         run: |
           npm run install
           npm run prepare
 
       - name: Regenerate tests
-        working-directory: typespec/packages/http-client-python
+        working-directory: ${{ runner.temp }}/typespec/packages/http-client-python
         run: |
           EMITTER="${{ steps.emitter-info.outputs.emitter_name }}"
           npm run regenerate -- --emitterName "$EMITTER"
@@ -130,11 +132,11 @@ jobs:
           TARGET="eng/tools/emitter/gen"
           rm -rf "$TARGET/azure" "$TARGET/unbranded"
           mkdir -p "$TARGET"
-          cp -r typespec/packages/http-client-python/tests/generated/azure "$TARGET/azure"
-          cp -r typespec/packages/http-client-python/tests/generated/unbranded "$TARGET/unbranded"
+          cp -r "${{ runner.temp }}/typespec/packages/http-client-python/tests/generated/azure" "$TARGET/azure"
+          cp -r "${{ runner.temp }}/typespec/packages/http-client-python/tests/generated/unbranded" "$TARGET/unbranded"
 
       - name: Clean up typespec checkout
-        run: rm -rf typespec
+        run: rm -rf "${{ runner.temp }}/typespec"
 
       - name: Commit and push changes
         id: push-changes
