@@ -305,7 +305,7 @@ class AcsCallEndedByProperties(TypedDict, total=False):
     :vartype name: str
     """
 
-    communicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    communicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the call ended by. Required."""
     type: Required[AcsCallEndedByKind]
     """The type of call ended by. Required. Known values are: \"Participant\" and
@@ -333,19 +333,19 @@ class AcsCallingEventProperties(TypedDict, total=False):
     :vartype is_rooms_call: bool
     """
 
-    startedBy: Required["types.AcsCallParticipantProperties"]
+    startedBy: Required["AcsCallParticipantProperties"]
     """The call participant who initiated the call. Required."""
     serverCallId: Required[str]
     """The call id of the server. Required."""
-    group: Optional["types.AcsCallGroupProperties"]
+    group: "AcsCallGroupProperties"
     """The group metadata."""
-    room: Optional["types.AcsCallRoomProperties"]
+    room: "AcsCallRoomProperties"
     """The room metadata."""
-    isTwoParty: Optional[bool]
+    isTwoParty: bool
     """Is two-party in calling event."""
     correlationId: Required[str]
     """The correlationId of calling event. Required."""
-    isRoomsCall: Optional[bool]
+    isRoomsCall: bool
     """Is the calling event a room call."""
 
 
@@ -374,11 +374,11 @@ class AcsCallEndedEventData(AcsCallingEventProperties):
     :vartype call_duration_in_seconds: float
     """
 
-    endedBy: Optional["types.AcsCallEndedByProperties"]
+    endedBy: "AcsCallEndedByProperties"
     """The communication identifier of the user who was disconnected."""
-    reason: Optional["types.AcsCallEndReasonProperties"]
+    reason: "AcsCallEndReasonProperties"
     """The reason for ending the call."""
-    callDurationInSeconds: Optional[float]
+    callDurationInSeconds: float
     """Duration of the call in seconds."""
 
 
@@ -393,11 +393,11 @@ class AcsCallEndReasonProperties(TypedDict, total=False):
     :vartype phrase: str
     """
 
-    code: Optional[int]
+    code: int
     """Reason code for ending the call."""
-    subCode: Optional[int]
+    subCode: int
     """Reason subcode for ending the call."""
-    phrase: Optional[str]
+    phrase: str
     """Reason for the ending the call."""
 
 
@@ -408,7 +408,7 @@ class AcsCallGroupProperties(TypedDict, total=False):
     :vartype id: str
     """
 
-    id: Optional[str]
+    id: str
     """Group Id."""
 
 
@@ -439,13 +439,13 @@ class AcsCallParticipantEventData(AcsCallingEventProperties):
     :vartype user_agent: str
     """
 
-    user: Optional["types.AcsCallParticipantProperties"]
+    user: "AcsCallParticipantProperties"
     """The user of the call participant."""
-    displayName: Optional[str]
+    displayName: str
     """The display name of the participant."""
-    participantId: Optional[str]
+    participantId: str
     """The id of the participant."""
-    userAgent: Optional[str]
+    userAgent: str
     """The user agent of the participant."""
 
 
@@ -488,9 +488,9 @@ class AcsCallParticipantProperties(TypedDict, total=False):
     :vartype role: str or ~azure.eventgrid.models.AcsCallParticipantKind
     """
 
-    communicationIdentifier: Optional["types.CommunicationIdentifierModel"]
+    communicationIdentifier: "CommunicationIdentifierModel"
     """The communication identifier of the participant user."""
-    role: Optional[AcsCallParticipantKind]
+    role: AcsCallParticipantKind
     """The role of the participant. Known values are: \"Attendee\", \"Presenter\", \"Organizer\",
      \"Consumer\", and \"Collaborator\"."""
 
@@ -531,7 +531,7 @@ class AcsCallRoomProperties(TypedDict, total=False):
     :vartype id: str
     """
 
-    id: Optional[str]
+    id: str
     """Room Id."""
 
 
@@ -565,7 +565,7 @@ class AcsChatEventInThreadBaseProperties(TypedDict, total=False):
     :vartype thread_id: str
     """
 
-    transactionId: Optional[str]
+    transactionId: str
     """The transaction id will be used as co-relation vector."""
     threadId: Required[str]
     """The chat thread id. Required."""
@@ -596,11 +596,11 @@ class AcsChatMessageEventInThreadBaseProperties(AcsChatEventInThreadBaseProperti
 
     messageId: Required[str]
     """The chat message id. Required."""
-    senderCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    senderCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the sender. Required."""
-    senderDisplayName: Optional[str]
+    senderDisplayName: str
     """The display name of the sender."""
-    sequenceId: Optional[int]
+    sequenceId: int
     """The Sequence id of the message."""
     composeTime: Required[datetime.datetime]
     """The original compose time of the message. Required."""
@@ -642,7 +642,7 @@ class AcsChatAzureBotCommandReceivedInThreadEventData(
 
     messageBody: Required[str]
     """The body of the chat message. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The chat message metadata."""
 
 
@@ -659,9 +659,9 @@ class AcsChatEventBaseProperties(TypedDict, total=False):
     :vartype thread_id: str
     """
 
-    recipientCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    recipientCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the target user. Required."""
-    transactionId: Optional[str]
+    transactionId: str
     """The transaction id will be used as co-relation vector."""
     threadId: Required[str]
     """The chat thread id. Required."""
@@ -696,11 +696,11 @@ class AcsChatMessageEventBaseProperties(AcsChatEventBaseProperties):
 
     messageId: Required[str]
     """The chat message id. Required."""
-    senderCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    senderCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the sender. Required."""
-    senderDisplayName: Optional[str]
+    senderDisplayName: str
     """The display name of the sender."""
-    sequenceId: Optional[int]
+    sequenceId: int
     """The Sequence id of the message."""
     composeTime: Required[datetime.datetime]
     """The original compose time of the message. Required."""
@@ -810,7 +810,7 @@ class AcsChatMessageEditedEventData(AcsChatMessageEventBaseProperties):
 
     messageBody: Required[str]
     """The body of the chat message. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The chat message metadata."""
     editTime: Required[datetime.datetime]
     """The time at which the message was edited. Required."""
@@ -848,7 +848,7 @@ class AcsChatMessageEditedInThreadEventData(AcsChatMessageEventInThreadBasePrope
 
     messageBody: Required[str]
     """The body of the chat message. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The chat message metadata."""
     editTime: Required[datetime.datetime]
     """The time at which the message was edited. Required."""
@@ -888,7 +888,7 @@ class AcsChatMessageReceivedEventData(AcsChatMessageEventBaseProperties):
 
     messageBody: Required[str]
     """The body of the chat message. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The chat message metadata."""
 
 
@@ -922,7 +922,7 @@ class AcsChatMessageReceivedInThreadEventData(AcsChatMessageEventInThreadBasePro
 
     messageBody: Required[str]
     """The body of the chat message. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The chat message metadata."""
 
 
@@ -947,11 +947,11 @@ class AcsChatParticipantAddedToThreadEventData(AcsChatEventInThreadBasePropertie
 
     time: Required[datetime.datetime]
     """The time at which the user was added to the thread. Required."""
-    addedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    addedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who added the user. Required."""
-    participantAdded: Required["types.AcsChatThreadParticipantProperties"]
+    participantAdded: Required["AcsChatThreadParticipantProperties"]
     """The details of the user who was added. Required."""
-    version: Optional[int]
+    version: int
     """The version of the thread."""
 
 
@@ -974,7 +974,7 @@ class AcsChatThreadEventBaseProperties(AcsChatEventBaseProperties):
 
     createTime: Required[datetime.datetime]
     """The original creation time of the thread. Required."""
-    version: Optional[int]
+    version: int
     """The version of the thread."""
 
 
@@ -1007,9 +1007,9 @@ class AcsChatParticipantAddedToThreadWithUserEventData(
 
     time: Required[datetime.datetime]
     """The time at which the user was added to the thread. Required."""
-    addedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    addedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who added the user. Required."""
-    participantAdded: Required["types.AcsChatThreadParticipantProperties"]
+    participantAdded: Required["AcsChatThreadParticipantProperties"]
     """The details of the user who was added. Required."""
 
 
@@ -1035,11 +1035,11 @@ class AcsChatParticipantRemovedFromThreadEventData(AcsChatEventInThreadBasePrope
 
     time: Required[datetime.datetime]
     """The time at which the user was removed to the thread. Required."""
-    removedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    removedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who removed the user. Required."""
-    participantRemoved: Required["types.AcsChatThreadParticipantProperties"]
+    participantRemoved: Required["AcsChatThreadParticipantProperties"]
     """The details of the user who was removed. Required."""
-    version: Optional[int]
+    version: int
     """The version of the thread."""
 
 
@@ -1073,9 +1073,9 @@ class AcsChatParticipantRemovedFromThreadWithUserEventData(
 
     time: Required[datetime.datetime]
     """The time at which the user was removed to the thread. Required."""
-    removedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    removedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who removed the user. Required."""
-    participantRemoved: Required["types.AcsChatThreadParticipantProperties"]
+    participantRemoved: Required["AcsChatThreadParticipantProperties"]
     """The details of the user who was removed. Required."""
 
 
@@ -1088,9 +1088,9 @@ class AcsChatRetentionPolicy(TypedDict, total=False):
     :vartype delete_thread_after_days: int
     """
 
-    kind: Optional[AcsChatRetentionPolicyKind]
+    kind: AcsChatRetentionPolicyKind
     """The chat retention policy kind. Known values are: \"none\" and \"threadCreationDate\"."""
-    deleteThreadAfterDays: Optional[int]
+    deleteThreadAfterDays: int
     """The delete thread after number of days."""
 
 
@@ -1109,7 +1109,7 @@ class AcsChatThreadEventInThreadBaseProperties(AcsChatEventInThreadBasePropertie
 
     createTime: Required[datetime.datetime]
     """The original creation time of the thread. Required."""
-    version: Optional[int]
+    version: int
     """The version of the thread."""
 
 
@@ -1140,15 +1140,15 @@ class AcsChatThreadCreatedEventData(AcsChatThreadEventInThreadBaseProperties):
     :vartype retention_policy: ~azure.eventgrid.types.AcsChatRetentionPolicy
     """
 
-    createdByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    createdByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who created the thread. Required."""
     properties: Required[dict[str, Any]]
     """The thread properties. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The thread metadata."""
-    participants: Required[list["types.AcsChatThreadParticipantProperties"]]
+    participants: Required[list["AcsChatThreadParticipantProperties"]]
     """The list of properties of participants who are part of the thread. Required."""
-    retentionPolicy: Optional["types.AcsChatRetentionPolicy"]
+    retentionPolicy: "AcsChatRetentionPolicy"
     """The retention policy for the chat."""
 
 
@@ -1183,15 +1183,15 @@ class AcsChatThreadCreatedWithUserEventData(AcsChatThreadEventBaseProperties):
     :vartype retention_policy: ~azure.eventgrid.types.AcsChatRetentionPolicy
     """
 
-    createdByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    createdByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who created the thread. Required."""
     properties: Required[dict[str, Any]]
     """The thread properties. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The thread metadata."""
-    participants: Required[list["types.AcsChatThreadParticipantProperties"]]
+    participants: Required[list["AcsChatThreadParticipantProperties"]]
     """The list of properties of participants who are part of the thread. Required."""
-    retentionPolicy: Optional["types.AcsChatRetentionPolicy"]
+    retentionPolicy: "AcsChatRetentionPolicy"
     """The retention policy for the chat."""
 
 
@@ -1218,11 +1218,11 @@ class AcsChatThreadDeletedEventData(AcsChatThreadEventInThreadBaseProperties):
     :vartype reason: str or ~azure.eventgrid.models.AcsChatThreadDeletedReasonType
     """
 
-    deletedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    deletedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who deleted the thread. Required."""
     deleteTime: Required[datetime.datetime]
     """The deletion time of the thread. Required."""
-    reason: Optional[AcsChatThreadDeletedReasonType]
+    reason: AcsChatThreadDeletedReasonType
     """The chat thread deletion reason. Known values are: \"deletedByUser\" and \"deletedByPolicy\"."""
 
 
@@ -1238,11 +1238,11 @@ class AcsChatThreadParticipantProperties(TypedDict, total=False):
     :vartype metadata: dict[str, str]
     """
 
-    displayName: Optional[str]
+    displayName: str
     """The name of the user."""
-    participantCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    participantCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The metadata of the user."""
 
 
@@ -1272,7 +1272,7 @@ class AcsChatThreadPropertiesUpdatedEventData(AcsChatThreadEventInThreadBaseProp
     :vartype retention_policy: ~azure.eventgrid.types.AcsChatRetentionPolicy
     """
 
-    editedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    editedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who updated the thread properties. Required."""
     editTime: Required[datetime.datetime]
     """The time at which the properties of the thread were updated. Required."""
@@ -1280,7 +1280,7 @@ class AcsChatThreadPropertiesUpdatedEventData(AcsChatThreadEventInThreadBaseProp
     """The updated thread properties. Required."""
     metadata: Required[dict[str, str]]
     """The thread metadata. Required."""
-    retentionPolicy: Optional["types.AcsChatRetentionPolicy"]
+    retentionPolicy: "AcsChatRetentionPolicy"
     """The retention policy for the chat."""
 
 
@@ -1314,15 +1314,15 @@ class AcsChatThreadPropertiesUpdatedPerUserEventData(AcsChatThreadEventBasePrope
     :vartype retention_policy: ~azure.eventgrid.types.AcsChatRetentionPolicy
     """
 
-    editedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    editedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who updated the thread properties. Required."""
     editTime: Required[datetime.datetime]
     """The time at which the properties of the thread were updated. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The thread metadata."""
     properties: Required[dict[str, Any]]
     """The updated thread properties. Required."""
-    retentionPolicy: Optional["types.AcsChatRetentionPolicy"]
+    retentionPolicy: "AcsChatRetentionPolicy"
     """The retention policy for the chat."""
 
 
@@ -1350,7 +1350,7 @@ class AcsChatThreadWithUserDeletedEventData(AcsChatThreadEventBaseProperties):
     :vartype delete_time: ~datetime.datetime
     """
 
-    deletedByCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    deletedByCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who deleted the thread. Required."""
     deleteTime: Required[datetime.datetime]
     """The deletion time of the thread. Required."""
@@ -1388,7 +1388,7 @@ class AcsChatTypingIndicatorReceivedInThreadEventData(
 
     messageBody: Required[str]
     """The body of the chat message. Required."""
-    metadata: Optional[dict[str, str]]
+    metadata: dict[str, str]
     """The chat message metadata."""
 
 
@@ -1421,13 +1421,13 @@ class AcsEmailDeliveryReportReceivedEventData(TypedDict, total=False):
     """The recipient Email Address. Required."""
     internetMessageId: Required[str]
     """The Internet Message Id of the email that has been sent. Required."""
-    messageId: Optional[str]
+    messageId: str
     """The Id of the email that has been sent."""
     status: Required[AcsEmailDeliveryReportStatus]
     """The status of the email. Any value other than Delivered is considered failed. Required. Known
      values are: \"Bounced\", \"Delivered\", \"Failed\", \"FilteredSpam\", \"Quarantined\", and
      \"Suppressed\"."""
-    deliveryStatusDetails: Required["types.AcsEmailDeliveryReportStatusDetails"]
+    deliveryStatusDetails: Required["AcsEmailDeliveryReportStatusDetails"]
     """Detailed information about the status if any. Required."""
     deliveryAttemptTimestamp: Required[datetime.datetime]
     """The time at which the email delivery report received timestamp. Required."""
@@ -1442,9 +1442,9 @@ class AcsEmailDeliveryReportStatusDetails(TypedDict, total=False):
     :vartype recipient_mail_server_host_name: str
     """
 
-    statusMessage: Optional[str]
+    statusMessage: str
     """Detailed status message."""
-    recipientMailServerHostName: Optional[str]
+    recipientMailServerHostName: str
     """Recipient mail server host name."""
 
 
@@ -1469,17 +1469,17 @@ class AcsEmailEngagementTrackingReportReceivedEventData(TypedDict, total=False):
     :vartype engagement: str or ~azure.eventgrid.models.AcsUserEngagement
     """
 
-    sender: Optional[str]
+    sender: str
     """The Sender Email Address."""
-    recipient: Optional[str]
+    recipient: str
     """The Recipient Email Address."""
-    messageId: Optional[str]
+    messageId: str
     """The Id of the email that has been sent."""
     userActionTimestamp: Required[datetime.datetime]
     """The time at which the user interacted with the email. Required."""
-    engagementContext: Optional[str]
+    engagementContext: str
     """The context of the type of engagement user had with email."""
-    userAgent: Optional[str]
+    userAgent: str
     """The user agent interacting with the email."""
     engagementType: Required[AcsUserEngagement]
     """The type of engagement user have with email. Required. Known values are: \"view\" and
@@ -1504,15 +1504,15 @@ class AcsIncomingCallCustomContext(TypedDict, total=False):
 AcsIncomingCallEventData = TypedDict(
     "AcsIncomingCallEventData",
     {
-        "to": Required["types.CommunicationIdentifierModel"],
-        "from": Required["types.CommunicationIdentifierModel"],
-        "serverCallId": Optional[str],
-        "callerDisplayName": Optional[str],
-        "customContext": Required["types.AcsIncomingCallCustomContext"],
-        "incomingCallContext": Optional[str],
-        "onBehalfOfCallee": Optional["types.CommunicationIdentifierModel"],
-        "onBehalfOf": Optional["types.CommunicationIdentifierModel"],
-        "correlationId": Optional[str],
+        "to": Required["CommunicationIdentifierModel"],
+        "from": Required["CommunicationIdentifierModel"],
+        "serverCallId": str,
+        "callerDisplayName": str,
+        "customContext": Required["AcsIncomingCallCustomContext"],
+        "incomingCallContext": str,
+        "onBehalfOfCallee": "CommunicationIdentifierModel",
+        "onBehalfOf": "CommunicationIdentifierModel",
+        "correlationId": str,
     },
     total=False,
 )
@@ -1551,9 +1551,9 @@ class AcsMessageButtonContent(TypedDict, total=False):
     :vartype payload: str
     """
 
-    text: Optional[str]
+    text: str
     """The Text of the button."""
-    payload: Optional[str]
+    payload: str
     """The Payload of the button which was clicked by the user, setup by the business."""
 
 
@@ -1566,17 +1566,17 @@ class AcsMessageChannelEventError(TypedDict, total=False):
     :vartype channel_message: str
     """
 
-    channelCode: Optional[str]
+    channelCode: str
     """The channel error code."""
-    channelMessage: Optional[str]
+    channelMessage: str
     """The channel error message."""
 
 
 AcsMessageContext = TypedDict(
     "AcsMessageContext",
     {
-        "from": Optional[str],
-        "id": Optional[str],
+        "from": str,
+        "id": str,
     },
     total=False,
 )
@@ -1595,7 +1595,7 @@ AcsMessageEventData = TypedDict(
         "from": Required[str],
         "to": Required[str],
         "receivedTimeStamp": Required[datetime.datetime],
-        "error": Optional["types.AcsMessageChannelEventError"],
+        "error": "AcsMessageChannelEventError",
     },
     total=False,
 )
@@ -1618,9 +1618,9 @@ AcsMessageDeliveryStatusUpdatedEventData = TypedDict(
         "from": Required[str],
         "to": Required[str],
         "receivedTimeStamp": Required[datetime.datetime],
-        "error": Optional["types.AcsMessageChannelEventError"],
-        "messageId": Optional[str],
-        "toBSUID": Optional[str],
+        "error": "AcsMessageChannelEventError",
+        "messageId": str,
+        "toBSUID": str,
         "status": Required[AcsMessageDeliveryStatus],
         "channelType": Required[AcsMessageChannelKind],
     },
@@ -1658,9 +1658,9 @@ class AcsMessageInteractiveButtonReplyContent(TypedDict, total=False):
     :vartype title: str
     """
 
-    id: Optional[str]
+    id: str
     """The ID of the button."""
-    title: Optional[str]
+    title: str
     """The title of the button."""
 
 
@@ -1679,9 +1679,9 @@ class AcsMessageInteractiveContent(TypedDict, total=False):
     type: Required[AcsInteractiveReplyKind]
     """The Message interactive reply type. Required. Known values are: \"buttonReply\", \"listReply\",
      and \"unknown\"."""
-    buttonReply: Optional["types.AcsMessageInteractiveButtonReplyContent"]
+    buttonReply: "AcsMessageInteractiveButtonReplyContent"
     """The Message Sent when a customer clicks a button."""
-    listReply: Optional["types.AcsMessageInteractiveListReplyContent"]
+    listReply: "AcsMessageInteractiveListReplyContent"
     """The Message Sent when a customer selects an item from a list."""
 
 
@@ -1696,11 +1696,11 @@ class AcsMessageInteractiveListReplyContent(TypedDict, total=False):
     :vartype description: str
     """
 
-    id: Optional[str]
+    id: str
     """The ID of the selected list item."""
-    title: Optional[str]
+    title: str
     """The title of the selected list item."""
-    description: Optional[str]
+    description: str
     """The description of the selected row."""
 
 
@@ -1724,11 +1724,11 @@ class AcsMessageMediaContent(TypedDict, total=False):
     """Required. The MIME type of the file this media represents. Required."""
     id: Required[str]
     """Required. The media identifier. Required."""
-    fileName: Optional[str]
+    fileName: str
     """Optional. The filename of the underlying media file as specified when uploaded."""
-    caption: Optional[str]
+    caption: str
     """Optional. The caption for the media object, if supported and provided."""
-    animated: Optional[bool]
+    animated: bool
     """Optional. Set to true if the sticker is animated; false otherwise."""
 
 
@@ -1744,7 +1744,7 @@ class AcsMessageReactionContent(TypedDict, total=False):
 
     messageId: Required[str]
     """Required. WhatsApp message ID of the message that the emoji is applied to. Required."""
-    emoji: Optional[str]
+    emoji: str
     """Optional. Unicode escape sequence of the emoji."""
 
 
@@ -1754,17 +1754,17 @@ AcsMessageReceivedEventData = TypedDict(
         "from": Required[str],
         "to": Required[str],
         "receivedTimeStamp": Required[datetime.datetime],
-        "error": Optional["types.AcsMessageChannelEventError"],
-        "content": Optional[str],
-        "messageId": Optional[str],
-        "fromBSUID": Optional[str],
+        "error": "AcsMessageChannelEventError",
+        "content": str,
+        "messageId": str,
+        "fromBSUID": str,
         "channelType": Required[AcsMessageChannelKind],
         "messageType": Required[str],
-        "media": Optional["types.AcsMessageMediaContent"],
-        "reaction": Optional["types.AcsMessageReactionContent"],
-        "context": Optional["types.AcsMessageContext"],
-        "button": Optional["types.AcsMessageButtonContent"],
-        "interactive": Optional["types.AcsMessageInteractiveContent"],
+        "media": "AcsMessageMediaContent",
+        "reaction": "AcsMessageReactionContent",
+        "context": "AcsMessageContext",
+        "button": "AcsMessageButtonContent",
+        "interactive": "AcsMessageInteractiveContent",
     },
     total=False,
 )
@@ -1819,17 +1819,17 @@ class AcsRecordingChunkInfoProperties(TypedDict, total=False):
     :vartype delete_location: str
     """
 
-    documentId: Optional[str]
+    documentId: str
     """The documentId of the recording chunk."""
-    index: Optional[int]
+    index: int
     """The index of the recording chunk."""
-    endReason: Optional[str]
+    endReason: str
     """The reason for ending the recording chunk."""
-    metadataLocation: Optional[str]
+    metadataLocation: str
     """The location of the metadata for this chunk."""
-    contentLocation: Optional[str]
+    contentLocation: str
     """The location of the content for this chunk."""
-    deleteLocation: Optional[str]
+    deleteLocation: str
     """The location to delete all chunk storage."""
 
 
@@ -1856,11 +1856,11 @@ class AcsRecordingFileStatusUpdatedEventData(TypedDict, total=False):
     :vartype session_end_reason: str
     """
 
-    recordingStorageInfo: Required["types.AcsRecordingStorageInfoProperties"]
+    recordingStorageInfo: Required["AcsRecordingStorageInfoProperties"]
     """The details of recording storage information. Required."""
     recordingStartTime: Required[datetime.datetime]
     """The time at which the recording started. Required."""
-    recordingDurationMs: Optional[int]
+    recordingDurationMs: int
     """The recording duration in milliseconds."""
     recordingContentType: Required[AcsRecordingContentType]
     """The recording content type- AudioVideo, or Audio. Required. Known values are: \"AudioVideo\"
@@ -1871,7 +1871,7 @@ class AcsRecordingFileStatusUpdatedEventData(TypedDict, total=False):
     recordingFormatType: Required[AcsRecordingFormatType]
     """The recording format type - Mp4, Mp3, Wav. Required. Known values are: \"Wav\", \"Mp3\", and
      \"Mp4\"."""
-    sessionEndReason: Optional[str]
+    sessionEndReason: str
     """The reason for ending recording session."""
 
 
@@ -1882,7 +1882,7 @@ class AcsRecordingStorageInfoProperties(TypedDict, total=False):
     :vartype recording_chunks: list[~azure.eventgrid.types.AcsRecordingChunkInfoProperties]
     """
 
-    recordingChunks: Required[list["types.AcsRecordingChunkInfoProperties"]]
+    recordingChunks: Required[list["AcsRecordingChunkInfoProperties"]]
     """List of details of recording chunks information. Required."""
 
 
@@ -1897,11 +1897,11 @@ class AcsRouterChannelConfiguration(TypedDict, total=False):
     :vartype max_number_of_jobs: int
     """
 
-    channelId: Optional[str]
+    channelId: str
     """Channel ID for Router Job."""
-    capacityCostPerJob: Optional[int]
+    capacityCostPerJob: int
     """Capacity Cost Per Job for Router Job."""
-    maxNumberOfJobs: Optional[int]
+    maxNumberOfJobs: int
     """Max Number of Jobs for Router Job."""
 
 
@@ -1920,15 +1920,15 @@ class AcsRouterCommunicationError(TypedDict, total=False):
     :vartype details: list[~azure.eventgrid.types.AcsRouterCommunicationError]
     """
 
-    code: Optional[str]
+    code: str
     """Router Communication Error Code."""
-    message: Optional[str]
+    message: str
     """Router Communication Error Message."""
-    target: Optional[str]
+    target: str
     """Router Communication Error Target."""
-    innererror: Required["types.AcsRouterCommunicationError"]
+    innererror: Required["AcsRouterCommunicationError"]
     """Router Communication Inner Error. Required."""
-    details: Required[list["types.AcsRouterCommunicationError"]]
+    details: Required[list["AcsRouterCommunicationError"]]
     """List of Router Communication Errors. Required."""
 
 
@@ -1945,9 +1945,9 @@ class AcsRouterEventData(TypedDict, total=False):
 
     jobId: Required[str]
     """Router Event Job ID. Required."""
-    channelReference: Optional[str]
+    channelReference: str
     """Router Event Channel Reference."""
-    channelId: Optional[str]
+    channelId: str
     """Router Event Channel ID."""
 
 
@@ -1968,7 +1968,7 @@ class AcsRouterJobEventData(AcsRouterEventData):
     :vartype tags: dict[str, str]
     """
 
-    queueId: Optional[str]
+    queueId: str
     """Router Job events Queue Id."""
     labels: Required[dict[str, str]]
     """Router Job events Labels. Required."""
@@ -1998,9 +1998,9 @@ class AcsRouterJobCancelledEventData(AcsRouterJobEventData):
     :vartype disposition_code: str
     """
 
-    note: Optional[str]
+    note: str
     """Router Job Note."""
-    dispositionCode: Optional[str]
+    dispositionCode: str
     """Router Job Disposition Code."""
 
 
@@ -2026,9 +2026,9 @@ class AcsRouterJobClassificationFailedEventData(AcsRouterJobEventData):  # pylin
     :vartype errors: list[~azure.eventgrid.types.AcsRouterCommunicationError]
     """
 
-    classificationPolicyId: Optional[str]
+    classificationPolicyId: str
     """Router Job Classification Policy Id."""
-    errors: Required[list["types.AcsRouterCommunicationError"]]
+    errors: Required[list["AcsRouterCommunicationError"]]
     """Router Job Classification Failed Errors. Required."""
 
 
@@ -2058,13 +2058,13 @@ class AcsRouterJobClassifiedEventData(AcsRouterJobEventData):
     :vartype attached_worker_selectors: list[~azure.eventgrid.types.AcsRouterWorkerSelector]
     """
 
-    queueDetails: Required["types.AcsRouterQueueDetails"]
+    queueDetails: Required["AcsRouterQueueDetails"]
     """Router Job Queue Info. Required."""
-    classificationPolicyId: Optional[str]
+    classificationPolicyId: str
     """Router Job Classification Policy Id."""
-    priority: Optional[int]
+    priority: int
     """Router Job Priority."""
-    attachedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    attachedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Attached Worker Selector. Required."""
 
 
@@ -2092,11 +2092,11 @@ class AcsRouterJobClosedEventData(AcsRouterJobEventData):
     :vartype disposition_code: str
     """
 
-    assignmentId: Optional[str]
+    assignmentId: str
     """Router Job Closed Assignment Id."""
-    workerId: Optional[str]
+    workerId: str
     """Router Job Closed Worker Id."""
-    dispositionCode: Optional[str]
+    dispositionCode: str
     """Router Job Closed Disposition Code."""
 
 
@@ -2122,9 +2122,9 @@ class AcsRouterJobCompletedEventData(AcsRouterJobEventData):
     :vartype worker_id: str
     """
 
-    assignmentId: Optional[str]
+    assignmentId: str
     """Router Job Completed Assignment Id."""
-    workerId: Optional[str]
+    workerId: str
     """Router Job Completed Worker Id."""
 
 
@@ -2169,9 +2169,9 @@ class AcsRouterJobExceptionTriggeredEventData(AcsRouterJobEventData):
     :vartype exception_rule_id: str
     """
 
-    ruleKey: Optional[str]
+    ruleKey: str
     """Router Job Exception Triggered Rule Key."""
-    exceptionRuleId: Optional[str]
+    exceptionRuleId: str
     """Router Job Exception Triggered Rule Id."""
 
 
@@ -2201,9 +2201,9 @@ class AcsRouterJobQueuedEventData(AcsRouterJobEventData):
 
     priority: Required[int]
     """Router Job Priority. Required."""
-    attachedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    attachedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Queued Attached Worker Selector. Required."""
-    requestedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    requestedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Queued Requested Worker Selector. Required."""
 
 
@@ -2245,11 +2245,11 @@ class AcsRouterJobReceivedEventData(AcsRouterJobEventData):
      \"Queued\", \"Assigned\", \"Completed\", \"Closed\", \"Cancelled\", \"ClassificationFailed\",
      \"Created\", \"PendingSchedule\", \"Scheduled\", \"ScheduleFailed\", and
      \"WaitingForActivation\"."""
-    classificationPolicyId: Optional[str]
+    classificationPolicyId: str
     """Router Job Classification Policy Id."""
-    priority: Optional[int]
+    priority: int
     """Router Job Priority."""
-    requestedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    requestedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Received Requested Worker Selectors. Required."""
     scheduledOn: Required[datetime.datetime]
     """Router Job Received Scheduled Time in UTC. Required."""
@@ -2291,13 +2291,13 @@ class AcsRouterJobSchedulingFailedEventData(AcsRouterJobEventData):
 
     priority: Required[int]
     """Router Job Priority. Required."""
-    expiredAttachedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    expiredAttachedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Scheduling Failed Attached Worker Selector Expired. Required."""
-    expiredRequestedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    expiredRequestedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Scheduling Failed Requested Worker Selector Expired. Required."""
     scheduledOn: Required[datetime.datetime]
     """Router Job Scheduling Failed Scheduled Time in UTC. Required."""
-    failureReason: Optional[str]
+    failureReason: str
     """Router Job Scheduling Failed Reason."""
 
 
@@ -2323,9 +2323,9 @@ class AcsRouterJobUnassignedEventData(AcsRouterJobEventData):
     :vartype worker_id: str
     """
 
-    assignmentId: Optional[str]
+    assignmentId: str
     """Router Job Unassigned Assignment Id."""
-    workerId: Optional[str]
+    workerId: str
     """Router Job Unassigned Worker Id."""
 
 
@@ -2364,9 +2364,9 @@ class AcsRouterJobWaitingForActivationEventData(AcsRouterJobEventData):  # pylin
 
     priority: Required[int]
     """Router Job Waiting For Activation Priority. Required."""
-    expiredAttachedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    expiredAttachedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Waiting For Activation Worker Selector Expired. Required."""
-    expiredRequestedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    expiredRequestedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Waiting For Activation Requested Worker Selector Expired. Required."""
     scheduledOn: Required[datetime.datetime]
     """Router Job Waiting For Activation Scheduled Time in UTC. Required."""
@@ -2400,9 +2400,9 @@ class AcsRouterJobWorkerSelectorsExpiredEventData(AcsRouterJobEventData):  # pyl
      list[~azure.eventgrid.types.AcsRouterWorkerSelector]
     """
 
-    expiredRequestedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    expiredRequestedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Worker Selectors Expired Requested Worker Selectors. Required."""
-    expiredAttachedWorkerSelectors: Required[list["types.AcsRouterWorkerSelector"]]
+    expiredAttachedWorkerSelectors: Required[list["AcsRouterWorkerSelector"]]
     """Router Job Worker Selectors Expired Attached Worker Selectors. Required."""
 
 
@@ -2417,9 +2417,9 @@ class AcsRouterQueueDetails(TypedDict, total=False):
     :vartype labels: dict[str, str]
     """
 
-    id: Optional[str]
+    id: str
     """Router Queue Id."""
-    name: Optional[str]
+    name: str
     """Router Queue Name."""
     labels: Required[dict[str, str]]
     """Router Queue Labels. Required."""
@@ -2438,7 +2438,7 @@ class AcsRouterWorkerEventData(AcsRouterEventData):
     :vartype worker_id: str
     """
 
-    workerId: Optional[str]
+    workerId: str
     """Router Worker events Worker Id."""
 
 
@@ -2465,7 +2465,7 @@ class AcsRouterWorkerDeregisteredEventData(TypedDict, total=False):
     :vartype worker_id: str
     """
 
-    workerId: Optional[str]
+    workerId: str
     """Router Worker Deregistered Worker Id."""
 
 
@@ -2499,13 +2499,13 @@ class AcsRouterWorkerOfferAcceptedEventData(AcsRouterWorkerEventData):
     :vartype job_tags: dict[str, str]
     """
 
-    queueId: Optional[str]
+    queueId: str
     """Router Worker Offer Accepted Queue Id."""
-    offerId: Optional[str]
+    offerId: str
     """Router Worker Offer Accepted Offer Id."""
-    assignmentId: Optional[str]
+    assignmentId: str
     """Router Worker Offer Accepted Assignment Id."""
-    jobPriority: Optional[int]
+    jobPriority: int
     """Router Worker Offer Accepted Job Priority."""
     workerLabels: Required[dict[str, str]]
     """Router Worker Offer Accepted Worker Labels. Required."""
@@ -2535,9 +2535,9 @@ class AcsRouterWorkerOfferDeclinedEventData(AcsRouterWorkerEventData):
     :vartype offer_id: str
     """
 
-    queueId: Optional[str]
+    queueId: str
     """Router Worker Offer Declined Queue Id."""
-    offerId: Optional[str]
+    offerId: str
     """Router Worker Offer Declined Offer Id."""
 
 
@@ -2559,9 +2559,9 @@ class AcsRouterWorkerOfferExpiredEventData(AcsRouterWorkerEventData):
     :vartype offer_id: str
     """
 
-    queueId: Optional[str]
+    queueId: str
     """Router Worker Offer Expired Queue Id."""
-    offerId: Optional[str]
+    offerId: str
     """Router Worker Offer Expired Offer Id."""
 
 
@@ -2597,11 +2597,11 @@ class AcsRouterWorkerOfferIssuedEventData(AcsRouterWorkerEventData):
     :vartype job_tags: dict[str, str]
     """
 
-    queueId: Optional[str]
+    queueId: str
     """Router Worker Offer Issued Queue Id."""
-    offerId: Optional[str]
+    offerId: str
     """Router Worker Offer Issued Offer Id."""
-    jobPriority: Optional[int]
+    jobPriority: int
     """Router Worker Offer Issued Job Priority."""
     workerLabels: Required[dict[str, str]]
     """Router Worker Offer Issued Worker Labels. Required."""
@@ -2635,9 +2635,9 @@ class AcsRouterWorkerOfferRevokedEventData(AcsRouterWorkerEventData):
     :vartype offer_id: str
     """
 
-    queueId: Optional[str]
+    queueId: str
     """Router Worker Offer Revoked Queue Id."""
-    offerId: Optional[str]
+    offerId: str
     """Router Worker Offer Revoked Offer Id."""
 
 
@@ -2659,13 +2659,13 @@ class AcsRouterWorkerRegisteredEventData(TypedDict, total=False):
     :vartype tags: dict[str, str]
     """
 
-    workerId: Optional[str]
+    workerId: str
     """Router Worker Registered Worker Id."""
-    queueAssignments: Required[list["types.AcsRouterQueueDetails"]]
+    queueAssignments: Required[list["AcsRouterQueueDetails"]]
     """Router Worker Registered Queue Info. Required."""
-    channelConfigurations: Required[list["types.AcsRouterChannelConfiguration"]]
+    channelConfigurations: Required[list["AcsRouterChannelConfiguration"]]
     """Router Worker Registered Channel Configuration. Required."""
-    totalCapacity: Optional[int]
+    totalCapacity: int
     """Router Worker Register Total Capacity."""
     labels: Required[dict[str, str]]
     """Router Worker Registered Labels. Required."""
@@ -2692,7 +2692,7 @@ class AcsRouterWorkerSelector(TypedDict, total=False):
     :vartype expiration_time: ~datetime.datetime
     """
 
-    key: Optional[str]
+    key: str
     """Router Job Worker Selector Key."""
     labelOperator: Required[AcsRouterLabelOperator]
     """Router Job Worker Selector Label Operator. Required. Known values are: \"Equal\", \"NotEqual\",
@@ -2728,13 +2728,13 @@ class AcsRouterWorkerUpdatedEventData(TypedDict, total=False):
      ~azure.eventgrid.models.AcsRouterUpdatedWorkerProperty]
     """
 
-    workerId: Optional[str]
+    workerId: str
     """Router Worker Updated Worker Id."""
-    queueAssignments: Required[list["types.AcsRouterQueueDetails"]]
+    queueAssignments: Required[list["AcsRouterQueueDetails"]]
     """Router Worker Updated Queue Info. Required."""
-    channelConfigurations: Required[list["types.AcsRouterChannelConfiguration"]]
+    channelConfigurations: Required[list["AcsRouterChannelConfiguration"]]
     """Router Worker Updated Channel Configuration. Required."""
-    totalCapacity: Optional[int]
+    totalCapacity: int
     """Router Worker Updated Total Capacity."""
     labels: Required[dict[str, str]]
     """Router Worker Updated Labels. Required."""
@@ -2791,9 +2791,9 @@ AcsSmsDeliveryReportReceivedEventData = TypedDict(
         "to": Required[str],
         "deliveryStatus": Required[str],
         "deliveryStatusDetails": Required[str],
-        "deliveryAttempts": Required[list["types.AcsSmsDeliveryAttemptProperties"]],
+        "deliveryAttempts": Required[list["AcsSmsDeliveryAttemptProperties"]],
         "receivedTimestamp": Required[datetime.datetime],
-        "tag": Optional[str],
+        "tag": str,
     },
     total=False,
 )
@@ -2858,7 +2858,7 @@ class AcsUserDisconnectedEventData(TypedDict, total=False):
     :vartype user_communication_identifier: ~azure.eventgrid.types.CommunicationIdentifierModel
     """
 
-    userCommunicationIdentifier: Required["types.CommunicationIdentifierModel"]
+    userCommunicationIdentifier: Required["CommunicationIdentifierModel"]
     """The communication identifier of the user who was disconnected. Required."""
 
 
@@ -2876,9 +2876,9 @@ class ApiCenterApiDefinitionAddedEventData(TypedDict, total=False):
 
     title: Required[str]
     """API definition title. Required."""
-    description: Optional[str]
+    description: str
     """API definition description."""
-    specification: Optional["types.ApiCenterApiSpecification"]
+    specification: "ApiCenterApiSpecification"
     """API definition specification."""
 
 
@@ -2896,9 +2896,9 @@ class ApiCenterApiDefinitionUpdatedEventData(TypedDict, total=False):
 
     title: Required[str]
     """API definition title. Required."""
-    description: Optional[str]
+    description: str
     """API definition description."""
-    specification: Optional["types.ApiCenterApiSpecification"]
+    specification: "ApiCenterApiSpecification"
     """API definition specification."""
 
 
@@ -2913,7 +2913,7 @@ class ApiCenterApiSpecification(TypedDict, total=False):
 
     name: Required[str]
     """Specification name. Required."""
-    version: Optional[str]
+    version: str
     """Specification version."""
 
 
@@ -2927,7 +2927,7 @@ class ApiManagementApiCreatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -2943,7 +2943,7 @@ class ApiManagementApiDeletedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -2959,7 +2959,7 @@ class ApiManagementApiReleaseCreatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -2975,7 +2975,7 @@ class ApiManagementApiReleaseDeletedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -2991,7 +2991,7 @@ class ApiManagementApiReleaseUpdatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3007,7 +3007,7 @@ class ApiManagementApiUpdatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3026,7 +3026,7 @@ class ApiManagementCircuitBreakerClosedEventData(TypedDict, total=False):  # pyl
 
     backendName: Required[str]
     """Name of the backend for which the circuit has closed. Required."""
-    circuitBreaker: Required["types.ApiManagementCircuitBreakerProperties"]
+    circuitBreaker: Required["ApiManagementCircuitBreakerProperties"]
     """Information related to the circuit breaker configured on the backend. Required."""
 
 
@@ -3043,7 +3043,7 @@ class ApiManagementCircuitBreakerOpenedEventData(TypedDict, total=False):  # pyl
 
     backendName: Required[str]
     """Name of the backend for which the circuit has opened. Required."""
-    circuitBreaker: Required["types.ApiManagementCircuitBreakerProperties"]
+    circuitBreaker: Required["ApiManagementCircuitBreakerProperties"]
     """Information related to the circuit breaker configured on the backend. Required."""
 
 
@@ -3079,7 +3079,7 @@ class ApiManagementGatewayApiAddedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>``."""
@@ -3095,7 +3095,7 @@ class ApiManagementGatewayApiRemovedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>``."""
@@ -3111,7 +3111,7 @@ class ApiManagementGatewayCertificateAuthorityCreatedEventData(TypedDict, total=
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>``."""
@@ -3127,7 +3127,7 @@ class ApiManagementGatewayCertificateAuthorityDeletedEventData(TypedDict, total=
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>``."""
@@ -3143,7 +3143,7 @@ class ApiManagementGatewayCertificateAuthorityUpdatedEventData(TypedDict, total=
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>``."""
@@ -3159,7 +3159,7 @@ class ApiManagementGatewayCreatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>``."""
@@ -3175,7 +3175,7 @@ class ApiManagementGatewayDeletedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>``."""
@@ -3193,7 +3193,7 @@ class ApiManagementGatewayHostnameConfigurationCreatedEventData(
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>``."""
@@ -3211,7 +3211,7 @@ class ApiManagementGatewayHostnameConfigurationDeletedEventData(
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>``."""
@@ -3229,7 +3229,7 @@ class ApiManagementGatewayHostnameConfigurationUpdatedEventData(
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>``."""
@@ -3268,9 +3268,9 @@ class ApiManagementGatewayTokenExpiredEventData(TypedDict, total=False):  # pyli
     :vartype token: ~azure.eventgrid.types.ApiManagementExpiredGatewayTokenProperties
     """
 
-    gatewayInfo: Required["types.ApiManagementGatewayProperties"]
+    gatewayInfo: Required["ApiManagementGatewayProperties"]
     """Information related to a given self-hosted gateway deployment. Required."""
-    tokenInfo: Required["types.ApiManagementExpiredGatewayTokenProperties"]
+    tokenInfo: Required["ApiManagementExpiredGatewayTokenProperties"]
     """Information related to a an expired gateway token for a self-hosted gateway deployment.
      Required."""
 
@@ -3286,9 +3286,9 @@ class ApiManagementGatewayTokenNearExpiryEventData(TypedDict, total=False):  # p
     :vartype token: ~azure.eventgrid.types.ApiManagementNearExpiryGatewayTokenProperties
     """
 
-    gatewayInfo: Required["types.ApiManagementGatewayProperties"]
+    gatewayInfo: Required["ApiManagementGatewayProperties"]
     """Information related to a given self-hosted gateway deployment. Required."""
-    tokenInfo: Required["types.ApiManagementNearExpiryGatewayTokenProperties"]
+    tokenInfo: Required["ApiManagementNearExpiryGatewayTokenProperties"]
     """Information related to a an expired gateway token for a self-hosted gateway deployment.
      Required."""
 
@@ -3303,7 +3303,7 @@ class ApiManagementGatewayUpdatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>``."""
@@ -3331,7 +3331,7 @@ class ApiManagementProductCreatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3347,7 +3347,7 @@ class ApiManagementProductDeletedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3363,7 +3363,7 @@ class ApiManagementProductUpdatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3379,7 +3379,7 @@ class ApiManagementSubscriptionCreatedEventData(TypedDict, total=False):  # pyli
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3395,7 +3395,7 @@ class ApiManagementSubscriptionDeletedEventData(TypedDict, total=False):  # pyli
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3411,7 +3411,7 @@ class ApiManagementSubscriptionUpdatedEventData(TypedDict, total=False):  # pyli
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3427,7 +3427,7 @@ class ApiManagementUserCreatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3443,7 +3443,7 @@ class ApiManagementUserDeletedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3459,7 +3459,7 @@ class ApiManagementUserUpdatedEventData(TypedDict, total=False):
     :vartype resource_url: str
     """
 
-    resourceUri: Optional[str]
+    resourceUri: str
     """The fully qualified ID of the resource that the compliance state change is for, including the
      resource name and resource type. Uses the format,
      ``/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>``."""
@@ -3505,7 +3505,7 @@ class AppConfigurationKeyValueModifiedEventData(TypedDict, total=False):  # pyli
 
     key: Required[str]
     """The key used to identify the key-value that was modified. Required."""
-    label: Required[str]
+    label: Required[Optional[str]]
     """The label, if any, used to identify the key-value that was modified. Required."""
     etag: Required[str]
     """The etag representing the new state of the key-value. Required."""
@@ -3566,7 +3566,7 @@ class AppEventTypeDetail(TypedDict, total=False):
     :vartype action: str or ~azure.eventgrid.models.AppAction
     """
 
-    action: Optional[AppAction]
+    action: AppAction
     """Type of action of the operation. Known values are: \"Restarted\", \"Stopped\",
      \"ChangedAppSettings\", \"Started\", \"Completed\", and \"Failed\"."""
 
@@ -3584,12 +3584,12 @@ class AppServicePlanEventTypeDetail(TypedDict, total=False):
     :vartype status: str or ~azure.eventgrid.models.AsyncStatus
     """
 
-    stampKind: Optional[StampKind]
+    stampKind: StampKind
     """Kind of environment where app service plan is. Known values are: \"Public\", \"AseV1\", and
      \"AseV2\"."""
-    action: Optional[AppServicePlanAction]
+    action: AppServicePlanAction
     """Type of action on the app service plan. \"Updated\""""
-    status: Optional[AsyncStatus]
+    status: AsyncStatus
     """Asynchronous operation status of the operation on the app service plan. Known values are:
      \"Started\", \"Completed\", and \"Failed\"."""
 
@@ -3609,11 +3609,11 @@ class AvsClusterEventData(TypedDict, total=False):
 
     operationId: Required[str]
     """Id of the operation that caused this event. Required."""
-    addedHostNames: Optional[list[str]]
+    addedHostNames: list[str]
     """Hosts added to the cluster in this event, if any."""
-    removedHostNames: Optional[list[str]]
+    removedHostNames: list[str]
     """Hosts removed from the cluster in this event, if any."""
-    inMaintenanceHostNames: Optional[list[str]]
+    inMaintenanceHostNames: list[str]
     """Hosts in Maintenance mode in the cluster, if any."""
 
 
@@ -3660,7 +3660,7 @@ class AvsClusterFailedEventData(AvsClusterEventData):
     :vartype failure_message: str
     """
 
-    failureMessage: Optional[str]
+    failureMessage: str
     """Failure reason of an event."""
 
 
@@ -3712,7 +3712,7 @@ class AvsPrivateCloudFailedEventData(AvsPrivateCloudEventData):
     :vartype failure_message: str
     """
 
-    failureMessage: Optional[str]
+    failureMessage: str
     """Failure reason of an event."""
 
 
@@ -3748,7 +3748,7 @@ class AvsScriptExecutionEventData(TypedDict, total=False):
     """Id of the operation that caused this event. Required."""
     cmdletId: Required[str]
     """Cmdlet referenced in the execution that caused this event. Required."""
-    output: Optional[list[str]]
+    output: list[str]
     """Stdout outputs from the execution, if any."""
 
 
@@ -3779,7 +3779,7 @@ class AvsScriptExecutionFailedEventData(AvsScriptExecutionEventData):
     :vartype failure_message: str
     """
 
-    failureMessage: Optional[str]
+    failureMessage: str
     """Failure reason of an event."""
 
 
@@ -3834,18 +3834,18 @@ class CommunicationIdentifierModel(TypedDict, total=False):
     :vartype microsoft_teams_app: ~azure.eventgrid.types.MicrosoftTeamsAppIdentifierModel
     """
 
-    kind: Optional[CommunicationIdentifierModelKind]
+    kind: CommunicationIdentifierModelKind
     """The identifier kind. Only required in responses. Known values are: \"unknown\",
      \"communicationUser\", \"phoneNumber\", \"microsoftTeamsUser\", and \"microsoftTeamsApp\"."""
     rawId: Required[str]
     """Raw Id of the identifier. Optional in requests, required in responses. Required."""
-    communicationUser: Required["types.CommunicationUserIdentifierModel"]
+    communicationUser: Required["CommunicationUserIdentifierModel"]
     """The communication user. Required."""
-    phoneNumber: Optional["types.PhoneNumberIdentifierModel"]
+    phoneNumber: "PhoneNumberIdentifierModel"
     """The phone number."""
-    microsoftTeamsUser: Optional["types.MicrosoftTeamsUserIdentifierModel"]
+    microsoftTeamsUser: "MicrosoftTeamsUserIdentifierModel"
     """The Microsoft Teams user."""
-    microsoftTeamsApp: Optional["types.MicrosoftTeamsAppIdentifierModel"]
+    microsoftTeamsApp: "MicrosoftTeamsAppIdentifierModel"
     """The Microsoft Teams application."""
 
 
@@ -3886,9 +3886,9 @@ class ContainerRegistryArtifactEventData(TypedDict, total=False):
     """The action that encompasses the provided event. Required."""
     location: Required[str]
     """The location of the event. Required."""
-    target: Required["types.ContainerRegistryArtifactEventTarget"]
+    target: Required["ContainerRegistryArtifactEventTarget"]
     """The target of the event. Required."""
-    connectedRegistry: Optional["types.ContainerRegistryEventConnectedRegistry"]
+    connectedRegistry: "ContainerRegistryEventConnectedRegistry"
     """The connected registry information if the event is generated by a connected registry."""
 
 
@@ -3913,17 +3913,17 @@ class ContainerRegistryArtifactEventTarget(TypedDict, total=False):
 
     mediaType: Required[str]
     """The MIME type of the artifact. Required."""
-    size: Optional[int]
+    size: int
     """The size in bytes of the artifact."""
-    digest: Optional[str]
+    digest: str
     """The digest of the artifact."""
     repository: Required[str]
     """The repository name of the artifact. Required."""
-    tag: Optional[str]
+    tag: str
     """The tag of the artifact."""
-    name: Optional[str]
+    name: str
     """The name of the artifact."""
-    version: Optional[str]
+    version: str
     """The version of the artifact."""
 
 
@@ -3976,7 +3976,7 @@ class ContainerRegistryEventActor(TypedDict, total=False):
     :vartype name: str
     """
 
-    name: Optional[str]
+    name: str
     """The subject or username associated with the request context that generated the event."""
 
 
@@ -4025,17 +4025,17 @@ class ContainerRegistryEventData(TypedDict, total=False):
     """The action that encompasses the provided event. Required."""
     location: Required[str]
     """The location of the event. Required."""
-    target: Required["types.ContainerRegistryEventTarget"]
+    target: Required["ContainerRegistryEventTarget"]
     """The target of the event. Required."""
-    request: Optional["types.ContainerRegistryEventRequest"]
+    request: "ContainerRegistryEventRequest"
     """The request that generated the event."""
-    actor: Optional["types.ContainerRegistryEventActor"]
+    actor: "ContainerRegistryEventActor"
     """The agent that initiated the event. For most situations, this could be from the authorization
      context of the request."""
-    source: Optional["types.ContainerRegistryEventSource"]
+    source: "ContainerRegistryEventSource"
     """The registry node that generated the event. Put differently, while the actor initiates the
      event, the source generates it."""
-    connectedRegistry: Optional["types.ContainerRegistryEventConnectedRegistry"]
+    connectedRegistry: "ContainerRegistryEventConnectedRegistry"
     """The connected registry information if the event is generated by a connected registry."""
 
 
@@ -4058,7 +4058,7 @@ class ContainerRegistryEventRequest(TypedDict, total=False):
 
     id: Required[str]
     """The ID of the request that initiated the event. Required."""
-    addr: Optional[str]
+    addr: str
     """The IP or hostname and possibly port of the client connection that initiated the event. This is
      the RemoteAddr from the standard http request."""
     host: Required[str]
@@ -4066,7 +4066,7 @@ class ContainerRegistryEventRequest(TypedDict, total=False):
      header on incoming requests. Required."""
     method: Required[str]
     """The request method that generated the event. Required."""
-    useragent: Optional[str]
+    useragent: str
     """The user agent header of the request."""
 
 
@@ -4081,10 +4081,10 @@ class ContainerRegistryEventSource(TypedDict, total=False):
     :vartype instance_id: str
     """
 
-    addr: Optional[str]
+    addr: str
     """The IP or hostname and the port of the registry node that generated the event. Generally, this
      will be resolved by os.Hostname() along with the running port."""
-    instanceID: Optional[str]
+    instanceID: str
     """The running instance of an application. Changes after each restart."""
 
 
@@ -4109,17 +4109,17 @@ class ContainerRegistryEventTarget(TypedDict, total=False):
 
     mediaType: Required[str]
     """The MIME type of the referenced object. Required."""
-    size: Optional[int]
+    size: int
     """The number of bytes of the content. Same as Length field."""
-    digest: Optional[str]
+    digest: str
     """The digest of the content, as defined by the Registry V2 HTTP API Specification."""
-    length: Optional[int]
+    length: int
     """The number of bytes of the content. Same as Size field."""
     repository: Required[str]
     """The repository name. Required."""
-    url: Optional[str]
+    url: str
     """The direct URL to the content."""
-    tag: Optional[str]
+    tag: str
     """The tag name."""
 
 
@@ -4240,7 +4240,7 @@ class ContainerServiceNewKubernetesVersionAvailableEventData(TypedDict, total=Fa
     lowestMinorKubernetesVersion: Required[str]
     """The highest PATCH Kubernetes version for the lowest applicable MINOR version available for the
      ManagedCluster resource. Required."""
-    latestPreviewKubernetesVersion: Optional[str]
+    latestPreviewKubernetesVersion: str
     """The highest PATCH Kubernetes version considered preview for the ManagedCluster resource. There
      might not be any version in preview at the time of publishing the event."""
 
@@ -4398,13 +4398,13 @@ class DeviceConnectionStateEventProperties(TypedDict, total=False):
     """The unique identifier of the device. This case-sensitive string can be up to 128 characters
      long, and supports ASCII 7-bit alphanumeric characters plus the following special characters: -
      : . + % _ &#35; * ? ! ( ) , = ``@`` ; $ '. Required."""
-    moduleId: Optional[str]
+    moduleId: str
     """The unique identifier of the module. This case-sensitive string can be up to 128 characters
      long, and supports ASCII 7-bit alphanumeric characters plus the following special characters: -
      : . + % _ &#35; * ? ! ( ) , = ``@`` ; $ '."""
     hubName: Required[str]
     """Name of the IoT Hub where the device was created or deleted. Required."""
-    deviceConnectionStateEventInfo: Required["types.DeviceConnectionStateEventInfo"]
+    deviceConnectionStateEventInfo: Required["DeviceConnectionStateEventInfo"]
     """Information about the device connection state event. Required."""
 
 
@@ -4429,7 +4429,7 @@ class DeviceLifeCycleEventProperties(TypedDict, total=False):
      : . + % _ &#35; * ? ! ( ) , = ``@`` ; $ '. Required."""
     hubName: Required[str]
     """Name of the IoT Hub where the device was created or deleted. Required."""
-    twin: Required["types.DeviceTwinInfo"]
+    twin: Required["DeviceTwinInfo"]
     """Information about the device twin, which is the cloud representation of application device
      metadata. Required."""
 
@@ -4506,7 +4506,7 @@ class DeviceTwinInfo(TypedDict, total=False):
      to be unique per device twin. Required."""
     lastActivityTime: Required[str]
     """The ISO8601 timestamp of the last activity. Required."""
-    properties: Required["types.DeviceTwinInfoProperties"]
+    properties: Required["DeviceTwinInfoProperties"]
     """Properties JSON element. Required."""
     status: Required[str]
     """Whether the device twin is enabled or disabled. Required."""
@@ -4514,7 +4514,7 @@ class DeviceTwinInfo(TypedDict, total=False):
     """The ISO8601 timestamp of the last device twin status update. Required."""
     version: Required[float]
     """An integer that is incremented by one each time the device twin is updated. Required."""
-    x509Thumbprint: Required["types.DeviceTwinInfoX509Thumbprint"]
+    x509Thumbprint: Required["DeviceTwinInfoX509Thumbprint"]
     """The thumbprint is a unique value for the x509 certificate, commonly used to find a particular
      certificate in a certificate store. The thumbprint is dynamically generated using the SHA1
      algorithm, and does not physically exist in the certificate. Required."""
@@ -4531,10 +4531,10 @@ class DeviceTwinInfoProperties(TypedDict, total=False):
     :vartype reported: ~azure.eventgrid.types.DeviceTwinProperties
     """
 
-    desired: Required["types.DeviceTwinProperties"]
+    desired: Required["DeviceTwinProperties"]
     """A portion of the properties that can be written only by the application back-end, and read by
      the device. Required."""
-    reported: Required["types.DeviceTwinProperties"]
+    reported: Required["DeviceTwinProperties"]
     """A portion of the properties that can be written only by the device, and read by the application
      back-end. Required."""
 
@@ -4578,7 +4578,7 @@ class DeviceTwinProperties(TypedDict, total=False):
     :vartype version: float
     """
 
-    metadata: Required["types.DeviceTwinMetadata"]
+    metadata: Required["DeviceTwinMetadata"]
     """Metadata information for the properties JSON document. Required."""
     version: Required[float]
     """Version of device twin properties. Required."""
@@ -4638,7 +4638,7 @@ class EventGridMQTTClientEventData(TypedDict, total=False):
     """Unique identifier for the MQTT client that the client presents to the service for
      authentication. This case-sensitive string can be up to 128 characters long, and supports UTF-8
      characters. Required."""
-    clientName: Optional[str]
+    clientName: str
     """Name of the client resource in the Event Grid namespace."""
     namespaceName: Required[str]
     """Name of the Event Grid namespace where the MQTT client was created or updated. Required."""
@@ -5695,9 +5695,9 @@ class MachineLearningServicesDatasetDriftDetectedEventData(TypedDict, total=Fals
     """The ID of the target Dataset used to detect drift. Required."""
     driftCoefficient: Required[float]
     """The coefficient result that triggered the event. Required."""
-    startTime: Required[datetime.datetime]
+    startTime: Required[Optional[datetime.datetime]]
     """The start time of the target dataset time series that resulted in drift detection. Required."""
-    endTime: Required[datetime.datetime]
+    endTime: Required[Optional[datetime.datetime]]
     """The end time of the target dataset time series that resulted in drift detection. Required."""
 
 
@@ -5724,9 +5724,9 @@ class MachineLearningServicesModelDeployedEventData(TypedDict, total=False):  # 
     """The compute type (e.g. ACI, AKS) of the deployed service. Required."""
     modelIds: Required[str]
     """A common separated list of model IDs. The IDs of the models deployed in the service. Required."""
-    serviceTags: Optional[dict[str, Any]]
+    serviceTags: dict[str, Any]
     """The tags of the deployed service."""
-    serviceProperties: Optional[dict[str, Any]]
+    serviceProperties: dict[str, Any]
     """The properties of the deployed service."""
 
 
@@ -5748,9 +5748,9 @@ class MachineLearningServicesModelRegisteredEventData(TypedDict, total=False):  
     """The name of the model that was registered. Required."""
     modelVersion: Required[str]
     """The version of the model that was registered. Required."""
-    modelTags: Optional[dict[str, Any]]
+    modelTags: dict[str, Any]
     """The tags of the model that was registered."""
-    modelProperties: Optional[dict[str, Any]]
+    modelProperties: dict[str, Any]
     """The properties of the model that was registered."""
 
 
@@ -5780,9 +5780,9 @@ class MachineLearningServicesRunCompletedEventData(TypedDict, total=False):  # p
     """The ID of the Run that was completed. Required."""
     runType: Required[str]
     """The Run Type of the completed Run. Required."""
-    runTags: Optional[dict[str, Any]]
+    runTags: dict[str, Any]
     """The tags of the completed Run."""
-    runProperties: Optional[dict[str, Any]]
+    runProperties: dict[str, Any]
     """The properties of the completed Run."""
 
 
@@ -5816,9 +5816,9 @@ class MachineLearningServicesRunStatusChangedEventData(TypedDict, total=False): 
     """The ID of the Machine Learning Run. Required."""
     runType: Required[str]
     """The Run Type of the Machine Learning Run. Required."""
-    runTags: Optional[dict[str, Any]]
+    runTags: dict[str, Any]
     """The tags of the Machine Learning Run."""
-    runProperties: Optional[dict[str, Any]]
+    runProperties: dict[str, Any]
     """The properties of the Machine Learning Run."""
     runStatus: Required[str]
     """The status of the Machine Learning Run. Required."""
@@ -5845,7 +5845,7 @@ class MapsGeofenceEventProperties(TypedDict, total=False):
     expiredGeofenceGeometryId: Required[list[str]]
     """Lists of the geometry ID of the geofence which is expired relative to the user time in the
      request. Required."""
-    geometries: Required[list["types.MapsGeofenceGeometry"]]
+    geometries: Required[list["MapsGeofenceGeometry"]]
     """Lists the fence geometries that either fully contain the coordinate position or have an overlap
      with the searchBuffer around the fence. Required."""
     invalidPeriodGeofenceGeometryId: Required[list[str]]
@@ -5934,7 +5934,7 @@ class MapsGeofenceGeometry(TypedDict, total=False):
     """Latitude of the nearest point of the geometry. Required."""
     nearestLon: Required[float]
     """Longitude of the nearest point of the geometry. Required."""
-    udId: Optional[str]
+    udId: str
     """The unique id returned from user upload service when uploading a geofence. Will not be included
      in geofencing post API."""
 
@@ -5990,7 +5990,7 @@ class MicrosoftTeamsUserIdentifierModel(TypedDict, total=False):
     userId: Required[str]
     """The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user.
      Required."""
-    isAnonymous: Optional[bool]
+    isAnonymous: bool
     """True if the Microsoft Teams user is anonymous. By default false if missing."""
     cloud: Required[CommunicationCloudEnvironmentModel]
     """The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. Required.
@@ -6143,11 +6143,11 @@ class RedisExportRDBCompletedEventData(TypedDict, total=False):
     :vartype status: str
     """
 
-    timestamp: Optional[datetime.datetime]
+    timestamp: datetime.datetime
     """The time at which the event occurred."""
-    name: Optional[str]
+    name: str
     """The name of this event."""
-    status: Optional[str]
+    status: str
     """The status of this event. Failed or  succeeded."""
 
 
@@ -6163,11 +6163,11 @@ class RedisImportRDBCompletedEventData(TypedDict, total=False):
     :vartype status: str
     """
 
-    timestamp: Optional[datetime.datetime]
+    timestamp: datetime.datetime
     """The time at which the event occurred."""
-    name: Optional[str]
+    name: str
     """The name of this event."""
-    status: Optional[str]
+    status: str
     """The status of this event. Failed or  succeeded."""
 
 
@@ -6182,11 +6182,11 @@ class RedisPatchingCompletedEventData(TypedDict, total=False):
     :vartype status: str
     """
 
-    timestamp: Optional[datetime.datetime]
+    timestamp: datetime.datetime
     """The time at which the event occurred."""
-    name: Optional[str]
+    name: str
     """The name of this event."""
-    status: Optional[str]
+    status: str
     """The status of this event. Failed or  succeeded."""
 
 
@@ -6201,11 +6201,11 @@ class RedisScalingCompletedEventData(TypedDict, total=False):
     :vartype status: str
     """
 
-    timestamp: Optional[datetime.datetime]
+    timestamp: datetime.datetime
     """The time at which the event occurred."""
-    name: Optional[str]
+    name: str
     """The name of this event."""
-    status: Optional[str]
+    status: str
     """The status of this event. Failed or  succeeded."""
 
 
@@ -6237,27 +6237,27 @@ class ResourceActionCancelEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6290,27 +6290,27 @@ class ResourceActionFailureEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6343,27 +6343,27 @@ class ResourceActionSuccessEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6378,9 +6378,9 @@ class ResourceAuthorization(TypedDict, total=False):
     :vartype evidence: dict[str, str]
     """
 
-    scope: Optional[str]
+    scope: str
     """The scope of the authorization."""
-    action: Optional[str]
+    action: str
     """The action being requested."""
     evidence: Required[dict[str, str]]
     """The evidence for the authorization. Required."""
@@ -6414,27 +6414,27 @@ class ResourceDeleteCancelEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6467,27 +6467,27 @@ class ResourceDeleteFailureEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6520,27 +6520,27 @@ class ResourceDeleteSuccessEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6557,13 +6557,13 @@ class ResourceHttpRequest(TypedDict, total=False):
     :vartype url: str
     """
 
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request ID."""
-    clientIpAddress: Optional[str]
+    clientIpAddress: str
     """The client IP address."""
-    method: Optional[str]
+    method: str
     """The request method."""
-    url: Optional[str]
+    url: str
     """The url used in the request."""
 
 
@@ -6578,9 +6578,9 @@ class ResourceNotificationsResourceUpdatedEventData(TypedDict, total=False):  # 
     :vartype api_version: str
     """
 
-    resourceInfo: Required["types.ResourceNotificationsResourceUpdatedDetails"]
+    resourceInfo: Required["ResourceNotificationsResourceUpdatedDetails"]
     """resourceInfo details for update event. Required."""
-    operationalInfo: Required["types.ResourceNotificationsOperationalDetails"]
+    operationalInfo: Required["ResourceNotificationsOperationalDetails"]
     """details about operational info. Required."""
     apiVersion: Required[str]
     """api version of the resource properties bag. Required."""
@@ -6674,9 +6674,9 @@ class ResourceNotificationsResourceDeletedEventData(TypedDict, total=False):  # 
     :vartype operational_details: ~azure.eventgrid.types.ResourceNotificationsOperationalDetails
     """
 
-    resourceInfo: Required["types.ResourceNotificationsResourceDeletedDetails"]
+    resourceInfo: Required["ResourceNotificationsResourceDeletedDetails"]
     """resourceInfo details for delete event. Required."""
-    operationalInfo: Required["types.ResourceNotificationsOperationalDetails"]
+    operationalInfo: Required["ResourceNotificationsOperationalDetails"]
     """details about operational info. Required."""
 
 
@@ -6733,11 +6733,11 @@ class ResourceNotificationsResourceUpdatedDetails(TypedDict, total=False):  # py
     """name of the resource for which the event is being emitted. Required."""
     type: Required[str]
     """the type of the resource for which the event is being emitted. Required."""
-    location: Optional[str]
+    location: str
     """the location of the resource for which the event is being emitted."""
-    tags: Optional[dict[str, str]]
+    tags: dict[str, str]
     """the tags on the resource for which the event is being emitted."""
-    properties: Optional[dict[str, Any]]
+    properties: dict[str, Any]
     """properties in the payload of the resource for which the event is being emitted."""
 
 
@@ -6769,27 +6769,27 @@ class ResourceWriteCancelEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6821,27 +6821,27 @@ class ResourceWriteFailureEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6873,27 +6873,27 @@ class ResourceWriteSuccessEventData(TypedDict, total=False):
     :vartype http_request: ~azure.eventgrid.types.ResourceHttpRequest
     """
 
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the resource."""
-    subscriptionId: Optional[str]
+    subscriptionId: str
     """The subscription ID of the resource."""
-    resourceGroup: Optional[str]
+    resourceGroup: str
     """The resource group of the resource."""
-    resourceProvider: Optional[str]
+    resourceProvider: str
     """The resource provider performing the operation."""
-    resourceUri: Optional[str]
+    resourceUri: str
     """The URI of the resource in the operation."""
-    operationName: Optional[str]
+    operationName: str
     """The operation that was performed."""
-    status: Optional[str]
+    status: str
     """The status of the operation."""
-    authorization: Required["types.ResourceAuthorization"]
+    authorization: Required["ResourceAuthorization"]
     """The requested authorization for the operation. Required."""
     claims: Required[dict[str, str]]
     """The properties of the claims. Required."""
-    correlationId: Optional[str]
+    correlationId: str
     """An operation ID used for troubleshooting."""
-    httpRequest: Required["types.ResourceHttpRequest"]
+    httpRequest: Required["ResourceHttpRequest"]
     """The details of the operation. Required."""
 
 
@@ -6928,13 +6928,13 @@ class ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData(
     entityType: Required[str]
     """The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'.
      Required."""
-    queueName: Required[str]
+    queueName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then
      this value will be null. Required."""
-    topicName: Required[str]
+    topicName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this
      value will be null. Required."""
-    subscriptionName: Required[str]
+    subscriptionName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type
      'queue', then this value will be null. Required."""
 
@@ -6970,13 +6970,13 @@ class ServiceBusActiveMessagesAvailableWithNoListenersEventData(
     entityType: Required[str]
     """The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'.
      Required."""
-    queueName: Required[str]
+    queueName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then
      this value will be null. Required."""
-    topicName: Required[str]
+    topicName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this
      value will be null. Required."""
-    subscriptionName: Required[str]
+    subscriptionName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type
      'queue', then this value will be null. Required."""
 
@@ -7012,13 +7012,13 @@ class ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData(
     entityType: Required[str]
     """The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'.
      Required."""
-    queueName: Required[str]
+    queueName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then
      this value will be null. Required."""
-    topicName: Required[str]
+    topicName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this
      value will be null. Required."""
-    subscriptionName: Required[str]
+    subscriptionName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type
      'queue', then this value will be null. Required."""
 
@@ -7054,13 +7054,13 @@ class ServiceBusDeadletterMessagesAvailableWithNoListenersEventData(
     entityType: Required[str]
     """The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'.
      Required."""
-    queueName: Required[str]
+    queueName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then
      this value will be null. Required."""
-    topicName: Required[str]
+    topicName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this
      value will be null. Required."""
-    subscriptionName: Required[str]
+    subscriptionName: Required[Optional[str]]
     """The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type
      'queue', then this value will be null. Required."""
 
@@ -7085,7 +7085,7 @@ class SignalRServiceClientConnectionConnectedEventData(TypedDict, total=False): 
     """The hub of connected client connection. Required."""
     connectionId: Required[str]
     """The connection Id of connected client connection. Required."""
-    userId: Optional[str]
+    userId: str
     """The user Id of connected client connection."""
 
 
@@ -7111,9 +7111,9 @@ class SignalRServiceClientConnectionDisconnectedEventData(TypedDict, total=False
     """The hub of connected client connection. Required."""
     connectionId: Required[str]
     """The connection Id of connected client connection. Required."""
-    userId: Optional[str]
+    userId: str
     """The user Id of connected client connection."""
-    errorMessage: Optional[str]
+    errorMessage: str
     """The message of error that cause the client connection disconnected."""
 
 
@@ -7150,28 +7150,28 @@ class StorageAsyncOperationInitiatedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    contentType: Optional[str]
+    contentType: str
     """The content type of the blob. This is the same as what would be returned in the Content-Type
      header from the blob."""
-    contentLength: Optional[int]
+    contentLength: int
     """The size of the blob in bytes. This is the same as what would be returned in the Content-Length
      header from the blob."""
-    blobType: Optional[str]
+    blobType: str
     """The type of blob."""
-    url: Optional[str]
+    url: str
     """The path to the blob."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular blob
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same blob name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7217,35 +7217,35 @@ class StorageBlobCreatedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    eTag: Optional[str]
+    eTag: str
     """The etag of the blob at the time this event was triggered."""
-    contentType: Optional[str]
+    contentType: str
     """The content type of the blob. This is the same as what would be returned in the Content-Type
      header from the blob."""
-    contentLength: Optional[int]
+    contentLength: int
     """The size of the blob in bytes. This is the same as what would be returned in the Content-Length
      header from the blob."""
-    contentOffset: Optional[int]
+    contentOffset: int
     """The offset of the blob in bytes."""
-    blobType: Optional[str]
+    blobType: str
     """The type of blob."""
     accessTier: Required[StorageBlobAccessTier]
     """The current tier of the blob. Required. Known values are: \"Hot\", \"Cool\", \"Cold\",
      \"Archive\", and \"Default\"."""
-    url: Optional[str]
+    url: str
     """The path to the blob."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular blob
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same blob name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7281,25 +7281,25 @@ class StorageBlobDeletedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    contentType: Optional[str]
+    contentType: str
     """The content type of the blob. This is the same as what would be returned in the Content-Type
      header from the blob."""
-    blobType: Optional[str]
+    blobType: str
     """The type of blob."""
-    url: Optional[str]
+    url: str
     """The path to the blob."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular blob
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same blob name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7329,17 +7329,17 @@ class StorageBlobInventoryPolicyCompletedEventData(TypedDict, total=False):  # p
 
     scheduleDateTime: Required[datetime.datetime]
     """The time at which inventory policy was scheduled. Required."""
-    accountName: Optional[str]
+    accountName: str
     """The account name for which inventory policy is registered."""
-    ruleName: Optional[str]
+    ruleName: str
     """The rule name for inventory policy."""
-    policyRunStatus: Optional[str]
+    policyRunStatus: str
     """The status of inventory run, it can be Succeeded/PartiallySucceeded/Failed."""
-    policyRunStatusMessage: Optional[str]
+    policyRunStatusMessage: str
     """The status message for inventory run."""
-    policyRunId: Optional[str]
+    policyRunId: str
     """The policy run id for inventory run."""
-    manifestBlobUrl: Optional[str]
+    manifestBlobUrl: str
     """The blob URL for manifest file for inventory run."""
 
 
@@ -7369,22 +7369,22 @@ class StorageBlobRenamedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    sourceUrl: Optional[str]
+    sourceUrl: str
     """The path to the blob that was renamed."""
-    destinationUrl: Optional[str]
+    destinationUrl: str
     """The new path to the blob after the rename operation."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular blob
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same blob name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7429,20 +7429,20 @@ class StorageBlobTierChangedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    contentType: Optional[str]
+    contentType: str
     """The content type of the blob. This is the same as what would be returned in the Content-Type
      header from the blob."""
-    contentLength: Optional[int]
+    contentLength: int
     """The size of the blob in bytes. This is the same as what would be returned in the Content-Length
      header from the blob."""
-    blobType: Optional[str]
+    blobType: str
     """The type of blob."""
     accessTier: Required[StorageBlobAccessTier]
     """The current tier of the blob. Required. Known values are: \"Hot\", \"Cool\", \"Cold\",
@@ -7450,13 +7450,13 @@ class StorageBlobTierChangedEventData(TypedDict, total=False):
     previousTier: Required[StorageBlobAccessTier]
     """The previous tier of the blob. Required. Known values are: \"Hot\", \"Cool\", \"Cold\",
      \"Archive\", and \"Default\"."""
-    url: Optional[str]
+    url: str
     """The path to the blob."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular blob
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same blob name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7490,22 +7490,22 @@ class StorageDirectoryCreatedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    eTag: Optional[str]
+    eTag: str
     """The etag of the directory at the time this event was triggered."""
-    url: Optional[str]
+    url: str
     """The path to the directory."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular directory
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same directory name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7539,22 +7539,22 @@ class StorageDirectoryDeletedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    url: Optional[str]
+    url: str
     """The path to the deleted directory."""
-    recursive: Optional[str]
+    recursive: str
     """Is this event for a recursive delete operation."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular directory
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same directory name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7588,22 +7588,22 @@ class StorageDirectoryRenamedEventData(TypedDict, total=False):
     :vartype storage_diagnostics: dict[str, any]
     """
 
-    api: Optional[str]
+    api: str
     """The name of the API/operation that triggered this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """A request id provided by the client of the storage API operation that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the storage service for the storage API operation that triggered
      this event."""
-    sourceUrl: Optional[str]
+    sourceUrl: str
     """The path to the directory that was renamed."""
-    destinationUrl: Optional[str]
+    destinationUrl: str
     """The new path to the directory after the rename operation."""
-    sequencer: Optional[str]
+    sequencer: str
     """An opaque string value representing the logical sequence of events for any particular directory
      name. Users can use standard string comparison to understand the relative sequence of two
      events on the same directory name."""
-    identity: Optional[str]
+    identity: str
     """The identity of the requester that triggered this event."""
     storageDiagnostics: Required[dict[str, Any]]
     """For service use only. Diagnostic data occasionally included by the Azure Storage service. This
@@ -7621,11 +7621,11 @@ class StorageLifecyclePolicyActionSummaryDetail(TypedDict, total=False):  # pyli
     :vartype error_list: str
     """
 
-    totalObjectsCount: Optional[int]
+    totalObjectsCount: int
     """Total number of objects to be acted on by this action."""
-    successCount: Optional[int]
+    successCount: int
     """Number of success operations of this action."""
-    errorList: Optional[str]
+    errorList: str
     """Error messages of this action if any."""
 
 
@@ -7653,17 +7653,17 @@ class StorageLifecyclePolicyCompletedEventData(TypedDict, total=False):
     :vartype tier_to_cold_summary: ~azure.eventgrid.types.StorageLifecyclePolicyActionSummaryDetail
     """
 
-    scheduleTime: Optional[str]
+    scheduleTime: str
     """The time the policy task was scheduled."""
-    policyRunSummary: Required["types.StorageLifecyclePolicyRunSummary"]
+    policyRunSummary: Required["StorageLifecyclePolicyRunSummary"]
     """Policy execution summary which shows the completion status of a LCM run\". Required."""
-    deleteSummary: Required["types.StorageLifecyclePolicyActionSummaryDetail"]
+    deleteSummary: Required["StorageLifecyclePolicyActionSummaryDetail"]
     """Execution statistics of a specific policy action in a Blob Management cycle. Required."""
-    tierToCoolSummary: Required["types.StorageLifecyclePolicyActionSummaryDetail"]
+    tierToCoolSummary: Required["StorageLifecyclePolicyActionSummaryDetail"]
     """Execution statistics of a specific policy action in a Blob Management cycle. Required."""
-    tierToArchiveSummary: Required["types.StorageLifecyclePolicyActionSummaryDetail"]
+    tierToArchiveSummary: Required["StorageLifecyclePolicyActionSummaryDetail"]
     """Execution statistics of a specific policy action in a Blob Management cycle. Required."""
-    tierToColdSummary: Required["types.StorageLifecyclePolicyActionSummaryDetail"]
+    tierToColdSummary: Required["StorageLifecyclePolicyActionSummaryDetail"]
     """Execution statistics of a specific policy action in a Blob Management cycle. Required."""
 
 
@@ -7701,9 +7701,9 @@ class StorageTaskAssignmentCompletedEventData(TypedDict, total=False):
     """The status for a storage task. Required. Known values are: \"Succeeded\" and \"Failed\"."""
     completedDateTime: Required[datetime.datetime]
     """The time at which a storage task was completed. Required."""
-    taskExecutionId: Optional[str]
+    taskExecutionId: str
     """The execution id for a storage task."""
-    taskName: Optional[str]
+    taskName: str
     """The task name for a storage task."""
     summaryReportBlobUrl: Required[str]
     """The summary report blob url for a storage task. Required."""
@@ -7721,7 +7721,7 @@ class StorageTaskAssignmentQueuedEventData(TypedDict, total=False):
 
     queuedDateTime: Required[datetime.datetime]
     """The time at which a storage task was queued. Required."""
-    taskExecutionId: Optional[str]
+    taskExecutionId: str
     """The execution id for a storage task."""
 
 
@@ -7746,9 +7746,9 @@ class StorageTaskCompletedEventData(TypedDict, total=False):
     """The status for a storage task. Required. Known values are: \"Succeeded\" and \"Failed\"."""
     completedDateTime: Required[datetime.datetime]
     """The time at which a storage task was completed. Required."""
-    taskExecutionId: Optional[str]
+    taskExecutionId: str
     """The execution id for a storage task."""
-    taskName: Optional[str]
+    taskName: str
     """The task name for a storage task."""
     summaryReportBlobUrl: Required[str]
     """The summary report blob url for a storage task. Required."""
@@ -7766,7 +7766,7 @@ class StorageTaskQueuedEventData(TypedDict, total=False):
 
     queuedDateTime: Required[datetime.datetime]
     """The time at which a storage task was queued. Required."""
-    taskExecutionId: Optional[str]
+    taskExecutionId: str
     """The execution id for a storage task."""
 
 
@@ -7851,24 +7851,24 @@ class WebAppServicePlanUpdatedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appServicePlanEventTypeDetail: Optional["types.AppServicePlanEventTypeDetail"]
+    appServicePlanEventTypeDetail: "AppServicePlanEventTypeDetail"
     """Detail of action on the app service plan."""
-    sku: Optional["types.WebAppServicePlanUpdatedEventDataSku"]
+    sku: "WebAppServicePlanUpdatedEventDataSku"
     """sku of app service plan."""
-    name: Optional[str]
+    name: str
     """name of the app service plan that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the app service plan API operation that
      triggered this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the app service plan API operation
      that triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the app service plan API operation that
      triggered this event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -7887,15 +7887,15 @@ class WebAppServicePlanUpdatedEventDataSku(TypedDict, total=False):
     :vartype capacity: str
     """
 
-    name: Optional[str]
+    name: str
     """name of app service plan sku."""
-    Tier: Optional[str]
+    Tier: str
     """tier of app service plan sku."""
-    Size: Optional[str]
+    Size: str
     """size of app service plan sku."""
-    Family: Optional[str]
+    Family: str
     """family of app service plan sku."""
-    Capacity: Optional[str]
+    Capacity: str
     """capacity of app service plan sku."""
 
 
@@ -7921,22 +7921,22 @@ class WebAppUpdatedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -7963,22 +7963,22 @@ class WebBackupOperationCompletedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8005,22 +8005,22 @@ class WebBackupOperationFailedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8047,22 +8047,22 @@ class WebBackupOperationStartedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8089,22 +8089,22 @@ class WebRestoreOperationCompletedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8131,22 +8131,22 @@ class WebRestoreOperationFailedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8173,22 +8173,22 @@ class WebRestoreOperationStartedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8214,22 +8214,22 @@ class WebSlotSwapCompletedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8255,22 +8255,22 @@ class WebSlotSwapFailedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8296,22 +8296,22 @@ class WebSlotSwapStartedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8338,22 +8338,22 @@ class WebSlotSwapWithPreviewCancelledEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
 
 
@@ -8380,20 +8380,20 @@ class WebSlotSwapWithPreviewStartedEventData(TypedDict, total=False):
     :vartype verb: str
     """
 
-    appEventTypeDetail: Optional["types.AppEventTypeDetail"]
+    appEventTypeDetail: "AppEventTypeDetail"
     """Detail of action on the app."""
-    name: Optional[str]
+    name: str
     """name of the web site that had this event."""
-    clientRequestId: Optional[str]
+    clientRequestId: str
     """The client request id generated by the app service for the site API operation that triggered
      this event."""
-    correlationRequestId: Optional[str]
+    correlationRequestId: str
     """The correlation request id generated by the app service for the site API operation that
      triggered this event."""
-    requestId: Optional[str]
+    requestId: str
     """The request id generated by the app service for the site API operation that triggered this
      event."""
-    address: Optional[str]
+    address: str
     """HTTP request URL of this operation."""
-    verb: Optional[str]
+    verb: str
     """HTTP verb of this operation."""
