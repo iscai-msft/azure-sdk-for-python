@@ -8,42 +8,289 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Any, Optional, TYPE_CHECKING, Union
+from typing import Any, Literal, Optional
 from typing_extensions import Required, TypedDict
 
-if TYPE_CHECKING:
-    from .models import (
-        AcsCallEndedByKind,
-        AcsCallParticipantKind,
-        AcsChatRetentionPolicyKind,
-        AcsChatThreadDeletedReasonType,
-        AcsEmailDeliveryReportStatus,
-        AcsInteractiveReplyKind,
-        AcsMessageChannelKind,
-        AcsMessageDeliveryStatus,
-        AcsRecordingChannelType,
-        AcsRecordingContentType,
-        AcsRecordingFormatType,
-        AcsRouterJobStatus,
-        AcsRouterLabelOperator,
-        AcsRouterUpdatedWorkerProperty,
-        AcsRouterWorkerSelectorState,
-        AcsUserEngagement,
-        AppAction,
-        AppServicePlanAction,
-        AsyncStatus,
-        CommunicationCloudEnvironmentModel,
-        CommunicationIdentifierModelKind,
-        DataBoxStageName,
-        EventGridMQTTClientDisconnectionReason,
-        EventGridMQTTClientState,
-        HealthcareFhirResourceType,
-        StampKind,
-        StorageBlobAccessTier,
-        StorageLifecycleCompletionStatus,
-        StorageTaskAssignmentCompletedStatus,
-        StorageTaskCompletedStatus,
-    )
+AcsCallEndedByKind = Literal["Participant", "MicrosoftInternal"]
+"""Call ended participant kind."""
+
+AcsCallParticipantKind = Literal["Attendee", "Presenter", "Organizer", "Consumer", "Collaborator"]
+"""Call participant kind."""
+
+AcsChatRetentionPolicyKind = Literal["none", "threadCreationDate"]
+"""Chat Retention Policy kind."""
+
+AcsChatThreadDeletedReasonType = Literal["deletedByUser", "deletedByPolicy"]
+"""Chat Thread Deletion Reason Type."""
+
+AcsEmailDeliveryReportStatus = Literal["Bounced", "Delivered", "Failed", "FilteredSpam", "Quarantined", "Suppressed"]
+"""The status of the email. Any value other than Delivered is considered failed."""
+
+AcsInteractiveReplyKind = Literal["buttonReply", "listReply", "unknown"]
+"""Interactive reply kind."""
+
+AcsMessageChannelKind = Literal["whatsapp"]
+"""Message channel kind."""
+
+AcsMessageDeliveryStatus = Literal["read", "delivered", "failed", "sent", "warning", "unknown"]
+"""Message delivery status."""
+
+AcsRecordingChannelType = Literal["Mixed", "Unmixed"]
+"""Recording channel type."""
+
+AcsRecordingContentType = Literal["AudioVideo", "Audio"]
+"""Recording content type."""
+
+AcsRecordingFormatType = Literal["Wav", "Mp3", "Mp4"]
+"""Recording format type."""
+
+AcsRouterJobStatus = Literal[
+    "PendingClassification",
+    "Queued",
+    "Assigned",
+    "Completed",
+    "Closed",
+    "Cancelled",
+    "ClassificationFailed",
+    "Created",
+    "PendingSchedule",
+    "Scheduled",
+    "ScheduleFailed",
+    "WaitingForActivation",
+]
+"""Acs Router Job Status."""
+
+AcsRouterLabelOperator = Literal["Equal", "NotEqual", "Greater", "Less", "GreaterThanOrEqual", "LessThanOrEqual"]
+"""Router Job Worker Selector Label Operator."""
+
+AcsRouterUpdatedWorkerProperty = Literal[
+    "AvailableForOffers", "TotalCapacity", "QueueAssignments", "Labels", "Tags", "ChannelConfigurations"
+]
+"""Worker properties that can be updated."""
+
+AcsRouterWorkerSelectorState = Literal["active", "expired"]
+"""Router Worker Selector State."""
+
+AcsUserEngagement = Literal["view", "click"]
+"""The type of engagement user have with email."""
+
+AppAction = Literal["Restarted", "Stopped", "ChangedAppSettings", "Started", "Completed", "Failed"]
+"""Type of action of the operation."""
+
+AppServicePlanAction = Literal["Updated"]
+"""Type of action on the app service plan."""
+
+AsyncStatus = Literal["Started", "Completed", "Failed"]
+"""Asynchronous operation status of the operation on the app service plan."""
+
+CommunicationCloudEnvironmentModel = Literal["public", "dod", "gcch"]
+"""Communication cloud environment model."""
+
+CommunicationIdentifierModelKind = Literal[
+    "unknown", "communicationUser", "phoneNumber", "microsoftTeamsUser", "microsoftTeamsApp"
+]
+"""Communication model identifier kind."""
+
+DataBoxStageName = Literal["CopyStarted", "CopyCompleted", "OrderCompleted"]
+"""Schema of DataBox Stage Name enumeration."""
+
+EventGridMQTTClientDisconnectionReason = Literal[
+    "ClientAuthenticationError",
+    "ClientAuthorizationError",
+    "ClientError",
+    "ClientInitiatedDisconnect",
+    "ConnectionLost",
+    "IpForbidden",
+    "QuotaExceeded",
+    "ServerError",
+    "ServerInitiatedDisconnect",
+    "SessionOverflow",
+    "SessionTakenOver",
+]
+"""EventGrid MQTT Client Disconnection Reason."""
+
+EventGridMQTTClientState = Literal["Enabled", "Disabled"]
+"""EventGrid MQTT Client State."""
+
+HealthcareFhirResourceType = Literal[
+    "Account",
+    "ActivityDefinition",
+    "AdverseEvent",
+    "AllergyIntolerance",
+    "Appointment",
+    "AppointmentResponse",
+    "AuditEvent",
+    "Basic",
+    "Binary",
+    "BiologicallyDerivedProduct",
+    "BodySite",
+    "BodyStructure",
+    "Bundle",
+    "CapabilityStatement",
+    "CarePlan",
+    "CareTeam",
+    "CatalogEntry",
+    "ChargeItem",
+    "ChargeItemDefinition",
+    "Claim",
+    "ClaimResponse",
+    "ClinicalImpression",
+    "CodeSystem",
+    "Communication",
+    "CommunicationRequest",
+    "CompartmentDefinition",
+    "Composition",
+    "ConceptMap",
+    "Condition",
+    "Consent",
+    "Contract",
+    "Coverage",
+    "CoverageEligibilityRequest",
+    "CoverageEligibilityResponse",
+    "DataElement",
+    "DetectedIssue",
+    "Device",
+    "DeviceComponent",
+    "DeviceDefinition",
+    "DeviceMetric",
+    "DeviceRequest",
+    "DeviceUseStatement",
+    "DiagnosticReport",
+    "DocumentManifest",
+    "DocumentReference",
+    "DomainResource",
+    "EffectEvidenceSynthesis",
+    "EligibilityRequest",
+    "EligibilityResponse",
+    "Encounter",
+    "Endpoint",
+    "EnrollmentRequest",
+    "EnrollmentResponse",
+    "EpisodeOfCare",
+    "EventDefinition",
+    "Evidence",
+    "EvidenceVariable",
+    "ExampleScenario",
+    "ExpansionProfile",
+    "ExplanationOfBenefit",
+    "FamilyMemberHistory",
+    "Flag",
+    "Goal",
+    "GraphDefinition",
+    "Group",
+    "GuidanceResponse",
+    "HealthcareService",
+    "ImagingManifest",
+    "ImagingStudy",
+    "Immunization",
+    "ImmunizationEvaluation",
+    "ImmunizationRecommendation",
+    "ImplementationGuide",
+    "InsurancePlan",
+    "Invoice",
+    "Library",
+    "Linkage",
+    "List",
+    "Location",
+    "Measure",
+    "MeasureReport",
+    "Media",
+    "Medication",
+    "MedicationAdministration",
+    "MedicationDispense",
+    "MedicationKnowledge",
+    "MedicationRequest",
+    "MedicationStatement",
+    "MedicinalProduct",
+    "MedicinalProductAuthorization",
+    "MedicinalProductContraindication",
+    "MedicinalProductIndication",
+    "MedicinalProductIngredient",
+    "MedicinalProductInteraction",
+    "MedicinalProductManufactured",
+    "MedicinalProductPackaged",
+    "MedicinalProductPharmaceutical",
+    "MedicinalProductUndesirableEffect",
+    "MessageDefinition",
+    "MessageHeader",
+    "MolecularSequence",
+    "NamingSystem",
+    "NutritionOrder",
+    "Observation",
+    "ObservationDefinition",
+    "OperationDefinition",
+    "OperationOutcome",
+    "Organization",
+    "OrganizationAffiliation",
+    "Parameters",
+    "Patient",
+    "PaymentNotice",
+    "PaymentReconciliation",
+    "Person",
+    "PlanDefinition",
+    "Practitioner",
+    "PractitionerRole",
+    "Procedure",
+    "ProcedureRequest",
+    "ProcessRequest",
+    "ProcessResponse",
+    "Provenance",
+    "Questionnaire",
+    "QuestionnaireResponse",
+    "ReferralRequest",
+    "RelatedPerson",
+    "RequestGroup",
+    "ResearchDefinition",
+    "ResearchElementDefinition",
+    "ResearchStudy",
+    "ResearchSubject",
+    "Resource",
+    "RiskAssessment",
+    "RiskEvidenceSynthesis",
+    "Schedule",
+    "SearchParameter",
+    "Sequence",
+    "ServiceDefinition",
+    "ServiceRequest",
+    "Slot",
+    "Specimen",
+    "SpecimenDefinition",
+    "StructureDefinition",
+    "StructureMap",
+    "Subscription",
+    "Substance",
+    "SubstanceNucleicAcid",
+    "SubstancePolymer",
+    "SubstanceProtein",
+    "SubstanceReferenceInformation",
+    "SubstanceSourceMaterial",
+    "SubstanceSpecification",
+    "SupplyDelivery",
+    "SupplyRequest",
+    "Task",
+    "TerminologyCapabilities",
+    "TestReport",
+    "TestScript",
+    "ValueSet",
+    "VerificationResult",
+    "VisionPrescription",
+]
+"""Schema of FHIR resource type enumeration."""
+
+StampKind = Literal["Public", "AseV1", "AseV2"]
+"""Kind of environment where app service plan is."""
+
+StorageBlobAccessTier = Literal["Hot", "Cool", "Cold", "Archive", "Default"]
+"""The access tier of the blob."""
+
+StorageLifecycleCompletionStatus = Literal["Completed", "CompletedWithError", "Incomplete"]
+"""The status for a LCM policy."""
+
+StorageTaskAssignmentCompletedStatus = Literal["Succeeded", "Failed"]
+"""The status for a storage task."""
+
+StorageTaskCompletedStatus = Literal["Succeeded", "Failed"]
+"""The status for a storage task."""
 
 
 class AcsCallEndedByProperties(TypedDict, total=False):
@@ -60,7 +307,7 @@ class AcsCallEndedByProperties(TypedDict, total=False):
 
     communicationIdentifier: Required["types.CommunicationIdentifierModel"]
     """The communication identifier of the call ended by. Required."""
-    type: Required[Union[str, "AcsCallEndedByKind"]]
+    type: Required[AcsCallEndedByKind]
     """The type of call ended by. Required. Known values are: \"Participant\" and
      \"MicrosoftInternal\"."""
     name: Required[str]
@@ -243,7 +490,7 @@ class AcsCallParticipantProperties(TypedDict, total=False):
 
     communicationIdentifier: Optional["types.CommunicationIdentifierModel"]
     """The communication identifier of the participant user."""
-    role: Optional[Union[str, "AcsCallParticipantKind"]]
+    role: Optional[AcsCallParticipantKind]
     """The role of the participant. Known values are: \"Attendee\", \"Presenter\", \"Organizer\",
      \"Consumer\", and \"Collaborator\"."""
 
@@ -841,7 +1088,7 @@ class AcsChatRetentionPolicy(TypedDict, total=False):
     :vartype delete_thread_after_days: int
     """
 
-    kind: Optional[Union[str, "AcsChatRetentionPolicyKind"]]
+    kind: Optional[AcsChatRetentionPolicyKind]
     """The chat retention policy kind. Known values are: \"none\" and \"threadCreationDate\"."""
     deleteThreadAfterDays: Optional[int]
     """The delete thread after number of days."""
@@ -975,7 +1222,7 @@ class AcsChatThreadDeletedEventData(AcsChatThreadEventInThreadBaseProperties):
     """The communication identifier of the user who deleted the thread. Required."""
     deleteTime: Required[datetime.datetime]
     """The deletion time of the thread. Required."""
-    reason: Optional[Union[str, "AcsChatThreadDeletedReasonType"]]
+    reason: Optional[AcsChatThreadDeletedReasonType]
     """The chat thread deletion reason. Known values are: \"deletedByUser\" and \"deletedByPolicy\"."""
 
 
@@ -1176,7 +1423,7 @@ class AcsEmailDeliveryReportReceivedEventData(TypedDict, total=False):
     """The Internet Message Id of the email that has been sent. Required."""
     messageId: Optional[str]
     """The Id of the email that has been sent."""
-    status: Required[Union[str, "AcsEmailDeliveryReportStatus"]]
+    status: Required[AcsEmailDeliveryReportStatus]
     """The status of the email. Any value other than Delivered is considered failed. Required. Known
      values are: \"Bounced\", \"Delivered\", \"Failed\", \"FilteredSpam\", \"Quarantined\", and
      \"Suppressed\"."""
@@ -1234,7 +1481,7 @@ class AcsEmailEngagementTrackingReportReceivedEventData(TypedDict, total=False):
     """The context of the type of engagement user had with email."""
     userAgent: Optional[str]
     """The user agent interacting with the email."""
-    engagementType: Required[Union[str, "AcsUserEngagement"]]
+    engagementType: Required[AcsUserEngagement]
     """The type of engagement user have with email. Required. Known values are: \"view\" and
      \"click\"."""
 
@@ -1374,8 +1621,8 @@ AcsMessageDeliveryStatusUpdatedEventData = TypedDict(
         "error": Optional["types.AcsMessageChannelEventError"],
         "messageId": Optional[str],
         "toBSUID": Optional[str],
-        "status": Required[Union[str, "AcsMessageDeliveryStatus"]],
-        "channelType": Required[Union[str, "AcsMessageChannelKind"]],
+        "status": Required[AcsMessageDeliveryStatus],
+        "channelType": Required[AcsMessageChannelKind],
     },
     total=False,
 )
@@ -1429,7 +1676,7 @@ class AcsMessageInteractiveContent(TypedDict, total=False):
     :vartype list_reply: ~azure.eventgrid.types.AcsMessageInteractiveListReplyContent
     """
 
-    type: Required[Union[str, "AcsInteractiveReplyKind"]]
+    type: Required[AcsInteractiveReplyKind]
     """The Message interactive reply type. Required. Known values are: \"buttonReply\", \"listReply\",
      and \"unknown\"."""
     buttonReply: Optional["types.AcsMessageInteractiveButtonReplyContent"]
@@ -1511,7 +1758,7 @@ AcsMessageReceivedEventData = TypedDict(
         "content": Optional[str],
         "messageId": Optional[str],
         "fromBSUID": Optional[str],
-        "channelType": Required[Union[str, "AcsMessageChannelKind"]],
+        "channelType": Required[AcsMessageChannelKind],
         "messageType": Required[str],
         "media": Optional["types.AcsMessageMediaContent"],
         "reaction": Optional["types.AcsMessageReactionContent"],
@@ -1615,13 +1862,13 @@ class AcsRecordingFileStatusUpdatedEventData(TypedDict, total=False):
     """The time at which the recording started. Required."""
     recordingDurationMs: Optional[int]
     """The recording duration in milliseconds."""
-    recordingContentType: Required[Union[str, "AcsRecordingContentType"]]
+    recordingContentType: Required[AcsRecordingContentType]
     """The recording content type- AudioVideo, or Audio. Required. Known values are: \"AudioVideo\"
      and \"Audio\"."""
-    recordingChannelType: Required[Union[str, "AcsRecordingChannelType"]]
+    recordingChannelType: Required[AcsRecordingChannelType]
     """The recording  channel type - Mixed, Unmixed. Required. Known values are: \"Mixed\" and
      \"Unmixed\"."""
-    recordingFormatType: Required[Union[str, "AcsRecordingFormatType"]]
+    recordingFormatType: Required[AcsRecordingFormatType]
     """The recording format type - Mp4, Mp3, Wav. Required. Known values are: \"Wav\", \"Mp3\", and
      \"Mp4\"."""
     sessionEndReason: Optional[str]
@@ -1993,7 +2240,7 @@ class AcsRouterJobReceivedEventData(AcsRouterJobEventData):
     :vartype unavailable_for_matching: bool
     """
 
-    jobStatus: Required[Union[str, "AcsRouterJobStatus"]]
+    jobStatus: Required[AcsRouterJobStatus]
     """Router Job Received Job Status. Required. Known values are: \"PendingClassification\",
      \"Queued\", \"Assigned\", \"Completed\", \"Closed\", \"Cancelled\", \"ClassificationFailed\",
      \"Created\", \"PendingSchedule\", \"Scheduled\", \"ScheduleFailed\", and
@@ -2447,14 +2694,14 @@ class AcsRouterWorkerSelector(TypedDict, total=False):
 
     key: Optional[str]
     """Router Job Worker Selector Key."""
-    labelOperator: Required[Union[str, "AcsRouterLabelOperator"]]
+    labelOperator: Required[AcsRouterLabelOperator]
     """Router Job Worker Selector Label Operator. Required. Known values are: \"Equal\", \"NotEqual\",
      \"Greater\", \"Less\", \"GreaterThanOrEqual\", and \"LessThanOrEqual\"."""
     value: Required[Any]
     """Router Job Worker Selector Value. Required."""
     ttlSeconds: Required[float]
     """Router Job Worker Selector Time to Live in Seconds. Required."""
-    state: Required[Union[str, "AcsRouterWorkerSelectorState"]]
+    state: Required[AcsRouterWorkerSelectorState]
     """Router Job Worker Selector State. Required. Known values are: \"active\" and \"expired\"."""
     expirationTime: Required[datetime.datetime]
     """Router Job Worker Selector Expiration Time. Required."""
@@ -2493,7 +2740,7 @@ class AcsRouterWorkerUpdatedEventData(TypedDict, total=False):
     """Router Worker Updated Labels. Required."""
     tags: Required[dict[str, str]]
     """Router Worker Updated Tags. Required."""
-    updatedWorkerProperties: Required[list[Union[str, "AcsRouterUpdatedWorkerProperty"]]]
+    updatedWorkerProperties: Required[list[AcsRouterUpdatedWorkerProperty]]
     """Router Worker Properties Updated. Required."""
 
 
@@ -3319,7 +3566,7 @@ class AppEventTypeDetail(TypedDict, total=False):
     :vartype action: str or ~azure.eventgrid.models.AppAction
     """
 
-    action: Optional[Union[str, "AppAction"]]
+    action: Optional[AppAction]
     """Type of action of the operation. Known values are: \"Restarted\", \"Stopped\",
      \"ChangedAppSettings\", \"Started\", \"Completed\", and \"Failed\"."""
 
@@ -3337,12 +3584,12 @@ class AppServicePlanEventTypeDetail(TypedDict, total=False):
     :vartype status: str or ~azure.eventgrid.models.AsyncStatus
     """
 
-    stampKind: Optional[Union[str, "StampKind"]]
+    stampKind: Optional[StampKind]
     """Kind of environment where app service plan is. Known values are: \"Public\", \"AseV1\", and
      \"AseV2\"."""
-    action: Optional[Union[str, "AppServicePlanAction"]]
+    action: Optional[AppServicePlanAction]
     """Type of action on the app service plan. \"Updated\""""
-    status: Optional[Union[str, "AsyncStatus"]]
+    status: Optional[AsyncStatus]
     """Asynchronous operation status of the operation on the app service plan. Known values are:
      \"Started\", \"Completed\", and \"Failed\"."""
 
@@ -3587,7 +3834,7 @@ class CommunicationIdentifierModel(TypedDict, total=False):
     :vartype microsoft_teams_app: ~azure.eventgrid.types.MicrosoftTeamsAppIdentifierModel
     """
 
-    kind: Optional[Union[str, "CommunicationIdentifierModelKind"]]
+    kind: Optional[CommunicationIdentifierModelKind]
     """The identifier kind. Only required in responses. Known values are: \"unknown\",
      \"communicationUser\", \"phoneNumber\", \"microsoftTeamsUser\", and \"microsoftTeamsApp\"."""
     rawId: Required[str]
@@ -4058,7 +4305,7 @@ class DataBoxCopyCompletedEventData(TypedDict, total=False):
     serialNumber: Required[str]
     """Serial Number of the device associated with the event. The list is comma separated if more than
      one serial number is associated. Required."""
-    stageName: Required[Union[str, "DataBoxStageName"]]
+    stageName: Required[DataBoxStageName]
     """Name of the current Stage. Required. Known values are: \"CopyStarted\", \"CopyCompleted\", and
      \"OrderCompleted\"."""
     stageTime: Required[datetime.datetime]
@@ -4081,7 +4328,7 @@ class DataBoxCopyStartedEventData(TypedDict, total=False):
     serialNumber: Required[str]
     """Serial Number of the device associated with the event. The list is comma separated if more than
      one serial number is associated. Required."""
-    stageName: Required[Union[str, "DataBoxStageName"]]
+    stageName: Required[DataBoxStageName]
     """Name of the current Stage. Required. Known values are: \"CopyStarted\", \"CopyCompleted\", and
      \"OrderCompleted\"."""
     stageTime: Required[datetime.datetime]
@@ -4104,7 +4351,7 @@ class DataBoxOrderCompletedEventData(TypedDict, total=False):
     serialNumber: Required[str]
     """Serial Number of the device associated with the event. The list is comma separated if more than
      one serial number is associated. Required."""
-    stageName: Required[Union[str, "DataBoxStageName"]]
+    stageName: Required[DataBoxStageName]
     """Name of the current Stage. Required. Known values are: \"CopyStarted\", \"CopyCompleted\", and
      \"OrderCompleted\"."""
     stageTime: Required[datetime.datetime]
@@ -4423,7 +4670,7 @@ class EventGridMQTTClientCreatedOrUpdatedEventData(EventGridMQTTClientEventData)
     :vartype attributes: dict[str, str]
     """
 
-    state: Required[Union[str, "EventGridMQTTClientState"]]
+    state: Required[EventGridMQTTClientState]
     """Configured state of the client. The value could be Enabled or Disabled. Required. Known values
      are: \"Enabled\" and \"Disabled\"."""
     createdOn: Required[datetime.datetime]
@@ -4514,7 +4761,7 @@ class EventGridMQTTClientSessionDisconnectedEventData(EventGridMQTTClientEventDa
     sequenceNumber: Required[int]
     """A number that helps indicate order of MQTT client session connected or disconnected events.
      Latest event will have a sequence number that is higher than the previous event. Required."""
-    disconnectionReason: Required[Union[str, "EventGridMQTTClientDisconnectionReason"]]
+    disconnectionReason: Required[EventGridMQTTClientDisconnectionReason]
     """Reason for the disconnection of the MQTT client's session. The value could be one of the values
      in the disconnection reasons table. Required. Known values are: \"ClientAuthenticationError\",
      \"ClientAuthorizationError\", \"ClientError\", \"ClientInitiatedDisconnect\",
@@ -4718,7 +4965,7 @@ class HealthcareFhirResourceCreatedEventData(TypedDict, total=False):
     :vartype fhir_resource_version_id: int
     """
 
-    resourceType: Required[Union[str, "HealthcareFhirResourceType"]]
+    resourceType: Required[HealthcareFhirResourceType]
     """Type of HL7 FHIR resource. Required. Known values are: \"Account\", \"ActivityDefinition\",
      \"AdverseEvent\", \"AllergyIntolerance\", \"Appointment\", \"AppointmentResponse\",
      \"AuditEvent\", \"Basic\", \"Binary\", \"BiologicallyDerivedProduct\", \"BodySite\",
@@ -4819,7 +5066,7 @@ class HealthcareFhirResourceDeletedEventData(TypedDict, total=False):
     :vartype fhir_resource_version_id: int
     """
 
-    resourceType: Required[Union[str, "HealthcareFhirResourceType"]]
+    resourceType: Required[HealthcareFhirResourceType]
     """Type of HL7 FHIR resource. Required. Known values are: \"Account\", \"ActivityDefinition\",
      \"AdverseEvent\", \"AllergyIntolerance\", \"Appointment\", \"AppointmentResponse\",
      \"AuditEvent\", \"Basic\", \"Binary\", \"BiologicallyDerivedProduct\", \"BodySite\",
@@ -4920,7 +5167,7 @@ class HealthcareFhirResourceUpdatedEventData(TypedDict, total=False):
     :vartype fhir_resource_version_id: int
     """
 
-    resourceType: Required[Union[str, "HealthcareFhirResourceType"]]
+    resourceType: Required[HealthcareFhirResourceType]
     """Type of HL7 FHIR resource. Required. Known values are: \"Account\", \"ActivityDefinition\",
      \"AdverseEvent\", \"AllergyIntolerance\", \"Appointment\", \"AppointmentResponse\",
      \"AuditEvent\", \"Basic\", \"Binary\", \"BiologicallyDerivedProduct\", \"BodySite\",
@@ -5722,7 +5969,7 @@ class MicrosoftTeamsAppIdentifierModel(TypedDict, total=False):
 
     appId: Required[str]
     """The Id of the Microsoft Teams application. Required."""
-    cloud: Required[Union[str, "CommunicationCloudEnvironmentModel"]]
+    cloud: Required[CommunicationCloudEnvironmentModel]
     """The cloud that the Microsoft Teams application belongs to. By default 'public' if missing.
      Required. Known values are: \"public\", \"dod\", and \"gcch\"."""
 
@@ -5745,7 +5992,7 @@ class MicrosoftTeamsUserIdentifierModel(TypedDict, total=False):
      Required."""
     isAnonymous: Optional[bool]
     """True if the Microsoft Teams user is anonymous. By default false if missing."""
-    cloud: Required[Union[str, "CommunicationCloudEnvironmentModel"]]
+    cloud: Required[CommunicationCloudEnvironmentModel]
     """The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. Required.
      Known values are: \"public\", \"dod\", and \"gcch\"."""
 
@@ -6989,7 +7236,7 @@ class StorageBlobCreatedEventData(TypedDict, total=False):
     """The offset of the blob in bytes."""
     blobType: Optional[str]
     """The type of blob."""
-    accessTier: Required[Union[str, "StorageBlobAccessTier"]]
+    accessTier: Required[StorageBlobAccessTier]
     """The current tier of the blob. Required. Known values are: \"Hot\", \"Cool\", \"Cold\",
      \"Archive\", and \"Default\"."""
     url: Optional[str]
@@ -7197,10 +7444,10 @@ class StorageBlobTierChangedEventData(TypedDict, total=False):
      header from the blob."""
     blobType: Optional[str]
     """The type of blob."""
-    accessTier: Required[Union[str, "StorageBlobAccessTier"]]
+    accessTier: Required[StorageBlobAccessTier]
     """The current tier of the blob. Required. Known values are: \"Hot\", \"Cool\", \"Cold\",
      \"Archive\", and \"Default\"."""
-    previousTier: Required[Union[str, "StorageBlobAccessTier"]]
+    previousTier: Required[StorageBlobAccessTier]
     """The previous tier of the blob. Required. Known values are: \"Hot\", \"Cool\", \"Cold\",
      \"Archive\", and \"Default\"."""
     url: Optional[str]
@@ -7428,7 +7675,7 @@ class StorageLifecyclePolicyRunSummary(TypedDict, total=False):
     :vartype completion_status: str or ~azure.eventgrid.models.StorageLifecycleCompletionStatus
     """
 
-    completionStatus: Required[Union[str, "StorageLifecycleCompletionStatus"]]
+    completionStatus: Required[StorageLifecycleCompletionStatus]
     """Policy status can be Completed/CompletedWithError/Incomplete. Required. Known values are:
      \"Completed\", \"CompletedWithError\", and \"Incomplete\"."""
 
@@ -7450,7 +7697,7 @@ class StorageTaskAssignmentCompletedEventData(TypedDict, total=False):
     :vartype summary_report_blob_url: str
     """
 
-    status: Required[Union[str, "StorageTaskAssignmentCompletedStatus"]]
+    status: Required[StorageTaskAssignmentCompletedStatus]
     """The status for a storage task. Required. Known values are: \"Succeeded\" and \"Failed\"."""
     completedDateTime: Required[datetime.datetime]
     """The time at which a storage task was completed. Required."""
@@ -7495,7 +7742,7 @@ class StorageTaskCompletedEventData(TypedDict, total=False):
     :vartype summary_report_blob_url: str
     """
 
-    status: Required[Union[str, "StorageTaskCompletedStatus"]]
+    status: Required[StorageTaskCompletedStatus]
     """The status for a storage task. Required. Known values are: \"Succeeded\" and \"Failed\"."""
     completedDateTime: Required[datetime.datetime]
     """The time at which a storage task was completed. Required."""
