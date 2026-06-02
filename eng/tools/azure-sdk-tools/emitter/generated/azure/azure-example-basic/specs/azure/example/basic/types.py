@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Optional, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -28,9 +28,9 @@ class ActionRequest(TypedDict, total=False):
 
     stringProperty: Required[str]
     """Required."""
-    modelProperty: Optional["Model"]
-    arrayProperty: Optional[list[str]]
-    recordProperty: Optional[dict[str, str]]
+    modelProperty: "Model"
+    arrayProperty: list[str]
+    recordProperty: dict[str, str]
 
 
 class ActionResponse(TypedDict, total=False):
@@ -48,9 +48,9 @@ class ActionResponse(TypedDict, total=False):
 
     stringProperty: Required[str]
     """Required."""
-    modelProperty: Optional["Model"]
-    arrayProperty: Optional[list[str]]
-    recordProperty: Optional[dict[str, str]]
+    modelProperty: "Model"
+    arrayProperty: list[str]
+    recordProperty: dict[str, str]
 
 
 class Model(TypedDict, total=False):
@@ -64,7 +64,7 @@ class Model(TypedDict, total=False):
     :vartype enum_property: str or ~specs.azure.example.basic.models.EnumEnum
     """
 
-    int32Property: Optional[int]
-    float32Property: Optional[float]
-    enumProperty: Optional[Union[str, "EnumEnum"]]
+    int32Property: int
+    float32Property: float
+    enumProperty: Union[str, "EnumEnum"]
     """\"EnumValue1\""""

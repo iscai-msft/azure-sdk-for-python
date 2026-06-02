@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -47,5 +46,5 @@ class Widget(TypedDict, total=False):
     """Widget identifier. Required."""
     name: Required[str]
     """Widget name. Required."""
-    color: Optional[str]
+    color: str
     """Widget color, only available in preview version."""

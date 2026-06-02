@@ -1,7 +1,7 @@
 # coding=utf-8
 
 import datetime
-from typing import Optional, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -179,7 +179,7 @@ class ModelWithOptionalField(TypedDict, total=False):
 
     item: Required[str]
     """Required."""
-    value: Optional[int]
+    value: int
 
 
 class ModelWithRenamedArrays(TypedDict, total=False):

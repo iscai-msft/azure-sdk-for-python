@@ -1,6 +1,5 @@
 # coding=utf-8
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -11,7 +10,7 @@ class Element(TypedDict, total=False):
     :vartype extension: list[~typetest.model.recursive.models.Extension]
     """
 
-    extension: Optional[list["Extension"]]
+    extension: list["Extension"]
 
 
 class Extension(Element):

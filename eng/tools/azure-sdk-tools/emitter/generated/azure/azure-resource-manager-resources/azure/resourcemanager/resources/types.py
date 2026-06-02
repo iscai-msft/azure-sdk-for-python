@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Any, Optional, TYPE_CHECKING, Union
+from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -24,9 +24,9 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :vartype info: any
     """
 
-    type: Optional[str]
+    type: str
     """The additional info type."""
-    info: Optional[Any]
+    info: Any
     """The additional info."""
 
 
@@ -45,15 +45,15 @@ class ErrorDetail(TypedDict, total=False):
     :vartype additional_info: list[~azure.resourcemanager.resources.models.ErrorAdditionalInfo]
     """
 
-    code: Optional[str]
+    code: str
     """The error code."""
-    message: Optional[str]
+    message: str
     """The error message."""
-    target: Optional[str]
+    target: str
     """The error target."""
-    details: Optional[list["ErrorDetail"]]
+    details: list["ErrorDetail"]
     """The error details."""
-    additionalInfo: Optional[list["ErrorAdditionalInfo"]]
+    additionalInfo: list["ErrorAdditionalInfo"]
     """The error additional info."""
 
 
@@ -64,7 +64,7 @@ class ErrorResponse(TypedDict, total=False):
     :vartype error: ~azure.resourcemanager.resources.models.ErrorDetail
     """
 
-    error: Optional["ErrorDetail"]
+    error: "ErrorDetail"
     """The error object."""
 
 
@@ -84,15 +84,15 @@ class Resource(TypedDict, total=False):
     :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
     """
 
-    id: Optional[str]
+    id: str
     """Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
-    name: Optional[str]
+    name: str
     """The name of the resource."""
-    type: Optional[str]
+    type: str
     """The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or
      \"Microsoft.Storage/storageAccounts\"."""
-    systemData: Optional["SystemData"]
+    systemData: "SystemData"
     """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
 
 
@@ -132,7 +132,7 @@ class ExtensionsResource(ExtensionResource):
     :vartype properties: ~azure.resourcemanager.resources.models.ExtensionsResourceProperties
     """
 
-    properties: Optional["ExtensionsResourceProperties"]
+    properties: "ExtensionsResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -146,9 +146,9 @@ class ExtensionsResourceProperties(TypedDict, total=False):
     :vartype provisioning_state: str or ~azure.resourcemanager.resources.models.ProvisioningState
     """
 
-    description: Optional[str]
+    description: str
     """The description of the resource."""
-    provisioningState: Optional[Union[str, "ProvisioningState"]]
+    provisioningState: Union[str, "ProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", \"Canceled\",
      \"Provisioning\", \"Updating\", \"Deleting\", and \"Accepted\"."""
 
@@ -189,7 +189,7 @@ class LocationResource(ProxyResource):
     :vartype properties: ~azure.resourcemanager.resources.models.LocationResourceProperties
     """
 
-    properties: Optional["LocationResourceProperties"]
+    properties: "LocationResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -203,9 +203,9 @@ class LocationResourceProperties(TypedDict, total=False):
     :vartype provisioning_state: str or ~azure.resourcemanager.resources.models.ProvisioningState
     """
 
-    description: Optional[str]
+    description: str
     """The description of the resource."""
-    provisioningState: Optional[Union[str, "ProvisioningState"]]
+    provisioningState: Union[str, "ProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", \"Canceled\",
      \"Provisioning\", \"Updating\", \"Deleting\", and \"Accepted\"."""
 
@@ -228,7 +228,7 @@ class NestedProxyResource(ProxyResource):
     :vartype properties: ~azure.resourcemanager.resources.models.NestedProxyResourceProperties
     """
 
-    properties: Optional["NestedProxyResourceProperties"]
+    properties: "NestedProxyResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -242,10 +242,10 @@ class NestedProxyResourceProperties(TypedDict, total=False):
     :vartype description: str
     """
 
-    provisioningState: Optional[Union[str, "ProvisioningState"]]
+    provisioningState: Union[str, "ProvisioningState"]
     """Provisioning State of the nested child Resource. Known values are: \"Succeeded\", \"Failed\",
      \"Canceled\", \"Provisioning\", \"Updating\", \"Deleting\", and \"Accepted\"."""
-    description: Optional[str]
+    description: str
     """Nested resource description."""
 
 
@@ -284,7 +284,7 @@ class TrackedResource(Resource):
     :vartype location: str
     """
 
-    tags: Optional[dict[str, str]]
+    tags: dict[str, str]
     """Resource tags."""
     location: Required[str]
     """The geo-location where the resource lives. Required."""
@@ -313,7 +313,7 @@ class SingletonTrackedResource(TrackedResource):
     :vartype properties: ~azure.resourcemanager.resources.models.SingletonTrackedResourceProperties
     """
 
-    properties: Optional["SingletonTrackedResourceProperties"]
+    properties: "SingletonTrackedResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -327,10 +327,10 @@ class SingletonTrackedResourceProperties(TypedDict, total=False):
     :vartype description: str
     """
 
-    provisioningState: Optional[Union[str, "ProvisioningState"]]
+    provisioningState: Union[str, "ProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", \"Canceled\",
      \"Provisioning\", \"Updating\", \"Deleting\", and \"Accepted\"."""
-    description: Optional[str]
+    description: str
     """The description of the resource."""
 
 
@@ -353,19 +353,19 @@ class SystemData(TypedDict, total=False):
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    createdBy: Optional[str]
+    createdBy: str
     """The identity that created the resource."""
-    createdByType: Optional[Union[str, "CreatedByType"]]
+    createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: Optional[datetime.datetime]
+    createdAt: datetime.datetime
     """The timestamp of resource creation (UTC)."""
-    lastModifiedBy: Optional[str]
+    lastModifiedBy: str
     """The identity that last modified the resource."""
-    lastModifiedByType: Optional[Union[str, "CreatedByType"]]
+    lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: Optional[datetime.datetime]
+    lastModifiedAt: datetime.datetime
     """The timestamp of resource last modification (UTC)."""
 
 
@@ -392,7 +392,7 @@ class TopLevelTrackedResource(TrackedResource):
     :vartype properties: ~azure.resourcemanager.resources.models.TopLevelTrackedResourceProperties
     """
 
-    properties: Optional["TopLevelTrackedResourceProperties"]
+    properties: "TopLevelTrackedResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -406,8 +406,8 @@ class TopLevelTrackedResourceProperties(TypedDict, total=False):
     :vartype description: str
     """
 
-    provisioningState: Optional[Union[str, "ProvisioningState"]]
+    provisioningState: Union[str, "ProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", \"Canceled\",
      \"Provisioning\", \"Updating\", \"Deleting\", and \"Accepted\"."""
-    description: Optional[str]
+    description: str
     """The description of the resource."""

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, Optional
+from typing import Any
 from typing_extensions import TypedDict
 
 
@@ -19,9 +19,9 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :vartype info: any
     """
 
-    type: Optional[str]
+    type: str
     """The additional info type."""
-    info: Optional[Any]
+    info: Any
     """The additional info."""
 
 
@@ -40,15 +40,15 @@ class ErrorDetail(TypedDict, total=False):
     :vartype additional_info: list[~azure.resourcemanager.nonresource.models.ErrorAdditionalInfo]
     """
 
-    code: Optional[str]
+    code: str
     """The error code."""
-    message: Optional[str]
+    message: str
     """The error message."""
-    target: Optional[str]
+    target: str
     """The error target."""
-    details: Optional[list["ErrorDetail"]]
+    details: list["ErrorDetail"]
     """The error details."""
-    additionalInfo: Optional[list["ErrorAdditionalInfo"]]
+    additionalInfo: list["ErrorAdditionalInfo"]
     """The error additional info."""
 
 
@@ -59,7 +59,7 @@ class ErrorResponse(TypedDict, total=False):
     :vartype error: ~azure.resourcemanager.nonresource.models.ErrorDetail
     """
 
-    error: Optional["ErrorDetail"]
+    error: "ErrorDetail"
     """The error object."""
 
 
@@ -75,9 +75,9 @@ class NonResource(TypedDict, total=False):
     :vartype type: str
     """
 
-    id: Optional[str]
+    id: str
     """An id."""
-    name: Optional[str]
+    name: str
     """A name."""
-    type: Optional[str]
+    type: str
     """A type."""

@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Any, Optional, TYPE_CHECKING, Union
+from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -24,9 +24,9 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :vartype info: any
     """
 
-    type: Optional[str]
+    type: str
     """The additional info type."""
-    info: Optional[Any]
+    info: Any
     """The additional info."""
 
 
@@ -46,15 +46,15 @@ class ErrorDetail(TypedDict, total=False):
      list[~azure.resourcemanager.methodsubscriptionid.models.ErrorAdditionalInfo]
     """
 
-    code: Optional[str]
+    code: str
     """The error code."""
-    message: Optional[str]
+    message: str
     """The error message."""
-    target: Optional[str]
+    target: str
     """The error target."""
-    details: Optional[list["ErrorDetail"]]
+    details: list["ErrorDetail"]
     """The error details."""
-    additionalInfo: Optional[list["ErrorAdditionalInfo"]]
+    additionalInfo: list["ErrorAdditionalInfo"]
     """The error additional info."""
 
 
@@ -65,7 +65,7 @@ class ErrorResponse(TypedDict, total=False):
     :vartype error: ~azure.resourcemanager.methodsubscriptionid.models.ErrorDetail
     """
 
-    error: Optional["ErrorDetail"]
+    error: "ErrorDetail"
     """The error object."""
 
 
@@ -89,20 +89,20 @@ class Operation(TypedDict, total=False):
     :vartype action_type: str or ~azure.resourcemanager.methodsubscriptionid.models.ActionType
     """
 
-    name: Optional[str]
+    name: str
     """The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      \"Microsoft.Compute/virtualMachines/write\",
      \"Microsoft.Compute/virtualMachines/capture/action\"."""
-    isDataAction: Optional[bool]
+    isDataAction: bool
     """Whether the operation applies to data-plane. This is \"true\" for data-plane operations and
      \"false\" for Azure Resource Manager/control-plane operations."""
-    display: Optional["OperationDisplay"]
+    display: "OperationDisplay"
     """Localized display information for this particular operation."""
-    origin: Optional[Union[str, "Origin"]]
+    origin: Union[str, "Origin"]
     """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
      logs UX. Default value is \"user,system\". Known values are: \"user\", \"system\", and
      \"user,system\"."""
-    actionType: Optional[Union[str, "ActionType"]]
+    actionType: Union[str, "ActionType"]
     """Extensible enum. Indicates the action type. \"Internal\" refers to actions that are for
      internal only APIs. \"Internal\""""
 
@@ -124,16 +124,16 @@ class OperationDisplay(TypedDict, total=False):
     :vartype description: str
     """
 
-    provider: Optional[str]
+    provider: str
     """The localized friendly form of the resource provider name, e.g. \"Microsoft Monitoring
      Insights\" or \"Microsoft Compute\"."""
-    resource: Optional[str]
+    resource: str
     """The localized friendly name of the resource type related to this operation. E.g. \"Virtual
      Machines\" or \"Job Schedule Collections\"."""
-    operation: Optional[str]
+    operation: str
     """The concise, localized friendly name for the operation; suitable for dropdowns. E.g. \"Create
      or Update Virtual Machine\", \"Restart Virtual Machine\"."""
-    description: Optional[str]
+    description: str
     """The short, localized friendly description of the operation; suitable for tool tips and detailed
      views."""
 
@@ -154,15 +154,15 @@ class Resource(TypedDict, total=False):
     :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
     """
 
-    id: Optional[str]
+    id: str
     """Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
-    name: Optional[str]
+    name: str
     """The name of the resource."""
-    type: Optional[str]
+    type: str
     """The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or
      \"Microsoft.Storage/storageAccounts\"."""
-    systemData: Optional["SystemData"]
+    systemData: "SystemData"
     """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
 
 
@@ -203,7 +203,7 @@ class TrackedResource(Resource):
     :vartype location: str
     """
 
-    tags: Optional[dict[str, str]]
+    tags: dict[str, str]
     """Resource tags."""
     location: Required[str]
     """The geo-location where the resource lives. Required."""
@@ -233,7 +233,7 @@ class ResourceGroupResource(TrackedResource):
      ~azure.resourcemanager.methodsubscriptionid.models.ResourceGroupResourceProperties
     """
 
-    properties: Optional["ResourceGroupResourceProperties"]
+    properties: "ResourceGroupResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -248,10 +248,10 @@ class ResourceGroupResourceProperties(TypedDict, total=False):
     :vartype resource_group_setting: str
     """
 
-    provisioningState: Optional[Union[str, "ResourceProvisioningState"]]
+    provisioningState: Union[str, "ResourceProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", and
      \"Canceled\"."""
-    resourceGroupSetting: Optional[str]
+    resourceGroupSetting: str
     """The resource group-scoped setting."""
 
 
@@ -275,7 +275,7 @@ class SubscriptionResource(ProxyResource):
      ~azure.resourcemanager.methodsubscriptionid.models.SubscriptionResourceProperties
     """
 
-    properties: Optional["SubscriptionResourceProperties"]
+    properties: "SubscriptionResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -299,7 +299,7 @@ class SubscriptionResource1(ProxyResource):
      ~azure.resourcemanager.methodsubscriptionid.models.SubscriptionResource1Properties
     """
 
-    properties: Optional["SubscriptionResource1Properties"]
+    properties: "SubscriptionResource1Properties"
     """The resource-specific properties for this resource."""
 
 
@@ -314,10 +314,10 @@ class SubscriptionResource1Properties(TypedDict, total=False):
     :vartype description: str
     """
 
-    provisioningState: Optional[Union[str, "ResourceProvisioningState"]]
+    provisioningState: Union[str, "ResourceProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", and
      \"Canceled\"."""
-    description: Optional[str]
+    description: str
     """The description of the resource."""
 
 
@@ -341,7 +341,7 @@ class SubscriptionResource2(ProxyResource):
      ~azure.resourcemanager.methodsubscriptionid.models.SubscriptionResource2Properties
     """
 
-    properties: Optional["SubscriptionResource2Properties"]
+    properties: "SubscriptionResource2Properties"
     """The resource-specific properties for this resource."""
 
 
@@ -356,10 +356,10 @@ class SubscriptionResource2Properties(TypedDict, total=False):
     :vartype config_value: str
     """
 
-    provisioningState: Optional[Union[str, "ResourceProvisioningState"]]
+    provisioningState: Union[str, "ResourceProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", and
      \"Canceled\"."""
-    configValue: Optional[str]
+    configValue: str
     """The configuration value."""
 
 
@@ -374,10 +374,10 @@ class SubscriptionResourceProperties(TypedDict, total=False):
     :vartype subscription_setting: str
     """
 
-    provisioningState: Optional[Union[str, "ResourceProvisioningState"]]
+    provisioningState: Union[str, "ResourceProvisioningState"]
     """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", and
      \"Canceled\"."""
-    subscriptionSetting: Optional[str]
+    subscriptionSetting: str
     """The subscription-scoped setting."""
 
 
@@ -402,17 +402,17 @@ class SystemData(TypedDict, total=False):
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    createdBy: Optional[str]
+    createdBy: str
     """The identity that created the resource."""
-    createdByType: Optional[Union[str, "CreatedByType"]]
+    createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: Optional[datetime.datetime]
+    createdAt: datetime.datetime
     """The timestamp of resource creation (UTC)."""
-    lastModifiedBy: Optional[str]
+    lastModifiedBy: str
     """The identity that last modified the resource."""
-    lastModifiedByType: Optional[Union[str, "CreatedByType"]]
+    lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: Optional[datetime.datetime]
+    lastModifiedAt: datetime.datetime
     """The timestamp of resource last modification (UTC)."""

@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -25,7 +25,7 @@ class RequestHeaderNestedResponseBodyResponseNestedNext(TypedDict, total=False):
     :vartype next_token: str
     """
 
-    nextToken: Optional[str]
+    nextToken: str
 
 
 class RequestQueryNestedResponseBodyResponseNestedItems(TypedDict, total=False):  # pylint: disable=name-too-long
@@ -46,4 +46,4 @@ class RequestQueryNestedResponseBodyResponseNestedNext(TypedDict, total=False): 
     :vartype next_token: str
     """
 
-    nextToken: Optional[str]
+    nextToken: str

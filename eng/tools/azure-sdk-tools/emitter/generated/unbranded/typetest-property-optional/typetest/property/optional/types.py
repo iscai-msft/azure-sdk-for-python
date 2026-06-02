@@ -1,7 +1,7 @@
 # coding=utf-8
 
 import datetime
-from typing import Literal, Optional
+from typing import Literal
 from typing_extensions import Required, TypedDict
 
 
@@ -12,7 +12,7 @@ class BooleanLiteralProperty(TypedDict, total=False):
     :vartype property: bool
     """
 
-    property: Optional[Literal[True]]
+    property: Literal[True]
     """Property. Default value is True."""
 
 
@@ -24,7 +24,7 @@ class BytesProperty(TypedDict, total=False):
     :vartype property: bytes
     """
 
-    property: Optional[bytes]
+    property: bytes
     """Property."""
 
 
@@ -35,7 +35,7 @@ class CollectionsByteProperty(TypedDict, total=False):
     :vartype property: list[bytes]
     """
 
-    property: Optional[list[bytes]]
+    property: list[bytes]
     """Property."""
 
 
@@ -46,7 +46,7 @@ class CollectionsModelProperty(TypedDict, total=False):
     :vartype property: list[~typetest.property.optional.models.StringProperty]
     """
 
-    property: Optional[list["StringProperty"]]
+    property: list["StringProperty"]
     """Property."""
 
 
@@ -57,7 +57,7 @@ class DatetimeProperty(TypedDict, total=False):
     :vartype property: ~datetime.datetime
     """
 
-    property: Optional[datetime.datetime]
+    property: datetime.datetime
     """Property."""
 
 
@@ -68,7 +68,7 @@ class DurationProperty(TypedDict, total=False):
     :vartype property: ~datetime.timedelta
     """
 
-    property: Optional[datetime.timedelta]
+    property: datetime.timedelta
     """Property."""
 
 
@@ -79,7 +79,7 @@ class FloatLiteralProperty(TypedDict, total=False):
     :vartype property: float
     """
 
-    property: Optional[float]
+    property: float
     """Property. Default value is 1.25."""
 
 
@@ -90,7 +90,7 @@ class IntLiteralProperty(TypedDict, total=False):
     :vartype property: int
     """
 
-    property: Optional[Literal[1]]
+    property: Literal[1]
     """Property. Default value is 1."""
 
 
@@ -101,7 +101,7 @@ class PlainDateProperty(TypedDict, total=False):
     :vartype property: ~datetime.date
     """
 
-    property: Optional[datetime.date]
+    property: datetime.date
     """Property."""
 
 
@@ -112,7 +112,7 @@ class PlainTimeProperty(TypedDict, total=False):
     :vartype property: ~datetime.time
     """
 
-    property: Optional[datetime.time]
+    property: datetime.time
     """Property."""
 
 
@@ -125,7 +125,7 @@ class RequiredAndOptionalProperty(TypedDict, total=False):
     :vartype required_property: int
     """
 
-    optionalProperty: Optional[str]
+    optionalProperty: str
     """optional string property."""
     requiredProperty: Required[int]
     """required int property. Required."""
@@ -138,7 +138,7 @@ class StringLiteralProperty(TypedDict, total=False):
     :vartype property: str
     """
 
-    property: Optional[Literal["hello"]]
+    property: Literal["hello"]
     """Property. Default value is \"hello\"."""
 
 
@@ -150,7 +150,7 @@ class StringProperty(TypedDict, total=False):
     :vartype property: str
     """
 
-    property: Optional[str]
+    property: str
     """Property."""
 
 
@@ -161,7 +161,7 @@ class UnionFloatLiteralProperty(TypedDict, total=False):
     :vartype property: float or float
     """
 
-    property: Optional[float]
+    property: float
     """Property. Is one of the following types: float"""
 
 
@@ -172,7 +172,7 @@ class UnionIntLiteralProperty(TypedDict, total=False):
     :vartype property: int or int
     """
 
-    property: Optional[Literal[1, 2]]
+    property: Literal[1, 2]
     """Property. Is either a Literal[1] type or a Literal[2] type."""
 
 
@@ -183,5 +183,5 @@ class UnionStringLiteralProperty(TypedDict, total=False):
     :vartype property: str or str
     """
 
-    property: Optional[Literal["hello", "world"]]
+    property: Literal["hello", "world"]
     """Property. Is either a Literal[\"hello\"] type or a Literal[\"world\"] type."""

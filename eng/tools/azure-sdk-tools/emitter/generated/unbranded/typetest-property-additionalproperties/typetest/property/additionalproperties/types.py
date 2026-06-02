@@ -1,7 +1,7 @@
 # coding=utf-8
 
 import datetime
-from typing import Literal, Optional, Union
+from typing import Literal, Union
 from typing_extensions import Required, TypedDict
 
 
@@ -173,7 +173,7 @@ class ExtendsUnknownAdditionalPropertiesDerived(ExtendsUnknownAdditionalProperti
 
     index: Required[int]
     """The index property. Required."""
-    age: Optional[float]
+    age: float
     """The age property."""
 
 
@@ -196,7 +196,7 @@ class ExtendsUnknownAdditionalPropertiesDiscriminatedDerived(TypedDict, total=Fa
     """Required. Default value is \"derived\"."""
     index: Required[int]
     """The index property. Required."""
-    age: Optional[float]
+    age: float
     """The age property."""
 
 
@@ -268,7 +268,7 @@ class IsUnknownAdditionalPropertiesDerived(IsUnknownAdditionalProperties):
 
     index: Required[int]
     """The index property. Required."""
-    age: Optional[float]
+    age: float
     """The age property."""
 
 
@@ -291,7 +291,7 @@ class IsUnknownAdditionalPropertiesDiscriminatedDerived(TypedDict, total=False):
     """Required. Default value is \"derived\"."""
     index: Required[int]
     """The index property. Required."""
-    age: Optional[float]
+    age: float
     """The age property."""
 
 
@@ -435,7 +435,7 @@ class WidgetData1(TypedDict, total=False):
     """Required. Default value is \"kind1\"."""
     start: Required[datetime.datetime]
     """Required."""
-    end: Optional[datetime.datetime]
+    end: datetime.datetime
 
 
 class WidgetData2(TypedDict, total=False):

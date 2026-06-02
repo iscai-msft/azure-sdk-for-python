@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Any, Optional, TYPE_CHECKING, Union
+from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -30,15 +30,15 @@ class ApiError(TypedDict, total=False):
     :vartype message: str
     """
 
-    details: Optional[list["ApiErrorBase"]]
+    details: list["ApiErrorBase"]
     """The Api error details."""
-    innererror: Optional["InnerError"]
+    innererror: "InnerError"
     """The Api inner error."""
-    code: Optional[str]
+    code: str
     """The error code."""
-    target: Optional[str]
+    target: str
     """The target of the particular error."""
-    message: Optional[str]
+    message: str
     """The error message."""
 
 
@@ -53,11 +53,11 @@ class ApiErrorBase(TypedDict, total=False):
     :vartype message: str
     """
 
-    code: Optional[str]
+    code: str
     """The error code."""
-    target: Optional[str]
+    target: str
     """The target of the particular error."""
-    message: Optional[str]
+    message: str
     """The error message."""
 
 
@@ -68,7 +68,7 @@ class CloudError(TypedDict, total=False):
     :vartype error: ~azure.resourcemanager.commonproperties.models.ApiError
     """
 
-    error: Optional["ApiError"]
+    error: "ApiError"
     """Api error."""
 
 
@@ -88,15 +88,15 @@ class Resource(TypedDict, total=False):
     :vartype system_data: ~azure.resourcemanager.commonproperties.models.SystemData
     """
 
-    id: Optional[str]
+    id: str
     """Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
-    name: Optional[str]
+    name: str
     """The name of the resource."""
-    type: Optional[str]
+    type: str
     """The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or
      \"Microsoft.Storage/storageAccounts\"."""
-    systemData: Optional["SystemData"]
+    systemData: "SystemData"
     """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
 
 
@@ -120,7 +120,7 @@ class TrackedResource(Resource):
     :vartype location: str
     """
 
-    tags: Optional[dict[str, str]]
+    tags: dict[str, str]
     """Resource tags."""
     location: Required[str]
     """The geo-location where the resource lives. Required."""
@@ -150,7 +150,7 @@ class ConfidentialResource(TrackedResource):
      ~azure.resourcemanager.commonproperties.models.ConfidentialResourceProperties
     """
 
-    properties: Optional["ConfidentialResourceProperties"]
+    properties: "ConfidentialResourceProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -178,9 +178,9 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :vartype info: any
     """
 
-    type: Optional[str]
+    type: str
     """The additional info type."""
-    info: Optional[Any]
+    info: Any
     """The additional info."""
 
 
@@ -200,15 +200,15 @@ class ErrorDetail(TypedDict, total=False):
      list[~azure.resourcemanager.commonproperties.models.ErrorAdditionalInfo]
     """
 
-    code: Optional[str]
+    code: str
     """The error code."""
-    message: Optional[str]
+    message: str
     """The error message."""
-    target: Optional[str]
+    target: str
     """The error target."""
-    details: Optional[list["ErrorDetail"]]
+    details: list["ErrorDetail"]
     """The error details."""
-    additionalInfo: Optional[list["ErrorAdditionalInfo"]]
+    additionalInfo: list["ErrorAdditionalInfo"]
     """The error additional info."""
 
 
@@ -219,7 +219,7 @@ class ErrorResponse(TypedDict, total=False):
     :vartype error: ~azure.resourcemanager.commonproperties.models.ErrorDetail
     """
 
-    error: Optional["ErrorDetail"]
+    error: "ErrorDetail"
     """The error object."""
 
 
@@ -232,9 +232,9 @@ class InnerError(TypedDict, total=False):
     :vartype errordetail: str
     """
 
-    exceptiontype: Optional[str]
+    exceptiontype: str
     """The exception type."""
-    errordetail: Optional[str]
+    errordetail: str
     """The internal error message or exception dump."""
 
 
@@ -264,9 +264,9 @@ class ManagedIdentityTrackedResource(TrackedResource):
     :vartype identity: ~azure.resourcemanager.commonproperties.models.ManagedServiceIdentity
     """
 
-    properties: Optional["ManagedIdentityTrackedResourceProperties"]
+    properties: "ManagedIdentityTrackedResourceProperties"
     """The resource-specific properties for this resource."""
-    identity: Optional["ManagedServiceIdentity"]
+    identity: "ManagedServiceIdentity"
     """The managed service identities assigned to this resource."""
 
 
@@ -298,16 +298,16 @@ class ManagedServiceIdentity(TypedDict, total=False):
      ~azure.resourcemanager.commonproperties.models.UserAssignedIdentity]
     """
 
-    principalId: Optional[str]
+    principalId: str
     """The service principal ID of the system assigned identity. This property will only be provided
      for a system assigned identity."""
-    tenantId: Optional[str]
+    tenantId: str
     """The tenant ID of the system assigned identity. This property will only be provided for a system
      assigned identity."""
     type: Required[Union[str, "ManagedServiceIdentityType"]]
     """The type of managed identity assigned to this resource. Required. Known values are: \"None\",
      \"SystemAssigned\", \"UserAssigned\", and \"SystemAssigned,UserAssigned\"."""
-    userAssignedIdentities: Optional[dict[str, "UserAssignedIdentity"]]
+    userAssignedIdentities: dict[str, "UserAssignedIdentity"]
     """The identities assigned to this resource by the user."""
 
 
@@ -331,19 +331,19 @@ class SystemData(TypedDict, total=False):
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    createdBy: Optional[str]
+    createdBy: str
     """The identity that created the resource."""
-    createdByType: Optional[Union[str, "CreatedByType"]]
+    createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: Optional[datetime.datetime]
+    createdAt: datetime.datetime
     """The timestamp of resource creation (UTC)."""
-    lastModifiedBy: Optional[str]
+    lastModifiedBy: str
     """The identity that last modified the resource."""
-    lastModifiedByType: Optional[Union[str, "CreatedByType"]]
+    lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: Optional[datetime.datetime]
+    lastModifiedAt: datetime.datetime
     """The timestamp of resource last modification (UTC)."""
 
 
@@ -356,7 +356,7 @@ class UserAssignedIdentity(TypedDict, total=False):
     :vartype client_id: str
     """
 
-    principalId: Optional[str]
+    principalId: str
     """The principal ID of the assigned identity."""
-    clientId: Optional[str]
+    clientId: str
     """The client ID of the assigned identity."""

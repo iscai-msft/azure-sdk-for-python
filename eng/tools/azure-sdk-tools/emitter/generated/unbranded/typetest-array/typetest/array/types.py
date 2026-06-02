@@ -1,6 +1,5 @@
 # coding=utf-8
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -15,4 +14,4 @@ class InnerModel(TypedDict, total=False):
 
     property: Required[str]
     """Required string property. Required."""
-    children: Optional[list["InnerModel"]]
+    children: list["InnerModel"]

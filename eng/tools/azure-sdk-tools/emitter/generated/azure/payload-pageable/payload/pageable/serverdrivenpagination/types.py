@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -31,4 +31,4 @@ class NestedLinkResponseNestedNext(TypedDict, total=False):
     :vartype next: str
     """
 
-    next: Optional[str]
+    next: str

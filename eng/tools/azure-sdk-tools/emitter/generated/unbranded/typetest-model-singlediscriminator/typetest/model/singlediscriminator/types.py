@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from typing import Literal, Optional, Union
+from typing import Literal, Union
 from typing_extensions import Required, TypedDict
 
 
@@ -24,9 +24,9 @@ class Eagle(TypedDict, total=False):
     """Required."""
     kind: Required[Literal["eagle"]]
     """Required. Default value is \"eagle\"."""
-    friends: Optional[list["Bird"]]
-    hate: Optional[dict[str, "Bird"]]
-    partner: Optional["Bird"]
+    friends: list["Bird"]
+    hate: dict[str, "Bird"]
+    partner: "Bird"
 
 
 class Goose(TypedDict, total=False):

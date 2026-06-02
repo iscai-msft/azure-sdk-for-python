@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -21,7 +20,7 @@ class User(TypedDict, total=False):
 
     id: Required[int]
     """The user's id. Required."""
-    name: Optional[str]
+    name: str
     """The user's name."""
 
 

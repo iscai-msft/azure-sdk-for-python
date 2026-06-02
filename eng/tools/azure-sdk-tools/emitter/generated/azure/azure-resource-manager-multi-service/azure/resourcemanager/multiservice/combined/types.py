@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Any, Optional, TYPE_CHECKING, Union
+from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -31,15 +31,15 @@ class Resource(TypedDict, total=False):
     :vartype system_data: ~azure.resourcemanager.multiservice.combined.models.SystemData
     """
 
-    id: Optional[str]
+    id: str
     """Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
-    name: Optional[str]
+    name: str
     """The name of the resource."""
-    type: Optional[str]
+    type: str
     """The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or
      \"Microsoft.Storage/storageAccounts\"."""
-    systemData: Optional["SystemData"]
+    systemData: "SystemData"
     """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
 
 
@@ -63,7 +63,7 @@ class TrackedResource(Resource):
     :vartype location: str
     """
 
-    tags: Optional[dict[str, str]]
+    tags: dict[str, str]
     """Resource tags."""
     location: Required[str]
     """The geo-location where the resource lives. Required."""
@@ -91,7 +91,7 @@ class Disk(TrackedResource):
     :vartype properties: ~azure.resourcemanager.multiservice.combined.models.DiskProperties
     """
 
-    properties: Optional["DiskProperties"]
+    properties: "DiskProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -103,7 +103,7 @@ class DiskProperties(TypedDict, total=False):
      ~azure.resourcemanager.multiservice.combined.models.ResourceProvisioningState
     """
 
-    provisioningState: Optional[Union[str, "ResourceProvisioningState"]]
+    provisioningState: Union[str, "ResourceProvisioningState"]
     """Known values are: \"Succeeded\", \"Failed\", and \"Canceled\"."""
 
 
@@ -116,9 +116,9 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :vartype info: any
     """
 
-    type: Optional[str]
+    type: str
     """The additional info type."""
-    info: Optional[Any]
+    info: Any
     """The additional info."""
 
 
@@ -138,15 +138,15 @@ class ErrorDetail(TypedDict, total=False):
      list[~azure.resourcemanager.multiservice.combined.models.ErrorAdditionalInfo]
     """
 
-    code: Optional[str]
+    code: str
     """The error code."""
-    message: Optional[str]
+    message: str
     """The error message."""
-    target: Optional[str]
+    target: str
     """The error target."""
-    details: Optional[list["ErrorDetail"]]
+    details: list["ErrorDetail"]
     """The error details."""
-    additionalInfo: Optional[list["ErrorAdditionalInfo"]]
+    additionalInfo: list["ErrorAdditionalInfo"]
     """The error additional info."""
 
 
@@ -157,7 +157,7 @@ class ErrorResponse(TypedDict, total=False):
     :vartype error: ~azure.resourcemanager.multiservice.combined.models.ErrorDetail
     """
 
-    error: Optional["ErrorDetail"]
+    error: "ErrorDetail"
     """The error object."""
 
 
@@ -182,19 +182,19 @@ class SystemData(TypedDict, total=False):
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    createdBy: Optional[str]
+    createdBy: str
     """The identity that created the resource."""
-    createdByType: Optional[Union[str, "CreatedByType"]]
+    createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: Optional[datetime.datetime]
+    createdAt: datetime.datetime
     """The timestamp of resource creation (UTC)."""
-    lastModifiedBy: Optional[str]
+    lastModifiedBy: str
     """The identity that last modified the resource."""
-    lastModifiedByType: Optional[Union[str, "CreatedByType"]]
+    lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: Optional[datetime.datetime]
+    lastModifiedAt: datetime.datetime
     """The timestamp of resource last modification (UTC)."""
 
 
@@ -221,7 +221,7 @@ class VirtualMachine(TrackedResource):
      ~azure.resourcemanager.multiservice.combined.models.VirtualMachineProperties
     """
 
-    properties: Optional["VirtualMachineProperties"]
+    properties: "VirtualMachineProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -233,5 +233,5 @@ class VirtualMachineProperties(TypedDict, total=False):
      ~azure.resourcemanager.multiservice.combined.models.ResourceProvisioningState
     """
 
-    provisioningState: Optional[Union[str, "ResourceProvisioningState"]]
+    provisioningState: Union[str, "ResourceProvisioningState"]
     """Known values are: \"Succeeded\", \"Failed\", and \"Canceled\"."""

@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -21,4 +20,4 @@ class InnerModel(TypedDict, total=False):
 
     property: Required[str]
     """Required string property. Required."""
-    children: Optional[dict[str, "InnerModel"]]
+    children: dict[str, "InnerModel"]

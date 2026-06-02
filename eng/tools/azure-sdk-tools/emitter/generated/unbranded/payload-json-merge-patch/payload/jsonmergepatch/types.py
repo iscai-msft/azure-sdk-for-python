@@ -1,6 +1,5 @@
 # coding=utf-8
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -13,8 +12,8 @@ class InnerModel(TypedDict, total=False):
     :vartype description: str
     """
 
-    name: Optional[str]
-    description: Optional[str]
+    name: str
+    description: str
 
 
 class Resource(TypedDict, total=False):
@@ -40,13 +39,13 @@ class Resource(TypedDict, total=False):
 
     name: Required[str]
     """Required."""
-    description: Optional[str]
-    map: Optional[dict[str, "InnerModel"]]
-    array: Optional[list["InnerModel"]]
-    intValue: Optional[int]
-    floatValue: Optional[float]
-    innerModel: Optional["InnerModel"]
-    intArray: Optional[list[int]]
+    description: str
+    map: dict[str, "InnerModel"]
+    array: list["InnerModel"]
+    intValue: int
+    floatValue: float
+    innerModel: "InnerModel"
+    intArray: list[int]
 
 
 class ResourcePatch(TypedDict, total=False):
@@ -68,10 +67,10 @@ class ResourcePatch(TypedDict, total=False):
     :vartype int_array: list[int]
     """
 
-    description: Optional[str]
-    map: Optional[dict[str, "InnerModel"]]
-    array: Optional[list["InnerModel"]]
-    intValue: Optional[int]
-    floatValue: Optional[float]
-    innerModel: Optional["InnerModel"]
-    intArray: Optional[list[int]]
+    description: str
+    map: dict[str, "InnerModel"]
+    array: list["InnerModel"]
+    intValue: int
+    floatValue: float
+    innerModel: "InnerModel"
+    intArray: list[int]

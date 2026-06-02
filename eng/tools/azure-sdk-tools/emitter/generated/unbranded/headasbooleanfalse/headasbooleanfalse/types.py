@@ -15,7 +15,7 @@ class ReadOnlyModel(TypedDict, total=False):
 
     optionalNullableIntList: Optional[list[int]]
     """Optional readonly nullable int list."""
-    optionalStringRecord: Optional[dict[str, str]]
+    optionalStringRecord: dict[str, str]
     """Optional readonly string dictionary."""
 
 

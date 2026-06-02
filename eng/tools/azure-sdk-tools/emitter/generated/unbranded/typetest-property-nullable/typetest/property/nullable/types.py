@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import datetime
+from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -16,7 +17,7 @@ class BytesProperty(TypedDict, total=False):
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[bytes]
+    nullableProperty: Required[Optional[bytes]]
     """Property. Required."""
 
 
@@ -31,7 +32,7 @@ class CollectionsByteProperty(TypedDict, total=False):
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[list[bytes]]
+    nullableProperty: Required[Optional[list[bytes]]]
     """Property. Required."""
 
 
@@ -46,7 +47,7 @@ class CollectionsModelProperty(TypedDict, total=False):
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[list["InnerModel"]]
+    nullableProperty: Required[Optional[list["InnerModel"]]]
     """Property. Required."""
 
 
@@ -61,7 +62,7 @@ class CollectionsStringProperty(TypedDict, total=False):
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[list[str]]
+    nullableProperty: Required[Optional[list[str]]]
     """Property. Required."""
 
 
@@ -76,7 +77,7 @@ class DatetimeProperty(TypedDict, total=False):
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[datetime.datetime]
+    nullableProperty: Required[Optional[datetime.datetime]]
     """Property. Required."""
 
 
@@ -91,7 +92,7 @@ class DurationProperty(TypedDict, total=False):
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[datetime.timedelta]
+    nullableProperty: Required[Optional[datetime.timedelta]]
     """Property. Required."""
 
 
@@ -118,5 +119,5 @@ class StringProperty(TypedDict, total=False):
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[str]
+    nullableProperty: Required[Optional[str]]
     """Property. Required."""

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, Optional
+from typing import Any
 from typing_extensions import Required, TypedDict
 
 
@@ -66,7 +66,7 @@ class FlattenUnknownModel(TypedDict, total=False):
 
     name: Required[str]
     """Required."""
-    properties: Optional[Any]
+    properties: Any
 
 
 class NestedFlattenModel(TypedDict, total=False):
@@ -96,7 +96,7 @@ class Solution(TypedDict, total=False):
 
     name: Required[str]
     """Required."""
-    properties: Optional["SolutionProperties"]
+    properties: "SolutionProperties"
 
 
 class SolutionProperties(TypedDict, total=False):
@@ -110,6 +110,6 @@ class SolutionProperties(TypedDict, total=False):
     :vartype content: str
     """
 
-    solutionId: Optional[str]
-    title: Optional[str]
-    content: Optional[str]
+    solutionId: str
+    title: str
+    content: str

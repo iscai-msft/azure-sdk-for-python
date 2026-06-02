@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -60,7 +59,7 @@ class User(TypedDict, total=False):
     """The user's id. Required."""
     name: Required[str]
     """The user's name. Required."""
-    orders: Optional[list["UserOrder"]]
+    orders: list["UserOrder"]
     """The user's order list."""
     etag: Required[str]
     """The entity tag for this resource. Required."""

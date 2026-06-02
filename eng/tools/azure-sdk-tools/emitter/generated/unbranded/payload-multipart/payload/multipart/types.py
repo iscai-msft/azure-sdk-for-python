@@ -1,6 +1,5 @@
 # coding=utf-8
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 from ._utils.utils import FileType
@@ -141,7 +140,7 @@ class MultiBinaryPartsRequest(TypedDict, total=False):
 
     profileImage: Required[FileType]
     """Required."""
-    picture: Optional[FileType]
+    picture: FileType
 
 
 class MultiPartOptionalRequest(TypedDict, total=False):
@@ -153,8 +152,8 @@ class MultiPartOptionalRequest(TypedDict, total=False):
     :vartype profile_image: ~payload.multipart._utils.utils.FileType
     """
 
-    id: Optional[str]
-    profileImage: Optional[FileType]
+    id: str
+    profileImage: FileType
 
 
 class MultiPartRequest(TypedDict, total=False):

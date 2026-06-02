@@ -1,6 +1,5 @@
 # coding=utf-8
 
-from typing import Optional
 from typing_extensions import Required, TypedDict
 
 
@@ -15,4 +14,4 @@ class TestModel(TypedDict, total=False):
 
     prop: Required[str]
     """Required."""
-    changedProp: Optional[str]
+    changedProp: str

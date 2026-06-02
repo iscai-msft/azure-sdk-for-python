@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Any, Optional, TYPE_CHECKING, Union
+from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -24,9 +24,9 @@ class ActionRequest(TypedDict, total=False):
     :vartype parameters: str
     """
 
-    actionType: Optional[str]
+    actionType: str
     """The action type to perform."""
-    parameters: Optional[str]
+    parameters: str
     """Additional action parameters."""
 
 
@@ -50,9 +50,9 @@ class ChangeAllowanceRequest(TypedDict, total=False):
     :vartype reason: str
     """
 
-    totalAllowed: Optional[int]
+    totalAllowed: int
     """The new total allowed widgets."""
-    reason: Optional[str]
+    reason: str
     """The reason for the change."""
 
 
@@ -80,9 +80,9 @@ class CheckNameAvailabilityRequest(TypedDict, total=False):
     :vartype type: str
     """
 
-    name: Optional[str]
+    name: str
     """The name of the resource for which availability needs to be checked."""
-    type: Optional[str]
+    type: str
     """The resource type."""
 
 
@@ -99,12 +99,12 @@ class CheckNameAvailabilityResponse(TypedDict, total=False):
     :vartype message: str
     """
 
-    nameAvailable: Optional[bool]
+    nameAvailable: bool
     """Indicates if the resource name is available."""
-    reason: Optional[Union[str, "CheckNameAvailabilityReason"]]
+    reason: Union[str, "CheckNameAvailabilityReason"]
     """The reason why the given name is not available. Known values are: \"Invalid\" and
      \"AlreadyExists\"."""
-    message: Optional[str]
+    message: str
     """Detailed reason why the given name is not available."""
 
 
@@ -117,9 +117,9 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :vartype info: any
     """
 
-    type: Optional[str]
+    type: str
     """The additional info type."""
-    info: Optional[Any]
+    info: Any
     """The additional info."""
 
 
@@ -139,15 +139,15 @@ class ErrorDetail(TypedDict, total=False):
      list[~azure.resourcemanager.operationtemplates.models.ErrorAdditionalInfo]
     """
 
-    code: Optional[str]
+    code: str
     """The error code."""
-    message: Optional[str]
+    message: str
     """The error message."""
-    target: Optional[str]
+    target: str
     """The error target."""
-    details: Optional[list["ErrorDetail"]]
+    details: list["ErrorDetail"]
     """The error details."""
-    additionalInfo: Optional[list["ErrorAdditionalInfo"]]
+    additionalInfo: list["ErrorAdditionalInfo"]
     """The error additional info."""
 
 
@@ -158,7 +158,7 @@ class ErrorResponse(TypedDict, total=False):
     :vartype error: ~azure.resourcemanager.operationtemplates.models.ErrorDetail
     """
 
-    error: Optional["ErrorDetail"]
+    error: "ErrorDetail"
     """The error object."""
 
 
@@ -204,20 +204,20 @@ class Operation(TypedDict, total=False):
     :vartype action_type: str or ~azure.resourcemanager.operationtemplates.models.ActionType
     """
 
-    name: Optional[str]
+    name: str
     """The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      \"Microsoft.Compute/virtualMachines/write\",
      \"Microsoft.Compute/virtualMachines/capture/action\"."""
-    isDataAction: Optional[bool]
+    isDataAction: bool
     """Whether the operation applies to data-plane. This is \"true\" for data-plane operations and
      \"false\" for Azure Resource Manager/control-plane operations."""
-    display: Optional["OperationDisplay"]
+    display: "OperationDisplay"
     """Localized display information for this particular operation."""
-    origin: Optional[Union[str, "Origin"]]
+    origin: Union[str, "Origin"]
     """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
      logs UX. Default value is \"user,system\". Known values are: \"user\", \"system\", and
      \"user,system\"."""
-    actionType: Optional[Union[str, "ActionType"]]
+    actionType: Union[str, "ActionType"]
     """Extensible enum. Indicates the action type. \"Internal\" refers to actions that are for
      internal only APIs. \"Internal\""""
 
@@ -239,16 +239,16 @@ class OperationDisplay(TypedDict, total=False):
     :vartype description: str
     """
 
-    provider: Optional[str]
+    provider: str
     """The localized friendly form of the resource provider name, e.g. \"Microsoft Monitoring
      Insights\" or \"Microsoft Compute\"."""
-    resource: Optional[str]
+    resource: str
     """The localized friendly name of the resource type related to this operation. E.g. \"Virtual
      Machines\" or \"Job Schedule Collections\"."""
-    operation: Optional[str]
+    operation: str
     """The concise, localized friendly name for the operation; suitable for dropdowns. E.g. \"Create
      or Update Virtual Machine\", \"Restart Virtual Machine\"."""
-    description: Optional[str]
+    description: str
     """The short, localized friendly description of the operation; suitable for tool tips and detailed
      views."""
 
@@ -269,15 +269,15 @@ class Resource(TypedDict, total=False):
     :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
     """
 
-    id: Optional[str]
+    id: str
     """Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
-    name: Optional[str]
+    name: str
     """The name of the resource."""
-    type: Optional[str]
+    type: str
     """The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or
      \"Microsoft.Storage/storageAccounts\"."""
-    systemData: Optional["SystemData"]
+    systemData: "SystemData"
     """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
 
 
@@ -301,7 +301,7 @@ class TrackedResource(Resource):
     :vartype location: str
     """
 
-    tags: Optional[dict[str, str]]
+    tags: dict[str, str]
     """Resource tags."""
     location: Required[str]
     """The geo-location where the resource lives. Required."""
@@ -330,7 +330,7 @@ class Order(TrackedResource):
     :vartype properties: ~azure.resourcemanager.operationtemplates.models.OrderProperties
     """
 
-    properties: Optional["OrderProperties"]
+    properties: "OrderProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -349,7 +349,7 @@ class OrderProperties(TypedDict, total=False):
     """The product ID of the order. Required."""
     amount: Required[int]
     """Amount of the product. Required."""
-    provisioningState: Optional[str]
+    provisioningState: str
     """The provisioning state of the product."""
 
 
@@ -376,7 +376,7 @@ class Product(TrackedResource):
     :vartype properties: ~azure.resourcemanager.operationtemplates.models.ProductProperties
     """
 
-    properties: Optional["ProductProperties"]
+    properties: "ProductProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -389,9 +389,9 @@ class ProductProperties(TypedDict, total=False):
     :vartype provisioning_state: str
     """
 
-    productId: Optional[str]
+    productId: str
     """The product ID."""
-    provisioningState: Optional[str]
+    provisioningState: str
     """The provisioning state of the product."""
 
 
@@ -415,19 +415,19 @@ class SystemData(TypedDict, total=False):
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    createdBy: Optional[str]
+    createdBy: str
     """The identity that created the resource."""
-    createdByType: Optional[Union[str, "CreatedByType"]]
+    createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: Optional[datetime.datetime]
+    createdAt: datetime.datetime
     """The timestamp of resource creation (UTC)."""
-    lastModifiedBy: Optional[str]
+    lastModifiedBy: str
     """The identity that last modified the resource."""
-    lastModifiedByType: Optional[Union[str, "CreatedByType"]]
+    lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: Optional[datetime.datetime]
+    lastModifiedAt: datetime.datetime
     """The timestamp of resource last modification (UTC)."""
 
 
@@ -454,7 +454,7 @@ class Widget(TrackedResource):
     :vartype properties: ~azure.resourcemanager.operationtemplates.models.WidgetProperties
     """
 
-    properties: Optional["WidgetProperties"]
+    properties: "WidgetProperties"
     """The resource-specific properties for this resource."""
 
 
@@ -469,9 +469,9 @@ class WidgetProperties(TypedDict, total=False):
     :vartype provisioning_state: str
     """
 
-    name: Optional[str]
+    name: str
     """The name of the widget."""
-    description: Optional[str]
+    description: str
     """The description of the widget."""
-    provisioningState: Optional[str]
+    provisioningState: str
     """The provisioning state of the widget."""
